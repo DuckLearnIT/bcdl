@@ -1,0 +1,1 @@
+var smartAds = window.smartAds || {config: {}}; smartAds.config={"Bottom_sponsor":18641,"In_stream_3":16240,"In_stream_2":11554,"In_stream_1":11536,"Large_sponsor":19332};

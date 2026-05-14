@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Chapter 3 — Visual Novel</title>
+<link href="https://fonts.googleapis.com/css2?family=Merriweather:ital,wght@0,400;0,700;1,400&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/css/visual-novel.css">
+<style>
+    /* Add Chapter 3 specific overlay styles */
+    .start-screen {
+        position: absolute;
+        inset: 0;
+        background: #000;
+        z-index: 100;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        color: white;
+        font-family: 'Inter', sans-serif;
+        transition: opacity 1s ease;
+    }
+    .start-screen h1 {
+        font-family: 'Merriweather', serif;
+        margin-bottom: 20px;
+    }
+    .start-btn {
+        padding: 10px 30px;
+        font-size: 18px;
+        background: #9f224e;
+        color: white;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+        transition: background 0.3s ease;
+    }
+    .start-btn:hover {
+        background: #b52759;
+    }
+</style>
+</head>
+<body>
+
+<!-- Start screen to allow audio playback -->
+<div class="start-screen" id="start-screen">
+    <h1>Chapter 3</h1>
+    <p style="margin-bottom: 20px; color: #888;">Hãy bật âm thanh để có trải nghiệm tốt nhất.</p>
+    <button class="start-btn" onclick="startChapter()">Bắt đầu</button>
+</div>
+
+<div class="vn-container">
+    <!-- Background -->
+    <div class="vn-background" style="background-image: url('assets/img/bg_cndtf0.jpg');"></div>
+    
+    <!-- Character Sprite -->
+    <div class="vn-character-container">
+        <img id="vn-sprite" class="vn-sprite" src="assets/img/default_pose.png" alt="Character Pose">
+    </div>
+
+    <!-- Dialogue UI -->
+    <div class="vn-ui" id="vn-ui" style="display: none;" onclick="advanceDialogue()">
+        <div class="vn-dialogue-box">
+            <div class="vn-namebox" id="vn-namebox">Nhân Vật</div>
+            <div class="vn-text" id="vn-text"></div>
+            <div class="vn-next-indicator" id="vn-next-indicator">▼</div>
+        </div>
+    </div>
+</div>
+
+<!-- Audio element -->
+<audio id="vn-audio" src="assets/audio/test.wav"></audio>
+
+<script>
+    // --- BẠN CẦN ĐIỀN ĐOẠN TEXT VÀ CHỌN TRẠNG THÁI PHÙ HỢP TẠI ĐÂY ---
+    // Vì AI không thể nghe được file audio, bạn hãy chia nội dung audio thành các câu thoại (step) dưới đây.
+    const vnScript = [
+        {
+            name: "Giọng nói",
+            text: "[Xin vui lòng nhập nội dung của file test.wav vào đây...]", // <-- Điền transcript
+            pose: "assets/img/default_pose.png", // Trạng thái: default, serious_angry, smile, thinking, pointout, confused_questioning...
+            startTime: 0, // Thời gian bắt đầu câu này trong audio (giây)
+            endTime: 5    // Thời gian kết thúc câu này trong audio (giây)
+        }
+    ];
+
+    let currentStep = 0;
+    let isTyping = false;
+    let typeInterval;
+    let audio = document.getElementById("vn-audio");
+    let textElement = document.getElementById("vn-text");
+    let nameBox = document.getElementById("vn-namebox");
+    let spriteElement = document.getElementById("vn-sprite");
+    let indicator = document.getElementById("vn-next-indicator");
+    let vnUi = document.getElementById("vn-ui");
+    let checkAudioInterval;
+
+    function startChapter() {
+        document.getElementById("start-screen").style.opacity = "0";
+        setTimeout(() => {
+            document.getElementById("start-screen").style.display = "none";
+            vnUi.style.display = "flex";
+            audio.play(); // Bắt đầu phát audio
+            displayStep(0);
+        }, 1000);
+    }
+
+    function typeTextSync(text, durationSec) {
+        isTyping = true;
+        textElement.innerHTML = "";
+        indicator.classList.remove("visible");
+        
+        let index = 0;
+        let totalChars = text.length;
+        // Tính tốc độ gõ (ms) dựa trên thời lượng câu thoại
+        let typingSpeed = (durationSec * 1000) / totalChars; 
+        
+        typeInterval = setInterval(() => {
+            if (index < totalChars) {
+                textElement.innerHTML += text.charAt(index);
+                index++;
+            } else {
+                clearInterval(typeInterval);
+                isTyping = false;
+                indicator.classList.add("visible");
+            }
+        }, typingSpeed);
+    }
+
+    function displayStep(stepIndex) {
+        if (stepIndex >= vnScript.length) {
+            textElement.innerHTML = "<em>(Hết hội thoại)</em>";
+            indicator.style.display = "none";
+            return;
+        }
+        
+        let step = vnScript[stepIndex];
+        nameBox.innerText = step.name;
+        
+        if (spriteElement.getAttribute("src") !== step.pose) {
+            spriteElement.style.opacity = 0;
+            setTimeout(() => {
+                spriteElement.src = step.pose;
+                spriteElement.style.opacity = 1;
+            }, 150);
+        }
+        
+        let duration = step.endTime - step.startTime;
+        if (duration <= 0) duration = 2; // Default duration
+        
+        typeTextSync(step.text, duration);
+        
+        // Tự động chuyển câu theo thời gian audio
+        if(checkAudioInterval) clearInterval(checkAudioInterval);
+        checkAudioInterval = setInterval(() => {
+            if (audio.currentTime >= step.endTime) {
+                clearInterval(checkAudioInterval);
+                if (currentStep === stepIndex) {
+                    advanceDialogue(true);
+                }
+            }
+        }, 100);
+    }
+
+    function advanceDialogue(auto = false) {
+        if (isTyping) {
+            // Click to skip typing
+            if (!auto) {
+                clearInterval(typeInterval);
+                textElement.innerHTML = vnScript[currentStep].text;
+                isTyping = false;
+                indicator.classList.add("visible");
+            }
+        } else {
+            currentStep++;
+            if (currentStep < vnScript.length) {
+                // Seek audio if manually advancing
+                if (!auto) audio.currentTime = vnScript[currentStep].startTime;
+                displayStep(currentStep);
+            } else {
+                displayStep(currentStep);
+            }
+        }
+    }
+</script>
+</body>
+</html>

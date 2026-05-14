@@ -1,0 +1,347 @@
+/* ═══════════════════════════════════════════
+   Chapter 2 — Terminal → Boot → Login
+   ═══════════════════════════════════════════ */
+
+@font-face {
+  font-family: 'CuteFont';
+  src: url('../fonts/cutefont.woff2') format('woff2');
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+html, body {
+  width: 100%; height: 100%;
+  background: #000;
+  color: #fff;
+  font-family: 'Courier New', Courier, monospace;
+  overflow: hidden;
+}
+
+/* ── Screen 1: Terminal ── */
+#terminal-screen {
+  position: fixed;
+  inset: 0;
+  padding: 30px;
+  font-size: 14px;
+  line-height: 1.5;
+  overflow-y: auto;
+  background: #000;
+  z-index: 10;
+}
+
+.log-line {
+  opacity: 0;
+  margin-bottom: 2px;
+  white-space: pre-wrap;
+}
+.log-line.visible { opacity: 1; }
+
+.cursor {
+  display: inline-block;
+  width: 8px; height: 15px;
+  background: #fff;
+  animation: blink 1s step-end infinite;
+  vertical-align: middle;
+  margin-left: 4px;
+}
+
+@keyframes blink { 50% { opacity: 0; } }
+
+/* ── Screen 2: Boot Video ── */
+#video-screen {
+  position: fixed;
+  inset: 0;
+  background: #000;
+  display: none;
+  align-items: center;
+  justify-content: center;
+  z-index: 20;
+}
+
+#bootVideo {
+  width: 100vw;
+  height: 100vh;
+  object-fit: cover;
+}
+
+/* ── Screen 3: Login ── */
+#login-screen {
+  position: fixed;
+  inset: 0;
+  z-index: 30;
+  display: none;
+  opacity: 0;
+  transition: opacity 1.2s ease;
+}
+
+#login-screen.visible {
+  display: block;
+  opacity: 1;
+}
+
+.login-bg {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  z-index: 0;
+}
+
+/* Login content container — overlay on top of bg */
+.login-content {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+/* Avatar */
+.login-avatar {
+  width: 140px;
+  height: auto;
+  margin-bottom: 8px;
+  transition: transform 0.3s ease, filter 0.3s ease;
+  cursor: default;
+}
+.login-avatar:hover {
+  transform: scale(1.05);
+  filter: brightness(1.1);
+}
+
+/* Username label */
+.login-username {
+  font-family: 'CuteFont', 'Segoe UI', sans-serif;
+  font-size: 24px;
+  color: #fff;
+  text-shadow: 0 1px 6px rgba(0,0,0,0.5);
+  margin-bottom: 14px;
+  letter-spacing: 1px;
+}
+
+/* Password row */
+.login-password-row {
+  display: flex;
+  align-items: center;
+  gap: 0;
+  margin-bottom: 14px;
+  position: relative;
+}
+
+/* Fill form (password field wrapper) */
+.login-field-wrap {
+  position: relative;
+  width: 240px;
+  height: 42px;
+}
+
+.login-field-bg {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: fill;
+  pointer-events: none;
+  z-index: 0;
+}
+
+.login-field-input {
+  position: relative;
+  z-index: 1;
+  width: 100%;
+  height: 100%;
+  border: none;
+  background: transparent;
+  outline: none;
+  font-family: 'CuteFont', sans-serif;
+  font-size: 22px;
+  color: #222;
+  padding: 0 12px;
+  letter-spacing: 4px;
+  caret-color: #333;
+}
+
+.login-field-input::placeholder {
+  color: #aaa;
+  font-size: 16px;
+  letter-spacing: 1px;
+}
+
+/* Submit button (button1.png) */
+.login-submit-btn {
+  width: 42px;
+  height: 42px;
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 0;
+  margin-left: -2px;
+  transition: transform 0.2s ease, filter 0.2s ease;
+}
+.login-submit-btn img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+}
+.login-submit-btn:hover {
+  transform: scale(1.15);
+  filter: brightness(1.2) drop-shadow(0 0 6px rgba(0,100,255,0.5));
+}
+.login-submit-btn:active {
+  transform: scale(0.95);
+}
+
+/* Switch User button (download.png) */
+.login-switch-btn {
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 0;
+  transition: transform 0.2s ease, filter 0.2s ease;
+}
+.login-switch-btn img {
+  height: 42px;
+  width: auto;
+  object-fit: contain;
+}
+.login-switch-btn:hover {
+  transform: scale(1.05);
+  filter: brightness(1.15) drop-shadow(0 0 4px rgba(255,255,255,0.3));
+}
+
+/* Footer Logo (window 1 Lite Edition) */
+.login-footer {
+  position: absolute;
+  bottom: 10px;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  pointer-events: none;
+}
+
+.login-footer-logo {
+  height: 45px;
+  width: auto;
+  opacity: 0.9;
+  mix-blend-mode: screen; /* Giúp hòa trộn nền logo nếu cần */
+  transition: opacity 0.5s ease;
+}
+
+#login-screen.visible .login-footer-logo {
+  opacity: 1;
+}
+
+/* Error shake */
+@keyframes shake {
+  0%, 100% { transform: translateX(0); }
+  20%, 60% { transform: translateX(-8px); }
+  40%, 80% { transform: translateX(8px); }
+}
+.login-password-row.shake {
+  animation: shake 0.4s ease;
+}
+
+/* Wrong password flash */
+.login-error-msg {
+  font-family: 'CuteFont', sans-serif;
+  font-size: 16px;
+  color: #ff6b6b;
+  text-shadow: 0 1px 4px rgba(0,0,0,0.5);
+  height: 20px;
+  margin-bottom: 6px;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+.login-error-msg.visible {
+  opacity: 1;
+}
+
+/* ── Screen 4: Coming Soon (kept from previous) ── */
+#final-screen {
+  position: fixed;
+  inset: 0;
+  background: #0a0a0a;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  padding: 40px;
+  z-index: 40;
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity 1.5s ease;
+  font-family: 'Inter', sans-serif;
+}
+
+.chapter-label {
+  font-family: 'Merriweather', serif;
+  font-size: clamp(11px, 1.2vw, 13px);
+  letter-spacing: 6px;
+  text-transform: uppercase;
+  color: #555;
+  margin-bottom: 20px;
+}
+
+.chapter-title {
+  font-family: 'Merriweather', serif;
+  font-size: clamp(28px, 5vw, 56px);
+  font-weight: 700;
+  color: #f0f0f0;
+  line-height: 1.25;
+  margin-bottom: 24px;
+}
+
+.chapter-subtitle {
+  font-size: clamp(14px, 1.8vw, 18px);
+  color: #888;
+  max-width: 480px;
+  line-height: 1.7;
+}
+
+.divider {
+  width: 40px;
+  height: 1px;
+  background: #333;
+  margin: 28px auto;
+}
+
+.cta-btn {
+  margin-top: 48px;
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  padding: 14px 28px;
+  border: 1px solid #333;
+  border-radius: 100px;
+  color: #888;
+  font-size: 14px;
+  text-decoration: none;
+  cursor: pointer;
+  background: transparent;
+  transition: all 0.3s ease;
+}
+.cta-btn:hover {
+  border-color: #666;
+  color: #ccc;
+  background: rgba(255,255,255,0.03);
+  transform: translateX(4px);
+}
+.cta-btn svg { width: 16px; height: 16px; }
+
+#final-screen::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.03'/%3E%3C/svg%3E");
+  background-size: 200px;
+  pointer-events: none;
+  opacity: 0.4;
+  z-index: -1;
+}

@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Chương II - Khởi động hệ thống</title>
+
+  <!-- Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Merriweather:wght@400;700&family=Inter:wght@400;500&display=swap" rel="stylesheet">
+
+  <!-- Styles -->
+  <link rel="stylesheet" href="assets/css/chapter-2.css">
+</head>
+<body>
+
+  <!-- ═══ Screen 1: Terminal Boot ═══ -->
+  <div id="terminal-screen">
+    <div id="log-container"></div>
+    <span class="cursor"></span>
+  </div>
+
+  <!-- ═══ Screen 2: Windows 7 Boot Video ═══ -->
+  <div id="video-screen">
+    <video id="bootVideo" preload="auto" playsinline>
+      <source src="assets/video/win7boot.mp4" type="video/mp4">
+    </video>
+  </div>
+
+  <!-- ═══ Screen 3: Win7 Login Screen ═══ -->
+  <div id="login-screen">
+    <!-- Background image -->
+    <img src="assets/img/goc.jpg" alt="" class="login-bg" draggable="false">
+
+    <!-- Login elements -->
+    <div class="login-content">
+      <!-- Avatar -->
+      <img src="assets/img/avatar.png" alt="User Avatar" class="login-avatar" draggable="false">
+
+      <!-- Username -->
+      <div class="login-username">user0</div>
+
+      <!-- Error message -->
+      <div id="errorMsg" class="login-error-msg"></div>
+
+      <!-- Password row: field + submit button -->
+      <div id="passwordRow" class="login-password-row">
+        <div class="login-field-wrap">
+          <img src="assets/img/fill form.png" alt="" class="login-field-bg" draggable="false">
+          <input
+            type="text"
+            id="passwordInput"
+            class="login-field-input"
+            maxlength="8"
+            placeholder="Mật khẩu"
+            autocomplete="off"
+          >
+        </div>
+        <button id="submitBtn" class="login-submit-btn" title="Đăng nhập">
+          <img src="assets/img/button1.png" alt="Login" draggable="false">
+        </button>
+      </div>
+
+      <!-- Switch User button -->
+      <button class="login-switch-btn" title="Chuyển đổi người dùng" onclick="void(0)">
+        <img src="assets/img/download.png" alt="Switch User" draggable="false">
+      </button>
+
+      <!-- Logo at the bottom -->
+      <div class="login-footer">
+        <img src="assets/img/logo.jpg" alt="Window 1 Lite Edition" class="login-footer-logo" draggable="false">
+      </div>
+    </div>
+  </div>
+
+  <!-- ═══ Screen 4: Coming Soon (fallback) ═══ -->
+  <div id="final-screen">
+    <div class="chapter-label">Chương II</div>
+    <h1 class="chapter-title">Sắp ra mắt</h1>
+    <div class="divider"></div>
+    <div class="chapter-subtitle">
+      Phần tiếp theo của câu chuyện đang được xây dựng.<br>
+      Một chương mới về dữ liệu và công nghệ đang đến.
+    </div>
+    <a href="ai-story.html" class="cta-btn">
+      <svg viewBox="0 0 16 16" fill="none">
+        <path d="M10 12L6 8l4-4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+      </svg>
+      Quay lại chương trước
+    </a>
+  </div>
+
+  <!-- Scripts -->
+  <script src="assets/js/chapter-2.js"></script>
+
+</body>
+</html>

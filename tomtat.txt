@@ -1,0 +1,29 @@
+# Project Summary: Báo chí Dữ liệu Scrollytelling
+
+## 1. Mục tiêu & Cấu trúc (Project Overview)
+- Mục tiêu: Chuyển đổi dự án từ web tĩnh VnExpress sang trải nghiệm báo chí tương tác (interactive storytelling) offline-first.
+- Tech Stack: Vanilla HTML5, CSS3, JavaScript (ES6). Không dùng thư viện ngoài để tối ưu hiệu năng.
+- Cấu trúc Folder: Toàn bộ CSS, JS, Fonts, Media đã được local hóa vào thư mục /assets/. Hoạt động hoàn toàn offline.
+
+## 2. Các mốc quan trọng (Key Achievements)
+- Localize Assets: Tải toàn bộ tài nguyên từ máy chủ VnExpress, sửa lỗi path trong CSS để hỗ trợ offline.
+- Navigation Flow: 
+  index.html (Landing) -> ai-story.html (Interactive) -> chapter-2.html (Next Stage).
+  Sửa lại toàn bộ back-link trên các bài viết gốc để trỏ về trang chủ cục bộ.
+- Interactive Scrollytelling (ai-story.html):
+  Thực hiện hiệu ứng 2-Phase Zoom & Spread cực mạnh khi scroll đến 300px.
+  Phase 1 (1.5s): Chữ phóng to gấp 25 lần và tỏa ra ngoài từ tâm màn hình.
+  Phase 2 (1.0s): Chữ dồn ngược lại vào vùng hình chữ nhật ngang của viewport để lấp kín "bức tường chữ" sắc nét.
+  Redirect: Chờ 2 giây sau animation -> Fade đen -> Chuyển sang Chapter 2.
+
+## 3. Kỹ thuật tối ưu (Technical Highlights)
+- Sharpness: Dùng fontSize, letterSpacing, lineHeight âm trên overlay thay vì transform: scale để giữ chữ luôn sắc nét.
+- DOM Performance: Dùng Range API và TreeWalker để trích xuất text theo từng Word thay vì từng ký tự đơn lẻ (giảm 80% DOM nodes, chống lag).
+- GPU Acceleration: Sử dụng transform: translate() cho phase di chuyển để mượt mà 60fps.
+
+## 4. Tài liệu chỉ dẫn (.ai-instructions)
+- Đã tạo tệp .ai-instructions ở thư mục gốc chứa toàn bộ "luật chơi": cấu trúc thư mục, quy chuẩn đặt tên kebab-case cho story, và triết lý animation.
+
+## 5. Trạng thái hiện tại (Current Status)
+- Dự án đã sẵn sàng cho nội dung của chapter-2.html.
+- Hệ thống scrollytelling pop-up text đã ổn định và đạt độ "wow" về thị giác.

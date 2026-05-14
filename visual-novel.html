@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Visual Novel Dialogue</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="assets/css/visual-novel.css">
+</head>
+<body>
+    <div class="vn-container">
+        <!-- Background -->
+        <div class="vn-background" style="background-image: url('assets/img/bg_cndtf0.jpg');"></div>
+        
+        <!-- Character Sprite -->
+        <div class="vn-character-container">
+            <img id="vn-sprite" class="vn-sprite entering" src="assets/img/default_pose.png" alt="Character Pose">
+        </div>
+
+        <!-- Dialogue UI -->
+        <div class="vn-ui" id="vn-ui" onclick="advanceDialogue()">
+            <div class="vn-dialogue-box">
+                <div class="vn-namebox" id="vn-namebox">Tên Nhân Vật</div>
+                <div class="vn-text" id="vn-text"></div>
+                <div class="vn-next-indicator" id="vn-next-indicator">▼</div>
+            </div>
+        </div>
+    </div>
+    
+    <script src="assets/js/visual-novel.js"></script>
+</body>
+</html>
