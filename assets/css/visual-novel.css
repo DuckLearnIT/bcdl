@@ -1,7 +1,16 @@
 /* ============================================
    VISUAL NOVEL — Chapter 3
-   Uses custom dialogue_bar.png as UI frame
+   Custom dialogue_bar.png frame
+   Font: fonthoithoai.woff2
    ============================================ */
+
+@font-face {
+    font-family: 'HoiThoai';
+    src: url('../fonts/fonthoithoai.woff2') format('woff2');
+    font-weight: normal;
+    font-style: normal;
+    font-display: swap;
+}
 
 *, *::before, *::after {
     box-sizing: border-box;
@@ -13,8 +22,8 @@ body, html {
     width: 100%;
     height: 100%;
     overflow: hidden;
-    font-family: 'Inter', sans-serif;
-    background: #000;
+    font-family: 'HoiThoai', 'Inter', sans-serif;
+    background: #fff;
 }
 
 /* ── Scene Container ── */
@@ -22,102 +31,106 @@ body, html {
     position: relative;
     width: 100%;
     height: 100%;
+    background: #fff;
 }
 
-/* ── Background ── */
+/* ── Background (white for now) ── */
 .vn-background {
     position: absolute;
     inset: 0;
-    background-size: cover;
-    background-position: center;
+    background: #fff;
     z-index: 1;
-    filter: brightness(0.65);
 }
 
 /* ── Character Sprite ──
-   Right side, half-body (from waist up), BEHIND dialogue bar */
+   Centered on screen, half-body, BEHIND dialogue bar (z:2 < bar z:10) */
 .vn-character-wrap {
     position: absolute;
     bottom: 0;
-    right: 0;
-    width: 45%;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 50%;
     height: 100%;
-    z-index: 2;               /* behind dialogue bar (z:10) */
+    z-index: 2;
     pointer-events: none;
     display: flex;
     align-items: flex-end;
     justify-content: center;
-    overflow: hidden;          /* clips bottom half */
+    overflow: hidden;
 }
 
 .vn-sprite {
     width: 100%;
-    max-width: 520px;
+    max-width: 480px;
     object-fit: contain;
     object-position: top center;
-    /* Show roughly top 55% of image = upper body */
-    transform: translateY(42%);
+    /* Show top ~55% = upper body */
+    transform: translateY(40%);
     transition: opacity 0.35s ease, transform 0.35s ease;
 }
 
-/* ── Idle breathing animation ── */
+/* ── Idle breathing ── */
 .vn-sprite.idle {
     animation: breathe 3s ease-in-out infinite;
 }
-
 @keyframes breathe {
-    0%, 100% { transform: translateY(42%); }
-    50%      { transform: translateY(41.2%); }
+    0%, 100% { transform: translateY(40%); }
+    50%      { transform: translateY(39.2%); }
 }
 
-/* ── Board-game hop animation (cờ cá ngựa) ── */
+/* ── Hop — cờ cá ngựa bounce ── */
 .vn-sprite.hop {
-    animation: hopBounce 0.5s cubic-bezier(0.3, 0, 0.2, 1);
+    animation: hopBounce 0.55s cubic-bezier(0.3, 0, 0.2, 1);
 }
-
 @keyframes hopBounce {
-    0%   { transform: translateY(42%); }
-    30%  { transform: translateY(32%) rotate(3deg); }
-    50%  { transform: translateY(35%) rotate(-2deg); }
-    70%  { transform: translateY(38%) rotate(1deg); }
-    100% { transform: translateY(42%) rotate(0deg); }
+    0%   { transform: translateY(40%); }
+    25%  { transform: translateY(30%) rotate(2deg); }
+    45%  { transform: translateY(34%) rotate(-1.5deg); }
+    65%  { transform: translateY(37%) rotate(0.8deg); }
+    100% { transform: translateY(40%) rotate(0deg); }
 }
 
-/* ── Shake (nervous / confused) ── */
+/* ── Shake (nervous/confused) ── */
 .vn-sprite.shake {
     animation: shake 0.5s ease-in-out;
 }
-
 @keyframes shake {
-    0%, 100% { transform: translateY(42%) translateX(0); }
-    20%  { transform: translateY(42%) translateX(-8px); }
-    40%  { transform: translateY(42%) translateX(8px); }
-    60%  { transform: translateY(42%) translateX(-5px); }
-    80%  { transform: translateY(42%) translateX(5px); }
+    0%, 100% { transform: translateY(40%) translateX(0); }
+    20%  { transform: translateY(40%) translateX(-10px); }
+    40%  { transform: translateY(40%) translateX(10px); }
+    60%  { transform: translateY(40%) translateX(-6px); }
+    80%  { transform: translateY(40%) translateX(6px); }
 }
 
 /* ── Lean-in (curious) ── */
 .vn-sprite.lean {
     animation: leanIn 0.6s ease-out forwards;
 }
-
 @keyframes leanIn {
-    0%   { transform: translateY(42%) translateX(0) rotate(0); }
-    100% { transform: translateY(42%) translateX(-30px) rotate(-3deg); }
+    0%   { transform: translateY(40%) translateX(0) rotate(0); }
+    100% { transform: translateY(40%) translateX(-25px) rotate(-3deg); }
 }
 
 /* ── Pop-in entrance ── */
 .vn-sprite.enter {
     animation: popIn 0.8s cubic-bezier(0.2, 0.8, 0.2, 1) forwards;
 }
-
 @keyframes popIn {
-    0%   { opacity: 0; transform: translateY(60%) scale(0.8); }
-    60%  { opacity: 1; transform: translateY(38%) scale(1.05); }
-    100% { opacity: 1; transform: translateY(42%) scale(1); }
+    0%   { opacity: 0; transform: translateY(55%) scale(0.85); }
+    60%  { opacity: 1; transform: translateY(36%) scale(1.04); }
+    100% { opacity: 1; transform: translateY(40%) scale(1); }
 }
 
-/* ── Dialogue Bar (uses dialogue_bar.png) ── */
+/* ── Nod (acknowledging) ── */
+.vn-sprite.nod {
+    animation: nod 0.4s ease-in-out;
+}
+@keyframes nod {
+    0%, 100% { transform: translateY(40%); }
+    50%      { transform: translateY(42%); }
+}
+
+/* ── Dialogue Bar — custom dialogue_bar.png ── */
 .vn-dialogue-bar {
     position: absolute;
     bottom: 0;
@@ -125,13 +138,11 @@ body, html {
     right: 0;
     z-index: 10;
     cursor: pointer;
-    /* The bar image itself acts as frame */
 }
 
 .vn-dialogue-inner {
     position: relative;
     width: 100%;
-    max-width: 100%;
 }
 
 .vn-dialogue-inner img.bar-bg {
@@ -140,38 +151,38 @@ body, html {
     pointer-events: none;
 }
 
-/* ── Name text — overlaid on the blue top strip ── */
+/* ── Name on the blue top strip ── */
 .vn-name {
     position: absolute;
-    top: 4%;
-    left: 3%;
-    width: 94%;
-    height: 18%;
+    top: 3%;
+    left: 2%;
+    width: 96%;
+    height: 20%;
     display: flex;
     align-items: center;
-    padding-left: 20px;
-    font-family: 'Inter', sans-serif;
-    font-size: clamp(16px, 2.2vw, 26px);
+    padding-left: 24px;
+    font-family: 'HoiThoai', 'Inter', sans-serif;
+    font-size: clamp(16px, 2.4vw, 28px);
     font-weight: 700;
     color: #fff;
-    text-shadow: 1px 1px 3px rgba(0,0,0,0.5);
-    letter-spacing: 1px;
+    text-shadow: 1px 2px 4px rgba(0,0,0,0.6);
+    letter-spacing: 1.5px;
     pointer-events: none;
 }
 
-/* ── Dialogue text — overlaid on the beige bottom area ── */
+/* ── Dialogue text on the beige bottom area ── */
 .vn-text {
     position: absolute;
-    top: 26%;
-    left: 3%;
-    width: 55%;     /* Leave space for Amy on the right */
-    height: 68%;
-    padding: 12px 20px 10px 20px;
-    font-family: 'Inter', sans-serif;
+    top: 27%;
+    left: 2.5%;
+    width: 95%;
+    height: 65%;
+    padding: 10px 24px 10px 24px;
+    font-family: 'HoiThoai', 'Inter', sans-serif;
     font-size: clamp(14px, 1.8vw, 22px);
     font-weight: 500;
-    line-height: 1.55;
-    color: #222;
+    line-height: 1.6;
+    color: #1a1a1a;
     overflow: hidden;
     pointer-events: none;
     user-select: none;
@@ -180,24 +191,22 @@ body, html {
 /* ── Next indicator ── */
 .vn-next-indicator {
     position: absolute;
-    bottom: 10%;
-    right: 4%;
-    font-size: clamp(14px, 1.6vw, 22px);
+    bottom: 12%;
+    right: 3%;
+    font-size: clamp(14px, 1.5vw, 20px);
     color: #1a1a8c;
     opacity: 0;
     transition: opacity 0.3s ease;
     pointer-events: none;
-    animation: bounce 1.4s infinite;
+    animation: indicatorBounce 1.4s infinite;
 }
-
 .vn-next-indicator.visible {
     opacity: 1;
 }
-
-@keyframes bounce {
+@keyframes indicatorBounce {
     0%, 20%, 50%, 80%, 100% { transform: translateY(0); }
-    40% { transform: translateY(-6px); }
-    60% { transform: translateY(-3px); }
+    40% { transform: translateY(-5px); }
+    60% { transform: translateY(-2px); }
 }
 
 /* ── Start Screen ── */
@@ -211,29 +220,27 @@ body, html {
     align-items: center;
     justify-content: center;
     color: #fff;
-    font-family: 'Inter', sans-serif;
+    font-family: 'HoiThoai', 'Inter', sans-serif;
     transition: opacity 1s ease;
 }
-
 .start-screen h1 {
-    font-family: 'Merriweather', serif;
+    font-family: 'HoiThoai', 'Merriweather', serif;
     font-size: clamp(28px, 5vw, 56px);
     margin-bottom: 16px;
-    background: linear-gradient(135deg, #fff, #a0a0ff);
+    background: linear-gradient(135deg, #fff, #aabbff);
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
 }
-
 .start-screen p {
     color: #888;
     margin-bottom: 28px;
     font-size: 16px;
 }
-
 .start-btn {
     padding: 12px 36px;
     font-size: 18px;
     font-weight: 600;
+    font-family: 'HoiThoai', 'Inter', sans-serif;
     background: linear-gradient(135deg, #2233aa, #1a1a8c);
     color: #fff;
     border: 2px solid rgba(255,255,255,0.2);
@@ -242,14 +249,13 @@ body, html {
     transition: all 0.3s ease;
     letter-spacing: 1px;
 }
-
 .start-btn:hover {
     background: linear-gradient(135deg, #3344cc, #2233aa);
     transform: translateY(-2px);
     box-shadow: 0 6px 20px rgba(34, 51, 170, 0.4);
 }
 
-/* ── Flash overlay for "reloading" effect ── */
+/* ── Flash overlay ── */
 .flash-overlay {
     position: fixed;
     inset: 0;
@@ -259,34 +265,49 @@ body, html {
     pointer-events: none;
     transition: opacity 0.15s ease;
 }
-
 .flash-overlay.active {
     opacity: 1;
     pointer-events: all;
 }
 
-/* ── Responsive ── */
-@media (max-width: 768px) {
-    .vn-character-wrap {
-        width: 55%;
-    }
-    .vn-text {
-        width: 50%;
-        font-size: 13px;
-        padding: 8px 12px;
-    }
-    .vn-name {
-        font-size: 14px;
-        padding-left: 12px;
-    }
+/* ── Windows Desktop Transition Screen ── */
+.windows-desktop {
+    position: absolute;
+    inset: 0;
+    z-index: 50;
+    display: none;
+    flex-direction: column;
+}
+.windows-desktop.visible {
+    display: flex;
+}
+.windows-wallpaper {
+    flex: 1;
+    background-size: cover;
+    background-position: center;
+}
+.windows-taskbar {
+    height: auto;
+    width: 100%;
+}
+.windows-taskbar img {
+    width: 100%;
+    display: block;
 }
 
-@media (max-width: 480px) {
-    .vn-character-wrap {
-        width: 60%;
-    }
+/* ── Responsive ── */
+@media (max-width: 768px) {
+    .vn-character-wrap { width: 70%; }
     .vn-text {
-        width: 45%;
-        font-size: 12px;
+        font-size: 13px;
+        padding: 8px 14px;
     }
+    .vn-name {
+        font-size: 15px;
+        padding-left: 14px;
+    }
+}
+@media (max-width: 480px) {
+    .vn-character-wrap { width: 85%; }
+    .vn-text { font-size: 12px; }
 }

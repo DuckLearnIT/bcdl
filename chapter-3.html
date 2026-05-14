@@ -9,7 +9,7 @@
 </head>
 <body>
 
-<!-- Flash overlay for "reload" effect -->
+<!-- Flash overlay -->
 <div class="flash-overlay" id="flash-overlay"></div>
 
 <!-- Start Screen -->
@@ -22,15 +22,15 @@
 <!-- Main VN Scene -->
 <div class="vn-container" id="vn-container" style="display: none;">
 
-    <!-- Background -->
-    <div class="vn-background" style="background-image: url('assets/img/vnexpress_restruct_c_v3922_v2_2019_pc_images_graphics_bg_cndtf0.jpg');"></div>
+    <!-- Background (white) -->
+    <div class="vn-background"></div>
 
-    <!-- Character Sprite — right side, behind dialogue bar -->
+    <!-- Character Sprite — centered, behind dialogue bar -->
     <div class="vn-character-wrap">
-        <img id="vn-sprite" class="vn-sprite" src="assets/img/amy_surpirse_shock_pixel_pose.png" alt="Amy">
+        <img id="vn-sprite" class="vn-sprite" src="assets/img/amy/pixel/surprise.png" alt="Amy">
     </div>
 
-    <!-- Dialogue Bar — uses dialogue_bar.png -->
+    <!-- Dialogue Bar — dialogue_bar.png -->
     <div class="vn-dialogue-bar" id="vn-dialogue-bar" onclick="advanceDialogue()">
         <div class="vn-dialogue-inner">
             <img class="bar-bg" src="assets/img/dialogue_bar.png" alt="">
@@ -40,74 +40,88 @@
         </div>
     </div>
 
+    <!-- Windows Desktop (shown after dialogue ends) -->
+    <div class="windows-desktop" id="windows-desktop">
+        <div class="windows-wallpaper" style="background-image: url('assets/img/windows/nen.png');"></div>
+        <div class="windows-taskbar">
+            <img src="assets/img/windows/taskbar.png" alt="Taskbar">
+        </div>
+    </div>
+
 </div>
 
-<!-- Audio -->
+<!-- Audio elements -->
 <audio id="vn-audio"></audio>
+<audio id="sfx-snap" src="assets/audio/SFX/fingersnap.mp3" preload="auto"></audio>
 
 <script>
 // ================================================================
-//  KỊCH BẢN — Dựa trên transcript audio 1-7.wav
-//  Pose phù hợp cảm xúc, animation tương tác kiểu cờ cá ngựa
+//  KỊCH BẢN — Dựa trên hoithoai.txt
+//  7 audio files → 7 dialogue steps
+//  Pixel poses trước "Tada~!", Normal poses sau đó
 // ================================================================
 
+const PIXEL = "assets/img/amy/pixel/";
+const NORMAL = "assets/img/amy/normal/";
+
 const vnScript = [
-    // ── Audio 1 (6s): Ngạc nhiên khi có người truy cập ──
+    // ── Audio 1 (6s) — Lines 1+2: Ngạc nhiên + bối rối ──
     {
         name: "Amy",
-        text: "Có người dùng đang ở đầu tuyến bên kia? Xin lỗi, mình không nghĩ là lại có người vào lúc này...",
-        pose: "assets/img/amy_surpirse_shock_pixel_pose.png",
+        text: "Ơ kìa...? Tín hiệu kết nối đã được thiết lập rồi sao? A! Có người dùng đang ở đầu dây bên kia! Xin lỗi, mình không nghĩ là bạn lại log-in vào sớm như vậy!",
+        pose: PIXEL + "surprise.png",
         audio: "assets/audio/Dialougue/1.wav",
-        anim: "enter"     // Xuất hiện lần đầu — pop in
+        anim: "enter"
     },
-    // ── Audio 2 (10s): Giới thiệu bản thân, thân thiện ──
+    // ── Audio 2 (10s) — Line 3: Chào hỏi vui vẻ ──
     {
         name: "Amy",
-        text: "Xin chào! Rất vui được gặp bạn. Chào mừng bạn đã truy cập vào hệ thống. Mình là Amy, từ nay sẽ chịu trách nhiệm hỗ trợ bạn trong vùng không gian này.",
-        pose: "assets/img/amy_smile_pose_pixel.png",
+        text: "Khụ... Xin chào! Rất vui được gặp bạn. Chào mừng bạn đã truy cập vào hệ thống. Mình là Amy, từ nay sẽ chịu trách nhiệm hỗ trợ bạn trong vùng không gian này.",
+        pose: PIXEL + "smile.png",
         audio: "assets/audio/Dialougue/2.wav",
-        anim: "hop"        // Nhún nhảy vui vẻ kiểu cờ cá ngựa
+        anim: "hop"
     },
-    // ── Audio 3 (6s): Nhận ra có gì đó sai ──
+    // ── Audio 3 (6s) — Line 4: Bối rối nhận ra lỗi ──
     {
         name: "Amy",
-        text: "Nhưng mà khoan đã... Hình như có gì đó sai sai ở luồng dữ liệu hiển thị thì phải?",
-        pose: "assets/img/amy_confused_questioning_pose.png",
+        text: "Nhưng mà... khoan đã. Hình như có gì đó sai sai ở luồng dữ liệu hiển thị thì phải?",
+        pose: PIXEL + "thinking.png",
         audio: "assets/audio/Dialougue/3.wav",
-        anim: "lean"       // Nghiêng người tò mò
+        anim: "lean"
     },
-    // ── Audio 4 (4s): Suy nghĩ tại sao bị vuông ──
+    // ── Audio 4 (4s) — Line 5: Nhìn xuống bản thân ──
     {
         name: "Amy",
-        text: "Sao góc nhìn của bạn lại thấy mình vuông vức thế này nhỉ?",
-        pose: "assets/img/amy_thinking_pixel_pose.png",
+        text: "Sao góc nhìn của bạn... lại thấy mình... vuông vức thế này?",
+        pose: PIXEL + "thinking.png",
         audio: "assets/audio/Dialougue/4.wav",
-        anim: "shake"      // Lắc đầu bối rối
+        anim: "shake"
     },
-    // ── Audio 5 (26s): Kiểm tra hệ thống, tìm ra lỗi ──
+    // ── Audio 5 (26s) — Lines 6+7+8+9: Kiểm tra, tìm lỗi, snap ──
     {
         name: "Amy",
-        text: "Để mình kiểm tra lại hệ thống một chút nhé... Lạ thật, rõ ràng mình đã render sang model nhân vật độ phân giải cao rồi mà nhỉ? Thiếu RAM chăng? Hay do bộ nhớ đệm bị đầy? À! Tìm ra lỗi rồi, là do mình quên chưa tắt chế độ khởi động an toàn tiết kiệm tài nguyên. Thật là một sai sót! Bạn nhắm mắt lại một giây nhé, để mình nạp lại file giao diện.",
-        pose: "assets/img/amy_serious_angry_pose.png",
+        text: "Để mình kiểm tra lại log hệ thống một chút nhé. Lạ thật, rõ ràng mình đã render xong model nhân vật độ phân giải cao rồi mà nhỉ... Do thiếu RAM chăng? Hay do bộ nhớ đệm bị đầy? Aha! Tìm ra lỗi rồi! Là do mình quên chưa tắt chế độ 'Khởi động an toàn tiết kiệm tài nguyên'. Thật là một sai sót ngớ ngẩn... Bạn nhắm mắt lại 1 giây nhé, để mình nạp lại file giao diện. Khôi phục dữ liệu gốc. Cập nhật!",
+        pose: PIXEL + "pointout.png",
         audio: "assets/audio/Dialougue/5.wav",
-        anim: "shake",     // Bực bội lắc lắc
-        effectAtEnd: "flash"  // Flash trắng khi audio 5 kết thúc
+        anim: "shake",
+        effectAtEnd: "transform"   // Flash + fingersnap → pixel→normal
     },
-    // ── Audio 6 (10s): Đã sửa xong — chuyển sang High-res ──
+    // ── Audio 6 (10s) — Lines 10+11: Tada! HD! ──
     {
         name: "Amy",
-        text: "Bạn nhìn thấy mình rõ hơn rồi chứ? Được rồi, phần ngoại hình đã xong. Bây giờ chúng ta phải tạo một không gian làm việc thật thoải mái cho bạn.",
-        pose: "assets/img/amy_smile_pose.png",       // HIGH-RES!
+        text: "Tada~! Bạn nhìn thấy mình rõ hơn rồi chứ? Giao diện 2D High-Resolution này tốn công ép xung hệ thống lắm đấy nhé! Được rồi, phần ngoại hình đã xong. Bây giờ chúng ta phải tạo một không gian làm việc thật thoải mái cho bạn.",
+        pose: NORMAL + "smile.png",    // ← NORMAL (HD) từ đây!
         audio: "assets/audio/Dialougue/6.wav",
-        anim: "hop"        // Nhún nhảy vui mừng
+        anim: "hop"
     },
-    // ── Audio 7 (7s): Giới thiệu không gian mới ──
+    // ── Audio 7 (7s) — Lines 12+13+14: Windows desktop ──
     {
         name: "Amy",
-        text: "Thế nào? Tuyệt tác hệ điều hành đầu thập niên 2000! Chào mừng đến với không gian làm việc mới của chúng ta.",
-        pose: "assets/img/amy_pointout_pose.png",
+        text: "Vì theo phân tích dữ liệu, dường như bạn thích những thứ mang cảm giác hoài niệm... Chuẩn bị tinh thần nhé! Xuyên không về quá khứ thôi! Thế nào? Tuyệt tác hệ điều hành đầu thập niên 2000! Chào mừng đến với không gian làm việc mới của chúng ta!",
+        pose: NORMAL + "pointout.png",
         audio: "assets/audio/Dialougue/7.wav",
-        anim: "hop"        // Nhảy tự hào
+        anim: "hop",
+        effectAtEnd: "windows"   // Chuyển sang Windows desktop
     }
 ];
 
@@ -115,25 +129,28 @@ const vnScript = [
 let currentStep = 0;
 let isTyping = false;
 let typeTimer = null;
-const audio     = document.getElementById("vn-audio");
-const textEl    = document.getElementById("vn-text");
-const nameEl    = document.getElementById("vn-name");
-const spriteEl  = document.getElementById("vn-sprite");
-const indicator = document.getElementById("vn-indicator");
-const vnContainer = document.getElementById("vn-container");
-const flashEl   = document.getElementById("flash-overlay");
 
-// ── Preload all images ──
+const audio       = document.getElementById("vn-audio");
+const sfxSnap     = document.getElementById("sfx-snap");
+const textEl      = document.getElementById("vn-text");
+const nameEl      = document.getElementById("vn-name");
+const spriteEl    = document.getElementById("vn-sprite");
+const indicator   = document.getElementById("vn-indicator");
+const vnContainer = document.getElementById("vn-container");
+const flashEl     = document.getElementById("flash-overlay");
+const winDesktop  = document.getElementById("windows-desktop");
+
+// Preload all images
 vnScript.forEach(s => { const i = new Image(); i.src = s.pose; });
 
 // ────────────────────────────────────────────
 //  START
 // ────────────────────────────────────────────
 function startChapter() {
-    const startScreen = document.getElementById("start-screen");
-    startScreen.style.opacity = "0";
+    const ss = document.getElementById("start-screen");
+    ss.style.opacity = "0";
     setTimeout(() => {
-        startScreen.style.display = "none";
+        ss.style.display = "none";
         vnContainer.style.display = "block";
         displayStep(0);
     }, 1000);
@@ -168,15 +185,12 @@ function typeTextSync(text, durationSec) {
 //  PLAY ANIMATION on sprite
 // ────────────────────────────────────────────
 function playAnim(animName) {
-    // Remove all anim classes
-    spriteEl.classList.remove("idle", "hop", "shake", "lean", "enter");
-    // Force reflow to restart animation
+    spriteEl.classList.remove("idle", "hop", "shake", "lean", "enter", "nod");
     void spriteEl.offsetWidth;
     spriteEl.classList.add(animName);
 
-    // After animation, go to idle
     if (animName !== "idle") {
-        const dur = animName === "enter" ? 800 : 500;
+        const dur = animName === "enter" ? 800 : 550;
         setTimeout(() => {
             spriteEl.classList.remove(animName);
             spriteEl.classList.add("idle");
@@ -189,13 +203,7 @@ function playAnim(animName) {
 // ────────────────────────────────────────────
 function displayStep(stepIndex) {
     if (stepIndex >= vnScript.length) {
-        textEl.textContent = "(Hệ thống đang chuyển hướng sang không gian làm việc...)";
-        nameEl.textContent = "Hệ thống";
-        indicator.style.display = "none";
-        // Redirect or end
-        setTimeout(() => {
-            // window.location.href = "index.html";
-        }, 3000);
+        // Hết hội thoại — đã có effectAtEnd:"windows" ở step cuối
         return;
     }
 
@@ -224,34 +232,63 @@ function displayStep(stepIndex) {
         typeTextSync(step.text, audio.duration);
     };
 
-    // When audio ends → check for end-of-step effects, then advance
+    // When audio ends
     audio.onended = () => {
-        if (step.effectAtEnd === "flash") {
-            // Flash effect: white screen → then advance
-            flashEl.classList.add("active");
-            setTimeout(() => {
-                flashEl.classList.remove("active");
-                autoAdvance(stepIndex);
-            }, 600);
-        } else {
-            autoAdvance(stepIndex);
-        }
+        handleEndEffect(step, stepIndex);
     };
+}
+
+// ────────────────────────────────────────────
+//  HANDLE END-OF-STEP EFFECTS
+// ────────────────────────────────────────────
+function handleEndEffect(step, stepIndex) {
+    if (step.effectAtEnd === "transform") {
+        // Fingersnap SFX + Flash → pixel→normal transition
+        sfxSnap.currentTime = 0;
+        sfxSnap.play();
+        flashEl.classList.add("active");
+        setTimeout(() => {
+            flashEl.classList.remove("active");
+            autoAdvance(stepIndex);
+        }, 700);
+
+    } else if (step.effectAtEnd === "windows") {
+        // Show Windows desktop
+        setTimeout(() => {
+            // Complete any remaining typing
+            finishTyping();
+            // Fade out dialogue and character
+            document.getElementById("vn-dialogue-bar").style.transition = "opacity 0.8s ease";
+            document.getElementById("vn-dialogue-bar").style.opacity = "0";
+            spriteEl.style.transition = "opacity 0.8s ease";
+            spriteEl.style.opacity = "0";
+
+            setTimeout(() => {
+                winDesktop.classList.add("visible");
+            }, 900);
+        }, 1500);
+
+    } else {
+        autoAdvance(stepIndex);
+    }
 }
 
 function autoAdvance(stepIndex) {
     setTimeout(() => {
         if (currentStep === stepIndex) {
-            // Complete typing if still going
-            if (isTyping && typeTimer) {
-                clearInterval(typeTimer);
-                typeTimer = null;
-                textEl.textContent = vnScript[currentStep].text;
-                isTyping = false;
-            }
+            finishTyping();
             advanceDialogue(true);
         }
     }, 1000);
+}
+
+function finishTyping() {
+    if (isTyping && typeTimer) {
+        clearInterval(typeTimer);
+        typeTimer = null;
+        textEl.textContent = vnScript[currentStep].text;
+        isTyping = false;
+    }
 }
 
 // ────────────────────────────────────────────
@@ -259,12 +296,8 @@ function autoAdvance(stepIndex) {
 // ────────────────────────────────────────────
 function advanceDialogue(auto = false) {
     if (isTyping) {
-        // Click while typing → complete instantly
         if (!auto) {
-            clearInterval(typeTimer);
-            typeTimer = null;
-            textEl.textContent = vnScript[currentStep].text;
-            isTyping = false;
+            finishTyping();
             indicator.classList.add("visible");
         }
     } else {
