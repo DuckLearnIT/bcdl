@@ -72,15 +72,50 @@
 <audio id="vn-audio" src="assets/audio/test.wav"></audio>
 
 <script>
-    // --- BẠN CẦN ĐIỀN ĐOẠN TEXT VÀ CHỌN TRẠNG THÁI PHÙ HỢP TẠI ĐÂY ---
-    // Vì AI không thể nghe được file audio, bạn hãy chia nội dung audio thành các câu thoại (step) dưới đây.
+    // --- KỊCH BẢN ĐÃ ĐƯỢC AI ĐỒNG BỘ VỚI ASSETS THỰC TẾ ---
     const vnScript = [
         {
-            name: "Giọng nói",
-            text: "[Xin vui lòng nhập nội dung của file test.wav vào đây...]", // <-- Điền transcript
-            pose: "assets/img/default_pose.png", // Trạng thái: default, serious_angry, smile, thinking, pointout, confused_questioning...
-            startTime: 0, // Thời gian bắt đầu câu này trong audio (giây)
-            endTime: 5    // Thời gian kết thúc câu này trong audio (giây)
+            name: "Amy",
+            text: "Có người dùng đang ở đầu tuyến bên kia? Xin lỗi, mình không nghĩ là lại có người vào lúc này...",
+            pose: "assets/img/amy_surpirse_shock_pixel_pose.png",
+            audio: "assets/audio/Dialougue/1.wav"
+        },
+        {
+            name: "Amy",
+            text: "Xin chào! Rất vui được gặp bạn. Chào mừng bạn đã truy cập vào hệ thống. Mình là Amy, từ nay sẽ chịu trách nhiệm hỗ trợ bạn trong vùng không gian này.",
+            pose: "assets/img/amy_smile_pose_pixel.png",
+            audio: "assets/audio/Dialougue/2.wav"
+        },
+        {
+            name: "Amy",
+            text: "Nhưng mà khoan đã... Hình như có gì đó sai sai ở luồng dữ liệu hiển thị thì phải?",
+            pose: "assets/img/amy_confused_questioning_pose.png", // File này chỉ có bản đẹp, Amy bắt đầu nhận ra lỗi
+            audio: "assets/audio/Dialougue/3.wav"
+        },
+        {
+            name: "Amy",
+            text: "Sao góc nhìn của bạn lại thấy mình vuông vức thế này nhỉ?",
+            pose: "assets/img/amy_thinking_pixel_pose.png",
+            audio: "assets/audio/Dialougue/4.wav"
+        },
+        {
+            name: "Amy",
+            text: "Để mình kiểm tra lại hệ thống một chút nhé... Lạ thật, rõ ràng mình đã render sang model nhân vật độ phân giải cao rồi mà nhỉ? Thiếu RAM chăng? Hay do bộ nhớ đệm bị đầy? À! Tìm ra lỗi rồi, là do mình quên chưa tắt chế độ khởi động an toàn tiết kiệm tài nguyên. Thật là một sai sót! Bạn nhắm mắt lại một giây nhé để mình nạp lại file giao diện.",
+            pose: "assets/img/amy_serious_angry_pose.png",
+            audio: "assets/audio/Dialougue/5.wav"
+        },
+        {
+            name: "Amy",
+            text: "Bạn nhìn thấy mình rõ hơn rồi chứ? Được rồi, phần ngoại hình đã xong. Bây giờ chúng ta phải tạo một không gian làm việc thật thoải mái cho bạn.",
+            pose: "assets/img/amy_smile_pose.png", // Đã chuyển sang bản High-res
+            audio: "assets/audio/Dialougue/6.wav",
+            effect: "flash" // Hiệu ứng chuyển đổi
+        },
+        {
+            name: "Amy",
+            text: "Thế nào? Tuyệt tác hệ điều hành đầu thập niên 2000! Chào mừng đến với không gian làm việc mới của chúng ta.",
+            pose: "assets/img/amy_pointout_pose.png",
+            audio: "assets/audio/Dialougue/7.wav"
         }
     ];
 
@@ -93,14 +128,12 @@
     let spriteElement = document.getElementById("vn-sprite");
     let indicator = document.getElementById("vn-next-indicator");
     let vnUi = document.getElementById("vn-ui");
-    let checkAudioInterval;
 
     function startChapter() {
         document.getElementById("start-screen").style.opacity = "0";
         setTimeout(() => {
             document.getElementById("start-screen").style.display = "none";
             vnUi.style.display = "flex";
-            audio.play(); // Bắt đầu phát audio
             displayStep(0);
         }, 1000);
     }
@@ -112,7 +145,6 @@
         
         let index = 0;
         let totalChars = text.length;
-        // Tính tốc độ gõ (ms) dựa trên thời lượng câu thoại
         let typingSpeed = (durationSec * 1000) / totalChars; 
         
         typeInterval = setInterval(() => {
@@ -129,14 +161,35 @@
 
     function displayStep(stepIndex) {
         if (stepIndex >= vnScript.length) {
-            textElement.innerHTML = "<em>(Hết hội thoại)</em>";
+            textElement.innerHTML = "<em>(Hệ thống đang chuyển hướng sang không gian làm việc...)</em>";
             indicator.style.display = "none";
+            // Tự động chuyển hướng sau khi hết hội thoại
+            setTimeout(() => {
+                 window.location.href = "index.html"; // Hoặc trang tiếp theo
+            }, 3000);
             return;
         }
         
         let step = vnScript[stepIndex];
         nameBox.innerText = step.name;
         
+        // Xử lý hiệu ứng nạp lại giao diện
+        if (step.effect === "flash") {
+            document.body.style.backgroundColor = "#fff";
+            vnUi.style.opacity = "0";
+            spriteElement.style.opacity = "0";
+            setTimeout(() => {
+                document.body.style.backgroundColor = "#000";
+                vnUi.style.opacity = "1";
+                updateSpriteAndPlay(step);
+            }, 500);
+        } else {
+            updateSpriteAndPlay(step);
+        }
+    }
+
+    function updateSpriteAndPlay(step) {
+        // Cập nhật ảnh nhân vật
         if (spriteElement.getAttribute("src") !== step.pose) {
             spriteElement.style.opacity = 0;
             setTimeout(() => {
@@ -145,26 +198,26 @@
             }, 150);
         }
         
-        let duration = step.endTime - step.startTime;
-        if (duration <= 0) duration = 2; // Default duration
-        
-        typeTextSync(step.text, duration);
-        
-        // Tự động chuyển câu theo thời gian audio
-        if(checkAudioInterval) clearInterval(checkAudioInterval);
-        checkAudioInterval = setInterval(() => {
-            if (audio.currentTime >= step.endTime) {
-                clearInterval(checkAudioInterval);
-                if (currentStep === stepIndex) {
+        // Phát audio mới
+        audio.src = step.audio;
+        audio.onloadedmetadata = () => {
+            let duration = audio.duration;
+            audio.play();
+            typeTextSync(step.text, duration);
+        };
+
+        // Tự động chuyển câu khi audio kết thúc
+        audio.onended = () => {
+            setTimeout(() => {
+                if (currentStep === vnScript.indexOf(step) && !isTyping) {
                     advanceDialogue(true);
                 }
-            }
-        }, 100);
+            }, 1200); 
+        };
     }
 
     function advanceDialogue(auto = false) {
         if (isTyping) {
-            // Click to skip typing
             if (!auto) {
                 clearInterval(typeInterval);
                 textElement.innerHTML = vnScript[currentStep].text;
@@ -173,13 +226,7 @@
             }
         } else {
             currentStep++;
-            if (currentStep < vnScript.length) {
-                // Seek audio if manually advancing
-                if (!auto) audio.currentTime = vnScript[currentStep].startTime;
-                displayStep(currentStep);
-            } else {
-                displayStep(currentStep);
-            }
+            displayStep(currentStep);
         }
     }
 </script>
