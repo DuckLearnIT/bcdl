@@ -1,32 +1,31 @@
 <!DOCTYPE html>
 <html lang="vi">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Visual Novel Dialogue</title>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="assets/css/visual-novel.css">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Visual Novel Dialogue</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/css/visual-novel.css">
 </head>
 <body>
-    <div class="vn-container">
-        <!-- Background -->
-        <div class="vn-background" style="background-image: url('assets/img/bg_cndtf0.jpg');"></div>
-        
-        <!-- Character Sprite -->
-        <div class="vn-character-container">
-            <img id="vn-sprite" class="vn-sprite entering" src="assets/img/default_pose.png" alt="Character Pose">
-        </div>
+<div class="vn-container" id="vn-container">
+    <div class="vn-background" style="background-image: url('assets/img/vnexpress/bg_cndtf0.jpg');"></div>
 
-        <!-- Dialogue UI -->
-        <div class="vn-ui" id="vn-ui" onclick="advanceDialogue()">
-            <div class="vn-dialogue-box">
-                <div class="vn-namebox" id="vn-namebox">Tên Nhân Vật</div>
-                <div class="vn-text" id="vn-text"></div>
-                <div class="vn-next-indicator" id="vn-next-indicator">▼</div>
-            </div>
+    <div class="vn-character-wrap">
+        <img id="vn-sprite" class="vn-sprite" src="assets/img/amy/normal/default.png" alt="Character Pose">
+    </div>
+
+    <div class="vn-dialogue-bar" id="vn-dialogue-bar" onclick="advanceDialogue()">
+        <div class="vn-dialogue-inner">
+            <img class="bar-bg" src="assets/img/dialogue_bar.png" alt="">
+            <div class="vn-name" id="vn-name">Người Hướng Dẫn</div>
+            <div class="vn-text" id="vn-text"></div>
+            <div class="vn-next-indicator" id="vn-indicator">▼</div>
         </div>
     </div>
-    
-    <script src="assets/js/visual-novel.js"></script>
+</div>
+
+<script src="assets/js/dialogue-fit.js"></script>
+<script src="assets/js/visual-novel.js"></script>
 </body>
 </html>

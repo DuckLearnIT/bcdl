@@ -1,0 +1,14 @@
+AI-chan: [surprise] "Ơ kìa...? Tín hiệu kết nối đã được thiết lập rồi sao? Quét thấy có biến số mới..."
+AI-chan: [flustered] "A! Có người dùng đang ở đầu dây bên kia! Xin lỗi, mình không nghĩ là bạn lại log-in vào sớm như vậy!"
+AI-chan: [happy] "Khụ... Xin chào! Rất vui được gặp bạn. Chào mừng bạn đã truy cập vào hệ thống. Mình là Amy, từ nay sẽ chịu trách nhiệm hỗ trợ bạn trong vùng không gian này."
+AI-chan: [confused] "Nhưng mà... khoan đã. Hình như có gì đó sai sai ở luồng dữ liệu hiển thị thì phải?"
+AI-chan: [looking_down] "Sao góc nhìn của bạn... lại thấy mình... vuông vức thế này?
+AI-chan: [thinking] "Để mình kiểm tra lại log hệ thống một chút nhé. Lạ thật, rõ ràng mình đã render xong model nhân vật độ phân giải cao rồi mà nhỉ... Do thiếu RAM chăng? Hay do bộ nhớ đệm bị đầy.
+AI-chan: [aha] "Aha! Tìm ra lỗi rồi! Là do mình quên chưa tắt chế độ 'Khởi động an toàn tiết kiệm tài nguyên'"
+AI-chan: [amuse] "Thật là một sai sót ngớ ngẩn... Bạn nhắm mắt lại 1 giây nhé, để mình nạp lại file giao diện."
+AI-chan: [snap_fingers] "Khôi phục dữ liệu gốc. Cập nhật!"
+AI-chan: [bright_smile] "Tada~! Bạn nhìn thấy mình rõ hơn rồi chứ? Giao diện 2D High-Resolution (Độ phân giải cao) này tốn công ép xung hệ thống lắm đấy nhé!"
+AI-chan: [adjust_glasses] "Được rồi, phần ngoại hình đã xong. Bây giờ chúng ta phải tạo một không gian làm việc (Workspace) thật thoải mái cho bạn."
+AI-chan: [wink] "Vì theo phân tích dữ liệu, dường như bạn thích những thứ mang cảm giác hoài niệm... Mình đã cất công chuẩn bị một giao diện người dùng (UI) vô cùng kinh điển."
+AI-chan: [excited] "Chuẩn bị tinh thần nhé! Xuyên không về quá khứ thôi!"
+AI-chan: [proud] "Thế nào? Tuyệt tác hệ điều hành đầu thập niên 2000! Chào mừng đến với không gian làm việc mới của chúng ta!"

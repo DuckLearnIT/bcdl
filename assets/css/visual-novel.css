@@ -29,16 +29,19 @@ body, html {
 /* ── Scene Container ── */
 .vn-container {
     position: relative;
-    width: 100%;
-    height: 100%;
+    width: 100vw;
+    height: 100vh;
     background: #fff;
+    overflow: hidden;
 }
 
 /* ── Background (white for now) ── */
 .vn-background {
     position: absolute;
     inset: 0;
-    background: #fff;
+    background-color: #fff;
+    background-size: cover;
+    background-position: center;
     z-index: 1;
 }
 
@@ -49,7 +52,7 @@ body, html {
     bottom: 0;
     left: 50%;
     transform: translateX(-50%);
-    width: 50%;
+    width: min(42vw, 520px);
     height: 100%;
     z-index: 2;
     pointer-events: none;
@@ -60,12 +63,12 @@ body, html {
 }
 
 .vn-sprite {
-    width: 100%;
-    max-width: 480px;
+    width: auto;
+    max-width: 100%;
+    height: min(82vh, 920px);
     object-fit: contain;
-    object-position: top center;
-    /* Show top ~55% = upper body */
-    transform: translateY(40%);
+    object-position: center bottom;
+    transform: translateY(4%);
     transition: opacity 0.35s ease, transform 0.35s ease;
 }
 
@@ -74,8 +77,8 @@ body, html {
     animation: breathe 3s ease-in-out infinite;
 }
 @keyframes breathe {
-    0%, 100% { transform: translateY(40%); }
-    50%      { transform: translateY(39.2%); }
+    0%, 100% { transform: translateY(4%); }
+    50%      { transform: translateY(3.2%); }
 }
 
 /* ── Hop — cờ cá ngựa bounce ── */
@@ -83,11 +86,11 @@ body, html {
     animation: hopBounce 0.55s cubic-bezier(0.3, 0, 0.2, 1);
 }
 @keyframes hopBounce {
-    0%   { transform: translateY(40%); }
-    25%  { transform: translateY(30%) rotate(2deg); }
-    45%  { transform: translateY(34%) rotate(-1.5deg); }
-    65%  { transform: translateY(37%) rotate(0.8deg); }
-    100% { transform: translateY(40%) rotate(0deg); }
+    0%   { transform: translateY(4%); }
+    25%  { transform: translateY(-4%) rotate(2deg); }
+    45%  { transform: translateY(-1.5%) rotate(-1.5deg); }
+    65%  { transform: translateY(1%) rotate(0.8deg); }
+    100% { transform: translateY(4%) rotate(0deg); }
 }
 
 /* ── Shake (nervous/confused) ── */
@@ -95,11 +98,11 @@ body, html {
     animation: shake 0.5s ease-in-out;
 }
 @keyframes shake {
-    0%, 100% { transform: translateY(40%) translateX(0); }
-    20%  { transform: translateY(40%) translateX(-10px); }
-    40%  { transform: translateY(40%) translateX(10px); }
-    60%  { transform: translateY(40%) translateX(-6px); }
-    80%  { transform: translateY(40%) translateX(6px); }
+    0%, 100% { transform: translateY(4%) translateX(0); }
+    20%  { transform: translateY(4%) translateX(-10px); }
+    40%  { transform: translateY(4%) translateX(10px); }
+    60%  { transform: translateY(4%) translateX(-6px); }
+    80%  { transform: translateY(4%) translateX(6px); }
 }
 
 /* ── Lean-in (curious) ── */
@@ -107,8 +110,8 @@ body, html {
     animation: leanIn 0.6s ease-out forwards;
 }
 @keyframes leanIn {
-    0%   { transform: translateY(40%) translateX(0) rotate(0); }
-    100% { transform: translateY(40%) translateX(-25px) rotate(-3deg); }
+    0%   { transform: translateY(4%) translateX(0) rotate(0); }
+    100% { transform: translateY(4%) translateX(-18px) rotate(-3deg); }
 }
 
 /* ── Pop-in entrance ── */
@@ -116,9 +119,9 @@ body, html {
     animation: popIn 0.8s cubic-bezier(0.2, 0.8, 0.2, 1) forwards;
 }
 @keyframes popIn {
-    0%   { opacity: 0; transform: translateY(55%) scale(0.85); }
-    60%  { opacity: 1; transform: translateY(36%) scale(1.04); }
-    100% { opacity: 1; transform: translateY(40%) scale(1); }
+    0%   { opacity: 0; transform: translateY(18%) scale(0.85); }
+    60%  { opacity: 1; transform: translateY(1%) scale(1.04); }
+    100% { opacity: 1; transform: translateY(4%) scale(1); }
 }
 
 /* ── Nod (acknowledging) ── */
@@ -126,8 +129,8 @@ body, html {
     animation: nod 0.4s ease-in-out;
 }
 @keyframes nod {
-    0%, 100% { transform: translateY(40%); }
-    50%      { transform: translateY(42%); }
+    0%, 100% { transform: translateY(4%); }
+    50%      { transform: translateY(6%); }
 }
 
 /* ── Dialogue Bar — custom dialogue_bar.png ── */
@@ -136,6 +139,7 @@ body, html {
     bottom: 0;
     left: 0;
     right: 0;
+    height: clamp(220px, 34vh, 310px);
     z-index: 10;
     cursor: pointer;
 }
@@ -143,9 +147,15 @@ body, html {
 .vn-dialogue-inner {
     position: relative;
     width: 100%;
+    height: 100%;
+    overflow: hidden;
 }
 
 .vn-dialogue-inner img.bar-bg {
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: 0;
     width: 100%;
     display: block;
     pointer-events: none;
@@ -154,36 +164,39 @@ body, html {
 /* ── Name on the blue top strip ── */
 .vn-name {
     position: absolute;
-    top: 3%;
-    left: 2%;
-    width: 96%;
-    height: 20%;
+    top: 5%;
+    left: 4.2%;
+    width: 42%;
+    height: 16%;
     display: flex;
     align-items: center;
-    padding-left: 24px;
+    padding-left: 12px;
     font-family: 'HoiThoai', 'Inter', sans-serif;
-    font-size: clamp(16px, 2.4vw, 28px);
+    font-size: clamp(18px, 2vw, 30px);
     font-weight: 700;
     color: #fff;
     text-shadow: 1px 2px 4px rgba(0,0,0,0.6);
-    letter-spacing: 1.5px;
+    letter-spacing: 1px;
     pointer-events: none;
 }
 
 /* ── Dialogue text on the beige bottom area ── */
 .vn-text {
     position: absolute;
-    top: 27%;
-    left: 2.5%;
-    width: 95%;
-    height: 65%;
-    padding: 10px 24px 10px 24px;
+    top: 30%;
+    left: 4.8%;
+    width: 90.4%;
+    height: 51%;
+    padding: 14px 20px 0;
     font-family: 'HoiThoai', 'Inter', sans-serif;
-    font-size: clamp(14px, 1.8vw, 22px);
+    font-size: clamp(15px, 1.45vw, 24px);
     font-weight: 500;
-    line-height: 1.6;
+    line-height: 1.45;
     color: #1a1a1a;
     overflow: hidden;
+    overflow-wrap: anywhere;
+    word-break: break-word;
+    hyphens: auto;
     pointer-events: none;
     user-select: none;
 }
@@ -191,8 +204,8 @@ body, html {
 /* ── Next indicator ── */
 .vn-next-indicator {
     position: absolute;
-    bottom: 12%;
-    right: 3%;
+    bottom: 11%;
+    right: 5.5%;
     font-size: clamp(14px, 1.5vw, 20px);
     color: #1a1a8c;
     opacity: 0;
@@ -280,6 +293,11 @@ body, html {
 }
 .windows-desktop.visible {
     display: flex;
+    animation: desktopFadeIn 1.5s ease-out forwards;
+}
+@keyframes desktopFadeIn {
+    from { opacity: 0; transform: scale(1.05); }
+    to   { opacity: 1; transform: scale(1); }
 }
 .windows-wallpaper {
     flex: 1;
@@ -297,17 +315,70 @@ body, html {
 
 /* ── Responsive ── */
 @media (max-width: 768px) {
-    .vn-character-wrap { width: 70%; }
+    .vn-character-wrap {
+        width: min(74vw, 420px);
+    }
+    .vn-sprite {
+        height: min(70vh, 700px);
+    }
+    .vn-dialogue-bar {
+        height: clamp(190px, 31vh, 240px);
+    }
     .vn-text {
+        top: 31%;
+        left: 5%;
+        width: 90%;
+        height: 50%;
         font-size: 13px;
-        padding: 8px 14px;
+        padding: 10px 14px 0;
+        line-height: 1.35;
     }
     .vn-name {
         font-size: 15px;
+        width: 48%;
         padding-left: 14px;
     }
 }
 @media (max-width: 480px) {
-    .vn-character-wrap { width: 85%; }
-    .vn-text { font-size: 12px; }
+    .vn-character-wrap {
+        width: min(86vw, 360px);
+    }
+    .vn-sprite {
+        height: min(62vh, 560px);
+    }
+    .vn-dialogue-bar {
+        height: 180px;
+    }
+    .vn-name {
+        width: 52%;
+        font-size: 14px;
+    }
+    .vn-text {
+        top: 32%;
+        font-size: 12px;
+        padding: 8px 12px 0;
+    }
+}
+
+@media (max-width: 360px) {
+    .vn-dialogue-bar {
+        height: 174px;
+    }
+    .vn-name {
+        width: 58%;
+        font-size: 13px;
+        padding-left: 10px;
+    }
+    .vn-text {
+        top: 33%;
+        left: 5%;
+        width: 90%;
+        height: 48%;
+        padding: 6px 10px 0;
+        line-height: 1.25;
+    }
+    .vn-next-indicator {
+        right: 4.8%;
+        bottom: 10%;
+    }
 }

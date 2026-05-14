@@ -1,116 +1,150 @@
+const NORMAL = "assets/img/amy/normal/";
+const FIT_OPTIONS = {
+    minFontPx: 10,
+    maxFontPx: 24,
+    minLineHeight: 1.18,
+    maxLineHeight: 1.45
+};
+
 const scriptData = [
     {
         name: "Người Hướng Dẫn",
         text: "Chào mừng bạn đã đến với hệ thống báo chí dữ liệu. Có vẻ như bạn đã vượt qua được bức tường bảo mật.",
-        pose: "assets/img/default_pose.png"
+        pose: NORMAL + "smile.png"
     },
     {
         name: "Người Hướng Dẫn",
         text: "Nhưng đừng vội mừng, mọi thứ mới chỉ bắt đầu thôi...",
-        pose: "assets/img/pointout_pose.png"
+        pose: NORMAL + "pointout.png"
     },
     {
         name: "Người Hướng Dẫn",
         text: "Ngành ngân hàng năm vừa qua đã ghi nhận những con số khổng lồ.",
-        pose: "assets/img/thinking_pose.png"
+        pose: NORMAL + "thinking.png"
     },
     {
         name: "Người Hướng Dẫn",
         text: "Hơn 11,5 tỷ USD lợi nhuận. Một kỷ lục chưa từng có!",
-        pose: "assets/img/surpirse_shock_pose.png"
+        pose: NORMAL + "surprise.png"
     },
     {
         name: "Người Hướng Dẫn",
         text: "Nhưng liệu đằng sau những con số hào nhoáng đó có ẩn chứa điều gì?",
-        pose: "assets/img/serious_angry_pose.png"
+        pose: NORMAL + "serious.png"
     },
     {
         name: "Người Hướng Dẫn",
         text: "Hãy tự mình tìm hiểu và phân tích nhé. Tôi sẽ theo dõi bạn.",
-        pose: "assets/img/smile_pose.png"
+        pose: NORMAL + "default.png"
     }
 ];
 
 let currentStep = 0;
 let isTyping = false;
-let typeInterval;
-let textElement = document.getElementById("vn-text");
-let nameBox = document.getElementById("vn-namebox");
-let spriteElement = document.getElementById("vn-sprite");
-let indicator = document.getElementById("vn-next-indicator");
+let typeInterval = null;
+let currentStepText = "";
+
+const textElement = document.getElementById("vn-text");
+const nameBox = document.getElementById("vn-name");
+const spriteElement = document.getElementById("vn-sprite");
+const indicator = document.getElementById("vn-indicator");
+
+function applyTextFit(fullText) {
+    if (window.fitDialogueText && textElement) {
+        window.fitDialogueText(textElement, fullText, FIT_OPTIONS);
+    }
+}
 
 function typeText(text, callback) {
     isTyping = true;
-    textElement.innerHTML = "";
+    currentStepText = text;
+    applyTextFit(text);
+    textElement.textContent = "";
     indicator.classList.remove("visible");
     let index = 0;
-    
+
+    if (typeInterval) {
+        clearInterval(typeInterval);
+    }
+
     typeInterval = setInterval(() => {
         if (index < text.length) {
-            textElement.innerHTML += text.charAt(index);
+            textElement.textContent += text.charAt(index);
             index++;
         } else {
             clearInterval(typeInterval);
+            typeInterval = null;
             isTyping = false;
             indicator.classList.add("visible");
-            if (callback) callback();
+            if (callback) {
+                callback();
+            }
         }
-    }, 35); // Typing speed
+    }, 35);
 }
 
 function displayStep(stepIndex) {
     if (stepIndex >= scriptData.length) {
-        // End of VN script
-        textElement.innerHTML = "<em>(Chương này đã kết thúc. Xin vui lòng tiếp tục hành trình...)</em>";
+        const finalText = "(Chương này đã kết thúc. Xin vui lòng tiếp tục hành trình...)";
+        textElement.textContent = finalText;
+        applyTextFit(finalText);
         nameBox.style.display = "none";
         indicator.style.display = "none";
-        
-        // Optional: Redirect to next page after a delay
-        setTimeout(() => {
-            // window.location.href = "chapter-3.html";
-        }, 2000);
         return;
     }
-    
-    let step = scriptData[stepIndex];
-    nameBox.innerText = step.name;
-    
-    // Change sprite with a small fade effect if it changes
+
+    const step = scriptData[stepIndex];
+    currentStepText = step.text;
+    nameBox.textContent = step.name;
+
     if (spriteElement.getAttribute("src") !== step.pose) {
-        spriteElement.style.opacity = 0;
+        spriteElement.style.opacity = "0";
         setTimeout(() => {
             spriteElement.src = step.pose;
             spriteElement.onload = () => {
-                spriteElement.style.opacity = 1;
+                spriteElement.style.opacity = "1";
             };
         }, 150);
     }
-    
+
     typeText(step.text);
 }
 
 function advanceDialogue() {
     if (isTyping) {
-        // Complete text instantly if clicking while typing
-        clearInterval(typeInterval);
-        textElement.innerHTML = scriptData[currentStep].text;
+        if (typeInterval) {
+            clearInterval(typeInterval);
+            typeInterval = null;
+        }
+        textElement.textContent = scriptData[currentStep].text;
+        applyTextFit(scriptData[currentStep].text);
         isTyping = false;
         indicator.classList.add("visible");
     } else {
-        // Move to next step
         currentStep++;
         displayStep(currentStep);
     }
 }
 
-// Preload images to prevent flicker
+const refitOnResize = (window.debounce || function (fn) { return fn; })(() => {
+    if (currentStep < scriptData.length) {
+        const step = scriptData[currentStep];
+        currentStepText = step ? step.text : currentStepText;
+        if (currentStepText) {
+            applyTextFit(currentStepText);
+        }
+    }
+}, 140);
+
+window.addEventListener("resize", refitOnResize);
+
 window.onload = () => {
-    scriptData.forEach(step => {
-        let img = new Image();
+    scriptData.forEach((step) => {
+        const img = new Image();
         img.src = step.pose;
     });
-    // Start first dialogue
+
     setTimeout(() => {
         displayStep(0);
-    }, 500); // small delay on load
+    }, 300);
 };
