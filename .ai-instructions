@@ -7,33 +7,37 @@ Tài liệu hướng dẫn ngắn gọn về cấu trúc và quy chuẩn của d
 ## 🛠 Tech Stack
 - **Core**: Vanilla HTML5, CSS3, JavaScript (ES6+).
 - **Library Policy**: Ưu tiên tối đa giải pháp bằng mã thuần (Vanilla JS/CSS), tránh lạm dụng framework hoặc thư viện cồng kềnh. 
-- **Offline-First**: Toàn bộ CSS, JS, Fonts và Media của VnExpress đã được tải xuống máy chủ cục bộ. Luôn sử dụng đường dẫn tương đối `/assets/...` để chạy offline không cần Internet.
+- **Offline-First**: Toàn bộ CSS, JS, Fonts, Media của VnExpress, cũng như Audio/Images đã được tải xuống máy chủ cục bộ. Luôn sử dụng đường dẫn tương đối `/assets/...` để chạy offline không cần Internet.
 
 ## 📁 Cấu trúc Thư mục (Folder Structure)
 ```text
 /BCDL
-├── .ai-instructions  <- File hướng dẫn này
-├── index.html        <- Trang chủ chính (Landing page hiển thị list bài)
-├── *-story.html      <- Các bài viết tương tác scrollytelling
-├── chapter-*.html    <- Phân cảnh tiếp theo của mạch truyện scrollytelling
+├── .ai-instructions        <- File hướng dẫn này
+├── index.html              <- Trang chủ chính (Landing page hiển thị list bài)
+├── *-story.html            <- Các bài viết tương tác scrollytelling (vd: ai-story.html)
+├── chapter-*.html          <- Các phân cảnh tiếp theo của mạch truyện scrollytelling
+├── visual-novel.html       <- Trang trải nghiệm kể chuyện dạng Visual Novel
+├── hoithoi.txt, tomtat.txt <- Kịch bản hội thoại và tóm tắt project
+├── them-mot-nam-...html    <- File bài báo tĩnh gốc từ VnExpress
 └── assets/
-    ├── css/          <- Chứa stylesheet gốc và tùy chỉnh
-    ├── js/           <- Script xử lý logic
-    ├── fonts/        <- Phông chữ cục bộ để hoạt động offline
-    ├── img/          <- Tài nguyên hình ảnh tĩnh
-    ├── video/        <- Video tài nguyên (win7boot.mp4)
-    └── svg/          <- Biểu đồ và biểu tượng định dạng SVG vector
+    ├── audio/              <- Âm thanh (SFX, Dialogue lồng tiếng)
+    ├── css/                <- Chứa stylesheet gốc và tùy chỉnh
+    ├── fonts/              <- Phông chữ cục bộ để hoạt động offline
+    ├── img/                <- Tài nguyên hình ảnh tĩnh (có thư mục amy, login_screen, windows, vnexpress)
+    ├── js/                 <- Script xử lý logic (có visual-novel.js, dialogue-fit.js,...)
+    ├── svg/                <- Biểu đồ và biểu tượng định dạng SVG vector
+    └── video/              <- Video tài nguyên (vd: win7boot.mp4)
 ```
 
 ## 🏷️ Quy chuẩn Đặt tên (Naming Conventions)
 - **Trang tương tác / Scrollytelling**: Dùng kiểu `kebab-case` rõ nghĩa.
-  *Ví dụ:* `ai-story.html`, `chapter-2.html`.
-- **Tài sản nội bộ**: Đồng nhất `snake_case` hoặc `kebab-case` cho các file JS/CSS tự viết.
-- **Bài viết tĩnh (Gốc)**: Giữ nguyên tên file dạng URL cũ từ VnExpress (vd: `them-mot-nam-ngan-hang-lai-lon-4567878.html`) để tránh phá vỡ liên kết từ trang `index.html`.
+  *Ví dụ:* `ai-story.html`, `chapter-2.html`, `visual-novel.html`.
+- **Tài sản nội bộ**: Đồng nhất `snake_case` hoặc `kebab-case` cho các file JS/CSS/Audio tự viết.
+- **Bài viết tĩnh (Gốc)**: Giữ nguyên tên file dạng URL cũ từ VnExpress để tránh phá vỡ liên kết.
 
 ## 🧠 Luật Chơi cho AI (Core Rules)
-1. **Giữ nguyên Offline Assets**: Không tự ý trỏ link CDN ra ngoài trừ khi bắt buộc. Kiểm tra và dùng asset trong thư mục `assets/`.
+1. **Giữ nguyên Offline Assets**: Không tự ý trỏ link CDN ra ngoài trừ khi bắt buộc. Luôn kiểm tra và dùng asset trong thư mục `assets/` (audio, img, css, js).
 2. **Không thay đổi cấu trúc VnExpress gốc**: Đối với những trang báo tĩnh, chỉ sửa phần header/footer điều hướng sang `index.html`, giữ nguyên layout tin tức gốc.
-3. **Độc lập logic Scrollytelling**: Các kịch bản animation phức tạp nên được đóng gói gọn gàng.
+3. **Độc lập logic Kể chuyện**: Các kịch bản animation phức tạp hoặc hệ thống hội thoại (Visual Novel) nên được đóng gói gọn gàng thành các module riêng biệt (như `dialogue-fit.js`, `visual-novel.js`).
 4. **Tối ưu hiệu năng**: External hóa CSS/JS ra các file trong `assets/` thay vì để inline trong HTML.
 5. **GPU Acceleration**: Luôn ưu tiên dùng `transform` (translate, scale) và `opacity` cho animation.

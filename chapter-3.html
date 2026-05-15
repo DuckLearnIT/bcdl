@@ -777,20 +777,27 @@ function advanceDialogue(auto = false) {
     } else {
         const effect = vnScript[currentStep].effectAtEnd;
         if (effect === "windows" || effect === "transform" || effect === "finish_tutorial" || effect === "finish_style_dialogue") {
-            if (window.isEffectRunning) return;
-            window.isEffectRunning = true;
-            
-            // Stop audio if user manually skips to effect
-            if (audio) {
-                audio.pause();
-                audio.onended = null;
+            if (window.isEffectRunning) {
+                if (auto) {
+                    // Effect finished, allow to advance
+                } else {
+                    return;
+                }
+            } else {
+                window.isEffectRunning = true;
+                
+                // Stop audio if user manually skips to effect
+                if (audio) {
+                    audio.pause();
+                    audio.onended = null;
+                }
+                if (audioTimeCheckInterval) {
+                    clearInterval(audioTimeCheckInterval);
+                    audioTimeCheckInterval = null;
+                }
+                handleEndEffect(vnScript[currentStep], currentStep);
+                return;
             }
-            if (audioTimeCheckInterval) {
-                clearInterval(audioTimeCheckInterval);
-                audioTimeCheckInterval = null;
-            }
-            handleEndEffect(vnScript[currentStep], currentStep);
-            return;
         }
         
         currentStep++;
