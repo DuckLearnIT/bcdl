@@ -357,8 +357,9 @@ let isAutoMode = false;
 let dialogueHistory = [];
 let advanceTimeout = null;
 
-let isPixelStyle = false; // Start in normal after transition
+let isPixelStyle = true; // Start in Pixel style
 let hasSeenStyleDialogue = false;
+let isTransitioning = false; // Flag to prevent multiple clicks during effects
 
 const audio       = document.getElementById("vn-audio");
 const sfxSnap     = document.getElementById("sfx-snap");
@@ -658,17 +659,21 @@ function displayStep(stepIndex) {
 function handleEndEffect(step, stepIndex) {
     if (step.effectAtEnd === "transform") {
         // Fingersnap SFX + Flash → pixel→normal transition
+        isTransitioning = true;
+        isPixelStyle = false; // Switch to 2D after this
         sfxSnap.currentTime = 0;
         sfxSnap.play();
         flashEl.classList.add("active");
         if (advanceTimeout) clearTimeout(advanceTimeout);
         advanceTimeout = setTimeout(() => {
             flashEl.classList.remove("active");
+            isTransitioning = false;
             autoAdvance(stepIndex);
         }, 700);
 
     } else if (step.effectAtEnd === "windows") {
         // Show Windows desktop
+        isTransitioning = true;
         if (advanceTimeout) clearTimeout(advanceTimeout);
         advanceTimeout = setTimeout(() => {
             finishTyping();
@@ -687,6 +692,7 @@ function handleEndEffect(step, stepIndex) {
                     document.getElementById("vn-dialogue-bar").style.opacity = "1";
                     document.getElementById("vn-dialogue-bar").style.pointerEvents = "all";
                     spriteEl.style.opacity = "1";
+                    isTransitioning = false;
                     advanceDialogue(true);
                 }, 3000);
             }, 900);
@@ -756,6 +762,8 @@ function finishTyping() {
 //  ADVANCE (click or auto)
 // ────────────────────────────────────────────
 function advanceDialogue(auto = false) {
+    if (isTransitioning) return; // Ignore clicks during transitions
+    
     if (advanceTimeout) {
         clearTimeout(advanceTimeout);
         advanceTimeout = null;
