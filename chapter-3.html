@@ -204,7 +204,7 @@ const vnScript = [
     // ── Audio 6 (10s) — Tada! HD! ──
     {
         name: "Amy",
-        text: "Tada~! Bạn nhìn thấy mình rõ hơn rồi chứ? Giao diện 2D High-Resolution này tốn công ép xung hệ thống lắm đấy nhé! Được rồi, phần ngoại hình đã xong. Bây giờ chúng ta phải tạo một không gian làm việc thật thoải mái cho bạn.",
+        text: "Tada~! Bạn nhìn thấy mình rõ hơn rồi chứ? Được rồi, phần ngoại hình đã xong. Bây giờ chúng ta phải tạo một không gian làm việc (Workspace) thật thoải mái cho bạn.",
         pose: NORMAL + "smile.png",
         audio: "assets/audio/Dialougue/6.wav",
         anim: "hop"
@@ -282,7 +282,7 @@ const vnScript = [
         name: "Amy",
         text: "Tiếp theo, hãy chú ý vào icon News có hình tờ báo. Đây là phần quan trọng nhất của toàn bộ hệ thống! Bạn có thể dùng nó để đọc báo chí, cập nhật tin tức và truy xuất dữ liệu. Trung tâm tình báo của chúng ta nằm cả ở đấy!",
         pose: NORMAL + "serious.png",
-        audio: null,
+        audio: "assets/audio/Dialougue/new.wav",
         anim: "hop",
         highlightApps: ["news"],
         side: "right"
@@ -711,13 +711,23 @@ const APP_DEFS = {
     settings: {
         title: "Settings",
         icon: "assets/img/windows/setting.png",
-        width: 450, height: 350,
+        width: 450, height: 400,
         content: `<div style="font-family:'HoiThoai','Inter',sans-serif;padding:12px;">
-            <h3>⚙️ System Settings</h3>
+            <h3 style="border-bottom:1px solid #ccc;padding-bottom:8px;">⚙️ System Settings</h3>
             <div style="margin-top:15px;">
                 <p><strong>User:</strong> Guest</p>
                 <p><strong>Resolution:</strong> 1920 x 1080</p>
-                <p><strong>Theme:</strong> Classic Blue</p>
+                
+                <div style="margin-top:20px;">
+                    <p><strong>Wallpaper:</strong></p>
+                    <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:10px;">
+                        <button onclick="setWallpaper('sunrise-goc.png')" style="padding:6px;cursor:pointer;">Sunrise</button>
+                        <button onclick="setWallpaper('nen.png')" style="padding:6px;cursor:pointer;">Daylight</button>
+                        <button onclick="setWallpaper('sunset_goc.png')" style="padding:6px;cursor:pointer;">Sunset</button>
+                        <button onclick="setWallpaper('night_goc.png')" style="padding:6px;cursor:pointer;">Night</button>
+                    </div>
+                    <button onclick="updateWallpaperByTime()" style="margin-top:10px;width:100%;padding:6px;cursor:pointer;background:#eee;">Auto by Time</button>
+                </div>
             </div>
         </div>`
     },
@@ -840,6 +850,9 @@ function initDesktop() {
     updateClock();
     clockInterval = setInterval(updateClock, 1000);
 
+    // ── Initial Wallpaper by Time ──
+    updateWallpaperByTime();
+
     // ── Start button — closes the browser tab ──
     document.getElementById("btn-start").addEventListener("click", () => {
         window.close();
@@ -869,6 +882,31 @@ function initDesktop() {
             }
         });
     });
+}
+
+// ── Wallpaper Logic ──
+function setWallpaper(imgName) {
+    const wp = document.getElementById("windows-wallpaper");
+    if (wp) {
+        wp.style.backgroundImage = `url('assets/img/windows/${imgName}')`;
+    }
+}
+
+function updateWallpaperByTime() {
+    const hour = new Date().getHours();
+    let wpImg = "nen.png"; // Default day
+    
+    if (hour >= 5 && hour < 9) {
+        wpImg = "sunrise-goc.png";
+    } else if (hour >= 9 && hour < 16) {
+        wpImg = "nen.png";
+    } else if (hour >= 16 && hour < 19) {
+        wpImg = "sunset_goc.png";
+    } else {
+        wpImg = "night_goc.png";
+    }
+    
+    setWallpaper(wpImg);
 }
 
 function updateClock() {
