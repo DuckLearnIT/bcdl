@@ -33,7 +33,7 @@
                 <div class="vn-text" id="vn-text"></div>
                 <!-- Controls -->
                 <div class="vn-controls">
-                    <button class="vn-control-btn" id="btn-style" onclick="toggleStyle(event)" title="Chuyển đổi 2D/Pixel" style="display: none;">Style</button>
+                    <button class="vn-control-btn" id="btn-style" style="display:none;" onclick="toggleStyle(event)">2D / Pixel</button>
                     <button class="vn-control-btn" id="btn-mute" onclick="toggleMute(event)" title="Bật/Tắt âm thanh">🔊</button>
                     <button class="vn-control-btn" id="btn-auto" onclick="toggleAuto(event)">Auto</button>
                     <button class="vn-control-btn" id="btn-log" onclick="openLog(event)">Log</button>
@@ -299,41 +299,39 @@ const vnScript = [
     },
     {
         name: "Amy",
-        text: "Phù, phần hướng dẫn tân thủ của mình đến đây là kết thúc rồi! À, nãy giờ bạn có để ý nút 'Style' mới xuất hiện ở góc dưới không? Bạn có thể dùng nó để chuyển đổi ngoại hình của mình giữa chế độ 2D sắc nét và Pixel hoài cổ đó nha! Chúc bạn có khoảng thời gian khám phá thật vui vẻ nhé!",
+        text: "Phù, phần hướng dẫn tân thủ của mình đến đây là kết thúc rồi! Giao diện tuy hơi ngố một tí, nhưng bù lại rất dễ thương đúng không? Chúc bạn có khoảng thời gian khám phá thật vui vẻ nhé! À, nếu bạn muốn đổi phong cách nhân vật, hãy thử bấm nút '2D / Pixel' ở bên dưới nhé!",
         pose: NORMAL + "smile.png",
         audio: "assets/audio/Dialogue/Tutorial/1.9.wav",
         anim: "hop",
         highlightApps: [],
         side: "right",
         effectAtEnd: "finish_tutorial"
-    }
-];
-
-const toggleDialogue = [
+    },
+    // ── Style Change Dialogue (Triggered Manually) ──
     {
         name: "Amy",
-        text: "Wow! Chế độ Pixel Art! Trông mình hoài cổ hơn hẳn đúng không?",
-        pose: PIXEL + "smile.png",
+        text: "[2.1 Placeholder] Oa, bạn vừa đổi phong cách sao? Nhìn mình trong hình dạng Pixel này lạ quá!",
+        pose: PIXEL + "surprise.png",
         audio: "assets/audio/Dialogue/Toggle/2.1.wav",
-        anim: "hop",
+        anim: "shake",
         side: "right"
     },
     {
         name: "Amy",
-        text: "Bạn có thể tự do chuyển đổi giữa 2D và Pixel bất cứ lúc nào đấy nhé.",
-        pose: PIXEL + "pointout.png",
+        text: "[2.2 Placeholder] Trông cứ như bước ra từ một tựa game nhập vai cổ điển vậy. Mình thích lắm!",
+        pose: PIXEL + "smile.png",
         audio: "assets/audio/Dialogue/Toggle/2.2.wav",
-        anim: "nod",
+        anim: "hop",
         side: "right"
     },
     {
         name: "Amy",
-        text: "Mỗi phong cách lại có một vẻ đẹp riêng mà, đúng không nào?",
-        pose: PIXEL + "happy.png",
+        text: "[2.3 Placeholder] Từ giờ bạn có thể tự do chuyển đổi qua lại giữa hai phong cách này bất kỳ lúc nào nhé!",
+        pose: PIXEL + "proud.png",
         audio: "assets/audio/Dialogue/Toggle/2.3.wav",
-        anim: "hop",
+        anim: "nod",
         side: "right",
-        effectAtEnd: "finish_toggle"
+        effectAtEnd: "finish_style_dialogue"
     }
 ];
 
@@ -346,6 +344,9 @@ let audioTimeCheckInterval = null;
 let isAutoMode = false;
 let dialogueHistory = [];
 let advanceTimeout = null;
+
+let isPixelStyle = false; // Start in normal after transition
+let hasSeenStyleDialogue = false;
 
 const audio       = document.getElementById("vn-audio");
 const sfxSnap     = document.getElementById("sfx-snap");
@@ -385,6 +386,45 @@ function toggleAuto(e) {
     }
 }
 
+function toggleStyle(e) {
+    if (e) e.stopPropagation();
+    isPixelStyle = !isPixelStyle;
+    
+    // Update sprite instantly if visible
+    if (spriteEl && spriteEl.src) {
+        if (isPixelStyle && spriteEl.src.includes('/normal/')) {
+            spriteEl.src = spriteEl.src.replace('/normal/', '/pixel/');
+        } else if (!isPixelStyle && spriteEl.src.includes('/pixel/')) {
+            spriteEl.src = spriteEl.src.replace('/pixel/', '/normal/');
+        }
+    }
+    
+    // Trigger one-time dialogue
+    if (!hasSeenStyleDialogue) {
+        hasSeenStyleDialogue = true;
+        
+        // Find index of 2.1 dialogue
+        const startIndex = vnScript.findIndex(s => s.audio && s.audio.includes("2.1.wav"));
+        if (startIndex !== -1) {
+            currentStep = startIndex;
+            
+            // Show UI again
+            document.getElementById("vn-dialogue-bar").style.transition = "opacity 0.3s ease";
+            document.getElementById("vn-dialogue-bar").style.opacity = "1";
+            document.getElementById("vn-dialogue-bar").style.pointerEvents = "all";
+            
+            const spriteWrap = document.querySelector(".vn-character-wrap");
+            if (spriteWrap) {
+                spriteWrap.style.transition = "none"; // quick show
+                spriteWrap.style.opacity = "1";
+                spriteWrap.style.left = "65%"; // Right side
+            }
+            
+            displayStep(currentStep);
+        }
+    }
+}
+
 let isMuted = false;
 function toggleMute(e) {
     if (e) e.stopPropagation();
@@ -394,47 +434,6 @@ function toggleMute(e) {
     const btnMute = document.getElementById("btn-mute");
     if (btnMute) {
         btnMute.textContent = isMuted ? "🔇" : "🔊";
-    }
-}
-
-let tutorialFinished = false;
-let hasToggledStyle = false;
-let currentStyle = 'normal'; // 'normal' (2D) or 'pixel'
-let activeScript = vnScript;
-
-function toggleStyle(e) {
-    if (e) e.stopPropagation();
-    if (!tutorialFinished) return;
-
-    currentStyle = currentStyle === 'normal' ? 'pixel' : 'normal';
-    
-    // Update sprite src
-    const currentSrc = spriteEl.src;
-    if (currentStyle === 'pixel') {
-        spriteEl.src = currentSrc.replace('/normal/', '/pixel/');
-    } else {
-        spriteEl.src = currentSrc.replace('/pixel/', '/normal/');
-    }
-
-    if (!hasToggledStyle && currentStyle === 'pixel') {
-        hasToggledStyle = true;
-        // Start toggle dialogue
-        activeScript = toggleDialogue;
-        currentStep = 0;
-        
-        // Show dialogue bar and sprite
-        document.getElementById("vn-dialogue-bar").style.transition = "opacity 0.4s ease";
-        document.getElementById("vn-dialogue-bar").style.opacity = "1";
-        document.getElementById("vn-dialogue-bar").style.pointerEvents = "all";
-        
-        const spriteWrap = document.querySelector(".vn-character-wrap");
-        if (spriteWrap) {
-            spriteWrap.style.transition = "opacity 0.4s ease, transform 0.4s ease, left 0.4s ease";
-            spriteWrap.style.opacity = "1";
-            spriteWrap.style.pointerEvents = "none"; // Keep it non-blocking
-        }
-        
-        displayStep(0);
     }
 }
 
@@ -472,12 +471,6 @@ function typeTextSync(text, durationSec) {
     isTyping = true;
     textEl.textContent = "";
     indicator.classList.remove("visible");
-    
-    // Show Style button during the final step of vnScript
-    if (activeScript === vnScript && currentStep === vnScript.length - 1) {
-        document.getElementById("btn-style").style.display = "block";
-        tutorialFinished = true;
-    }
 
     const totalChars = text.length;
     const speed = Math.max(20, (durationSec * 1000) / totalChars);
@@ -518,36 +511,27 @@ function playAnim(animName) {
 //  DISPLAY STEP
 // ────────────────────────────────────────────
 function displayStep(stepIndex) {
-    if (stepIndex >= activeScript.length) return;
+    if (stepIndex >= vnScript.length) return;
 
-    const step = activeScript[stepIndex];
+    const step = vnScript[stepIndex];
     currentStepText = step.text;
     nameEl.textContent = step.name;
-    
-    // Check if we show Style button here (in case no audio is present and it uses typeTextSync, it's covered. 
-    // If it has audio, the typewriter effect also clears textEl but here we can just show it)
-    if (activeScript === vnScript && stepIndex === vnScript.length - 1) {
-        document.getElementById("btn-style").style.display = "block";
-        tutorialFinished = true;
-    }
     
     // Add to history
     dialogueHistory.push({ name: step.name, text: step.text });
 
-    // Handle spotlighting only if on main script
+    // Handle spotlighting
     const spotlightOverlay = document.getElementById("spotlight-overlay");
     if (spotlightOverlay) {
         document.querySelectorAll(".desktop-icon.spotlighted").forEach(el => el.classList.remove("spotlighted"));
-        if (activeScript === vnScript && step.highlightApps && step.highlightApps.length > 0) {
+        if (step.highlightApps && step.highlightApps.length > 0) {
             spotlightOverlay.style.opacity = "1";
-            spotlightOverlay.style.pointerEvents = "all";
             step.highlightApps.forEach(appId => {
                 const el = document.querySelector(`.desktop-icon[data-app='${appId}']`);
                 if (el) el.classList.add("spotlighted");
             });
         } else {
             spotlightOverlay.style.opacity = "0";
-            spotlightOverlay.style.pointerEvents = "none";
         }
     }
 
@@ -565,19 +549,20 @@ function displayStep(stepIndex) {
         audioTimeCheckInterval = null;
     }
 
-    // Update sprite with current style applied
-    let poseSrc = step.pose;
-    if (currentStyle === 'pixel') {
-        poseSrc = poseSrc.replace('/normal/', '/pixel/');
-    } else {
-        poseSrc = poseSrc.replace('/pixel/', '/normal/');
+    // Apply current style to the image path if appropriate
+    let newSrc = step.pose;
+    if (isPixelStyle && newSrc.includes('/normal/')) {
+        newSrc = newSrc.replace('/normal/', '/pixel/');
+    } else if (!isPixelStyle && newSrc.includes('/pixel/')) {
+        newSrc = newSrc.replace('/pixel/', '/normal/');
     }
-    
-    const poseChanged = spriteEl.src !== new URL(poseSrc, window.location.href).href;
+
+    // Update sprite
+    const poseChanged = spriteEl.src !== new URL(newSrc, window.location.href).href;
     if (poseChanged) {
         spriteEl.style.opacity = "0";
         setTimeout(() => {
-            spriteEl.src = poseSrc;
+            spriteEl.src = newSrc;
             spriteEl.onload = () => {
                 spriteEl.style.opacity = "1";
                 if (step.anim) playAnim(step.anim);
@@ -686,7 +671,7 @@ function handleEndEffect(step, stepIndex) {
             }, 900);
         }, 1500);
 
-    } else if (step.effectAtEnd === "finish_tutorial" || step.effectAtEnd === "finish_toggle") {
+    } else if (step.effectAtEnd === "finish_tutorial") {
         if (advanceTimeout) clearTimeout(advanceTimeout);
         finishTyping();
         document.getElementById("vn-dialogue-bar").style.transition = "opacity 0.8s ease";
@@ -700,12 +685,27 @@ function handleEndEffect(step, stepIndex) {
             spriteWrap.style.pointerEvents = "none";
         }
         
-        if (activeScript === vnScript) {
-            const spotlightOverlay = document.getElementById("spotlight-overlay");
-            if (spotlightOverlay) {
-                spotlightOverlay.style.opacity = "0";
-                document.querySelectorAll(".desktop-icon.spotlighted").forEach(el => el.classList.remove("spotlighted"));
-            }
+        const spotlightOverlay = document.getElementById("spotlight-overlay");
+        if (spotlightOverlay) {
+            spotlightOverlay.style.opacity = "0";
+            document.querySelectorAll(".desktop-icon.spotlighted").forEach(el => el.classList.remove("spotlighted"));
+        }
+        
+        // Show Style Toggle button
+        document.getElementById("btn-style").style.display = "inline-block";
+
+    } else if (step.effectAtEnd === "finish_style_dialogue") {
+        if (advanceTimeout) clearTimeout(advanceTimeout);
+        finishTyping();
+        document.getElementById("vn-dialogue-bar").style.transition = "opacity 0.8s ease";
+        document.getElementById("vn-dialogue-bar").style.opacity = "0";
+        document.getElementById("vn-dialogue-bar").style.pointerEvents = "none";
+        
+        const spriteWrap = document.querySelector(".vn-character-wrap");
+        if (spriteWrap) {
+            spriteWrap.style.transition = "opacity 0.8s ease, transform 0.8s ease, left 0.8s ease";
+            spriteWrap.style.opacity = "0";
+            spriteWrap.style.pointerEvents = "none";
         }
     } else {
         autoAdvance(stepIndex);
@@ -726,7 +726,7 @@ function finishTyping() {
     if (isTyping && typeTimer) {
         clearInterval(typeTimer);
         typeTimer = null;
-        textEl.textContent = activeScript[currentStep].text;
+        textEl.textContent = vnScript[currentStep].text;
         isTyping = false;
     }
 }
