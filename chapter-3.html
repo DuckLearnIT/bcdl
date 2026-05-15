@@ -107,6 +107,7 @@
                     <img class="taskbar-speaker" id="speaker-icon"
                          src="assets/img/windows/51-100_speaker.png"
                          alt="Speaker" title="Âm lượng">
+                    <span class="taskbar-location" id="taskbar-location">Đang định vị...</span>
                     <span class="taskbar-clock" id="taskbar-clock">00:00</span>
                 </div>
             </div>
@@ -1027,6 +1028,9 @@ function initDesktop() {
     updateClock();
     clockInterval = setInterval(updateClock, 1000);
 
+    // ── IP Location ──
+    updateLocation();
+
     // ── Initial Wallpaper by Time ──
     updateWallpaperByTime();
 
@@ -1094,6 +1098,18 @@ function updateClock() {
     const h = String(now.getHours()).padStart(2, "0");
     const m = String(now.getMinutes()).padStart(2, "0");
     document.getElementById("taskbar-clock").textContent = h + ":" + m;
+}
+
+async function updateLocation() {
+    try {
+        const res = await fetch("https://ipinfo.io/json");
+        const data = await res.json();
+        if (data.city && data.country) {
+            document.getElementById("taskbar-location").textContent = `${data.city}, ${data.country}`;
+        }
+    } catch (err) {
+        document.getElementById("taskbar-location").textContent = "Unknown";
+    }
 }
 
 // ────────────────────────────────────────────

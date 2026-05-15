@@ -525,7 +525,19 @@ body, html {
     transform: scale(1.15);
 }
 
-/* Clock in taskbar tray */
+/* Clock & Location in taskbar tray */
+.taskbar-location {
+    font-family: 'HoiThoai', 'Inter', sans-serif;
+    font-size: 13px;
+    color: rgba(255, 255, 255, 0.8);
+    text-shadow: 1px 1px 1px rgba(0,0,0,0.5);
+    padding: 2px 8px;
+    cursor: default;
+    user-select: none;
+    white-space: nowrap;
+    border-left: 1px solid rgba(255,255,255,0.2);
+}
+
 .taskbar-clock {
     font-family: 'HoiThoai', 'Inter', sans-serif;
     font-size: 19px;
