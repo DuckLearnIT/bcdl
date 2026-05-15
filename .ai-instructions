@@ -37,7 +37,12 @@ Tài liệu hướng dẫn ngắn gọn về cấu trúc và quy chuẩn của d
 
 ## 🧠 Luật Chơi cho AI (Core Rules)
 1. **Giữ nguyên Offline Assets**: Không tự ý trỏ link CDN ra ngoài trừ khi bắt buộc. Luôn kiểm tra và dùng asset trong thư mục `assets/` (audio, img, css, js).
-2. **Không thay đổi cấu trúc VnExpress gốc**: Đối với những trang báo tĩnh, chỉ sửa phần header/footer điều hướng sang `index.html`, giữ nguyên layout tin tức gốc.
-3. **Độc lập logic Kể chuyện**: Các kịch bản animation phức tạp hoặc hệ thống hội thoại (Visual Novel) nên được đóng gói gọn gàng thành các module riêng biệt (như `dialogue-fit.js`, `visual-novel.js`).
-4. **Tối ưu hiệu năng**: External hóa CSS/JS ra các file trong `assets/` thay vì để inline trong HTML.
-5. **GPU Acceleration**: Luôn ưu tiên dùng `transform` (translate, scale) và `opacity` cho animation.
+2. **Ngoại lệ API**: Cho phép sử dụng `https://ipinfo.io/json` để lấy thông tin vị trí người dùng (Taskbar Location).
+3. **Không thay đổi cấu trúc VnExpress gốc**: Đối với những trang báo tĩnh, chỉ sửa phần header/footer điều hướng sang `index.html`, giữ nguyên layout tin tức gốc.
+4. **Độc lập logic Kể chuyện**: Các kịch bản animation phức tạp hoặc hệ thống hội thoại (Visual Novel) nên được đóng gói gọn gàng thành các module riêng biệt (như `dialogue-fit.js`, `visual-novel.js`).
+5. **Tối ưu hiệu năng**: External hóa CSS/JS ra các file trong `assets/` thay vì để inline trong HTML.
+6. **Windows UI Features (Chapter 3)**: 
+   - **Taskbar**: Đồng hồ kích thước 19px, hiển thị vị trí (Location) dựa trên IP.
+   - **Desktop Icons**: Phải hỗ trợ kéo thả (Draggable) thông qua logic JS tọa độ tuyệt đối (absolute positioning).
+   - **Donate App**: Sử dụng ảnh QR cục bộ (`assets/img/windows/qr.jpg`) với hiệu ứng scale/position phù hợp.
+7. **GPU Acceleration**: Luôn ưu tiên dùng `transform` (translate, scale) và `opacity` cho animation.

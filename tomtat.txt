@@ -22,9 +22,12 @@
 - GPU Acceleration: Sử dụng transform: translate() cho phase di chuyển để mượt mà 60fps.
 
 ## 4. Tài liệu chỉ dẫn (.ai-instructions)
-- Đã tạo và cập nhật tệp `.ai-instructions` ở thư mục gốc chứa toàn bộ "luật chơi": cấu trúc thư mục, quy chuẩn đặt tên, và triết lý code.
+- Đã tạo và cập nhật tệp `.ai-instructions` ở thư mục gốc chứa toàn bộ "luật chơi" mới nhất.
 
 ## 5. Trạng thái hiện tại (Current Status)
 - Dự án đã mở rộng từ Scrollytelling đơn thuần sang kết hợp Visual Novel.
-- Đã có sẵn tài nguyên lồng tiếng, nhân vật, giao diện hệ điều hành cũ (window login, desktop).
+- Hệ thống Windows Desktop (Chapter 3) đã hoàn thiện các tính năng:
+  - **Donate App**: Tích hợp thông tin Techcombank, QR code cá nhân (`qr.jpg`) với hiệu ứng zoom/fit.
+  - **Taskbar Enhancements**: Đồng hồ kích thước lớn (19px) và hiển thị vị trí người dùng dựa trên IP (`ipinfo.io`).
+  - **Interactive Desktop**: Hỗ trợ kéo thả (drag-and-drop) các icon trên màn hình nền.
 - Sẵn sàng phát triển các phân cảnh tiếp theo, tối ưu hoặc tích hợp sâu hơn visual novel vào cốt truyện.
