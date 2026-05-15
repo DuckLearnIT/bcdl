@@ -543,22 +543,26 @@ function displayStep(stepIndex) {
 // ────────────────────────────────────────────
 //  HANDLE END-OF-STEP EFFECTS
 // ────────────────────────────────────────────
+let isCutscene = false;
+
 function handleEndEffect(step, stepIndex) {
     if (step.effectAtEnd === "transform") {
-        // Fingersnap SFX + Flash → pixel→normal transition
+        isCutscene = true;
         sfxSnap.currentTime = 0;
         sfxSnap.play();
         flashEl.classList.add("active");
         if (advanceTimeout) clearTimeout(advanceTimeout);
-        advanceTimeout = setTimeout(() => {
+        setTimeout(() => {
             flashEl.classList.remove("active");
+            isCutscene = false;
             autoAdvance(stepIndex);
         }, 700);
 
     } else if (step.effectAtEnd === "windows") {
         // Show Windows desktop
+        isCutscene = true;
         if (advanceTimeout) clearTimeout(advanceTimeout);
-        advanceTimeout = setTimeout(() => {
+        setTimeout(() => {
             finishTyping();
             document.getElementById("vn-dialogue-bar").style.transition = "opacity 0.8s ease";
             document.getElementById("vn-dialogue-bar").style.opacity = "0";
@@ -566,15 +570,16 @@ function handleEndEffect(step, stepIndex) {
             spriteEl.style.transition = "opacity 0.8s ease";
             spriteEl.style.opacity = "0";
 
-            advanceTimeout = setTimeout(() => {
+            setTimeout(() => {
                 winDesktop.classList.add("visible");
                 initDesktop();
                 
                 // Wait 3 seconds, then bring Amy back for the guide
-                advanceTimeout = setTimeout(() => {
+                setTimeout(() => {
                     document.getElementById("vn-dialogue-bar").style.opacity = "1";
                     document.getElementById("vn-dialogue-bar").style.pointerEvents = "all";
                     spriteEl.style.opacity = "1";
+                    isCutscene = false;
                     advanceDialogue(true);
                 }, 3000);
             }, 900);
@@ -612,6 +617,7 @@ function finishTyping() {
 //  ADVANCE (click or auto)
 // ────────────────────────────────────────────
 function advanceDialogue(auto = false) {
+    if (isCutscene) return;
     if (advanceTimeout) {
         clearTimeout(advanceTimeout);
         advanceTimeout = null;
