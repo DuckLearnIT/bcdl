@@ -135,7 +135,7 @@
       passwordRow.classList.remove('shake');
       void passwordRow.offsetWidth; // trigger reflow
       passwordRow.classList.add('shake');
-      errorMsg.textContent = 'Sai mật khẩu. Thử lại!';
+      errorMsg.textContent = 'Sai mật khẩu. Thử lại (không biết 2017 có đúng không nhỉ)!';
       errorMsg.classList.add('visible');
       passwordInput.value = '';
       passwordInput.focus();
