@@ -357,9 +357,9 @@ let isAutoMode = false;
 let dialogueHistory = [];
 let advanceTimeout = null;
 
-let isPixelStyle = true; // Start in Pixel style
+let isPixelStyle = false; // Start in normal after transition
+let userStyleOverride = false; // Only apply style replacement if user explicitly toggles
 let hasSeenStyleDialogue = false;
-let isTransitioning = false; // Flag to prevent multiple clicks during effects
 
 const audio       = document.getElementById("vn-audio");
 const sfxSnap     = document.getElementById("sfx-snap");
@@ -401,6 +401,7 @@ function toggleAuto(e) {
 
 function toggleStyle(e) {
     if (e) e.stopPropagation();
+    userStyleOverride = true;
     isPixelStyle = !isPixelStyle;
     
     // Update sprite instantly if visible
@@ -529,6 +530,7 @@ function playAnim(animName) {
 // ────────────────────────────────────────────
 function displayStep(stepIndex) {
     if (stepIndex >= vnScript.length) return;
+    window.isEffectRunning = false;
 
     const step = vnScript[stepIndex];
     currentStepText = step.text;
@@ -573,10 +575,12 @@ function displayStep(stepIndex) {
 
     // Apply current style to the image path if appropriate
     let newSrc = step.pose;
-    if (isPixelStyle && newSrc.includes('/normal/')) {
-        newSrc = newSrc.replace('/normal/', '/pixel/');
-    } else if (!isPixelStyle && newSrc.includes('/pixel/')) {
-        newSrc = newSrc.replace('/pixel/', '/normal/');
+    if (userStyleOverride) {
+        if (isPixelStyle && newSrc.includes('/normal/')) {
+            newSrc = newSrc.replace('/normal/', '/pixel/');
+        } else if (!isPixelStyle && newSrc.includes('/pixel/')) {
+            newSrc = newSrc.replace('/pixel/', '/normal/');
+        }
     }
 
     // Update sprite
@@ -657,23 +661,20 @@ function displayStep(stepIndex) {
 //  HANDLE END-OF-STEP EFFECTS
 // ────────────────────────────────────────────
 function handleEndEffect(step, stepIndex) {
+    window.isEffectRunning = true;
     if (step.effectAtEnd === "transform") {
         // Fingersnap SFX + Flash → pixel→normal transition
-        isTransitioning = true;
-        isPixelStyle = false; // Switch to 2D after this
         sfxSnap.currentTime = 0;
         sfxSnap.play();
         flashEl.classList.add("active");
         if (advanceTimeout) clearTimeout(advanceTimeout);
         advanceTimeout = setTimeout(() => {
             flashEl.classList.remove("active");
-            isTransitioning = false;
             autoAdvance(stepIndex);
         }, 700);
 
     } else if (step.effectAtEnd === "windows") {
         // Show Windows desktop
-        isTransitioning = true;
         if (advanceTimeout) clearTimeout(advanceTimeout);
         advanceTimeout = setTimeout(() => {
             finishTyping();
@@ -692,7 +693,6 @@ function handleEndEffect(step, stepIndex) {
                     document.getElementById("vn-dialogue-bar").style.opacity = "1";
                     document.getElementById("vn-dialogue-bar").style.pointerEvents = "all";
                     spriteEl.style.opacity = "1";
-                    isTransitioning = false;
                     advanceDialogue(true);
                 }, 3000);
             }, 900);
@@ -762,8 +762,6 @@ function finishTyping() {
 //  ADVANCE (click or auto)
 // ────────────────────────────────────────────
 function advanceDialogue(auto = false) {
-    if (isTransitioning) return; // Ignore clicks during transitions
-    
     if (advanceTimeout) {
         clearTimeout(advanceTimeout);
         advanceTimeout = null;
@@ -777,8 +775,20 @@ function advanceDialogue(auto = false) {
             if (isAutoMode) checkAutoAdvance();
         }
     } else {
-        // If we are at the System Guide step, clicking to advance should finish tutorial
-        if (vnScript[currentStep].effectAtEnd === "finish_tutorial") {
+        const effect = vnScript[currentStep].effectAtEnd;
+        if (effect === "windows" || effect === "transform" || effect === "finish_tutorial" || effect === "finish_style_dialogue") {
+            if (window.isEffectRunning) return;
+            window.isEffectRunning = true;
+            
+            // Stop audio if user manually skips to effect
+            if (audio) {
+                audio.pause();
+                audio.onended = null;
+            }
+            if (audioTimeCheckInterval) {
+                clearInterval(audioTimeCheckInterval);
+                audioTimeCheckInterval = null;
+            }
             handleEndEffect(vnScript[currentStep], currentStep);
             return;
         }
