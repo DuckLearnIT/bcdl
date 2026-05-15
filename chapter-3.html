@@ -33,7 +33,7 @@
                 <div class="vn-text" id="vn-text"></div>
                 <!-- Controls -->
                 <div class="vn-controls">
-                    <button class="vn-control-btn" id="btn-mute" onclick="toggleMute(event)">Mute</button>
+                    <button class="vn-control-btn" id="btn-mute" onclick="toggleMute(event)" title="Bật/Tắt âm thanh">🔊</button>
                     <button class="vn-control-btn" id="btn-auto" onclick="toggleAuto(event)">Auto</button>
                     <button class="vn-control-btn" id="btn-log" onclick="openLog(event)">Log</button>
                 </div>
@@ -221,7 +221,7 @@ const vnScript = [
     // ── Post Windows Tutorial ──
     {
         name: "Amy",
-        text: "Ơ... từ từ đã... Khoan đừng nhìn kỹ quá nhé...",
+        text: "Ơ... từ từ đã... Khoan... Hình như có gì đó sai sai... đừng nhìn kỹ quá nhé!",
         pose: NORMAL + "surprise.png",
         audio: "assets/audio/Dialougue/1.1.wav",
         anim: "shake",
@@ -230,14 +230,15 @@ const vnScript = [
     {
         name: "Amy",
         text: "Nhìn kỹ lại thì... phong cảnh này... mấy đám mây này... nó không được giống bản gốc cho lắm nhỉ...",
-        pose: NORMAL + "thinking.png",
+        pose: NORMAL + "confused.png",
         audio: "assets/audio/Dialougue/1.3.wav",
+        anim: "nod",
         side: "right"
     },
     {
         name: "Amy",
-        text: "Á!! Xin lỗi bạn! Thật ra lúc nãy hệ thống bị hụt RAM đột xuất, file ảnh gốc không load được nên... nên mình đành phải tự lấy chuột vẽ tay cái hình nền này đó... Đừng cười mình nha, mình dở môn mỹ thuật lắm!",
-        pose: NORMAL + "sad.png",
+        text: "Á!! Xin lỗi bạn! Thật ra lúc nãy hệ thống bị hụt RAM đột xuất, file ảnh gốc không load được nên đành phải tự lấy chuột vẽ tay cái hình nền này đó... Đừng cười mình nha, mình dở môn mỹ thuật lắm!",
+        pose: NORMAL + "shy.png",
         audio: "assets/audio/Dialougue/1.2.wav",
         anim: "shake",
         side: "right"
@@ -256,8 +257,8 @@ const vnScript = [
         pose: NORMAL + "confused.png",
         audio: "assets/audio/Dialougue/1.5.wav",
         anim: "shake",
-        side: "right",
-        highlightApps: ["my_computer", "paint", "settings"]
+        highlightApps: ["my_computer", "paint", "settings"],
+        side: "right"
     },
     {
         name: "Amy",
@@ -265,8 +266,8 @@ const vnScript = [
         pose: NORMAL + "pointout.png",
         audio: "assets/audio/Dialougue/1.6.wav",
         anim: "hop",
-        side: "right",
-        highlightApps: ["calendar", "album"]
+        highlightApps: ["calendar", "album"],
+        side: "right"
     },
     {
         name: "Amy",
@@ -274,8 +275,17 @@ const vnScript = [
         pose: NORMAL + "smile.png",
         audio: "assets/audio/Dialougue/1.7.wav",
         anim: "nod",
-        side: "right",
-        highlightApps: ["notepad"]
+        highlightApps: ["notepad"],
+        side: "right"
+    },
+    {
+        name: "Amy",
+        text: "Tiếp theo, hãy chú ý vào icon News có hình tờ báo. Đây là phần quan trọng nhất của toàn bộ hệ thống! Bạn có thể dùng nó để đọc báo chí, cập nhật tin tức và truy xuất dữ liệu. Trung tâm tình báo của chúng ta nằm cả ở đấy!",
+        pose: NORMAL + "serious.png",
+        audio: null,
+        anim: "hop",
+        highlightApps: ["news"],
+        side: "right"
     },
     {
         name: "Amy",
@@ -293,7 +303,8 @@ const vnScript = [
         audio: "assets/audio/Dialougue/1.9.wav",
         anim: "hop",
         highlightApps: [],
-        side: "right"
+        side: "right",
+        effectAtEnd: "finish_tutorial"
     }
 ];
 
@@ -306,7 +317,6 @@ let audioTimeCheckInterval = null;
 let isAutoMode = false;
 let dialogueHistory = [];
 let advanceTimeout = null;
-let isMuted = false;
 
 const audio       = document.getElementById("vn-audio");
 const sfxSnap     = document.getElementById("sfx-snap");
@@ -346,8 +356,20 @@ function toggleAuto(e) {
     }
 }
 
-function openLog(event) {
-    if (event) event.stopPropagation();
+let isMuted = false;
+function toggleMute(e) {
+    if (e) e.stopPropagation();
+    isMuted = !isMuted;
+    if (audio) audio.muted = isMuted;
+    if (sfxSnap) sfxSnap.muted = isMuted;
+    const btnMute = document.getElementById("btn-mute");
+    if (btnMute) {
+        btnMute.textContent = isMuted ? "🔇" : "🔊";
+    }
+}
+
+function openLog(e) {
+    if (e) e.stopPropagation();
     logBody.innerHTML = "";
     dialogueHistory.forEach(entry => {
         const div = document.createElement("div");
@@ -361,14 +383,6 @@ function openLog(event) {
 
 function closeLog() {
     logModal.classList.remove("visible");
-}
-
-function toggleMute(event) {
-    if (event) event.stopPropagation();
-    isMuted = !isMuted;
-    document.getElementById("btn-mute").textContent = isMuted ? "Unmute" : "Mute";
-    audio.muted = isMuted;
-    sfxSnap.muted = isMuted;
 }
 
 function checkAutoAdvance() {
@@ -543,26 +557,22 @@ function displayStep(stepIndex) {
 // ────────────────────────────────────────────
 //  HANDLE END-OF-STEP EFFECTS
 // ────────────────────────────────────────────
-let isCutscene = false;
-
 function handleEndEffect(step, stepIndex) {
     if (step.effectAtEnd === "transform") {
-        isCutscene = true;
+        // Fingersnap SFX + Flash → pixel→normal transition
         sfxSnap.currentTime = 0;
         sfxSnap.play();
         flashEl.classList.add("active");
         if (advanceTimeout) clearTimeout(advanceTimeout);
-        setTimeout(() => {
+        advanceTimeout = setTimeout(() => {
             flashEl.classList.remove("active");
-            isCutscene = false;
             autoAdvance(stepIndex);
         }, 700);
 
     } else if (step.effectAtEnd === "windows") {
         // Show Windows desktop
-        isCutscene = true;
         if (advanceTimeout) clearTimeout(advanceTimeout);
-        setTimeout(() => {
+        advanceTimeout = setTimeout(() => {
             finishTyping();
             document.getElementById("vn-dialogue-bar").style.transition = "opacity 0.8s ease";
             document.getElementById("vn-dialogue-bar").style.opacity = "0";
@@ -570,27 +580,41 @@ function handleEndEffect(step, stepIndex) {
             spriteEl.style.transition = "opacity 0.8s ease";
             spriteEl.style.opacity = "0";
 
-            setTimeout(() => {
+            advanceTimeout = setTimeout(() => {
                 winDesktop.classList.add("visible");
                 initDesktop();
                 
                 // Wait 3 seconds, then bring Amy back for the guide
-                setTimeout(() => {
+                advanceTimeout = setTimeout(() => {
                     document.getElementById("vn-dialogue-bar").style.opacity = "1";
                     document.getElementById("vn-dialogue-bar").style.pointerEvents = "all";
                     spriteEl.style.opacity = "1";
-                    isCutscene = false;
                     advanceDialogue(true);
                 }, 3000);
             }, 900);
         }, 1500);
 
-    } else {
-        if (isAutoMode) {
-            autoAdvance(stepIndex);
-        } else {
-            indicator.classList.add("visible");
+    } else if (step.effectAtEnd === "finish_tutorial") {
+        if (advanceTimeout) clearTimeout(advanceTimeout);
+        finishTyping();
+        document.getElementById("vn-dialogue-bar").style.transition = "opacity 0.8s ease";
+        document.getElementById("vn-dialogue-bar").style.opacity = "0";
+        document.getElementById("vn-dialogue-bar").style.pointerEvents = "none";
+        
+        const spriteWrap = document.querySelector(".vn-character-wrap");
+        if (spriteWrap) {
+            spriteWrap.style.transition = "opacity 0.8s ease, transform 0.8s ease, left 0.8s ease";
+            spriteWrap.style.opacity = "0";
+            spriteWrap.style.pointerEvents = "none";
         }
+        
+        const spotlightOverlay = document.getElementById("spotlight-overlay");
+        if (spotlightOverlay) {
+            spotlightOverlay.style.opacity = "0";
+            document.querySelectorAll(".desktop-icon.spotlighted").forEach(el => el.classList.remove("spotlighted"));
+        }
+    } else {
+        autoAdvance(stepIndex);
     }
 }
 
@@ -617,27 +641,11 @@ function finishTyping() {
 //  ADVANCE (click or auto)
 // ────────────────────────────────────────────
 function advanceDialogue(auto = false) {
-    if (isCutscene) return;
     if (advanceTimeout) {
         clearTimeout(advanceTimeout);
         advanceTimeout = null;
     }
-    
-    if (currentStep >= vnScript.length - 1 && !isTyping) {
-        // HIDE everything to free the user
-        document.getElementById("vn-dialogue-bar").style.opacity = "0";
-        document.getElementById("vn-dialogue-bar").style.pointerEvents = "none";
-        spriteEl.style.opacity = "0";
-        
-        const spotlightOverlay = document.getElementById("spotlight-overlay");
-        if (spotlightOverlay) {
-            spotlightOverlay.style.opacity = "0";
-            document.querySelectorAll(".desktop-icon.spotlighted").forEach(el => el.classList.remove("spotlighted"));
-        }
-        
-        audio.pause();
-        return;
-    }
+    if (currentStep >= vnScript.length - 1 && !isTyping) return;
     
     if (isTyping) {
         if (!auto) {
