@@ -33,6 +33,7 @@
                 <div class="vn-text" id="vn-text"></div>
                 <!-- Controls -->
                 <div class="vn-controls">
+                    <button class="vn-control-btn" id="btn-mute" onclick="toggleMute(event)">Mute</button>
                     <button class="vn-control-btn" id="btn-auto" onclick="toggleAuto(event)">Auto</button>
                     <button class="vn-control-btn" id="btn-log" onclick="openLog(event)">Log</button>
                 </div>
@@ -307,6 +308,7 @@ let audioTimeCheckInterval = null;
 let isAutoMode = false;
 let dialogueHistory = [];
 let advanceTimeout = null;
+let isMuted = false;
 
 const audio       = document.getElementById("vn-audio");
 const sfxSnap     = document.getElementById("sfx-snap");
@@ -346,8 +348,8 @@ function toggleAuto(e) {
     }
 }
 
-function openLog(e) {
-    if (e) e.stopPropagation();
+function openLog(event) {
+    if (event) event.stopPropagation();
     logBody.innerHTML = "";
     dialogueHistory.forEach(entry => {
         const div = document.createElement("div");
@@ -361,6 +363,14 @@ function openLog(e) {
 
 function closeLog() {
     logModal.classList.remove("visible");
+}
+
+function toggleMute(event) {
+    if (event) event.stopPropagation();
+    isMuted = !isMuted;
+    document.getElementById("btn-mute").textContent = isMuted ? "Unmute" : "Mute";
+    audio.muted = isMuted;
+    sfxSnap.muted = isMuted;
 }
 
 function checkAutoAdvance() {
@@ -573,7 +583,11 @@ function handleEndEffect(step, stepIndex) {
         }, 1500);
 
     } else {
-        autoAdvance(stepIndex);
+        if (isAutoMode) {
+            autoAdvance(stepIndex);
+        } else {
+            indicator.classList.add("visible");
+        }
     }
 }
 
@@ -604,7 +618,22 @@ function advanceDialogue(auto = false) {
         clearTimeout(advanceTimeout);
         advanceTimeout = null;
     }
-    if (currentStep >= vnScript.length - 1 && !isTyping) return;
+    
+    if (currentStep >= vnScript.length - 1 && !isTyping) {
+        // HIDE everything to free the user
+        document.getElementById("vn-dialogue-bar").style.opacity = "0";
+        document.getElementById("vn-dialogue-bar").style.pointerEvents = "none";
+        spriteEl.style.opacity = "0";
+        
+        const spotlightOverlay = document.getElementById("spotlight-overlay");
+        if (spotlightOverlay) {
+            spotlightOverlay.style.opacity = "0";
+            document.querySelectorAll(".desktop-icon.spotlighted").forEach(el => el.classList.remove("spotlighted"));
+        }
+        
+        audio.pause();
+        return;
+    }
     
     if (isTyping) {
         if (!auto) {
