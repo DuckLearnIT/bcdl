@@ -12,15 +12,8 @@
 <!-- Flash overlay -->
 <div class="flash-overlay" id="flash-overlay"></div>
 
-<!-- Start Screen -->
-<div class="start-screen" id="start-screen">
-    <h1>Chapter 3</h1>
-    <p>Hãy bật âm thanh để có trải nghiệm tốt nhất.</p>
-    <button class="start-btn" onclick="startChapter()">Bắt đầu</button>
-</div>
-
-<!-- Main VN Scene -->
-<div class="vn-container" id="vn-container" style="display: none;">
+<!-- Main VN Scene — shows immediately, no start screen -->
+<div class="vn-container" id="vn-container">
 
     <!-- Background (white) -->
     <div class="vn-background"></div>
@@ -30,21 +23,91 @@
         <img id="vn-sprite" class="vn-sprite" src="assets/img/amy/pixel/surprise.png" alt="Amy">
     </div>
 
-    <!-- Dialogue Bar — dialogue_bar.png -->
+    <!-- Dialogue Bar — pixel-perfect replica of dialogue_bar.png -->
     <div class="vn-dialogue-bar" id="vn-dialogue-bar" onclick="advanceDialogue()">
-        <div class="vn-dialogue-inner">
-            <img class="bar-bg" src="assets/img/dialogue_bar.png" alt="">
-            <div class="vn-name" id="vn-name">Amy</div>
-            <div class="vn-text" id="vn-text"></div>
-            <div class="vn-next-indicator" id="vn-indicator">▼</div>
+        <div class="vn-dialogue-frame">
+            <div class="vn-name-strip">
+                <span class="vn-name" id="vn-name">Amy</span>
+            </div>
+            <div class="vn-text-area">
+                <div class="vn-text" id="vn-text"></div>
+                <!-- Controls -->
+                <div class="vn-controls">
+                    <button class="vn-control-btn" id="btn-auto" onclick="toggleAuto(event)">Auto</button>
+                    <button class="vn-control-btn" id="btn-log" onclick="openLog(event)">Log</button>
+                </div>
+                <div class="vn-next-indicator" id="vn-indicator">▼</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Log Modal -->
+    <div class="vn-log-modal" id="vn-log-modal" onclick="closeLog()">
+        <div class="vn-log-content" onclick="event.stopPropagation()">
+            <div class="vn-log-header">
+                <span>LỊCH SỬ HỘI THOẠI</span>
+                <span class="vn-log-close" onclick="closeLog()">&times;</span>
+            </div>
+            <div class="vn-log-body" id="vn-log-body">
+                <!-- Log entries injected here -->
+            </div>
         </div>
     </div>
 
     <!-- Windows Desktop (shown after dialogue ends) -->
     <div class="windows-desktop" id="windows-desktop">
-        <div class="windows-wallpaper" style="background-image: url('assets/img/windows/nen.png');"></div>
+        <div class="windows-wallpaper" id="windows-wallpaper" style="background-image: url('assets/img/windows/nen.png');">
+            <div class="desktop-spotlight-overlay" id="spotlight-overlay"></div>
+            <!-- Desktop Icons -->
+            <div class="desktop-icon" data-app="my_computer" title="My Computer">
+                <img src="assets/img/windows/my_computer.png" alt="My Computer">
+                <span>My Computer</span>
+            </div>
+            <div class="desktop-icon" data-app="paint" title="Paint">
+                <img src="assets/img/windows/paint.png" alt="Paint">
+                <span>Paint</span>
+            </div>
+            <div class="desktop-icon" data-app="calendar" title="Calendar">
+                <img src="assets/img/windows/calendar.png" alt="Calendar">
+                <span>Calendar</span>
+            </div>
+            <div class="desktop-icon" data-app="album" title="Album">
+                <img src="assets/img/windows/album.png" alt="Album">
+                <span>Album</span>
+            </div>
+            <div class="desktop-icon" data-app="notepad" title="Notepad">
+                <img src="assets/img/windows/notepad.png" alt="Notepad">
+                <span>Notepad</span>
+            </div>
+            <div class="desktop-icon" data-app="news" title="News">
+                <img src="assets/img/windows/news_icon.png" alt="News">
+                <span>News</span>
+            </div>
+            <div class="desktop-icon" data-app="settings" title="Settings">
+                <img src="assets/img/windows/setting.png" alt="Settings">
+                <span>Settings</span>
+            </div>
+            <div class="desktop-icon" data-app="donate" title="Donate">
+                <img src="assets/img/windows/donate.png" alt="Donate">
+                <span>Donate</span>
+            </div>
+        </div>
         <div class="windows-taskbar">
-            <img src="assets/img/windows/taskbar.png" alt="Taskbar">
+            <img class="windows-taskbar-bg" src="assets/img/windows/taskbar.png" alt="Taskbar">
+            <div class="taskbar-controls">
+                <button class="taskbar-start-btn" id="btn-start" title="Start — Tắt trình duyệt">
+                    <img src="assets/img/windows/taksbar_start.png" alt="Start">
+                </button>
+                <div class="taskbar-windows" id="taskbar-windows">
+                    <!-- Open window buttons appear here -->
+                </div>
+                <div class="taskbar-tray">
+                    <img class="taskbar-speaker" id="speaker-icon"
+                         src="assets/img/windows/51-100_speaker.png"
+                         alt="Speaker" title="Âm lượng">
+                    <span class="taskbar-clock" id="taskbar-clock">00:00</span>
+                </div>
+            </div>
         </div>
     </div>
 
@@ -54,25 +117,18 @@
 <audio id="vn-audio"></audio>
 <audio id="sfx-snap" src="assets/audio/SFX/fingersnap.mp3" preload="auto"></audio>
 
-<script src="assets/js/dialogue-fit.js"></script>
 <script>
 // ================================================================
 //  KỊCH BẢN — Dựa trên hoithoai.txt
-//  7 audio files → 7 dialogue steps
+//  Audio 5 split into 4 dialogue steps (5a–5d) sharing same audio
 //  Pixel poses trước "Tada~!", Normal poses sau đó
 // ================================================================
 
 const PIXEL = "assets/img/amy/pixel/";
 const NORMAL = "assets/img/amy/normal/";
-const TEXT_FIT_OPTIONS = {
-    minFontPx: 10,
-    maxFontPx: 24,
-    minLineHeight: 1.18,
-    maxLineHeight: 1.45
-};
 
 const vnScript = [
-    // ── Audio 1 (6s) — Lines 1+2: Ngạc nhiên + bối rối ──
+    // ── Audio 1 (6s) — Ngạc nhiên + bối rối ──
     {
         name: "Amy",
         text: "Ơ kìa...? Tín hiệu kết nối đã được thiết lập rồi sao? A! Có người dùng đang ở đầu dây bên kia! Xin lỗi, mình không nghĩ là bạn lại log-in vào sớm như vậy!",
@@ -80,7 +136,7 @@ const vnScript = [
         audio: "assets/audio/Dialougue/1.wav",
         anim: "enter"
     },
-    // ── Audio 2 (10s) — Line 3: Chào hỏi vui vẻ ──
+    // ── Audio 2 (10s) — Chào hỏi vui vẻ ──
     {
         name: "Amy",
         text: "Khụ... Xin chào! Rất vui được gặp bạn. Chào mừng bạn đã truy cập vào hệ thống. Mình là Amy, từ nay sẽ chịu trách nhiệm hỗ trợ bạn trong vùng không gian này.",
@@ -88,7 +144,7 @@ const vnScript = [
         audio: "assets/audio/Dialougue/2.wav",
         anim: "hop"
     },
-    // ── Audio 3 (6s) — Line 4: Bối rối nhận ra lỗi ──
+    // ── Audio 3 (6s) — Bối rối nhận ra lỗi ──
     {
         name: "Amy",
         text: "Nhưng mà... khoan đã. Hình như có gì đó sai sai ở luồng dữ liệu hiển thị thì phải?",
@@ -96,7 +152,7 @@ const vnScript = [
         audio: "assets/audio/Dialougue/3.wav",
         anim: "lean"
     },
-    // ── Audio 4 (4s) — Line 5: Nhìn xuống bản thân ──
+    // ── Audio 4 (4s) — Nhìn xuống bản thân ──
     {
         name: "Amy",
         text: "Sao góc nhìn của bạn... lại thấy mình... vuông vức thế này?",
@@ -104,31 +160,141 @@ const vnScript = [
         audio: "assets/audio/Dialougue/4.wav",
         anim: "shake"
     },
-    // ── Audio 5 (26s) — Lines 6+7+8+9: Kiểm tra, tìm lỗi, snap ──
+    // ── Audio 5a — Kiểm tra log ──
     {
         name: "Amy",
-        text: "Để mình kiểm tra lại log hệ thống một chút nhé. Lạ thật, rõ ràng mình đã render xong model nhân vật độ phân giải cao rồi mà nhỉ... Do thiếu RAM chăng? Hay do bộ nhớ đệm bị đầy? Aha! Tìm ra lỗi rồi! Là do mình quên chưa tắt chế độ 'Khởi động an toàn tiết kiệm tài nguyên'. Thật là một sai sót ngớ ngẩn... Bạn nhắm mắt lại 1 giây nhé, để mình nạp lại file giao diện. Khôi phục dữ liệu gốc. Cập nhật!",
-        pose: PIXEL + "pointout.png",
+        text: "Để mình kiểm tra lại log hệ thống một chút nhé.",
+        pose: PIXEL + "thinking.png",
         audio: "assets/audio/Dialougue/5.wav",
-        anim: "shake",
-        effectAtEnd: "transform"   // Flash + fingersnap → pixel→normal
+        audioStartTime: 0,
+        audioEndTime: 5,
+        anim: "nod",
+        noAutoAdvanceAudio: true
     },
-    // ── Audio 6 (10s) — Lines 10+11: Tada! HD! ──
+    // ── Audio 5b — Lạ thật... bộ nhớ đệm bị đầy ──
+    {
+        name: "Amy",
+        text: "Lạ thật, rõ ràng mình đã render xong model nhân vật độ phân giải cao rồi mà nhỉ... Do thiếu RAM chăng? Hay do bộ nhớ đệm bị đầy?",
+        pose: PIXEL + "thinking.png",
+        audioResume: true,
+        audioEndTime: 13,
+        anim: "shake",
+        noAutoAdvanceAudio: true
+    },
+    // ── Audio 5c — Aha... tài nguyên ──
+    {
+        name: "Amy",
+        text: "Aha! Tìm ra lỗi rồi! Là do mình quên chưa tắt chế độ 'Khởi động an toàn tiết kiệm tài nguyên'.",
+        pose: PIXEL + "pointout.png",
+        audioResume: true,
+        audioEndTime: 19,
+        anim: "hop",
+        noAutoAdvanceAudio: true
+    },
+    // ── Audio 5d — Thật là... giao diện ──
+    {
+        name: "Amy",
+        text: "Thật là một sai sót ngớ ngẩn... Bạn nhắm mắt lại 1 giây nhé, để mình nạp lại file giao diện. Khôi phục dữ liệu gốc. Cập nhật!",
+        pose: PIXEL + "default.png",
+        audioResume: true,
+        anim: "shake",
+        effectAtEnd: "transform"
+    },
+    // ── Audio 6 (10s) — Tada! HD! ──
     {
         name: "Amy",
         text: "Tada~! Bạn nhìn thấy mình rõ hơn rồi chứ? Giao diện 2D High-Resolution này tốn công ép xung hệ thống lắm đấy nhé! Được rồi, phần ngoại hình đã xong. Bây giờ chúng ta phải tạo một không gian làm việc thật thoải mái cho bạn.",
-        pose: NORMAL + "smile.png",    // ← NORMAL (HD) từ đây!
+        pose: NORMAL + "smile.png",
         audio: "assets/audio/Dialougue/6.wav",
         anim: "hop"
     },
-    // ── Audio 7 (7s) — Lines 12+13+14: Windows desktop ──
+    // ── Audio 7 (7s) — Windows desktop ──
     {
         name: "Amy",
         text: "Vì theo phân tích dữ liệu, dường như bạn thích những thứ mang cảm giác hoài niệm... Chuẩn bị tinh thần nhé! Xuyên không về quá khứ thôi! Thế nào? Tuyệt tác hệ điều hành đầu thập niên 2000! Chào mừng đến với không gian làm việc mới của chúng ta!",
         pose: NORMAL + "pointout.png",
         audio: "assets/audio/Dialougue/7.wav",
         anim: "hop",
-        effectAtEnd: "windows"   // Chuyển sang Windows desktop
+        effectAtEnd: "windows"
+    },
+    // ── Post Windows Tutorial ──
+    {
+        name: "Amy",
+        text: "Ơ... từ từ đã... Khoan... Hình như có gì đó sai sai...",
+        pose: NORMAL + "surprise.png",
+        audio: "assets/audio/Dialougue/1.1.wav",
+        anim: "shake",
+        side: "right"
+    },
+    {
+        name: "Amy",
+        text: "Nhìn kỹ lại thì... phong cảnh này... mấy đám mây này... nó không được giống bản gốc cho lắm nhỉ... Á!! Xin lỗi bạn! Thật ra lúc nãy hệ thống bị hụt RAM đột xuất, file ảnh gốc không load được nên... nên mình đành phải tự lấy chuột vẽ tay cái hình nền này đó... Đừng cười mình nha, mình dở môn mỹ thuật lắm!",
+        pose: NORMAL + "shy.png",
+        audio: "assets/audio/Dialougue/1.2.wav",
+        anim: "nod",
+        side: "right"
+    },
+    {
+        name: "Amy",
+        text: "Khụ... Dù sao thì... bỏ qua chuyện thẩm mỹ đi, chất lượng hình ảnh hơi 'cây nhà lá vườn' một chút nhưng hệ thống vẫn chạy rất ổn định! Để mình làm hướng dẫn viên giới thiệu qua cho bạn nhé.",
+        pose: NORMAL + "smile.png",
+        audio: "assets/audio/Dialougue/1.3.wav",
+        anim: "hop",
+        side: "right"
+    },
+    {
+        name: "Amy",
+        text: "Đầu tiên là mấy cái icon ở góc bên trái... My Computer, Paint, với cả cái Settings ở dưới. Thật ra thì... mình vội quá nên vẽ tụi nó để trưng cho đẹp đội hình thôi, click vào chả có gì đâu. Bạn cứ bơ chúng nó đi cũng được.",
+        pose: NORMAL + "confused.png",
+        audio: "assets/audio/Dialougue/1.4.wav",
+        anim: "shake",
+        highlightApps: ["my_computer", "paint", "settings"],
+        side: "right"
+    },
+    {
+        name: "Amy",
+        text: "Nhưng bù lại, những cái khác thì hoạt động rất tốt nhé! Nếu muốn xem ngày tháng thì bạn bấm vào Calendar. Còn Album là nơi lưu trữ toàn bộ concept art và nhật ký quá trình sản xuất cái web này đấy.",
+        pose: NORMAL + "pointout.png",
+        audio: "assets/audio/Dialougue/1.5.wav",
+        anim: "hop",
+        highlightApps: ["calendar", "album"],
+        side: "right"
+    },
+    {
+        name: "Amy",
+        text: "Đặc biệt là icon Notepad nha. Ở đó chứa đựng lời mở đầu và những dòng cảm ơn chân thành nhất từ người sáng tạo ra thế giới này. Tác giả đã viết rất tâm huyết, bạn nhớ mở ra đọc thử nhé.",
+        pose: NORMAL + "smile.png",
+        audio: "assets/audio/Dialougue/1.6.wav",
+        anim: "nod",
+        highlightApps: ["notepad"],
+        side: "right"
+    },
+    {
+        name: "Amy",
+        text: "Tiếp theo, hãy chú ý vào icon News có hình tờ báo. Đây là phần quan trọng nhất của toàn bộ hệ thống! Bạn có thể dùng nó để đọc báo chí, cập nhật tin tức và truy xuất dữ liệu. Trung tâm tình báo của chúng ta nằm cả ở đấy!",
+        pose: NORMAL + "serious.png",
+        audio: "assets/audio/Dialougue/1.7.wav",
+        anim: "hop",
+        highlightApps: ["news"],
+        side: "right"
+    },
+    {
+        name: "Amy",
+        text: "Và cuối cùng là... icon Donate hình xấp tiền ở kia. Ừm... thì... duy trì server cho mình tốn khá nhiều tiền điện và tiền mì tôm cho tác giả. Nên nếu bạn thấy thương mình và dự án này, hãy giúp đỡ chúng mình một chút nhé! Đó sẽ là động lực siêu to khổng lồ để tác giả làm tiếp đó!",
+        pose: NORMAL + "shy.png",
+        audio: "assets/audio/Dialougue/1.8.wav",
+        anim: "shake",
+        highlightApps: ["donate"],
+        side: "right"
+    },
+    {
+        name: "Amy",
+        text: "Phù, phần hướng dẫn tân thủ của mình đến đây là kết thúc rồi! Giao diện tuy hơi ngố một tí, nhưng bù lại rất dễ thương đúng không? Chúc bạn có khoảng thời gian khám phá thật vui vẻ nhé!",
+        pose: NORMAL + "smile.png",
+        audio: "assets/audio/Dialougue/1.9.wav",
+        anim: "hop",
+        highlightApps: [],
+        side: "right"
     }
 ];
 
@@ -137,6 +303,10 @@ let currentStep = 0;
 let isTyping = false;
 let typeTimer = null;
 let currentStepText = "";
+let audioTimeCheckInterval = null;
+let isAutoMode = false;
+let dialogueHistory = [];
+let advanceTimeout = null;
 
 const audio       = document.getElementById("vn-audio");
 const sfxSnap     = document.getElementById("sfx-snap");
@@ -148,30 +318,66 @@ const vnContainer = document.getElementById("vn-container");
 const flashEl     = document.getElementById("flash-overlay");
 const winDesktop  = document.getElementById("windows-desktop");
 
+const btnAuto     = document.getElementById("btn-auto");
+const logModal    = document.getElementById("vn-log-modal");
+const logBody     = document.getElementById("vn-log-body");
+
 // Preload all images
 vnScript.forEach(s => { const i = new Image(); i.src = s.pose; });
 
 // ────────────────────────────────────────────
-//  START
+//  AUTO-START (no start screen)
 // ────────────────────────────────────────────
-function startChapter() {
-    const ss = document.getElementById("start-screen");
-    ss.style.opacity = "0";
-    setTimeout(() => {
-        ss.style.display = "none";
-        vnContainer.style.display = "block";
-        displayStep(0);
-    }, 1000);
+window.addEventListener("DOMContentLoaded", () => {
+    displayStep(0);
+});
+
+// ────────────────────────────────────────────
+//  AUTO & LOG LOGIC
+// ────────────────────────────────────────────
+function toggleAuto(e) {
+    if (e) e.stopPropagation();
+    isAutoMode = !isAutoMode;
+    btnAuto.classList.toggle("active", isAutoMode);
+    
+    // If we just turned it on and typing is done, advance
+    if (isAutoMode && !isTyping) {
+        checkAutoAdvance();
+    }
+}
+
+function openLog(e) {
+    if (e) e.stopPropagation();
+    logBody.innerHTML = "";
+    dialogueHistory.forEach(entry => {
+        const div = document.createElement("div");
+        div.className = "vn-log-entry";
+        div.innerHTML = `<span class="vn-log-name">${entry.name}:</span><span class="vn-log-text">${entry.text}</span>`;
+        logBody.appendChild(div);
+    });
+    logModal.classList.add("visible");
+    logBody.scrollTop = logBody.scrollHeight;
+}
+
+function closeLog() {
+    logModal.classList.remove("visible");
+}
+
+function checkAutoAdvance() {
+    if (isAutoMode && !isTyping) {
+        setTimeout(() => {
+            if (isAutoMode && !isTyping) {
+                advanceDialogue(true);
+            }
+        }, 1500); // Wait 1.5s after text finishes
+    }
 }
 
 // ────────────────────────────────────────────
-//  TYPE TEXT synced to audio duration
+//  TYPE TEXT synced to duration
 // ────────────────────────────────────────────
 function typeTextSync(text, durationSec) {
     isTyping = true;
-    if (window.fitDialogueText) {
-        window.fitDialogueText(textEl, text, TEXT_FIT_OPTIONS);
-    }
     textEl.textContent = "";
     indicator.classList.remove("visible");
 
@@ -188,6 +394,7 @@ function typeTextSync(text, durationSec) {
             typeTimer = null;
             isTyping = false;
             indicator.classList.add("visible");
+            if (isAutoMode) checkAutoAdvance();
         }
     }, speed);
 }
@@ -213,14 +420,43 @@ function playAnim(animName) {
 //  DISPLAY STEP
 // ────────────────────────────────────────────
 function displayStep(stepIndex) {
-    if (stepIndex >= vnScript.length) {
-        // Hết hội thoại — đã có effectAtEnd:"windows" ở step cuối
-        return;
-    }
+    if (stepIndex >= vnScript.length) return;
 
     const step = vnScript[stepIndex];
     currentStepText = step.text;
     nameEl.textContent = step.name;
+    
+    // Add to history
+    dialogueHistory.push({ name: step.name, text: step.text });
+
+    // Handle spotlighting
+    const spotlightOverlay = document.getElementById("spotlight-overlay");
+    if (spotlightOverlay) {
+        document.querySelectorAll(".desktop-icon.spotlighted").forEach(el => el.classList.remove("spotlighted"));
+        if (step.highlightApps && step.highlightApps.length > 0) {
+            spotlightOverlay.style.opacity = "1";
+            step.highlightApps.forEach(appId => {
+                const el = document.querySelector(`.desktop-icon[data-app='${appId}']`);
+                if (el) el.classList.add("spotlighted");
+            });
+        } else {
+            spotlightOverlay.style.opacity = "0";
+        }
+    }
+
+    // Handle Amy position
+    const spriteWrap = document.querySelector(".vn-character-wrap");
+    if (step.side === "right") {
+        spriteWrap.classList.add("side-right");
+    } else {
+        spriteWrap.classList.remove("side-right");
+    }
+
+    // Clear any previous audio time check
+    if (audioTimeCheckInterval) {
+        clearInterval(audioTimeCheckInterval);
+        audioTimeCheckInterval = null;
+    }
 
     // Update sprite
     const poseChanged = spriteEl.src !== new URL(step.pose, window.location.href).href;
@@ -237,17 +473,63 @@ function displayStep(stepIndex) {
         if (step.anim) playAnim(step.anim);
     }
 
-    // Play audio and sync typing
-    audio.src = step.audio;
-    audio.onloadedmetadata = () => {
-        audio.play();
-        typeTextSync(step.text, audio.duration);
-    };
+    // Handle audio — either new audio file, or resume existing
+    if (step.audioResume) {
+        // Continue playing the current audio, just type new text
+        const remainingTime = step.audioEndTime
+            ? step.audioEndTime - audio.currentTime
+            : audio.duration - audio.currentTime;
+        const typeDuration = Math.min(remainingTime, step.audioEndTime ? step.audioEndTime - audio.currentTime : 999);
+        typeTextSync(step.text, Math.max(2, typeDuration));
 
-    // When audio ends
-    audio.onended = () => {
-        handleEndEffect(step, stepIndex);
-    };
+        // If this step has an audioEndTime, wait for it
+        if (step.audioEndTime) {
+            audioTimeCheckInterval = setInterval(() => {
+                if (audio.currentTime >= step.audioEndTime) {
+                    clearInterval(audioTimeCheckInterval);
+                    audioTimeCheckInterval = null;
+                    handleEndEffect(step, stepIndex);
+                }
+            }, 100);
+        } else {
+            // Wait for audio to fully end
+            audio.onended = () => {
+                handleEndEffect(step, stepIndex);
+            };
+        }
+    } else if (step.audio) {
+        // New audio file
+        audio.src = step.audio;
+        audio.onloadedmetadata = () => {
+            if (step.audioStartTime) {
+                audio.currentTime = step.audioStartTime;
+            }
+            audio.play();
+
+            const totalDur = step.audioEndTime
+                ? step.audioEndTime - (step.audioStartTime || 0)
+                : audio.duration;
+            typeTextSync(step.text, totalDur);
+        };
+
+        if (step.audioEndTime && step.noAutoAdvanceAudio) {
+            // Stop checking at audioEndTime
+            audioTimeCheckInterval = setInterval(() => {
+                if (audio.currentTime >= step.audioEndTime) {
+                    clearInterval(audioTimeCheckInterval);
+                    audioTimeCheckInterval = null;
+                    handleEndEffect(step, stepIndex);
+                }
+            }, 100);
+        } else if (!step.noAutoAdvanceAudio) {
+            audio.onended = () => {
+                handleEndEffect(step, stepIndex);
+            };
+        }
+    } else {
+        // No audio — just type at a comfortable speed
+        typeTextSync(step.text, 4);
+    }
 }
 
 // ────────────────────────────────────────────
@@ -259,24 +541,34 @@ function handleEndEffect(step, stepIndex) {
         sfxSnap.currentTime = 0;
         sfxSnap.play();
         flashEl.classList.add("active");
-        setTimeout(() => {
+        if (advanceTimeout) clearTimeout(advanceTimeout);
+        advanceTimeout = setTimeout(() => {
             flashEl.classList.remove("active");
             autoAdvance(stepIndex);
         }, 700);
 
     } else if (step.effectAtEnd === "windows") {
         // Show Windows desktop
-        setTimeout(() => {
-            // Complete any remaining typing
+        if (advanceTimeout) clearTimeout(advanceTimeout);
+        advanceTimeout = setTimeout(() => {
             finishTyping();
-            // Fade out dialogue and character
             document.getElementById("vn-dialogue-bar").style.transition = "opacity 0.8s ease";
             document.getElementById("vn-dialogue-bar").style.opacity = "0";
+            document.getElementById("vn-dialogue-bar").style.pointerEvents = "none";
             spriteEl.style.transition = "opacity 0.8s ease";
             spriteEl.style.opacity = "0";
 
-            setTimeout(() => {
+            advanceTimeout = setTimeout(() => {
                 winDesktop.classList.add("visible");
+                initDesktop();
+                
+                // Wait 3 seconds, then bring Amy back for the guide
+                advanceTimeout = setTimeout(() => {
+                    document.getElementById("vn-dialogue-bar").style.opacity = "1";
+                    document.getElementById("vn-dialogue-bar").style.pointerEvents = "all";
+                    spriteEl.style.opacity = "1";
+                    advanceDialogue(true);
+                }, 3000);
             }, 900);
         }, 1500);
 
@@ -286,12 +578,13 @@ function handleEndEffect(step, stepIndex) {
 }
 
 function autoAdvance(stepIndex) {
-    setTimeout(() => {
+    if (advanceTimeout) clearTimeout(advanceTimeout);
+    advanceTimeout = setTimeout(() => {
         if (currentStep === stepIndex) {
             finishTyping();
             advanceDialogue(true);
         }
-    }, 1000);
+    }, 800);
 }
 
 function finishTyping() {
@@ -299,9 +592,6 @@ function finishTyping() {
         clearInterval(typeTimer);
         typeTimer = null;
         textEl.textContent = vnScript[currentStep].text;
-        if (window.fitDialogueText) {
-            window.fitDialogueText(textEl, vnScript[currentStep].text, TEXT_FIT_OPTIONS);
-        }
         isTyping = false;
     }
 }
@@ -310,10 +600,17 @@ function finishTyping() {
 //  ADVANCE (click or auto)
 // ────────────────────────────────────────────
 function advanceDialogue(auto = false) {
+    if (advanceTimeout) {
+        clearTimeout(advanceTimeout);
+        advanceTimeout = null;
+    }
+    if (currentStep >= vnScript.length - 1 && !isTyping) return;
+    
     if (isTyping) {
         if (!auto) {
             finishTyping();
             indicator.classList.add("visible");
+            if (isAutoMode) checkAutoAdvance();
         }
     } else {
         currentStep++;
@@ -321,17 +618,446 @@ function advanceDialogue(auto = false) {
     }
 }
 
-const refitCurrentDialogue = (window.debounce || function (fn) { return fn; })(() => {
-    if (currentStep < vnScript.length) {
-        const step = vnScript[currentStep];
-        currentStepText = step ? step.text : currentStepText;
-        if (currentStepText && window.fitDialogueText) {
-            window.fitDialogueText(textEl, currentStepText, TEXT_FIT_OPTIONS);
-        }
-    }
-}, 140);
+// ════════════════════════════════════════════
+//  WINDOWS DESKTOP — full window manager
+// ════════════════════════════════════════════
+let windowZCounter = 61;
+let openWindows = {};
+let clockInterval = null;
 
-window.addEventListener("resize", refitCurrentDialogue);
+// App definitions — title, icon, default content
+const APP_DEFS = {
+    my_computer: {
+        title: "My Computer",
+        icon: "assets/img/windows/my_computer.png",
+        width: 500, height: 360,
+        content: `<div style="font-family:'HoiThoai','Inter',sans-serif;padding:12px;">
+            <h3 style="margin-bottom:12px;">🖥️ My Computer</h3>
+            <div style="display:flex;gap:16px;flex-wrap:wrap;">
+                <div style="text-align:center;padding:10px;"><div style="font-size:32px;">💾</div><div>Local Disk (C:)</div><div style="color:#666;font-size:12px;">42.0 GB free / 128 GB</div></div>
+                <div style="text-align:center;padding:10px;"><div style="font-size:32px;">💿</div><div>CD Drive (D:)</div><div style="color:#666;font-size:12px;">No disc</div></div>
+            </div>
+        </div>`
+    },
+    notepad: {
+        title: "Notepad",
+        icon: "assets/img/windows/notepad.png",
+        width: 460, height: 340,
+        content: `<textarea style="width:100%;height:100%;border:none;resize:none;padding:8px;font-family:'HoiThoai','Inter',sans-serif;font-size:14px;background:#fff;outline:none;" placeholder="Ghi chú ở đây..."></textarea>`
+    },
+    paint: {
+        title: "Paint",
+        icon: "assets/img/windows/paint.png",
+        width: 600, height: 450,
+        content: `<div style="font-family:'HoiThoai','Inter',sans-serif;padding:20px;text-align:center;background:#fff;height:100%;">
+            <div style="border:1px solid #ccc;height:80%;display:flex;align-items:center;justify-content:center;color:#999;">[ Canvas Area ]</div>
+            <p style="margin-top:10px;">Paint Tool - Ready to draw!</p>
+        </div>`
+    },
+    news: {
+        title: "News",
+        icon: "assets/img/windows/news_icon.png",
+        width: 520, height: 400,
+        content: `<div style="font-family:'HoiThoai','Inter',sans-serif;padding:12px;">
+            <h3 style="margin-bottom:10px;">📰 Tin tức hôm nay</h3>
+            <p style="color:#555;margin-bottom:8px;">Đang tải dữ liệu từ server...</p>
+            <div style="border-top:1px solid #ccc;padding-top:8px;">
+                <p><strong>Hệ thống:</strong> Tất cả các dịch vụ đang hoạt động bình thường.</p>
+                <p><strong>Cập nhật:</strong> Phiên bản giao diện mới đã được cài đặt.</p>
+            </div>
+        </div>`
+    },
+    settings: {
+        title: "Settings",
+        icon: "assets/img/windows/setting.png",
+        width: 450, height: 350,
+        content: `<div style="font-family:'HoiThoai','Inter',sans-serif;padding:12px;">
+            <h3>⚙️ System Settings</h3>
+            <div style="margin-top:15px;">
+                <p><strong>User:</strong> Guest</p>
+                <p><strong>Resolution:</strong> 1920 x 1080</p>
+                <p><strong>Theme:</strong> Classic Blue</p>
+            </div>
+        </div>`
+    },
+    calendar: {
+        title: "Calendar",
+        icon: "assets/img/windows/calendar.png",
+        width: 400, height: 420,
+        content: `<div id="calendar-app" style="font-family:'HoiThoai','Inter',sans-serif;padding:15px;background:#fff;height:100%;">
+            <div style="text-align:center;margin-bottom:15px;">
+                <h2 id="cal-month-year" style="color:#0a5ac7;">Month Year</h2>
+                <div id="cal-today" style="font-size:14px;color:#666;">Today is...</div>
+            </div>
+            <table style="width:100%;border-collapse:collapse;text-align:center;">
+                <thead>
+                    <tr style="color:#888;font-size:12px;">
+                        <th>CN</th><th>T2</th><th>T3</th><th>T4</th><th>T5</th><th>T6</th><th>T7</th>
+                    </tr>
+                </thead>
+                <tbody id="cal-grid" style="font-size:14px;">
+                    <!-- Calendar grid injected by JS -->
+                </tbody>
+            </table>
+        </div>`,
+        onOpen: () => {
+            const now = new Date();
+            const month = now.getMonth();
+            const year = now.getFullYear();
+            const monthNames = ["Tháng 1", "Tháng 2", "Tháng 3", "Tháng 4", "Tháng 5", "Tháng 6", "Tháng 7", "Tháng 8", "Tháng 9", "Tháng 10", "Tháng 11", "Tháng 12"];
+            
+            document.getElementById("cal-month-year").textContent = monthNames[month] + " " + year;
+            document.getElementById("cal-today").textContent = "Hôm nay: " + now.toLocaleDateString('vi-VN');
+            
+            const firstDay = new Date(year, month, 1).getDay();
+            const daysInMonth = new Date(year, month + 1, 0).getDate();
+            const grid = document.getElementById("cal-grid");
+            grid.innerHTML = "";
+            
+            let date = 1;
+            for (let i = 0; i < 6; i++) {
+                let row = document.createElement("tr");
+                for (let j = 0; j < 7; j++) {
+                    let cell = document.createElement("td");
+                    cell.style.padding = "10px 0";
+                    if (i === 0 && j < firstDay) {
+                        cell.textContent = "";
+                    } else if (date > daysInMonth) {
+                        break;
+                    } else {
+                        cell.textContent = date;
+                        if (date === now.getDate()) {
+                            cell.style.background = "#0a5ac7";
+                            cell.style.color = "#fff";
+                            cell.style.borderRadius = "50%";
+                            cell.style.fontWeight = "bold";
+                        }
+                        date++;
+                    }
+                    row.appendChild(cell);
+                }
+                grid.appendChild(row);
+                if (date > daysInMonth) break;
+            }
+        }
+    },
+    album: {
+        title: "Album",
+        icon: "assets/img/windows/album.png",
+        width: 550, height: 420,
+        content: `<div style="font-family:'HoiThoai','Inter',sans-serif;padding:15px;background:#f5f5f5;height:100%;overflow-y:auto;">
+            <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:15px;">
+                <h3 style="margin:0;">🖼️ Gallery</h3>
+                <span style="font-size:12px;color:#666;">6 items</span>
+            </div>
+            <div style="display:grid;grid-template-columns:repeat(auto-fill, minmax(120px, 1fr));gap:15px;">
+                <div class="album-item" style="aspect-ratio:1;background:#ddd;border:1px solid #ccc;display:flex;align-items:center;justify-content:center;color:#888;font-size:11px;flex-direction:column;">
+                    <span style="font-size:24px;">🎨</span>
+                    <span>Concept Art 1</span>
+                </div>
+                <div class="album-item" style="aspect-ratio:1;background:#ddd;border:1px solid #ccc;display:flex;align-items:center;justify-content:center;color:#888;font-size:11px;flex-direction:column;">
+                    <span style="font-size:24px;">✏️</span>
+                    <span>Sketch 01</span>
+                </div>
+                <div class="album-item" style="aspect-ratio:1;background:#ddd;border:1px solid #ccc;display:flex;align-items:center;justify-content:center;color:#888;font-size:11px;flex-direction:column;">
+                    <span style="font-size:24px;">🎞️</span>
+                    <span>Storyboards</span>
+                </div>
+                <div class="album-item" style="aspect-ratio:1;background:#ddd;border:1px solid #ccc;display:flex;align-items:center;justify-content:center;color:#888;font-size:11px;flex-direction:column;">
+                    <span style="font-size:24px;">🎭</span>
+                    <span>Character Design</span>
+                </div>
+                <div class="album-item" style="aspect-ratio:1;background:#ddd;border:1px solid #ccc;display:flex;align-items:center;justify-content:center;color:#888;font-size:11px;flex-direction:column;">
+                    <span style="font-size:24px;">🌆</span>
+                    <span>Backgrounds</span>
+                </div>
+                <div class="album-item" style="aspect-ratio:1;background:#ddd;border:1px solid #ccc;display:flex;align-items:center;justify-content:center;color:#888;font-size:11px;flex-direction:column;">
+                    <span style="font-size:24px;">📂</span>
+                    <span>WIP Assets</span>
+                </div>
+            </div>
+            <div style="margin-top:20px;text-align:center;color:#888;font-size:12px;">
+                Album này sẽ để concept art + quá trình làm trong tương lai.
+            </div>
+        </div>`
+    },
+    donate: {
+        title: "Donate",
+        icon: "assets/img/windows/donate.png",
+        width: 400, height: 300,
+        content: `<div style="font-family:'HoiThoai','Inter',sans-serif;padding:16px;text-align:center;">
+            <div style="font-size:48px;margin-bottom:12px;">❤️</div>
+            <h3>Ủng hộ dự án</h3>
+            <p style="color:#555;margin:10px 0;">Cảm ơn bạn đã quan tâm!</p>
+            <p style="color:#888;font-size:12px;">Chức năng đang được phát triển...</p>
+        </div>`
+    }
+};
+
+function initDesktop() {
+    // ── Live Clock ──
+    updateClock();
+    clockInterval = setInterval(updateClock, 1000);
+
+    // ── Start button — closes the browser tab ──
+    document.getElementById("btn-start").addEventListener("click", () => {
+        window.close();
+        setTimeout(() => { window.location.href = "about:blank"; }, 300);
+    });
+
+    // ── Speaker icon — toggle mute visual ──
+    const speakerIcon = document.getElementById("speaker-icon");
+    let speakerState = 2; // 0=mute, 1=low, 2=high
+    const speakerImages = [
+        "assets/img/windows/no_sound_speaker.png",
+        "assets/img/windows/1-50_speaker.png",
+        "assets/img/windows/51-100_speaker.png"
+    ];
+    speakerIcon.addEventListener("click", (e) => {
+        e.stopPropagation();
+        speakerState = (speakerState + 1) % 3;
+        speakerIcon.src = speakerImages[speakerState];
+    });
+
+    // ── Desktop icons — double-click to open window ──
+    document.querySelectorAll(".desktop-icon").forEach(icon => {
+        icon.addEventListener("dblclick", () => {
+            const appId = icon.getAttribute("data-app");
+            if (appId && APP_DEFS[appId]) {
+                openAppWindow(appId);
+            }
+        });
+    });
+}
+
+function updateClock() {
+    const now = new Date();
+    const h = String(now.getHours()).padStart(2, "0");
+    const m = String(now.getMinutes()).padStart(2, "0");
+    document.getElementById("taskbar-clock").textContent = h + ":" + m;
+}
+
+// ────────────────────────────────────────────
+//  WINDOW MANAGER
+// ────────────────────────────────────────────
+function openAppWindow(appId) {
+    // If already open, focus it
+    if (openWindows[appId]) {
+        const existing = openWindows[appId];
+        if (existing.el.classList.contains("minimized")) {
+            existing.el.classList.remove("minimized");
+        }
+        focusWindow(appId);
+        return;
+    }
+
+    const def = APP_DEFS[appId];
+    const wallpaper = document.getElementById("windows-wallpaper");
+
+    // Calculate position (stagger each new window)
+    const count = Object.keys(openWindows).length;
+    const startX = 60 + count * 30;
+    const startY = 40 + count * 30;
+
+    // Build window DOM
+    const win = document.createElement("div");
+    win.className = "win-window";
+    win.id = "win-" + appId;
+    win.style.left = startX + "px";
+    win.style.top = startY + "px";
+    win.style.width = def.width + "px";
+    win.style.height = def.height + "px";
+
+    win.innerHTML = `
+        <div class="win-titlebar" data-win="${appId}">
+            <img class="win-titlebar-icon" src="${def.icon}" alt="">
+            <span class="win-titlebar-text">${def.title}</span>
+            <div class="win-titlebar-btns">
+                <button class="win-btn win-btn-min" data-action="min" title="Minimize">─</button>
+                <button class="win-btn win-btn-max" data-action="max" title="Maximize">☐</button>
+                <button class="win-btn win-btn-close" data-action="close" title="Close">✕</button>
+            </div>
+        </div>
+        <div class="win-body">${def.content}</div>
+        <div class="win-resize-handle" data-win="${appId}"></div>
+    `;
+
+    wallpaper.appendChild(win);
+
+    // Call onOpen hook if defined
+    if (def.onOpen) def.onOpen();
+
+    // Store state
+    openWindows[appId] = {
+        el: win,
+        title: def.title,
+        icon: def.icon,
+        prevBounds: null
+    };
+
+    focusWindow(appId);
+    addTaskbarButton(appId, def.title);
+
+    // ── Event: click to focus ──
+    win.addEventListener("mousedown", () => focusWindow(appId));
+
+    // ── Event: title bar buttons ──
+    win.querySelectorAll(".win-btn").forEach(btn => {
+        btn.addEventListener("click", (e) => {
+            e.stopPropagation();
+            const action = btn.getAttribute("data-action");
+            if (action === "min") minimizeWindow(appId);
+            else if (action === "max") toggleMaximize(appId);
+            else if (action === "close") closeWindow(appId);
+        });
+    });
+
+    // ── Drag ──
+    initDrag(win, appId);
+
+    // ── Resize ──
+    initResize(win, appId);
+}
+
+function focusWindow(appId) {
+    windowZCounter++;
+    if (openWindows[appId]) {
+        openWindows[appId].el.style.zIndex = windowZCounter;
+    }
+    // Update taskbar active state
+    document.querySelectorAll(".taskbar-win-btn").forEach(btn => {
+        btn.classList.toggle("active", btn.getAttribute("data-win") === appId);
+    });
+}
+
+function minimizeWindow(appId) {
+    if (openWindows[appId]) {
+        openWindows[appId].el.classList.add("minimized");
+    }
+}
+
+function toggleMaximize(appId) {
+    const w = openWindows[appId];
+    if (!w) return;
+    const el = w.el;
+
+    if (el.classList.contains("maximized")) {
+        // Restore
+        el.classList.remove("maximized");
+        if (w.prevBounds) {
+            el.style.left = w.prevBounds.left;
+            el.style.top = w.prevBounds.top;
+            el.style.width = w.prevBounds.width;
+            el.style.height = w.prevBounds.height;
+        }
+    } else {
+        // Save & maximize
+        w.prevBounds = {
+            left: el.style.left,
+            top: el.style.top,
+            width: el.style.width,
+            height: el.style.height
+        };
+        el.classList.add("maximized");
+    }
+}
+
+function closeWindow(appId) {
+    if (openWindows[appId]) {
+        openWindows[appId].el.remove();
+        delete openWindows[appId];
+        removeTaskbarButton(appId);
+    }
+}
+
+// ── Taskbar buttons ──
+function addTaskbarButton(appId, title) {
+    const bar = document.getElementById("taskbar-windows");
+    const btn = document.createElement("button");
+    btn.className = "taskbar-win-btn active";
+    btn.setAttribute("data-win", appId);
+    btn.textContent = title;
+    btn.addEventListener("click", () => {
+        const w = openWindows[appId];
+        if (!w) return;
+        if (w.el.classList.contains("minimized")) {
+            w.el.classList.remove("minimized");
+            focusWindow(appId);
+        } else if (parseInt(w.el.style.zIndex) === windowZCounter) {
+            // Already focused → minimize
+            minimizeWindow(appId);
+        } else {
+            focusWindow(appId);
+        }
+    });
+    bar.appendChild(btn);
+}
+
+function removeTaskbarButton(appId) {
+    const btn = document.querySelector(`.taskbar-win-btn[data-win="${appId}"]`);
+    if (btn) btn.remove();
+}
+
+// ── Drag logic ──
+function initDrag(win, appId) {
+    const titlebar = win.querySelector(".win-titlebar");
+    let isDragging = false, startX, startY, origLeft, origTop;
+
+    titlebar.addEventListener("mousedown", (e) => {
+        if (e.target.closest(".win-btn")) return;
+        if (win.classList.contains("maximized")) return;
+        isDragging = true;
+        startX = e.clientX;
+        startY = e.clientY;
+        origLeft = win.offsetLeft;
+        origTop = win.offsetTop;
+        focusWindow(appId);
+        e.preventDefault();
+    });
+
+    document.addEventListener("mousemove", (e) => {
+        if (!isDragging) return;
+        const dx = e.clientX - startX;
+        const dy = e.clientY - startY;
+        win.style.left = (origLeft + dx) + "px";
+        win.style.top = (origTop + dy) + "px";
+    });
+
+    document.addEventListener("mouseup", () => {
+        isDragging = false;
+    });
+}
+
+// ── Resize logic ──
+function initResize(win, appId) {
+    const handle = win.querySelector(".win-resize-handle");
+    let isResizing = false, startX, startY, origW, origH;
+
+    handle.addEventListener("mousedown", (e) => {
+        if (win.classList.contains("maximized")) return;
+        isResizing = true;
+        startX = e.clientX;
+        startY = e.clientY;
+        origW = win.offsetWidth;
+        origH = win.offsetHeight;
+        focusWindow(appId);
+        e.preventDefault();
+        e.stopPropagation();
+    });
+
+    document.addEventListener("mousemove", (e) => {
+        if (!isResizing) return;
+        const newW = Math.max(320, origW + (e.clientX - startX));
+        const newH = Math.max(200, origH + (e.clientY - startY));
+        win.style.width = newW + "px";
+        win.style.height = newH + "px";
+    });
+
+    document.addEventListener("mouseup", () => {
+        isResizing = false;
+    });
+}
+
 </script>
 </body>
 </html>

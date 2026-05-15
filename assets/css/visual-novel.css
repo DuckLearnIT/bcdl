@@ -1,6 +1,6 @@
 /* ============================================
    VISUAL NOVEL — Chapter 3
-   Custom dialogue_bar.png frame
+   Dialogue bar: pixel-perfect replica of dialogue_bar.png
    Font: fonthoithoai.woff2
    ============================================ */
 
@@ -52,20 +52,25 @@ body, html {
     bottom: 0;
     left: 50%;
     transform: translateX(-50%);
-    width: min(42vw, 520px);
+    width: min(50vw, 624px);
     height: 100%;
-    z-index: 2;
+    z-index: 60;
     pointer-events: none;
     display: flex;
     align-items: flex-end;
     justify-content: center;
     overflow: hidden;
+    transition: left 0.8s ease, transform 0.8s ease;
+}
+
+.vn-character-wrap.side-right {
+    left: 80%;
 }
 
 .vn-sprite {
     width: auto;
     max-width: 100%;
-    height: min(82vh, 920px);
+    height: min(98vh, 1104px);
     object-fit: contain;
     object-position: center bottom;
     transform: translateY(4%);
@@ -133,84 +138,212 @@ body, html {
     50%      { transform: translateY(6%); }
 }
 
-/* ── Dialogue Bar — custom dialogue_bar.png ── */
+/* ══════════════════════════════════════════════
+   DIALOGUE BAR — Pixel-perfect replica of dialogue_bar.png
+   Structure:
+   ┌─ navy outer border (3px solid #00008B) ─────────────────┐
+   │ ┌─ dotted white inner border ─────────────────────────┐ │
+   │ │  BLUE HEADER STRIP  (name goes here)                │ │
+   │ │ ┌─ dotted white border ───────────────────────────┐ │ │
+   │ │ │                                                 │ │ │
+   │ │ │   BEIGE TEXT AREA  (dialogue goes here)         │ │ │
+   │ │ │                                                 │ │ │
+   │ │ └─────────────────────────────────────────────────┘ │ │
+   │ └─────────────────────────────────────────────────────┘ │
+   └─────────────────────────────────────────────────────────┘
+   ══════════════════════════════════════════════ */
 .vn-dialogue-bar {
     position: absolute;
     bottom: 0;
     left: 0;
     right: 0;
-    height: clamp(220px, 34vh, 310px);
-    z-index: 10;
+    z-index: 60;
     cursor: pointer;
+    padding: 0 2% 8px 2%;
 }
 
-.vn-dialogue-inner {
-    position: relative;
-    width: 100%;
-    height: 100%;
-    overflow: hidden;
+.vn-dialogue-frame {
+    /* Outer navy border */
+    border: 3px solid #00008b;
+    border-radius: 4px;
+    /* Inner dotted white border via outline */
+    padding: 3px;
+    background: #00008b;
 }
 
-.vn-dialogue-inner img.bar-bg {
-    position: absolute;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    width: 100%;
-    display: block;
-    pointer-events: none;
-}
-
-/* ── Name on the blue top strip ── */
-.vn-name {
-    position: absolute;
-    top: 5%;
-    left: 4.2%;
-    width: 42%;
-    height: 16%;
+/* Blue header strip — for the name */
+.vn-name-strip {
+    background: #0000cd;
+    border: 2px dotted rgba(255,255,255,0.6);
+    border-bottom: none;
+    padding: 6px 20px;
+    min-height: 36px;
     display: flex;
     align-items: center;
-    padding-left: 12px;
-    font-family: 'HoiThoai', 'Inter', sans-serif;
-    font-size: clamp(18px, 2vw, 30px);
-    font-weight: 700;
-    color: #fff;
-    text-shadow: 1px 2px 4px rgba(0,0,0,0.6);
-    letter-spacing: 1px;
-    pointer-events: none;
 }
 
-/* ── Dialogue text on the beige bottom area ── */
-.vn-text {
-    position: absolute;
-    top: 30%;
-    left: 4.8%;
-    width: 90.4%;
-    height: 51%;
-    padding: 14px 20px 0;
+.vn-name {
     font-family: 'HoiThoai', 'Inter', sans-serif;
-    font-size: clamp(15px, 1.45vw, 24px);
+    font-size: clamp(16px, 2vw, 24px);
+    font-weight: 700;
+    color: #fff;
+    text-shadow: 1px 2px 2px rgba(0,0,0,0.5);
+    letter-spacing: 1px;
+}
+
+/* Beige text area — for dialogue */
+.vn-text-area {
+    background: #f0e6c8;
+    border: 2px dotted rgba(255,255,255,0.6);
+    border-top: 2px dotted rgba(255,255,255,0.4);
+    padding: 18px 24px 18px 24px;
+    min-height: 120px;
+    position: relative;
+    display: flex;
+    align-items: flex-start;
+}
+
+.vn-text {
+    font-family: 'HoiThoai', 'Inter', sans-serif;
+    font-size: clamp(15px, 1.6vw, 22px);
     font-weight: 500;
-    line-height: 1.45;
+    line-height: 1.55;
     color: #1a1a1a;
-    overflow: hidden;
     overflow-wrap: anywhere;
     word-break: break-word;
-    hyphens: auto;
-    pointer-events: none;
     user-select: none;
+    width: 100%;
+}
+
+/* ── Dialogue Controls (Auto/Log) ── */
+.vn-controls {
+    position: absolute;
+    bottom: 6px;
+    right: 48px;
+    display: flex;
+    gap: 8px;
+    z-index: 20;
+}
+
+.vn-control-btn {
+    font-family: 'HoiThoai', 'Inter', sans-serif;
+    font-size: 13px;
+    font-weight: 700;
+    color: #00008b;
+    background: rgba(255, 255, 255, 0.4);
+    border: 1px solid #00008b;
+    padding: 1px 12px;
+    border-radius: 2px;
+    cursor: pointer;
+    transition: all 0.2s;
+    text-transform: uppercase;
+}
+
+.vn-control-btn:hover {
+    background: #00008b;
+    color: #fff;
+}
+
+.vn-control-btn.active {
+    background: #00008b;
+    color: #fff;
+    box-shadow: inset 0 2px 4px rgba(0,0,0,0.3);
+}
+
+/* ── Log Modal ── */
+.vn-log-modal {
+    position: fixed;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.7);
+    z-index: 300;
+    display: none;
+    align-items: center;
+    justify-content: center;
+    backdrop-filter: blur(4px);
+}
+
+.vn-log-modal.visible {
+    display: flex;
+}
+
+.vn-log-content {
+    background: #f0e6c8;
+    border: 4px solid #00008b;
+    width: 90%;
+    max-width: 600px;
+    max-height: 80vh;
+    border-radius: 8px;
+    display: flex;
+    flex-direction: column;
+    padding: 20px;
+    position: relative;
+    box-shadow: 0 10px 40px rgba(0,0,0,0.5);
+}
+
+.vn-log-header {
+    font-size: 24px;
+    font-weight: 700;
+    color: #00008b;
+    margin-bottom: 15px;
+    border-bottom: 2px solid #00008b;
+    padding-bottom: 10px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.vn-log-close {
+    cursor: pointer;
+    font-size: 28px;
+}
+
+.vn-log-body {
+    flex: 1;
+    overflow-y: auto;
+    padding-right: 10px;
+}
+
+.vn-log-entry {
+    margin-bottom: 15px;
+    line-height: 1.4;
+    border-bottom: 1px dotted rgba(0,0,8b,0.2);
+    padding-bottom: 10px;
+}
+
+.vn-log-name {
+    font-weight: 700;
+    color: #00008b;
+    margin-right: 8px;
+    display: block;
+    font-size: 0.9em;
+}
+
+.vn-log-text {
+    color: #1a1a1a;
+    font-size: 1.1em;
+}
+
+/* Scrollbar for Log */
+.vn-log-body::-webkit-scrollbar {
+    width: 8px;
+}
+.vn-log-body::-webkit-scrollbar-track {
+    background: rgba(0,0,0,0.05);
+}
+.vn-log-body::-webkit-scrollbar-thumb {
+    background: #00008b;
+    border-radius: 4px;
 }
 
 /* ── Next indicator ── */
 .vn-next-indicator {
     position: absolute;
-    bottom: 11%;
-    right: 5.5%;
-    font-size: clamp(14px, 1.5vw, 20px);
-    color: #1a1a8c;
+    bottom: 10px;
+    right: 16px;
+    font-size: 18px;
+    color: #00008b;
     opacity: 0;
     transition: opacity 0.3s ease;
-    pointer-events: none;
     animation: indicatorBounce 1.4s infinite;
 }
 .vn-next-indicator.visible {
@@ -220,52 +353,6 @@ body, html {
     0%, 20%, 50%, 80%, 100% { transform: translateY(0); }
     40% { transform: translateY(-5px); }
     60% { transform: translateY(-2px); }
-}
-
-/* ── Start Screen ── */
-.start-screen {
-    position: absolute;
-    inset: 0;
-    background: #000;
-    z-index: 100;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    color: #fff;
-    font-family: 'HoiThoai', 'Inter', sans-serif;
-    transition: opacity 1s ease;
-}
-.start-screen h1 {
-    font-family: 'HoiThoai', 'Merriweather', serif;
-    font-size: clamp(28px, 5vw, 56px);
-    margin-bottom: 16px;
-    background: linear-gradient(135deg, #fff, #aabbff);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-}
-.start-screen p {
-    color: #888;
-    margin-bottom: 28px;
-    font-size: 16px;
-}
-.start-btn {
-    padding: 12px 36px;
-    font-size: 18px;
-    font-weight: 600;
-    font-family: 'HoiThoai', 'Inter', sans-serif;
-    background: linear-gradient(135deg, #2233aa, #1a1a8c);
-    color: #fff;
-    border: 2px solid rgba(255,255,255,0.2);
-    border-radius: 6px;
-    cursor: pointer;
-    transition: all 0.3s ease;
-    letter-spacing: 1px;
-}
-.start-btn:hover {
-    background: linear-gradient(135deg, #3344cc, #2233aa);
-    transform: translateY(-2px);
-    box-shadow: 0 6px 20px rgba(34, 51, 170, 0.4);
 }
 
 /* ── Flash overlay ── */
@@ -283,7 +370,9 @@ body, html {
     pointer-events: all;
 }
 
-/* ── Windows Desktop Transition Screen ── */
+/* ══════════════════════════════════════════════
+   WINDOWS DESKTOP
+   ══════════════════════════════════════════════ */
 .windows-desktop {
     position: absolute;
     inset: 0;
@@ -299,86 +388,388 @@ body, html {
     from { opacity: 0; transform: scale(1.05); }
     to   { opacity: 1; transform: scale(1); }
 }
+
+/* Wallpaper area — icons live here */
 .windows-wallpaper {
     flex: 1;
     background-size: cover;
     background-position: center;
+    position: relative;
+    display: flex;
+    flex-wrap: wrap;
+    align-content: flex-start;
+    padding: 30px 40px;
+    gap: 20px;
 }
+
+/* Desktop icon */
+.desktop-icon {
+    width: 90px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    cursor: pointer;
+    padding: 8px 4px;
+    border-radius: 4px;
+    border: 2px solid transparent;
+    transition: all 0.2s ease;
+    text-decoration: none;
+    position: relative; /* For spotlight z-index */
+}
+.desktop-icon:hover {
+    background: rgba(50, 100, 200, 0.25);
+    border-color: rgba(80, 130, 230, 0.6);
+}
+.desktop-icon:active {
+    background: rgba(50, 100, 200, 0.4);
+}
+.desktop-icon img {
+    width: 56px;
+    height: 56px;
+    object-fit: contain;
+    image-rendering: pixelated;
+    margin-bottom: 4px;
+    filter: drop-shadow(1px 2px 3px rgba(0,0,0,0.35));
+    transition: transform 0.2s ease;
+}
+.desktop-icon span {
+    font-family: 'HoiThoai', 'Inter', sans-serif;
+    font-size: 13px;
+    color: #fff;
+    text-shadow: 1px 1px 1px #000;
+}
+
+/* Spotlight Overlay */
+.desktop-spotlight-overlay {
+    position: absolute;
+    top: 0; left: 0; width: 100%; height: 100%;
+    background: rgba(0, 0, 0, 0.75);
+    z-index: 55;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.5s ease;
+}
+.desktop-icon.spotlighted {
+    z-index: 56;
+    background: radial-gradient(circle, rgba(255,255,255,0.25) 0%, transparent 60%);
+    box-shadow: 0 0 25px 15px rgba(255,255,255,0.2);
+    border-radius: 50%;
+}
+.desktop-icon.spotlighted img {
+    transform: scale(1.15);
+}
+
+/* Taskbar */
 .windows-taskbar {
     height: auto;
     width: 100%;
+    position: relative;
+    z-index: 52;
 }
-.windows-taskbar img {
+.windows-taskbar-bg {
     width: 100%;
     display: block;
+}
+
+/* Taskbar interactive area */
+.taskbar-controls {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 4px;
+}
+
+/* Start button overlay */
+.taskbar-start-btn {
+    height: 100%;
+    cursor: pointer;
+    border: none;
+    background: transparent;
+    padding: 0;
+    transition: filter 0.15s ease;
+}
+.taskbar-start-btn img {
+    height: 100%;
+    width: auto;
+    display: block;
+}
+.taskbar-start-btn:hover {
+    filter: brightness(1.15);
+}
+.taskbar-start-btn:active {
+    filter: brightness(0.9);
+}
+
+/* Speaker icon in taskbar tray */
+.taskbar-tray {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    padding-right: 8px;
+}
+.taskbar-speaker {
+    width: 26px;
+    height: 26px;
+    cursor: pointer;
+    image-rendering: pixelated;
+    transition: transform 0.15s ease;
+}
+.taskbar-speaker:hover {
+    transform: scale(1.15);
+}
+
+/* Clock in taskbar tray */
+.taskbar-clock {
+    font-family: 'HoiThoai', 'Inter', sans-serif;
+    font-size: 15px;
+    color: #fff;
+    text-shadow: 1px 1px 1px rgba(0,0,0,0.5);
+    padding: 2px 8px;
+    border-left: 1px solid rgba(255,255,255,0.2);
+    cursor: default;
+    user-select: none;
+    white-space: nowrap;
+}
+
+/* ══════════════════════════════════════════════
+   WINDOWS APP WINDOW FRAME
+   ══════════════════════════════════════════════ */
+.win-window {
+    position: absolute;
+    min-width: 320px;
+    min-height: 200px;
+    display: flex;
+    flex-direction: column;
+    z-index: 60;
+    border: 2px solid #0a246a;
+    border-radius: 6px 6px 0 0;
+    box-shadow: 2px 4px 16px rgba(0,0,0,0.45);
+    font-family: 'HoiThoai', 'Inter', sans-serif;
+    overflow: hidden;
+    animation: winOpen 0.25s ease-out;
+}
+.win-window.maximized {
+    top: 0 !important;
+    left: 0 !important;
+    width: 100% !important;
+    height: 100% !important;
+    border-radius: 0;
+    z-index: 2000 !important;
+}
+@keyframes winOpen {
+    from { transform: scale(0.7); opacity: 0; }
+    to   { transform: scale(1); opacity: 1; }
+}
+
+/* Title bar — blue gradient like XP */
+.win-titlebar {
+    background: linear-gradient(180deg, #0a8cee 0%, #0a5ac7 40%, #0a3c8c 100%);
+    display: flex;
+    align-items: center;
+    padding: 3px 4px;
+    cursor: grab;
+    user-select: none;
+    min-height: 28px;
+    gap: 6px;
+}
+.win-titlebar:active {
+    cursor: grabbing;
+}
+.win-titlebar-icon {
+    width: 16px;
+    height: 16px;
+    object-fit: contain;
+    image-rendering: pixelated;
+    flex-shrink: 0;
+}
+.win-titlebar-text {
+    flex: 1;
+    color: #fff;
+    font-size: 13px;
+    font-weight: 700;
+    text-shadow: 1px 1px 2px rgba(0,0,0,0.5);
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+.win-titlebar-btns {
+    display: flex;
+    gap: 2px;
+    flex-shrink: 0;
+}
+.win-btn {
+    width: 22px;
+    height: 22px;
+    border: 1px solid rgba(255,255,255,0.4);
+    border-radius: 3px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 14px;
+    font-weight: 700;
+    color: #fff;
+    text-shadow: 1px 1px 1px rgba(0,0,0,0.3);
+    transition: background 0.12s;
+}
+.win-btn-min {
+    background: linear-gradient(180deg, #3a9fea 0%, #1a6cc2 100%);
+}
+.win-btn-max {
+    background: linear-gradient(180deg, #3a9fea 0%, #1a6cc2 100%);
+}
+.win-btn-close {
+    background: linear-gradient(180deg, #e88a6e 0%, #c74b28 100%);
+}
+.win-btn-min:hover { background: #4aaffa; }
+.win-btn-max:hover { background: #4aaffa; }
+.win-btn-close:hover { background: #e85a3a; }
+.win-btn-min:active,
+.win-btn-max:active { background: #0a4caa; }
+.win-btn-close:active { background: #a83a18; }
+
+/* Window body */
+.win-body {
+    flex: 1;
+    background: #ece9d8;
+    overflow: auto;
+    padding: 8px;
+    font-size: 14px;
+    color: #1a1a1a;
+    line-height: 1.5;
+}
+
+/* Window resize handle */
+.win-resize-handle {
+    position: absolute;
+    bottom: 0;
+    right: 0;
+    width: 16px;
+    height: 16px;
+    cursor: nwse-resize;
+    background: linear-gradient(
+        135deg,
+        transparent 30%,
+        rgba(128,128,128,0.4) 30%,
+        rgba(128,128,128,0.4) 40%,
+        transparent 40%,
+        transparent 55%,
+        rgba(128,128,128,0.4) 55%,
+        rgba(128,128,128,0.4) 65%,
+        transparent 65%,
+        transparent 80%,
+        rgba(128,128,128,0.4) 80%,
+        rgba(128,128,128,0.4) 90%,
+        transparent 90%
+    );
+}
+
+/* Hidden (minimized) */
+.win-window.minimized {
+    display: none;
+}
+
+/* Taskbar window buttons */
+.taskbar-windows {
+    display: flex;
+    flex: 1;
+    align-items: center;
+    gap: 2px;
+    padding: 0 8px;
+    overflow: hidden;
+}
+.taskbar-win-btn {
+    font-family: 'HoiThoai', 'Inter', sans-serif;
+    font-size: 11px;
+    color: #fff;
+    background: linear-gradient(180deg, #3c7fb1 0%, #245a8a 100%);
+    border: 1px solid #0a3c6e;
+    border-radius: 2px;
+    padding: 2px 10px;
+    cursor: pointer;
+    max-width: 160px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    text-shadow: 1px 1px 1px rgba(0,0,0,0.3);
+}
+.taskbar-win-btn:hover {
+    background: linear-gradient(180deg, #4c8fc1 0%, #346a9a 100%);
+}
+.taskbar-win-btn.active {
+    background: linear-gradient(180deg, #e0ddd0 0%, #c5c0b0 100%);
+    color: #000;
+    text-shadow: none;
+    border-color: #999;
 }
 
 /* ── Responsive ── */
 @media (max-width: 768px) {
     .vn-character-wrap {
-        width: min(74vw, 420px);
-    }
-    .vn-sprite {
-        height: min(70vh, 700px);
+        width: 80%;
     }
     .vn-dialogue-bar {
-        height: clamp(190px, 31vh, 240px);
+        padding: 0 1% 4px 1%;
     }
-    .vn-text {
-        top: 31%;
-        left: 5%;
-        width: 90%;
-        height: 50%;
-        font-size: 13px;
-        padding: 10px 14px 0;
-        line-height: 1.35;
+    .vn-name-strip {
+        padding: 4px 14px;
     }
     .vn-name {
         font-size: 15px;
-        width: 48%;
-        padding-left: 14px;
+    }
+    .vn-text-area {
+        padding: 12px 16px;
+        min-height: 100px;
+    }
+    .vn-text {
+        font-size: 14px;
+    }
+    .vn-next-indicator {
+        bottom: 8px;
+        right: 12px;
+        font-size: 15px;
+    }
+    .windows-wallpaper {
+        padding: 20px 20px;
+        gap: 14px;
+    }
+    .desktop-icon {
+        width: 76px;
+    }
+    .desktop-icon img {
+        width: 48px;
+        height: 48px;
     }
 }
 @media (max-width: 480px) {
     .vn-character-wrap {
-        width: min(86vw, 360px);
+        width: 95%;
     }
-    .vn-sprite {
-        height: min(62vh, 560px);
-    }
-    .vn-dialogue-bar {
-        height: 180px;
-    }
-    .vn-name {
-        width: 52%;
-        font-size: 14px;
+    .vn-text-area {
+        padding: 10px 12px;
+        min-height: 80px;
     }
     .vn-text {
-        top: 32%;
-        font-size: 12px;
-        padding: 8px 12px 0;
-    }
-}
-
-@media (max-width: 360px) {
-    .vn-dialogue-bar {
-        height: 174px;
-    }
-    .vn-name {
-        width: 58%;
         font-size: 13px;
-        padding-left: 10px;
     }
-    .vn-text {
-        top: 33%;
-        left: 5%;
-        width: 90%;
-        height: 48%;
-        padding: 6px 10px 0;
-        line-height: 1.25;
+    .windows-wallpaper {
+        padding: 15px 12px;
+        gap: 10px;
     }
-    .vn-next-indicator {
-        right: 4.8%;
-        bottom: 10%;
+    .desktop-icon {
+        width: 68px;
+    }
+    .desktop-icon img {
+        width: 42px;
+        height: 42px;
+    }
+    .desktop-icon span {
+        font-size: 10px;
     }
 }
