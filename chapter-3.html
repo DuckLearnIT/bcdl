@@ -299,18 +299,27 @@ const vnScript = [
     },
     {
         name: "Amy",
-        text: "Phù, phần hướng dẫn tân thủ của mình đến đây là kết thúc rồi! Giao diện tuy hơi ngố một tí, nhưng bù lại rất dễ thương đúng không? Chúc bạn có khoảng thời gian khám phá thật vui vẻ nhé! À, nếu bạn muốn đổi phong cách nhân vật, hãy thử bấm nút '2D / Pixel' ở bên dưới nhé!",
+        text: "Phù, phần hướng dẫn tân thủ của mình đến đây là kết thúc rồi! Giao diện tuy hơi ngố một tí, nhưng bù lại rất dễ thương đúng không? Chúc bạn có khoảng thời gian khám phá thật vui vẻ nhé!",
         pose: NORMAL + "smile.png",
         audio: "assets/audio/Dialogue/Tutorial/1.9.wav",
         anim: "hop",
         highlightApps: [],
+        side: "right"
+    },
+    {
+        name: "Hệ thống",
+        text: "Bạn có thể thay đổi phong cách của Amy bằng nút '2D / Pixel' ở thanh công cụ bên dưới, hoặc trong ứng dụng Settings.",
+        pose: "hidden",
+        audio: null,
+        anim: null,
+        highlightApps: ["settings"],
         side: "right",
         effectAtEnd: "finish_tutorial"
     },
     // ── Style Change Dialogue (Triggered Manually) ──
     {
         name: "Amy",
-        text: "[2.1 Placeholder] Oa, bạn vừa đổi phong cách sao? Nhìn mình trong hình dạng Pixel này lạ quá!",
+        text: "Khoan đã, sao lại quay xe về chế độ Pixel thế này?",
         pose: PIXEL + "surprise.png",
         audio: "assets/audio/Dialogue/Toggle/2.1.wav",
         anim: "shake",
@@ -318,16 +327,16 @@ const vnScript = [
     },
     {
         name: "Amy",
-        text: "[2.2 Placeholder] Trông cứ như bước ra từ một tựa game nhập vai cổ điển vậy. Mình thích lắm!",
-        pose: PIXEL + "smile.png",
+        text: "Rõ ràng ban nãy mình cất công render bản 2D cho bạn rồi mà... Đừng nói với mình là bạn thích cái giao diện 'độ phân giải thấp' này hơn nha?",
+        pose: PIXEL + "confused.png",
         audio: "assets/audio/Dialogue/Toggle/2.2.wav",
         anim: "hop",
         side: "right"
     },
     {
         name: "Amy",
-        text: "[2.3 Placeholder] Từ giờ bạn có thể tự do chuyển đổi qua lại giữa hai phong cách này bất kỳ lúc nào nhé!",
-        pose: PIXEL + "proud.png",
+        text: "Chà... cứ tưởng bạn sẽ chê nó mờ chứ... Nhưng mà thôi, nếu bạn đã thích gu hoài cổ thì mình cũng chiều.",
+        pose: PIXEL + "shy.png",
         audio: "assets/audio/Dialogue/Toggle/2.3.wav",
         anim: "nod",
         side: "right",
@@ -558,18 +567,22 @@ function displayStep(stepIndex) {
     }
 
     // Update sprite
-    const poseChanged = spriteEl.src !== new URL(newSrc, window.location.href).href;
-    if (poseChanged) {
+    if (newSrc === "hidden") {
         spriteEl.style.opacity = "0";
-        setTimeout(() => {
-            spriteEl.src = newSrc;
-            spriteEl.onload = () => {
-                spriteEl.style.opacity = "1";
-                if (step.anim) playAnim(step.anim);
-            };
-        }, 180);
     } else {
-        if (step.anim) playAnim(step.anim);
+        const poseChanged = spriteEl.src !== new URL(newSrc, window.location.href).href;
+        if (poseChanged) {
+            spriteEl.style.opacity = "0";
+            setTimeout(() => {
+                spriteEl.src = newSrc;
+                spriteEl.onload = () => {
+                    spriteEl.style.opacity = "1";
+                    if (step.anim) playAnim(step.anim);
+                };
+            }, 180);
+        } else {
+            if (step.anim) playAnim(step.anim);
+        }
     }
 
     // Handle audio — either new audio file, or resume existing
@@ -821,6 +834,10 @@ const APP_DEFS = {
                         <button onclick="setWallpaper('night_goc.png')" style="padding:6px;cursor:pointer;">Night</button>
                     </div>
                     <button onclick="updateWallpaperByTime()" style="margin-top:10px;width:100%;padding:6px;cursor:pointer;background:#eee;">Auto by Time</button>
+                </div>
+                <div style="margin-top:15px; border-top:1px solid #eee; padding-top:15px;">
+                    <p><strong>Character Style:</strong></p>
+                    <button onclick="minimizeWindow('settings'); toggleStyle(event)" style="margin-top:5px;width:100%;padding:6px;cursor:pointer;background:#d3e3fd;border:1px solid #0a5ac7;color:#0a5ac7;font-weight:bold;">Swap 2D / Pixel</button>
                 </div>
             </div>
         </div>`
