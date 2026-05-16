@@ -383,7 +383,7 @@ function getAudioPath(originalPath) {
     if (!originalPath) return null;
     const base = originalPath.replace("assets/audio/Dialogue/", "");
     const nameWithoutExt = base.substring(0, base.lastIndexOf('.'));
-    const ext = currentLang === 'VI' ? '.wav' : '.mp3';
+    const ext = '.wav';
     return `assets/audio/Dialogue/${currentLang}/${nameWithoutExt}${ext}`;
 }
 
