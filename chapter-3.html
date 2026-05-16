@@ -829,7 +829,9 @@ function advanceDialogue(auto = false) {
         clearTimeout(advanceTimeout);
         advanceTimeout = null;
     }
-    if (currentStep >= vnScript.length - 1 && !isTyping) return;
+    if (currentStep >= vnScript.length - 1 && !isTyping) {
+        if (!vnScript[currentStep].effectAtEnd) return;
+    }
     
     if (isTyping) {
         if (!auto) {
