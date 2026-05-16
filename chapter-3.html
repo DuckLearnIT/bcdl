@@ -733,6 +733,8 @@ function handleEndEffect(step, stepIndex) {
         if (advanceTimeout) clearTimeout(advanceTimeout);
         advanceTimeout = setTimeout(() => {
             flashEl.classList.remove("active");
+            window.isEffectRunning = false;
+            step.effectApplied = true;
             autoAdvance(stepIndex);
         }, 700);
 
@@ -756,6 +758,8 @@ function handleEndEffect(step, stepIndex) {
                     document.getElementById("vn-dialogue-bar").style.opacity = "1";
                     document.getElementById("vn-dialogue-bar").style.pointerEvents = "all";
                     spriteEl.style.opacity = "1";
+                    window.isEffectRunning = false;
+                    step.effectApplied = true;
                     advanceDialogue(true);
                 }, 3000);
             }, 900);
@@ -783,6 +787,8 @@ function handleEndEffect(step, stepIndex) {
         
         // Show Style Toggle button
         document.getElementById("btn-style").style.display = "inline-block";
+        window.isEffectRunning = false;
+        step.effectApplied = true;
 
     } else if (step.effectAtEnd === "finish_style_dialogue") {
         if (advanceTimeout) clearTimeout(advanceTimeout);
@@ -790,14 +796,17 @@ function handleEndEffect(step, stepIndex) {
         document.getElementById("vn-dialogue-bar").style.transition = "opacity 0.8s ease";
         document.getElementById("vn-dialogue-bar").style.opacity = "0";
         document.getElementById("vn-dialogue-bar").style.pointerEvents = "none";
-        
         const spriteWrap = document.querySelector(".vn-character-wrap");
         if (spriteWrap) {
             spriteWrap.style.transition = "opacity 0.8s ease, transform 0.8s ease, left 0.8s ease";
             spriteWrap.style.opacity = "0";
             spriteWrap.style.pointerEvents = "none";
         }
+        window.isEffectRunning = false;
+        step.effectApplied = true;
     } else {
+        window.isEffectRunning = false;
+        step.effectApplied = true;
         autoAdvance(stepIndex);
     }
 }
@@ -840,16 +849,11 @@ function advanceDialogue(auto = false) {
             if (isAutoMode) checkAutoAdvance();
         }
     } else {
-        const effect = vnScript[currentStep].effectAtEnd;
-        if (effect === "windows" || effect === "transform" || effect === "finish_tutorial" || effect === "finish_style_dialogue") {
-            if (window.isEffectRunning) {
-                if (auto) {
-                    // Effect finished, allow to advance
-                } else {
-                    return;
-                }
-            } else {
-                window.isEffectRunning = true;
+        const step = vnScript[currentStep];
+        const effect = step.effectAtEnd;
+        if (effect && !step.effectApplied) {
+            if (window.isEffectRunning) return;
+            window.isEffectRunning = true;
                 
                 // Stop audio if user manually skips to effect
                 if (audio) {
