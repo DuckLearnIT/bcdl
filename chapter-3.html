@@ -33,6 +33,7 @@
                 <div class="vn-text" id="vn-text"></div>
                 <!-- Controls -->
                 <div class="vn-controls">
+                    <button class="vn-control-btn" id="btn-lang" onclick="toggleLang(event)">Giọng: VI</button>
                     <button class="vn-control-btn" id="btn-style" style="display:none;" onclick="toggleStyle(event)">2D / Pixel</button>
                     <button class="vn-control-btn" id="btn-mute" onclick="toggleMute(event)" title="Bật/Tắt âm thanh">🔊</button>
                     <button class="vn-control-btn" id="btn-auto" onclick="toggleAuto(event)">Auto</button>
@@ -362,6 +363,8 @@ let isPixelStyle = false; // Start in normal after transition
 let userStyleOverride = false; // Only apply style replacement if user explicitly toggles
 let hasSeenStyleDialogue = false;
 
+let currentLang = 'VI';
+
 const audio       = document.getElementById("vn-audio");
 const sfxSnap     = document.getElementById("sfx-snap");
 const textEl      = document.getElementById("vn-text");
@@ -375,6 +378,37 @@ const winDesktop  = document.getElementById("windows-desktop");
 const btnAuto     = document.getElementById("btn-auto");
 const logModal    = document.getElementById("vn-log-modal");
 const logBody     = document.getElementById("vn-log-body");
+
+function getAudioPath(originalPath) {
+    if (!originalPath) return null;
+    const base = originalPath.replace("assets/audio/Dialogue/", "");
+    const nameWithoutExt = base.substring(0, base.lastIndexOf('.'));
+    const ext = currentLang === 'VI' ? '.wav' : '.mp3';
+    return `assets/audio/Dialogue/${currentLang}/${nameWithoutExt}${ext}`;
+}
+
+function toggleLang(e) {
+    if (e) e.stopPropagation();
+    currentLang = currentLang === 'VI' ? 'JP' : 'VI';
+    
+    const btnLang = document.getElementById("btn-lang");
+    if (btnLang) btnLang.textContent = `Giọng: ${currentLang}`;
+    
+    const settingBtnLang = document.getElementById("setting-btn-lang");
+    if (settingBtnLang) settingBtnLang.textContent = `Switch Voice (Current: ${currentLang})`;
+    
+    // Restart audio if currently playing so the language switches immediately for the current line
+    if (audio && !audio.paused && currentStepText && vnScript[currentStep].audio) {
+        const isResuming = vnScript[currentStep].audioResume;
+        // Don't restart if it's a resume step as it relies on specific timing of previous audio
+        if (!isResuming) {
+            audio.pause();
+            audio.src = getAudioPath(vnScript[currentStep].audio);
+            audio.currentTime = vnScript[currentStep].audioStartTime || 0;
+            audio.play();
+        }
+    }
+}
 
 // Preload all images
 vnScript.forEach(s => { const i = new Image(); i.src = s.pose; });
@@ -601,6 +635,16 @@ function displayStep(stepIndex) {
 
     // Handle audio — either new audio file, or resume existing
     if (step.audioResume) {
+        // Check if we need to skip audio forward (user skipped previous dialogue)
+        const expectedStartTime = vnScript[stepIndex - 1] && vnScript[stepIndex - 1].audioEndTime 
+            ? vnScript[stepIndex - 1].audioEndTime 
+            : null;
+        if (expectedStartTime && audio.currentTime < expectedStartTime) {
+            audio.currentTime = expectedStartTime;
+        }
+        
+        if (audio.paused) audio.play();
+
         // Continue playing the current audio, just type new text
         const remainingTime = step.audioEndTime
             ? step.audioEndTime - audio.currentTime
@@ -609,23 +653,32 @@ function displayStep(stepIndex) {
         typeTextSync(step.text, Math.max(2, typeDuration));
 
         // If this step has an audioEndTime, wait for it
-        if (step.audioEndTime) {
+        if (step.audioEndTime && step.noAutoAdvanceAudio) {
+            // Stop checking at audioEndTime
             audioTimeCheckInterval = setInterval(() => {
                 if (audio.currentTime >= step.audioEndTime) {
                     clearInterval(audioTimeCheckInterval);
                     audioTimeCheckInterval = null;
-                    handleEndEffect(step, stepIndex);
+                    if (isAutoMode) {
+                        handleEndEffect(step, stepIndex);
+                    } else {
+                        window.isEffectRunning = false;
+                        audio.pause();
+                    }
                 }
             }, 100);
-        } else {
-            // Wait for audio to fully end
+        } else if (!step.noAutoAdvanceAudio) {
             audio.onended = () => {
-                handleEndEffect(step, stepIndex);
+                if (isAutoMode) {
+                    handleEndEffect(step, stepIndex);
+                } else {
+                    window.isEffectRunning = false;
+                }
             };
         }
     } else if (step.audio) {
         // New audio file
-        audio.src = step.audio;
+        audio.src = getAudioPath(step.audio);
         audio.onloadedmetadata = () => {
             if (step.audioStartTime) {
                 audio.currentTime = step.audioStartTime;
@@ -644,12 +697,21 @@ function displayStep(stepIndex) {
                 if (audio.currentTime >= step.audioEndTime) {
                     clearInterval(audioTimeCheckInterval);
                     audioTimeCheckInterval = null;
-                    handleEndEffect(step, stepIndex);
+                    if (isAutoMode) {
+                        handleEndEffect(step, stepIndex);
+                    } else {
+                        window.isEffectRunning = false;
+                        audio.pause();
+                    }
                 }
             }, 100);
         } else if (!step.noAutoAdvanceAudio) {
             audio.onended = () => {
-                handleEndEffect(step, stepIndex);
+                if (isAutoMode) {
+                    handleEndEffect(step, stepIndex);
+                } else {
+                    window.isEffectRunning = false;
+                }
             };
         }
     } else {
@@ -879,6 +941,11 @@ const APP_DEFS = {
                 <div style="margin-top:20px;border-top:1px solid #ccc;padding-top:15px;">
                     <p><strong>Character Style:</strong></p>
                     <button onclick="toggleStyle(event)" style="margin-top:10px;width:100%;padding:8px;cursor:pointer;background:#ffefd5;border:1px solid #ffb6c1;border-radius:4px;font-weight:bold;">Switch 2D / Pixel</button>
+                </div>
+                
+                <div style="margin-top:20px;border-top:1px solid #ccc;padding-top:15px;">
+                    <p><strong>Voice Language:</strong></p>
+                    <button id="setting-btn-lang" onclick="toggleLang(event)" style="margin-top:10px;width:100%;padding:8px;cursor:pointer;background:#e6f7ff;border:1px solid #91d5ff;border-radius:4px;font-weight:bold;">Switch Voice (Current: VI)</button>
                 </div>
             </div>
         </div>`
