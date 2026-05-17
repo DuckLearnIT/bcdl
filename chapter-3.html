@@ -358,6 +358,7 @@ let audioTimeCheckInterval = null;
 let isAutoMode = false;
 let dialogueHistory = [];
 let advanceTimeout = null;
+let autoAdvanceTimer = null;
 
 let isPixelStyle = false; // Start in normal after transition
 let userStyleOverride = false; // Only apply style replacement if user explicitly toggles
@@ -504,8 +505,9 @@ function closeLog() {
 }
 
 function checkAutoAdvance() {
+    if (autoAdvanceTimer) clearTimeout(autoAdvanceTimer);
     if (isAutoMode && !isTyping) {
-        setTimeout(() => {
+        autoAdvanceTimer = setTimeout(() => {
             if (isAutoMode && !isTyping) {
                 advanceDialogue(true);
             }
@@ -834,6 +836,13 @@ function finishTyping() {
 //  ADVANCE (click or auto)
 // ────────────────────────────────────────────
 function advanceDialogue(auto = false) {
+    if (window.isEffectRunning) return;
+
+    if (autoAdvanceTimer) {
+        clearTimeout(autoAdvanceTimer);
+        autoAdvanceTimer = null;
+    }
+
     if (advanceTimeout) {
         clearTimeout(advanceTimeout);
         advanceTimeout = null;
@@ -852,10 +861,9 @@ function advanceDialogue(auto = false) {
         const step = vnScript[currentStep];
         const effect = step.effectAtEnd;
         if (effect && !step.effectApplied) {
-            if (window.isEffectRunning) return;
             window.isEffectRunning = true;
                 
-                // Stop audio if user manually skips to effect
+            // Stop audio if user manually skips to effect
                 if (audio) {
                     audio.pause();
                     audio.onended = null;
@@ -866,7 +874,6 @@ function advanceDialogue(auto = false) {
                 }
                 handleEndEffect(vnScript[currentStep], currentStep);
                 return;
-            }
         }
         
         currentStep++;
