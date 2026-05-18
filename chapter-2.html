@@ -3,6 +3,7 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="color-scheme" content="light only">
   <title>L̸̢̛͍͍͔͉̮͔̺͐͜ǫ̷̡͖͓̳̫̗̱̙̺̫̦̭̼͓̓͒̑̈́̆̎̈́̅̄̈̄̀͘̚a̸͇̮͛́͒̽̀͆̆͜ͅď̷̘̠̳͈̤͂̿͊̈́̾̈͌̕i̷̛̯̎͆̓͋͗̋̃̎̚ͅn̷̪̭̄͋͑̌̓̓̀͐̐͒̇̕͝ġ̴̭͗̉͂̿̃</title>
 
   <!-- Fonts -->
@@ -12,7 +13,7 @@
   <!-- Styles -->
   <link rel="stylesheet" href="assets/css/chapter-2.css">
 </head>
-<body>
+<body oncontextmenu="return false;" style="-webkit-user-select: none; -moz-user-select: none; -ms-user-select: none; user-select: none;">
 
   <!-- ═══ Screen 1: Terminal Boot ═══ -->
   <div id="terminal-screen">
@@ -92,6 +93,22 @@
 
   <!-- Scripts -->
   <script src="assets/js/chapter-2.js"></script>
-
+  <script>
+  // ── Security & Anti-Screenshot Logic ──
+  document.addEventListener('keydown', (e) => {
+      if (e.key === 'F12' || e.keyCode === 123) e.preventDefault();
+      if (e.ctrlKey && e.shiftKey && (e.key === 'I' || e.key === 'J' || e.key === 'C')) e.preventDefault();
+      if (e.ctrlKey && (e.key === 'U' || e.key === 'u')) e.preventDefault();
+      if (e.key === 'PrintScreen' || e.keyCode === 44) {
+          navigator.clipboard.writeText('');
+          e.preventDefault();
+      }
+  });
+  document.addEventListener('keyup', (e) => {
+      if (e.key === 'PrintScreen' || e.keyCode === 44) {
+          navigator.clipboard.writeText('');
+      }
+  });
+  </script>
 </body>
 </html>

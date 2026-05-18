@@ -3,11 +3,12 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="color-scheme" content="light only">
 <title>Chapter 3 — Amy</title>
 <link href="https://fonts.googleapis.com/css2?family=Merriweather:ital,wght@0,400;0,700;1,400&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="assets/css/visual-novel.css">
 </head>
-<body>
+<body oncontextmenu="return false;" style="-webkit-user-select: none; -moz-user-select: none; -ms-user-select: none; user-select: none;">
 
 <!-- Flash overlay -->
 <div class="flash-overlay" id="flash-overlay"></div>
@@ -1473,6 +1474,22 @@ function makeIconsDraggable() {
 }
 
 </script>
+<script>
+// ── Security & Anti-Screenshot Logic ──
+document.addEventListener('keydown', (e) => {
+    if (e.key === 'F12' || e.keyCode === 123) e.preventDefault();
+    if (e.ctrlKey && e.shiftKey && (e.key === 'I' || e.key === 'J' || e.key === 'C')) e.preventDefault();
+    if (e.ctrlKey && (e.key === 'U' || e.key === 'u')) e.preventDefault();
+    if (e.key === 'PrintScreen' || e.keyCode === 44) {
+        navigator.clipboard.writeText('');
+        e.preventDefault();
+    }
+});
+document.addEventListener('keyup', (e) => {
+    if (e.key === 'PrintScreen' || e.keyCode === 44) {
+        navigator.clipboard.writeText('');
+    }
+});
+</script>
 </body>
 </html>
-
