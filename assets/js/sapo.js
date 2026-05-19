@@ -120,6 +120,30 @@ const sapoScript = [
         pose: "assets/img/bcdl_1/thayuyvien.png",
         audio: "assets/audio/SFX/thayuyvien.m4a",
         customDur: 5.5,
+        effectAtEnd: "sapo_transition_drama_1"
+    },
+    {
+        name: "Dẫn chuyện",
+        text: "Đằng sau những điểm số an toàn và các bài tập nộp đúng hạn là một cuộc khủng hoảng nhận thức vô hình.",
+        pose: "assets/img/amy/normal/default.png",
+        hideSprite: true,
+        customDur: 8.0,
+        effectAtEnd: "sapo_transition_drama_2"
+    },
+    {
+        name: "Dẫn chuyện",
+        text: "Kết quả khảo sát trên 238 sinh viên tại Hà Nội đã phơi bày một sự thật đáng suy ngẫm:",
+        pose: "assets/img/amy/normal/default.png",
+        hideSprite: true,
+        customDur: 8.0,
+        effectAtEnd: "sapo_transition_drama_3"
+    },
+    {
+        name: "Dẫn chuyện",
+        text: "AI không còn dừng lại ở vai trò một công cụ hỗ trợ thông thường. Nó đang âm thầm biến thành một \"bộ não thứ hai\", dần thay thế và bào mòn năng lực tư duy độc lập của người trẻ.",
+        pose: "assets/img/amy/normal/default.png",
+        hideSprite: true,
+        customDur: 10.0,
         effectAtEnd: "sapo_end"
     }
 ];
@@ -178,8 +202,15 @@ function startSapoSequence() {
         // Hook into displayStep to handle hideSprite và emotion — PHẢI đặt TRƯỚC displayStep(0)
         const originalDisplayStep = window.displayStep;
         window.displayStep = function(stepIndex) {
-            originalDisplayStep(stepIndex);
             const step = window.vnScript[stepIndex];
+            
+            // Nếu là bước cuối cùng (Outro Text: "AI không còn dừng lại...")
+            if (step && stepIndex === window.vnScript.length - 1) {
+                runCenteredOutro(step.text);
+                return;
+            }
+            
+            originalDisplayStep(stepIndex);
             
             // Handle hideSprite
             if (step && step.hideSprite) {
@@ -349,32 +380,132 @@ window.handleEndEffect = function(step, stepIndex) {
             }, 1000);
         }, 50);
         
-    } else if (step.effectAtEnd === "sapo_end") {
-        // Show typewriter white screen IMMEDIATELY (no transition delay) to prevent showing windows desktop
-        const overlay = document.getElementById('sapo-typewriter-overlay');
-        if (overlay) {
-            overlay.style.transition = 'none'; // Instant reveal
-            overlay.classList.add('active');
-            void overlay.offsetHeight; // Force reflow
-            overlay.style.transition = 'opacity 0.5s cubic-bezier(0.25, 0.8, 0.25, 1)'; // Restore transition for fade-out later
-        }
+    } else if (step.effectAtEnd === "sapo_transition_drama_1") {
+        window.isEffectRunning = true;
 
-        // Hide Sapo visual novel dialogue bar & background overlay behind the white curtain
+        // Force Auto Mode during outro
+        window.isAutoMode = true;
+        const btnAuto = document.getElementById("btn-auto");
+        if (btnAuto) btnAuto.classList.add("active");
+
+        // Drama BGM - drama2.m4a
+        const dramaBgm = new Audio("assets/audio/SFX/drama2.m4a");
+        dramaBgm.loop = true;
+        dramaBgm.volume = 0.8;
+        dramaBgm.play().catch(e => console.log("Drama BGM blocked", e));
+        window.sapoDramaBgm = dramaBgm;
+
+        // Ẩn dialogue và nhân vật để tránh ghosting
         document.getElementById('vn-dialogue-bar').style.opacity = "0";
         document.getElementById('vn-dialogue-bar').style.pointerEvents = "none";
-        document.getElementById('sapo-overlay').style.opacity = "0";
-        document.getElementById('sapo-overlay').style.backgroundImage = "none";
         
         const charWrap = document.querySelector('.vn-character-wrap');
         if (charWrap) {
             charWrap.style.opacity = "0";
-            charWrap.style.transition = "opacity 0.5s ease";
         }
-        
+
+        const overlay = document.getElementById('sapo-overlay');
+        overlay.style.transition = "none";
+        overlay.style.backgroundColor = "#000";
+        overlay.style.backgroundImage = "none";
+        overlay.className = 'active';
+
+        setTimeout(() => {
+            // Apply A+.png với panning từ trái qua phải
+            overlay.style.backgroundImage = "url('assets/img/bcdl_1/A+.png')";
+            overlay.className = 'active pan-left-right';
+            
+            setTimeout(() => {
+                document.getElementById('vn-dialogue-bar').style.opacity = "1";
+                document.getElementById('vn-dialogue-bar').style.pointerEvents = "all";
+                window.isEffectRunning = false;
+                window.vnScript[window.currentStep].effectApplied = true;
+                window.advanceDialogue(true);
+            }, 1000);
+        }, 1000);
+
+    } else if (step.effectAtEnd === "sapo_transition_drama_2") {
+        window.isEffectRunning = true;
+
+        document.getElementById('vn-dialogue-bar').style.opacity = "0";
+        document.getElementById('vn-dialogue-bar').style.pointerEvents = "none";
+
+        const overlay = document.getElementById('sapo-overlay');
+        overlay.style.transition = "none";
+        overlay.style.backgroundImage = "none";
+        overlay.style.backgroundColor = "#000";
+        overlay.className = 'active';
+
+        setTimeout(() => {
+            // Apply sili.png với panning từ dưới lên trên
+            overlay.style.backgroundImage = "url('assets/img/bcdl_1/sili.png')";
+            overlay.className = 'active pan-bottom-top';
+
+            setTimeout(() => {
+                document.getElementById('vn-dialogue-bar').style.opacity = "1";
+                document.getElementById('vn-dialogue-bar').style.pointerEvents = "all";
+                window.isEffectRunning = false;
+                window.vnScript[window.currentStep].effectApplied = true;
+                window.advanceDialogue(true);
+            }, 1000);
+        }, 1000);
+
+    } else if (step.effectAtEnd === "sapo_transition_drama_3") {
+        window.isEffectRunning = true;
+
+        document.getElementById('vn-dialogue-bar').style.opacity = "0";
+        document.getElementById('vn-dialogue-bar').style.pointerEvents = "none";
+
+        const overlay = document.getElementById('sapo-overlay');
+        overlay.style.transition = "none";
+        overlay.style.backgroundImage = "none";
+        overlay.style.backgroundColor = "#000";
+        overlay.className = 'active';
+
+        setTimeout(() => {
+            document.getElementById('vn-dialogue-bar').style.opacity = "1";
+            document.getElementById('vn-dialogue-bar').style.pointerEvents = "all";
+            window.isEffectRunning = false;
+            window.vnScript[window.currentStep].effectApplied = true;
+            window.advanceDialogue(true);
+        }, 1000);
+
+    } else if (step.effectAtEnd === "sapo_end") {
+        // Tắt nhạc nền Drama mượt mà
+        if (window.sapoDramaBgm) {
+            let vol = window.sapoDramaBgm.volume;
+            const fadeInterval = setInterval(() => {
+                vol -= 0.05;
+                if (vol <= 0) {
+                    clearInterval(fadeInterval);
+                    window.sapoDramaBgm.pause();
+                    window.sapoDramaBgm = null;
+                } else {
+                    window.sapoDramaBgm.volume = Math.max(0, vol);
+                }
+            }, 100);
+        }
+
+        // Ẩn toàn bộ UI Sapo và Visual Novel
+        document.getElementById('vn-dialogue-bar').style.transition = "opacity 0.8s ease";
+        document.getElementById('vn-dialogue-bar').style.opacity = "0";
+        document.getElementById('vn-dialogue-bar').style.pointerEvents = "none";
+
+        const overlay = document.getElementById('sapo-overlay');
+        overlay.style.transition = "opacity 0.8s ease";
+        overlay.style.opacity = "0";
+
+        const charWrap = document.querySelector('.vn-character-wrap');
+        if (charWrap) {
+            charWrap.style.transition = "opacity 0.5s ease";
+            charWrap.style.opacity = "0";
+        }
+
         setTimeout(() => {
             if (charWrap) charWrap.classList.remove("sapo-mode");
-            runSapoTypewriter();
-        }, 400); // Start typing faster now that transition is instant
+            isSapoMode = false;
+            window.location.reload();
+        }, 1000);
     } else {
         // Fallback to original
         if (typeof originalHandleEndEffect === "function") {
@@ -607,4 +738,262 @@ function runSapoTypewriter() {
     };
     overlay.addEventListener('click', handleScreenClick);
 }
+
+/* ═══ Custom Fullscreen Cinematic Outro Sequences ═══ */
+function runCenteredOutro(text) {
+    window.isEffectRunning = true;
+    
+    // 1. Hide the visual novel's standard dialogue bar completely
+    const diagBar = document.getElementById('vn-dialogue-bar');
+    if (diagBar) {
+        diagBar.style.transition = "opacity 0.8s ease";
+        diagBar.style.opacity = "0";
+        diagBar.style.pointerEvents = "none";
+    }
+    
+    // 2. Hide characters
+    const charWrap = document.querySelector('.vn-character-wrap');
+    if (charWrap) {
+        charWrap.style.transition = "opacity 0.8s ease";
+        charWrap.style.opacity = "0";
+    }
+    
+    // 3. Keep the overlay background solid pitch black
+    const overlay = document.getElementById('sapo-overlay');
+    if (overlay) {
+        overlay.style.transition = "background-image 0.8s ease, background-color 0.8s ease";
+        overlay.style.backgroundColor = "#000000";
+        overlay.style.backgroundImage = "none";
+        overlay.className = 'active';
+        overlay.style.opacity = "1";
+    }
+    
+    // 4. Create the gorgeous fullscreen outro overlay
+    let outroContainer = document.getElementById('sapo-outro-container');
+    if (!outroContainer) {
+        outroContainer = document.createElement('div');
+        outroContainer.id = 'sapo-outro-container';
+        document.body.appendChild(outroContainer);
+    }
+    
+    outroContainer.className = 'active';
+    outroContainer.innerHTML = '';
+    
+    const textNode = document.createElement('div');
+    textNode.className = 'sapo-outro-text';
+    outroContainer.appendChild(textNode);
+    
+    let idx = 0;
+    const speed = 55; // 55ms per character creates an excellent dramatic cadence
+    
+    // 5. Play keyboard typing sound effect (looping)
+    sapoKeyboardAudio.currentTime = 0;
+    sapoKeyboardAudio.loop = true;
+    sapoKeyboardAudio.play().catch(e => console.log("Keyboard SFX blocked:", e));
+    
+    const typeTimer = setInterval(() => {
+        if (idx < text.length) {
+            textNode.textContent = text.substring(0, idx + 1);
+            idx++;
+        } else {
+            clearInterval(typeTimer);
+            sapoKeyboardAudio.pause();
+            
+            // 6. Dramatic pause after typing is finished, then fade out text
+            setTimeout(() => {
+                textNode.style.opacity = "0";
+                
+                setTimeout(() => {
+                    outroContainer.innerHTML = '';
+                    revealImpactTitle();
+                }, 1000);
+            }, 3000);
+        }
+    }, speed);
+}
+
+// Exquisite Web Audio cinematic sub-bass boom and metallic slam synthesizer
+function playSynthesizedImpact() {
+    try {
+        const AudioContext = window.AudioContext || window.webkitAudioContext;
+        if (!AudioContext) return;
+        const ctx = new AudioContext();
+        const now = ctx.currentTime;
+        
+        // --- 1. THE METALLIC SLAM ---
+        const osc1 = ctx.createOscillator();
+        const osc2 = ctx.createOscillator();
+        const osc3 = ctx.createOscillator();
+        
+        osc1.type = 'triangle';
+        osc1.frequency.setValueAtTime(200, now);
+        osc1.frequency.exponentialRampToValueAtTime(50, now + 0.2);
+        
+        osc2.type = 'sawtooth';
+        osc2.frequency.setValueAtTime(350, now);
+        osc2.frequency.exponentialRampToValueAtTime(70, now + 0.15);
+        
+        osc3.type = 'square';
+        osc3.frequency.setValueAtTime(900, now);
+        osc3.frequency.exponentialRampToValueAtTime(100, now + 0.1);
+        
+        const metalGain = ctx.createGain();
+        metalGain.gain.setValueAtTime(0.5, now);
+        metalGain.gain.exponentialRampToValueAtTime(0.001, now + 0.5);
+        
+        osc1.connect(metalGain);
+        osc2.connect(metalGain);
+        osc3.connect(metalGain);
+        
+        // --- 2. THE CINEMATIC SUB-BASS BOOM ---
+        const subOsc = ctx.createOscillator();
+        subOsc.type = 'sine';
+        subOsc.frequency.setValueAtTime(90, now);
+        subOsc.frequency.exponentialRampToValueAtTime(28, now + 1.2);
+        
+        const subGain = ctx.createGain();
+        subGain.gain.setValueAtTime(0.85, now);
+        subGain.gain.exponentialRampToValueAtTime(0.001, now + 3.0);
+        
+        subOsc.connect(subGain);
+        
+        // --- 3. THE REVERBERATING ROOM RUMBLE ---
+        const bufferSize = ctx.sampleRate * 3.5;
+        const noiseBuffer = ctx.createBuffer(1, bufferSize, ctx.sampleRate);
+        const output = noiseBuffer.getChannelData(0);
+        for (let i = 0; i < bufferSize; i++) {
+            output[i] = Math.random() * 2 - 1;
+        }
+        
+        const noiseNode = ctx.createBufferSource();
+        noiseNode.buffer = noiseBuffer;
+        
+        const noiseFilter = ctx.createBiquadFilter();
+        noiseFilter.type = 'bandpass';
+        noiseFilter.frequency.setValueAtTime(80, now);
+        noiseFilter.frequency.exponentialRampToValueAtTime(40, now + 2.0);
+        noiseFilter.Q.setValueAtTime(3.0, now);
+        
+        const noiseGain = ctx.createGain();
+        noiseGain.gain.setValueAtTime(0.3, now);
+        noiseGain.gain.exponentialRampToValueAtTime(0.001, now + 2.5);
+        
+        noiseNode.connect(noiseFilter);
+        noiseFilter.connect(noiseGain);
+        
+        // --- MASTER STAGE ---
+        const masterFilter = ctx.createBiquadFilter();
+        masterFilter.type = 'lowpass';
+        masterFilter.frequency.setValueAtTime(650, now);
+        
+        const masterGain = ctx.createGain();
+        masterGain.gain.setValueAtTime(1.0, now);
+        
+        metalGain.connect(masterFilter);
+        subGain.connect(masterFilter);
+        noiseGain.connect(masterFilter);
+        
+        masterFilter.connect(masterGain);
+        masterGain.connect(ctx.destination);
+        
+        // Trigger all nodes
+        osc1.start(now);
+        osc2.start(now);
+        osc3.start(now);
+        subOsc.start(now);
+        noiseNode.start(now);
+        
+        // Graceful stop
+        osc1.stop(now + 0.6);
+        osc2.stop(now + 0.6);
+        osc3.stop(now + 0.6);
+        subOsc.stop(now + 3.5);
+        noiseNode.stop(now + 3.5);
+    } catch (e) {
+        console.warn("Synthesized cinematic boom failed (user interaction limit or unsupported browser):", e);
+    }
+}
+
+function revealImpactTitle() {
+    const outroContainer = document.getElementById('sapo-outro-container');
+    if (!outroContainer) return;
+    
+    const titleNode = document.createElement('div');
+    titleNode.className = 'sapo-outro-title';
+    outroContainer.appendChild(titleNode);
+    
+    const titleText = "Sinh viên dùng AI: Kiểm soát công nghệ hay bị công nghệ dẫn dắt?";
+    
+    // Split text into words, then each word into characters to ensure proper browser wrapping
+    const words = titleText.split(' ');
+    let letterIndex = 0;
+    
+    words.forEach((wordText) => {
+        const wordSpan = document.createElement('span');
+        wordSpan.className = 'sapo-outro-word';
+        
+        const letters = Array.from(wordText);
+        letters.forEach((char) => {
+            const letterSpan = document.createElement('span');
+            letterSpan.className = 'sapo-outro-letter';
+            letterSpan.textContent = char;
+            
+            // Random cinematic 3D offsets for each letter
+            const rx = (Math.random() * 800 - 400) + 'px'; // -400px to +400px
+            const ry = (Math.random() * 600 - 300) + 'px'; // -300px to +300px
+            const rz = (Math.random() * 400 + 300) + 'px'; // +300px to +700px depth
+            const rr = (Math.random() * 80 - 40) + 'deg';  // -40deg to +40deg tilt
+            
+            letterSpan.style.setProperty('--x', rx);
+            letterSpan.style.setProperty('--y', ry);
+            letterSpan.style.setProperty('--z', rz);
+            letterSpan.style.setProperty('--r', rr);
+            
+            // Staggered delay (35ms per character creates a sweeping, high-end organic flow)
+            const delay = letterIndex * 35;
+            letterSpan.style.animationDelay = delay + 'ms';
+            
+            wordSpan.appendChild(letterSpan);
+            letterIndex++;
+        });
+        
+        titleNode.appendChild(wordSpan);
+    });
+    
+    // Play BOTH the file impact and our massive synthesized sub-bass & rumble together for unmatched quality
+    const impactAudio = new Audio("assets/audio/SFX/impact.mp3");
+    impactAudio.volume = 1.0;
+    impactAudio.play().catch(e => console.log("Impact audio file play blocked:", e));
+    
+    playSynthesizedImpact();
+    
+    // Reveal container
+    outroContainer.style.opacity = "1";
+    
+    // 7. Reveal title on screen for 6.5 seconds, then gracefully fade out and reload
+    setTimeout(() => {
+        outroContainer.style.transition = "opacity 1.8s ease";
+        outroContainer.style.opacity = "0";
+        
+        setTimeout(() => {
+            outroContainer.className = '';
+            outroContainer.innerHTML = '';
+            
+            // Clean up Sapo state and reload to main menu/restart state
+            window.isEffectRunning = false;
+            
+            if (window.sapoDramaBgm) {
+                window.sapoDramaBgm.pause();
+                window.sapoDramaBgm = null;
+            }
+            
+            const charWrap = document.querySelector('.vn-character-wrap');
+            if (charWrap) charWrap.classList.remove("sapo-mode");
+            isSapoMode = false;
+            
+            window.location.reload();
+        }, 1800);
+    }, 6500);
+}
+
 

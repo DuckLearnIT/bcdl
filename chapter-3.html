@@ -360,6 +360,19 @@ let typeTimer = null;
 let currentStepText = "";
 let audioTimeCheckInterval = null;
 let isAutoMode = false;
+// Synchronize the local isAutoMode variable with the global window.isAutoMode property
+Object.defineProperty(window, 'isAutoMode', {
+    get: function() { return isAutoMode; },
+    set: function(val) {
+        isAutoMode = val;
+        const btnAuto = document.getElementById("btn-auto");
+        if (btnAuto) btnAuto.classList.toggle("active", isAutoMode);
+        if (isAutoMode && !isTyping) {
+            checkAutoAdvance();
+        }
+    },
+    configurable: true
+});
 let dialogueHistory = [];
 let advanceTimeout = null;
 let autoAdvanceTimer = null;
