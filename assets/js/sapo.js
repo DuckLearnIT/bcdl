@@ -204,12 +204,6 @@ function startSapoSequence() {
         window.displayStep = function(stepIndex) {
             const step = window.vnScript[stepIndex];
             
-            // Nếu là bước cuối cùng (Outro Text: "AI không còn dừng lại...")
-            if (step && stepIndex === window.vnScript.length - 1) {
-                runCenteredOutro(step.text);
-                return;
-            }
-            
             originalDisplayStep(stepIndex);
             
             // Handle hideSprite
@@ -388,8 +382,8 @@ window.handleEndEffect = function(step, stepIndex) {
         const btnAuto = document.getElementById("btn-auto");
         if (btnAuto) btnAuto.classList.add("active");
 
-        // Drama BGM - drama2.m4a
-        const dramaBgm = new Audio("assets/audio/SFX/drama2.m4a");
+        // Drama BGM - drame.m4a
+        const dramaBgm = new Audio("assets/audio/SFX/drame.m4a");
         dramaBgm.loop = true;
         dramaBgm.volume = 0.8;
         dramaBgm.play().catch(e => console.log("Drama BGM blocked", e));
@@ -462,6 +456,35 @@ window.handleEndEffect = function(step, stepIndex) {
         overlay.style.backgroundColor = "#000";
         overlay.className = 'active';
 
+        // Clear existing video elements to prevent duplicates
+        const existingVideo = overlay.querySelector('video');
+        if (existingVideo) {
+            existingVideo.remove();
+        }
+
+        // Dynamically create and play C:\Users\Duck\Downloads\BCDL\assets\video\AI.mp4
+        const video = document.createElement('video');
+        video.src = "assets/video/AI.mp4";
+        video.autoplay = true;
+        video.loop = true;
+        video.muted = true;
+        video.setAttribute('playsinline', '');
+        video.style.position = "absolute";
+        video.style.top = "0";
+        video.style.left = "0";
+        video.style.width = "100%";
+        video.style.height = "100%";
+        video.style.objectFit = "cover";
+        video.style.zIndex = "-1";
+        video.style.opacity = "0";
+        video.style.transition = "opacity 1s ease";
+        overlay.appendChild(video);
+
+        // Fade in the video smoothly
+        setTimeout(() => {
+            video.style.opacity = "1";
+        }, 50);
+
         setTimeout(() => {
             document.getElementById('vn-dialogue-bar').style.opacity = "1";
             document.getElementById('vn-dialogue-bar').style.pointerEvents = "all";
@@ -471,6 +494,8 @@ window.handleEndEffect = function(step, stepIndex) {
         }, 1000);
 
     } else if (step.effectAtEnd === "sapo_end") {
+        window.isEffectRunning = true;
+
         // Tắt nhạc nền Drama mượt mà
         if (window.sapoDramaBgm) {
             let vol = window.sapoDramaBgm.volume;
@@ -493,7 +518,6 @@ window.handleEndEffect = function(step, stepIndex) {
 
         const overlay = document.getElementById('sapo-overlay');
         overlay.style.transition = "opacity 0.8s ease";
-        overlay.style.opacity = "0";
 
         const charWrap = document.querySelector('.vn-character-wrap');
         if (charWrap) {
@@ -501,11 +525,25 @@ window.handleEndEffect = function(step, stepIndex) {
             charWrap.style.opacity = "0";
         }
 
+        // Fade out cover video smoothly
+        const video = overlay.querySelector('video');
+        if (video) {
+            video.style.transition = "opacity 0.5s ease";
+            video.style.opacity = "0";
+            setTimeout(() => {
+                video.remove();
+            }, 500);
+        }
+
         setTimeout(() => {
-            if (charWrap) charWrap.classList.remove("sapo-mode");
-            isSapoMode = false;
-            window.location.reload();
-        }, 1000);
+            overlay.style.backgroundImage = "none";
+            overlay.style.backgroundColor = "#000000";
+            overlay.className = 'active';
+            overlay.style.opacity = "1";
+
+            // Launch the gorgeous kinetic impact title sequence
+            revealImpactTitle();
+        }, 800);
     } else {
         // Fallback to original
         if (typeof originalHandleEndEffect === "function") {
@@ -813,7 +851,7 @@ function runCenteredOutro(text) {
 }
 
 // Exquisite Web Audio cinematic sub-bass boom and metallic slam synthesizer
-function playSynthesizedImpact() {
+function playSynthesizedImpact(isEpic) {
     try {
         const AudioContext = window.AudioContext || window.webkitAudioContext;
         if (!AudioContext) return;
@@ -845,78 +883,91 @@ function playSynthesizedImpact() {
         osc2.connect(metalGain);
         osc3.connect(metalGain);
         
-        // --- 2. THE CINEMATIC SUB-BASS BOOM ---
-        const subOsc = ctx.createOscillator();
-        subOsc.type = 'sine';
-        subOsc.frequency.setValueAtTime(90, now);
-        subOsc.frequency.exponentialRampToValueAtTime(28, now + 1.2);
-        
-        const subGain = ctx.createGain();
-        subGain.gain.setValueAtTime(0.85, now);
-        subGain.gain.exponentialRampToValueAtTime(0.001, now + 3.0);
-        
-        subOsc.connect(subGain);
-        
-        // --- 3. THE REVERBERATING ROOM RUMBLE ---
-        const bufferSize = ctx.sampleRate * 3.5;
-        const noiseBuffer = ctx.createBuffer(1, bufferSize, ctx.sampleRate);
-        const output = noiseBuffer.getChannelData(0);
-        for (let i = 0; i < bufferSize; i++) {
-            output[i] = Math.random() * 2 - 1;
-        }
-        
-        const noiseNode = ctx.createBufferSource();
-        noiseNode.buffer = noiseBuffer;
-        
-        const noiseFilter = ctx.createBiquadFilter();
-        noiseFilter.type = 'bandpass';
-        noiseFilter.frequency.setValueAtTime(80, now);
-        noiseFilter.frequency.exponentialRampToValueAtTime(40, now + 2.0);
-        noiseFilter.Q.setValueAtTime(3.0, now);
-        
-        const noiseGain = ctx.createGain();
-        noiseGain.gain.setValueAtTime(0.3, now);
-        noiseGain.gain.exponentialRampToValueAtTime(0.001, now + 2.5);
-        
-        noiseNode.connect(noiseFilter);
-        noiseFilter.connect(noiseGain);
-        
         // --- MASTER STAGE ---
         const masterFilter = ctx.createBiquadFilter();
         masterFilter.type = 'lowpass';
-        masterFilter.frequency.setValueAtTime(650, now);
+        masterFilter.frequency.setValueAtTime(isEpic ? 650 : 800, now);
         
         const masterGain = ctx.createGain();
         masterGain.gain.setValueAtTime(1.0, now);
         
         metalGain.connect(masterFilter);
-        subGain.connect(masterFilter);
-        noiseGain.connect(masterFilter);
+        
+        let subOsc = null;
+        let noiseNode = null;
+        
+        if (isEpic) {
+            // --- 2. THE CINEMATIC SUB-BASS BOOM ---
+            subOsc = ctx.createOscillator();
+            subOsc.type = 'sine';
+            subOsc.frequency.setValueAtTime(90, now);
+            subOsc.frequency.exponentialRampToValueAtTime(28, now + 1.2);
+            
+            const subGain = ctx.createGain();
+            subGain.gain.setValueAtTime(0.85, now);
+            subGain.gain.exponentialRampToValueAtTime(0.001, now + 3.0);
+            
+            subOsc.connect(subGain);
+            subGain.connect(masterFilter);
+            
+            // --- 3. THE REVERBERATING ROOM RUMBLE ---
+            const bufferSize = ctx.sampleRate * 3.5;
+            const noiseBuffer = ctx.createBuffer(1, bufferSize, ctx.sampleRate);
+            const output = noiseBuffer.getChannelData(0);
+            for (let i = 0; i < bufferSize; i++) {
+                output[i] = Math.random() * 2 - 1;
+            }
+            
+            noiseNode = ctx.createBufferSource();
+            noiseNode.buffer = noiseBuffer;
+            
+            const noiseFilter = ctx.createBiquadFilter();
+            noiseFilter.type = 'bandpass';
+            noiseFilter.frequency.setValueAtTime(80, now);
+            noiseFilter.frequency.exponentialRampToValueAtTime(40, now + 2.0);
+            noiseFilter.Q.setValueAtTime(3.0, now);
+            
+            const noiseGain = ctx.createGain();
+            noiseGain.gain.setValueAtTime(0.3, now);
+            noiseGain.gain.exponentialRampToValueAtTime(0.001, now + 2.5);
+            
+            noiseNode.connect(noiseFilter);
+            noiseFilter.connect(noiseGain);
+            noiseGain.connect(masterFilter);
+            
+            subOsc.start(now);
+            noiseNode.start(now);
+            
+            subOsc.stop(now + 3.5);
+            noiseNode.stop(now + 3.5);
+        }
         
         masterFilter.connect(masterGain);
         masterGain.connect(ctx.destination);
         
-        // Trigger all nodes
+        // Trigger metallic nodes
         osc1.start(now);
         osc2.start(now);
         osc3.start(now);
-        subOsc.start(now);
-        noiseNode.start(now);
         
-        // Graceful stop
+        // Graceful stop metallic nodes
         osc1.stop(now + 0.6);
         osc2.stop(now + 0.6);
         osc3.stop(now + 0.6);
-        subOsc.stop(now + 3.5);
-        noiseNode.stop(now + 3.5);
     } catch (e) {
         console.warn("Synthesized cinematic boom failed (user interaction limit or unsupported browser):", e);
     }
 }
 
 function revealImpactTitle() {
-    const outroContainer = document.getElementById('sapo-outro-container');
-    if (!outroContainer) return;
+    let outroContainer = document.getElementById('sapo-outro-container');
+    if (!outroContainer) {
+        outroContainer = document.createElement('div');
+        outroContainer.id = 'sapo-outro-container';
+        document.body.appendChild(outroContainer);
+    }
+    outroContainer.className = 'active';
+    outroContainer.innerHTML = '';
     
     const titleNode = document.createElement('div');
     titleNode.className = 'sapo-outro-title';
@@ -924,53 +975,61 @@ function revealImpactTitle() {
     
     const titleText = "Sinh viên dùng AI: Kiểm soát công nghệ hay bị công nghệ dẫn dắt?";
     
-    // Split text into words, then each word into characters to ensure proper browser wrapping
+    // Split text into words to animate whole words instead of individual letters
     const words = titleText.split(' ');
-    let letterIndex = 0;
     
-    words.forEach((wordText) => {
+    // Pre-create an audio pool to avoid latency and GC spikes during rapid playback
+    const impactPool = [];
+    const poolSize = 6;
+    for (let k = 0; k < poolSize; k++) {
+        const aud = new Audio("assets/audio/SFX/impact.mp3");
+        aud.preload = "auto";
+        impactPool.push(aud);
+    }
+    let poolIndex = 0;
+    
+    words.forEach((wordText, i) => {
         const wordSpan = document.createElement('span');
         wordSpan.className = 'sapo-outro-word';
+        wordSpan.textContent = wordText;
         
-        const letters = Array.from(wordText);
-        letters.forEach((char) => {
-            const letterSpan = document.createElement('span');
-            letterSpan.className = 'sapo-outro-letter';
-            letterSpan.textContent = char;
-            
-            // Random cinematic 3D offsets for each letter
-            const rx = (Math.random() * 800 - 400) + 'px'; // -400px to +400px
-            const ry = (Math.random() * 600 - 300) + 'px'; // -300px to +300px
-            const rz = (Math.random() * 400 + 300) + 'px'; // +300px to +700px depth
-            const rr = (Math.random() * 80 - 40) + 'deg';  // -40deg to +40deg tilt
-            
-            letterSpan.style.setProperty('--x', rx);
-            letterSpan.style.setProperty('--y', ry);
-            letterSpan.style.setProperty('--z', rz);
-            letterSpan.style.setProperty('--r', rr);
-            
-            // Staggered delay (35ms per character creates a sweeping, high-end organic flow)
-            const delay = letterIndex * 35;
-            letterSpan.style.animationDelay = delay + 'ms';
-            
-            wordSpan.appendChild(letterSpan);
-            letterIndex++;
-        });
+        // Random cinematic 3D offsets for each word
+        const rx = (Math.random() * 800 - 400) + 'px'; // -400px to +400px
+        const ry = (Math.random() * 600 - 300) + 'px'; // -300px to +300px
+        const rz = (Math.random() * 400 + 300) + 'px'; // +300px to +700px depth
+        const rr = (Math.random() * 80 - 40) + 'deg';  // -40deg to +40deg tilt
+        
+        wordSpan.style.setProperty('--x', rx);
+        wordSpan.style.setProperty('--y', ry);
+        wordSpan.style.setProperty('--z', rz);
+        wordSpan.style.setProperty('--r', rr);
+        
+        // Staggered delay (450ms per word creates an extremely dramatic, theatrical pacing)
+        const delay = i * 450;
+        wordSpan.style.animationDelay = delay + 'ms';
         
         titleNode.appendChild(wordSpan);
+        
+        // Schedule dynamic sound effects for each word hit!
+        setTimeout(() => {
+            // Play pooled physical audio impact.mp3
+            const impactAudio = impactPool[poolIndex];
+            poolIndex = (poolIndex + 1) % poolSize;
+            impactAudio.currentTime = 0;
+            impactAudio.volume = 0.85;
+            impactAudio.play().catch(e => console.log("Impact audio file play blocked:", e));
+            
+            // Play sophisticated Web Audio Synthesized Impact
+            // Epic sub-bass rumble on first and last word, crisp metallic slam on middle words
+            const isEpic = (i === 0 || i === words.length - 1);
+            playSynthesizedImpact(isEpic);
+        }, delay);
     });
-    
-    // Play BOTH the file impact and our massive synthesized sub-bass & rumble together for unmatched quality
-    const impactAudio = new Audio("assets/audio/SFX/impact.mp3");
-    impactAudio.volume = 1.0;
-    impactAudio.play().catch(e => console.log("Impact audio file play blocked:", e));
-    
-    playSynthesizedImpact();
     
     // Reveal container
     outroContainer.style.opacity = "1";
     
-    // 7. Reveal title on screen for 6.5 seconds, then gracefully fade out and reload
+    // Total wait time: 14 words * 450ms = 6300ms + 3200ms reading time = 9500ms
     setTimeout(() => {
         outroContainer.style.transition = "opacity 1.8s ease";
         outroContainer.style.opacity = "0";
@@ -991,9 +1050,10 @@ function revealImpactTitle() {
             if (charWrap) charWrap.classList.remove("sapo-mode");
             isSapoMode = false;
             
-            window.location.reload();
+            // Transition to Chapter 4
+            window.location.href = "chapter-4.html";
         }, 1800);
-    }, 6500);
+    }, 9500);
 }
 
 
