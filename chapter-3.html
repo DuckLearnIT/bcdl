@@ -7,6 +7,7 @@
 <title>Chapter 3 — Amy</title>
 <link href="https://fonts.googleapis.com/css2?family=Merriweather:ital,wght@0,400;0,700;1,400&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="assets/css/visual-novel.css">
+<link rel="stylesheet" href="assets/css/sapo.css">
 </head>
 <body oncontextmenu="return false;" style="-webkit-user-select: none; -moz-user-select: none; -ms-user-select: none; user-select: none;">
 
@@ -21,6 +22,7 @@
 
     <!-- Character Sprite — centered, behind dialogue bar -->
     <div class="vn-character-wrap">
+        <div id="vn-emotion" class="vn-emotion"></div>
         <img id="vn-sprite" class="vn-sprite" src="assets/img/amy/pixel/surprise.png" alt="Amy">
     </div>
 
@@ -132,7 +134,7 @@
 const PIXEL = "assets/img/amy/pixel/";
 const NORMAL = "assets/img/amy/normal/";
 
-const vnScript = [
+var vnScript = [
     // ── Audio 1 (6s) — Ngạc nhiên + bối rối ──
     {
         name: "Amy",
@@ -351,7 +353,7 @@ const vnScript = [
 ];
 
 // ── State ──
-let currentStep = 0;
+var currentStep = 0;
 let isTyping = false;
 let typeTimer = null;
 let currentStepText = "";
@@ -383,6 +385,9 @@ const logBody     = document.getElementById("vn-log-body");
 
 function getAudioPath(originalPath) {
     if (!originalPath) return null;
+    if (originalPath.startsWith("assets/audio/SFX/") || originalPath.includes("/SFX/")) {
+        return originalPath;
+    }
     const base = originalPath.replace("assets/audio/Dialogue/", "");
     const nameWithoutExt = base.substring(0, base.lastIndexOf('.'));
     const ext = '.wav';
@@ -419,7 +424,9 @@ vnScript.forEach(s => { const i = new Image(); i.src = s.pose; });
 //  AUTO-START (no start screen)
 // ────────────────────────────────────────────
 window.addEventListener("DOMContentLoaded", () => {
-    displayStep(0);
+    setTimeout(() => {
+        displayStep(0);
+    }, 2000);
 });
 
 // ────────────────────────────────────────────
@@ -541,6 +548,9 @@ function typeTextSync(text, durationSec) {
             typeTimer = null;
             isTyping = false;
             indicator.classList.add("visible");
+            if (vnScript[currentStep] && vnScript[currentStep].customDur && audio && !audio.paused) {
+                audio.pause();
+            }
             if (isAutoMode) checkAutoAdvance();
         }
     }, speed);
@@ -636,6 +646,21 @@ function displayStep(stepIndex) {
         if (step.anim) playAnim(step.anim);
     }
 
+    // Handle emotion
+    const emotionEl = document.getElementById("vn-emotion");
+    if (step.emotion) {
+        emotionEl.textContent = step.emotion;
+        emotionEl.className = "vn-emotion active";
+        // Reset animation
+        void emotionEl.offsetWidth;
+        // Optionally remove after a delay
+        setTimeout(() => {
+            emotionEl.className = "vn-emotion";
+        }, 2000);
+    } else {
+        emotionEl.className = "vn-emotion";
+    }
+
     // Handle audio — either new audio file, or resume existing
     if (step.audioResume) {
         // Check if we need to skip audio forward (user skipped previous dialogue)
@@ -680,19 +705,31 @@ function displayStep(stepIndex) {
             };
         }
     } else if (step.audio) {
-        // New audio file
-        audio.src = getAudioPath(step.audio);
-        audio.onloadedmetadata = () => {
+        // New or reused audio file
+        const newSrc = getAudioPath(step.audio);
+        const playAndType = () => {
             if (step.audioStartTime) {
                 audio.currentTime = step.audioStartTime;
+            } else {
+                audio.currentTime = 0;
             }
-            audio.play();
+            audio.play().catch(e => console.log("Play blocked", e));
 
-            const totalDur = step.audioEndTime
+            const totalDur = step.customDur || (step.audioEndTime
                 ? step.audioEndTime - (step.audioStartTime || 0)
-                : audio.duration;
+                : audio.duration);
             typeTextSync(step.text, totalDur);
         };
+
+        const currentSrcStr = audio.src ? new URL(audio.src, window.location.href).href : "";
+        const newSrcStr = new URL(newSrc, window.location.href).href;
+
+        if (currentSrcStr !== newSrcStr) {
+            audio.src = newSrc;
+            audio.onloadedmetadata = playAndType;
+        } else {
+            playAndType();
+        }
 
         if (step.audioEndTime && step.noAutoAdvanceAudio) {
             // Stop checking at audioEndTime
@@ -719,7 +756,7 @@ function displayStep(stepIndex) {
         }
     } else {
         // No audio — just type at a comfortable speed
-        typeTextSync(step.text, 4);
+        typeTextSync(step.text, step.customDur || 4);
     }
 }
 
@@ -830,6 +867,9 @@ function finishTyping() {
         typeTimer = null;
         textEl.textContent = vnScript[currentStep].text;
         isTyping = false;
+        if (vnScript[currentStep] && vnScript[currentStep].customDur && audio && !audio.paused) {
+            audio.pause();
+        }
     }
 }
 
@@ -1197,6 +1237,13 @@ async function updateLocation() {
 //  WINDOW MANAGER
 // ────────────────────────────────────────────
 function openAppWindow(appId) {
+    if (appId === "news") {
+        if (typeof startSapoSequence === "function") {
+            startSapoSequence();
+        }
+        return;
+    }
+
     // If already open, focus it
     if (openWindows[appId]) {
         const existing = openWindows[appId];
@@ -1491,5 +1538,70 @@ document.addEventListener('keyup', (e) => {
     }
 });
 </script>
+<!-- Sapo Interactive HTML -->
+<div id="sapo-overlay"></div>
+
+<div id="docx-ui">
+    <div class="docx-titlebar">
+        <div class="docx-title">📝 Tieu_Luan_Truyen_Thong_So.docx - Microsoft Word</div>
+        <div class="docx-win-controls">
+            <span>_</span><span>☐</span><span>✕</span>
+        </div>
+    </div>
+    <div class="docx-menubar">
+        <span>File</span><span>Edit</span><span>View</span><span>Insert</span><span>Format</span><span>Tools</span><span>Table</span><span>Window</span><span>Help</span>
+    </div>
+    <div class="docx-toolbar">
+        <div class="toolbar-group">
+            <span class="icon">📄</span><span class="icon">📂</span><span class="icon">💾</span><span class="icon">🖨️</span>
+        </div>
+        <div class="toolbar-group">
+            <select class="font-select"><option>Times New Roman</option></select>
+            <select class="size-select"><option>12</option></select>
+        </div>
+        <div class="toolbar-group">
+            <span class="icon bold">B</span><span class="icon italic">I</span><span class="icon underline">U</span>
+        </div>
+        <div class="toolbar-group">
+            <span class="icon">⫷</span><span class="icon">≡</span><span class="icon">⫸</span><span class="icon">⇹</span>
+        </div>
+    </div>
+    <div class="docx-ruler">
+        <div class="ruler-marks"></div>
+    </div>
+    <div class="docx-workspace">
+        <div class="docx-page" id="docx-text-area"><span class="docx-cursor"></span></div>
+    </div>
+</div>
+
+<!-- Plagiarism Popup -->
+<div id="plagiarism-popup">
+    <div class="plag-header">🔍 Hệ thống kiểm tra đạo văn (TurnItOut)</div>
+    <div class="plag-body">
+        <div class="plag-status">Đang quét dữ liệu...</div>
+        <div class="plag-progress-bar"><div class="plag-progress-fill" id="plag-fill"></div></div>
+        <div class="plag-result" id="plag-result" style="display:none;">
+            Tỷ lệ trùng lặp: <span class="plag-score">10% (An toàn)</span>
+        </div>
+    </div>
+</div>
+
+<div id="chatgipiti-ui" class="win-style">
+    <div class="chat-header win-titlebar">
+        <span>🤖 Chatgipiti</span>
+        <div class="win-btn-group"><span>_</span><span>☐</span><span>✕</span></div>
+    </div>
+    <div class="chat-body" id="chat-body">
+        <div class="chat-message ai">Xin chào! Bạn cần giúp gì cho bài luận hôm nay?</div>
+    </div>
+    <div class="chat-footer">
+        <button class="chat-prompt-btn" id="sapo-tt1">1. Lập dàn ý bài luận 2.000 từ</button>
+        <button class="chat-prompt-btn" id="sapo-tt2">2. Viết chi tiết mở bài và luận điểm</button>
+        <button class="chat-prompt-btn" id="sapo-tt3">3. Bổ sung ví dụ thực tế và số liệu</button>
+    </div>
+    <img src="assets/img/bcdl_1/tay.png" id="hand-pusher" alt="Hand">
+</div>
+
+<script src="assets/js/sapo.js"></script>
 </body>
 </html>

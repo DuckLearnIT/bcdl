@@ -29,3 +29,38 @@ AI-chan: [cheerful] "Phù, phần hướng dẫn tân thủ của mình đến �
 AI-chan: [confused] "Khoan đã, sao lại quay xe về chế độ Pixel thế này?"
 AI-chan: [embarrassed] "Rõ ràng ban nãy mình cất công render bản 2D cho bạn rồi mà... [amused] Đừng nói với mình là bạn thích cái giao diện 'độ phân giải thấp' này hơn nha?"
 AI-chan: [shy] "Chà... cứ tưởng bạn sẽ chê nó mờ chứ... [happy] [warm] Nhưng mà thôi, nếu bạn đã thích gu hoài cổ thì mình cũng chiều.
+
+
+////////////////////////////////////////////
+1. Nguyễn Văn A: Bài luận 2.000 từ về 'Xu hướng truyền thông số' á? Cô đùa mình chắc, tuần này còn đống deadline chạy sự kiện nữa, đào đâu ra thời gian mà nghiên cứu với viết lách tận 2.000 từ bây giờ?"
+2. Hai ngày sau, A ngồi trước màn hình laptop. Trang Word vẫn trắng trơn, con trỏ chuột nhấp nháy như trêu ngươi. Đồng hồ đã chỉ 1 giờ sáng.
+3. Nguyễn Văn A: À... mình là sinh viên Truyền thông thời đại công nghệ số cơ mà? Việc gì phải khổ sở thế này. Thử xem 'người bạn chatgipiti' này lợi hại đến đâu
+
+TT1. (A gõ câu lệnh đầu tiên – Prompt 1: Lập dàn ý bài luận 2.000 từ về xu hướng truyền thông số)
+TT2. (Gõ Prompt 2: Viết chi tiết phần mở bài và các luận điểm chính dựa trên dàn ý, sử dụng văn phong học thuật)
+TT3.(Gõ Prompt 3: Bổ sung các ví dụ thực tế và số liệu thống kê mới nhất về hành vi người dùng số tại Việt Nam vào bài)
+
+4. Kinh thật, chữ nhảy như bấm đàn! Xong! Đúng 3 nốt nhạc. Câu cú mượt mà, luận điểm bén ngót. Đọc qua chỉnh lại mấy từ địa phương là đem nộp thôi. Quá nhàn!"
+
+5. Một tuần sau, buổi sáng lên lớp. A vừa mở web trường ra xem điểm, mắt sáng rực lên, lập tức quay sang đập vai đứa bạn bên cạnh.
+6. Nguyễn Văn A: Nhìn đi con trai! A+ nhé! Thầy còn phê hẳn một câu 'Bài viết có tư duy, cập nhật xu hướng rất nhạy bén' mới chịu cơ."
+7. Nguyễn Văn B: Ủa thề? Ông tự viết á? Bài này quét đạo văn không bị dính à? Thầy khóa mình check gắt lắm mà.
+8. Nguyễn Văn A: Dưới 10% luôn, xanh lét! Thời buổi này ai lại đi cày cuốc còng lưng nữa ông ơi. Quan trọng là cái đầu, biết cách 'xài' AI là làm chủ cuộc chơi ngay. Quá đơn giản!"
+
+Dan1: Nhưng "vỏ bọc" ấy lập tức vỡ vụn khi A bước vào buổi thi vấn đáp trực tiếp cuối kỳ
+
+9.Thầy Chủ tịch Hội đồng:"Dựa vào đâu em đưa ra lập luận ở trang số 5? Em phân tích rất sắc sảo về mô hình này, hội đồng muốn nghe rõ hơn về nguồn dữ liệu và tư duy của em."
+10. Nguyễn Văn A: (Bừng tỉnh, mắt mở to, nhìn trân trân vào cuốn báo cáo)
+"Dạ... thưa Thầy... ở trang số 5... cái lập luận đó..."
+
+11. Cô Ủy viên:
+"Em cứ bình tĩnh nói đi. Ở đây em viết là 'Hệ quả tất yếu từ việc dịch chuyển cấu trúc vĩ mô'. Ý này rất hay, em triển khai nó như thế nào?"
+
+12. Nguyễn Văn A:"Dạ... là do... em... em tổng hợp từ... từ các nguồn..."
+
+13.Thầy Chủ tịch Hội đồng: 
+"Nguồn cụ thể là nguồn nào em? Sách, nghiên cứu khoa học, hay số liệu thống kê năm nào?"
+
+14. Nguyễn Văn A: "Dạ... em... em không nhớ rõ tên tác giả ạ... Dạ, hình như là... là nghiên cứu của... của..."
+
+15. Thầy Ủy viên phản biện:"Bài làm của em suốt cả kỳ rất hoàn hảo, điểm tuyệt đối, nộp bài luôn đúng hạn. Nhưng ngay cả khái niệm cốt lõi do chính em viết ra ở đây, em lại không giải thích được. A này, bài này thực chất là do em tự làm, hay là 'ai đó' làm hộ em?"

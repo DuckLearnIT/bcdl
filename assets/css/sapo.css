@@ -1,0 +1,460 @@
+/* ═══════════════════════════════════════════
+   Sapo Interactive CSS — MS Word + ChatGPT
+   Cải thiện giao diện phù hợp với phong cách tổng thể
+   Font: HoiThoai (đồng bộ với visual novel)
+   ═══════════════════════════════════════════ */
+
+/* Zoom to black overlay */
+#sapo-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background: #000;
+    z-index: 1000;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 2s ease, transform 2s ease;
+    transform: scale(1);
+}
+
+#sapo-overlay.active {
+    opacity: 1;
+    pointer-events: all;
+    transform: scale(1.5);
+}
+
+/* Sapo Dialogue Container */
+#sapo-dialogue-container {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    z-index: 1005;
+    pointer-events: none;
+    display: none;
+}
+
+#sapo-dialogue-container.visible {
+    display: block;
+}
+
+/* ═══ MS Word UI ═══ */
+#docx-ui {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background: #f3f2f1;
+    z-index: 1001;
+    display: none;
+    flex-direction: column;
+    align-items: center;
+    padding-top: 50px;
+    opacity: 0;
+    transition: opacity 1s ease;
+}
+
+#docx-ui.visible {
+    display: flex;
+    opacity: 1;
+}
+
+/* Ribbon - Thanh công cụ Word */
+.docx-titlebar {
+    width: 100%;
+    height: 30px;
+    background: linear-gradient(180deg, #3d649d 0%, #2b579a 100%);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0 10px;
+    color: white;
+    font-family: 'HoiThoai', 'Segoe UI', sans-serif;
+    font-size: 13px;
+}
+.docx-win-controls span { margin-left: 10px; cursor: pointer; }
+
+.docx-menubar {
+    width: 100%;
+    height: 25px;
+    background: #e1e9f5;
+    display: flex;
+    align-items: center;
+    padding: 0 10px;
+    font-size: 13px;
+    font-family: 'HoiThoai', 'Segoe UI', sans-serif;
+}
+.docx-menubar span { margin-right: 15px; cursor: pointer; }
+
+.docx-toolbar {
+    width: 100%;
+    height: 40px;
+    background: #f1f5fb;
+    border-bottom: 1px solid #c2d0e4;
+    display: flex;
+    align-items: center;
+    padding: 0 10px;
+    gap: 15px;
+}
+.toolbar-group {
+    display: flex;
+    gap: 5px;
+    border-right: 1px solid #c2d0e4;
+    padding-right: 15px;
+}
+.toolbar-group .icon { font-size: 16px; cursor: pointer; padding: 2px 5px; }
+.toolbar-group .icon:hover { background: #d3e1f3; }
+.toolbar-group .bold { font-weight: bold; }
+.toolbar-group .italic { font-style: italic; }
+.toolbar-group .underline { text-decoration: underline; }
+
+.docx-ruler {
+    width: 100%;
+    height: 15px;
+    background: #fff;
+    border-bottom: 1px solid #c2d0e4;
+    display: flex;
+    justify-content: center;
+}
+.ruler-marks {
+    width: 800px;
+    height: 100%;
+    background: repeating-linear-gradient(90deg, #fff, #fff 9px, #999 10px);
+}
+
+.docx-workspace {
+    flex: 1;
+    width: 100%;
+    background: #e1e9f5;
+    overflow-y: auto;
+    display: flex;
+    justify-content: center;
+    padding: 30px 0;
+}
+
+/* Trang Word */
+.docx-page {
+    width: 800px;
+    min-height: 1056px; /* 8.5 x 11 inch scale */
+    background: #fff;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.2);
+    padding: 80px;
+    font-family: 'HoiThoai', 'Times New Roman', serif;
+    font-size: 16px;
+    line-height: 1.5;
+    color: #000;
+    white-space: pre-wrap;
+    text-align: left;
+}
+
+/* Con trỏ nhấp nháy */
+.docx-cursor {
+    display: inline-block;
+    width: 1px;
+    height: 16px;
+    background: #000;
+    animation: blink 1s step-end infinite;
+    vertical-align: text-bottom;
+}
+
+@keyframes blink {
+    50% { opacity: 0; }
+}
+
+/* ═══ Plagiarism Popup ═══ */
+#plagiarism-popup {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%) scale(0.8);
+    width: 400px;
+    background: #ece9d8;
+    border: 2px solid #0055ea;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.5);
+    z-index: 1004;
+    display: none;
+    flex-direction: column;
+    opacity: 0;
+    transition: all 0.3s ease;
+    font-family: 'HoiThoai', 'Segoe UI', Tahoma, sans-serif;
+}
+#plagiarism-popup.visible {
+    display: flex;
+    opacity: 1;
+    transform: translate(-50%, -50%) scale(1);
+}
+.plag-header {
+    background: linear-gradient(180deg, #0058e6 0%, #003cc2 100%);
+    color: white;
+    padding: 5px 10px;
+    font-weight: bold;
+    font-size: 14px;
+}
+.plag-body {
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+.plag-progress-bar {
+    width: 100%;
+    height: 20px;
+    background: #fff;
+    border: 1px solid #888;
+    box-shadow: inset 1px 1px 3px rgba(0,0,0,0.2);
+}
+.plag-progress-fill {
+    width: 0%;
+    height: 100%;
+    background: linear-gradient(180deg, #5bda5b 0%, #208720 100%);
+    transition: width 2.5s ease-out;
+}
+.plag-result {
+    font-weight: bold;
+    font-size: 16px;
+    text-align: center;
+}
+.plag-score { color: #008000; }
+
+/* ═══ ChatGPT UI ═══ */
+#chatgipiti-ui {
+    position: fixed;
+    bottom: -100vh;
+    right: 50px; /* Offset a bit from right */
+    width: 450px;
+    height: 80vh;
+    background: #ece9d8;
+    z-index: 1002;
+    display: none;
+    flex-direction: column;
+    box-shadow: -5px 5px 15px rgba(0,0,0,0.4);
+    transition: bottom 1.5s cubic-bezier(0.25, 0.1, 0.25, 1);
+    font-family: 'HoiThoai', 'Segoe UI', Tahoma, sans-serif;
+    border: 3px solid #0055ea;
+    border-top-left-radius: 8px;
+    border-top-right-radius: 8px;
+}
+
+#chatgipiti-ui.visible {
+    display: flex;
+}
+
+#chatgipiti-ui.slide-in {
+    bottom: 20px; /* Leave some space at bottom */
+}
+
+/* ═══ Hand Animation - Đẩy từ dưới lên ═══ */
+#hand-pusher {
+    position: absolute;
+    left: 50%;
+    bottom: -300px; 
+    transform: translateX(-50%) rotate(-90deg); /* Xoay -90 độ để tay chỉ lên */
+    width: 200px;
+    height: auto;
+    z-index: 1003;
+    opacity: 0;
+    transition: bottom 2s cubic-bezier(0.25, 0.1, 0.25, 1), 
+                opacity 0.5s ease;
+    filter: drop-shadow(0 4px 12px rgba(0,0,0,0.3));
+}
+
+#chatgipiti-ui.slide-in #hand-pusher {
+    bottom: -50px; /* Đẩy hờ lên để lộ tay kéo */
+    opacity: 1;
+}
+
+/* Sau khi đẩy xong, tay biến mất */
+#chatgipiti-ui.hand-done #hand-pusher {
+    opacity: 0;
+    bottom: -200px;
+}
+
+/* ═══ Chat Header ═══ */
+.chat-header {
+    height: 30px;
+    background: linear-gradient(180deg, #0058e6 0%, #003cc2 100%);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0 10px;
+    color: white;
+    font-weight: bold;
+    font-size: 14px;
+}
+.win-btn-group span {
+    margin-left: 8px;
+    cursor: pointer;
+    background: #c3daf9;
+    color: black;
+    padding: 0 4px;
+    border: 1px solid #fff;
+    border-radius: 2px;
+}
+
+/* ═══ Chat Body ═══ */
+.chat-body {
+    flex: 1;
+    overflow-y: auto;
+    padding: 15px;
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    background: #fff;
+    border: 2px inset #fff;
+    margin: 5px;
+}
+
+/* Custom scrollbar */
+.chat-body::-webkit-scrollbar {
+    width: 8px;
+}
+
+.chat-body::-webkit-scrollbar-track {
+    background: #1a1a1a;
+}
+
+.chat-body::-webkit-scrollbar-thumb {
+    background: #3a3a3a;
+    border-radius: 4px;
+}
+
+.chat-body::-webkit-scrollbar-thumb:hover {
+    background: #4a4a4a;
+}
+
+/* ═══ Chat Messages ═══ */
+.chat-message {
+    padding: 15px 18px;
+    border-radius: 12px;
+    color: #ececf1;
+    max-width: 90%;
+    font-family: 'HoiThoai', 'Inter', sans-serif;
+    font-size: 14px;
+    line-height: 1.6;
+    animation: messageSlideIn 0.3s ease;
+}
+
+@keyframes messageSlideIn {
+    from {
+        opacity: 0;
+        transform: translateY(10px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.chat-message.user {
+    background: #dcf8c6;
+    align-self: flex-end;
+    border: 1px solid #c8e6b1;
+    color: #000;
+}
+
+.chat-message.ai {
+    background: #f1f1f1;
+    align-self: flex-start;
+    border: 1px solid #e0e0e0;
+    color: #000;
+}
+
+/* ═══ Chat Footer ═══ */
+.chat-footer {
+    padding: 10px;
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+    background: #ece9d8;
+}
+
+.chat-prompt-btn {
+    background: #e1e1e1;
+    color: #000;
+    border: 2px outset #fff;
+    padding: 8px 12px;
+    font-size: 13px;
+    font-family: 'HoiThoai', 'Segoe UI', Tahoma, sans-serif;
+    cursor: pointer;
+    text-align: left;
+    pointer-events: none;
+    opacity: 0.5;
+}
+
+.chat-prompt-btn.active {
+    pointer-events: all;
+    opacity: 1;
+}
+
+.chat-prompt-btn.active:hover {
+    background: #d1d1d1;
+}
+
+.chat-prompt-btn.active:active {
+    border-style: inset;
+}
+
+.chat-prompt-btn.done {
+    background: #ccc;
+    color: #666;
+    pointer-events: none;
+}
+
+/* ═══ Sapo Mode — Character Avatar nhỏ, bên phải ═══ */
+.vn-character-wrap.sapo-mode {
+    left: auto;
+    right: 5%;
+    transform: none;
+    width: 450px;
+    height: 100%;
+    bottom: 0; /* Nấp sau thanh dialogue để che đi phần ngực bị cắt */
+    align-items: flex-end;
+    justify-content: flex-end;
+    transition: opacity 0.35s ease;
+}
+
+.vn-character-wrap.sapo-mode .vn-sprite {
+    width: 100%;
+    height: auto;
+    max-height: 700px;
+    object-fit: contain;
+    object-position: right bottom;
+    transform: none;
+}
+
+/* Emotion icon khi ở Sapo mode — nhỏ hơn, sát avatar */
+.vn-character-wrap.sapo-mode .vn-emotion {
+    top: -25px;
+    right: 0;
+    font-size: 35px;
+}
+
+/* ═══ Emotion Icon ═══ */
+.vn-emotion {
+    position: absolute;
+    top: -40px;
+    right: -20px;
+    font-size: 50px;
+    font-weight: bold;
+    color: #ff3b30;
+    text-shadow: 2px 2px 0 #fff, -2px -2px 0 #fff, 2px -2px 0 #fff, -2px 2px 0 #fff, 3px 3px 5px rgba(0,0,0,0.5);
+    opacity: 0;
+    transform: scale(0.5) translateY(20px);
+    z-index: 10;
+    font-family: 'Arial', sans-serif;
+    pointer-events: none;
+}
+
+.vn-emotion.active {
+    animation: emotionPop 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
+}
+
+@keyframes emotionPop {
+    0% { opacity: 0; transform: scale(0.5) translateY(20px); }
+    50% { opacity: 1; transform: scale(1.2) translateY(-10px); }
+    100% { opacity: 1; transform: scale(1) translateY(0); }
+}
