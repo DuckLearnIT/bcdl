@@ -407,13 +407,14 @@
 /* ═══ Sapo Mode — Character Avatar nhỏ, bên phải ═══ */
 .vn-character-wrap.sapo-mode {
     left: auto;
-    right: 5%;
+    right: 0;
     transform: none;
     width: 450px;
-    height: 100%;
-    bottom: 0; /* Nấp sau thanh dialogue để che đi phần ngực bị cắt */
+    height: auto;
+    bottom: 120px; /* Đẩy lên ngang đỉnh thanh dialogue bar (~120px từ đáy) */
     align-items: flex-end;
     justify-content: flex-end;
+    overflow: visible; /* Cho phép emotion icon tràn lên trên không bị cắt gọt */
     transition: opacity 0.35s ease;
 }
 
@@ -436,8 +437,8 @@
 /* ═══ Emotion Icon ═══ */
 .vn-emotion {
     position: absolute;
-    top: -40px;
-    right: -20px;
+    top: 25%; /* Đồng bộ chiều cao đầu */
+    left: 58%; /* Lệch phải một chút so với tâm ảnh nhân vật */
     font-size: 50px;
     font-weight: bold;
     color: #ff3b30;
@@ -458,3 +459,116 @@
     50% { opacity: 1; transform: scale(1.2) translateY(-10px); }
     100% { opacity: 1; transform: scale(1) translateY(0); }
 }
+
+/* ═══ Premium Sapo Typewriter Transition Screen ═══ */
+.typewriter-screen {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background-color: #ffffff;
+    z-index: 2500; /* Vượt lên trên tất cả mọi lớp để chèn lập tức */
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.5s cubic-bezier(0.25, 0.8, 0.25, 1);
+    padding: 40px;
+    box-sizing: border-box;
+}
+
+.typewriter-screen.active {
+    opacity: 1;
+    pointer-events: all;
+}
+
+.typewriter-container {
+    max-width: 800px;
+    width: 100%;
+    margin-bottom: 40px;
+    position: relative;
+    text-align: justify;
+    text-justify: inter-word;
+    min-height: 200px; /* Tránh giật layout khi gõ */
+}
+
+.typewriter-text {
+    font-family: 'HoiThoai', 'Inter', sans-serif;
+    font-size: 26px;
+    line-height: 1.8;
+    color: #1a1a1a;
+    display: inline;
+    letter-spacing: -0.01em;
+    font-weight: 400;
+}
+
+.typewriter-cursor {
+    font-family: 'HoiThoai', 'Inter', sans-serif;
+    font-size: 28px;
+    color: #00008b; /* Đồng bộ màu xanh navy chính */
+    font-weight: 300;
+    animation: cursorBlink 0.8s step-end infinite;
+    display: inline-block;
+    margin-left: 4px;
+    vertical-align: middle;
+}
+
+@keyframes cursorBlink {
+    50% { opacity: 0; }
+}
+
+.typewriter-arrow {
+    font-size: clamp(24px, 3vw, 32px);
+    color: #00008b;
+    cursor: pointer;
+    opacity: 0;
+    transform: translateY(20px);
+    pointer-events: none;
+    transition: opacity 0.8s cubic-bezier(0.25, 0.8, 0.25, 1), 
+                transform 0.8s cubic-bezier(0.25, 0.8, 0.25, 1);
+    animation: arrowPulse 1.4s infinite ease-in-out;
+    margin-top: 20px;
+    user-select: none;
+}
+
+.typewriter-arrow.visible {
+    opacity: 0.8;
+    transform: translateY(0);
+    pointer-events: all;
+}
+
+@keyframes arrowPulse {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(8px); }
+}
+
+/* Responsive Sizing */
+@media (max-width: 768px) {
+    .typewriter-screen {
+        padding: 24px;
+    }
+    
+    .typewriter-text {
+        font-size: 20px;
+        line-height: 1.7;
+    }
+    
+    .typewriter-cursor {
+        font-size: 22px;
+    }
+    
+    .typewriter-container {
+        max-width: 100%;
+        margin-bottom: 30px;
+        min-height: 250px;
+    }
+    
+    .typewriter-arrow {
+        font-size: 22px;
+        margin-top: 10px;
+    }
+}
+

@@ -87,8 +87,8 @@ const sapoScript = [
     {
         name: "Cô Ủy viên",
         text: "Em cứ bình tĩnh nói đi. Ở đây em viết là 'Hệ quả tất yếu từ việc dịch chuyển cấu trúc vĩ mô'. Ý này rất hay, em triển khai nó như thế nào?",
-        pose: "assets/img/bcdl_1/thay.png", 
-        audio: "assets/audio/SFX/thay.mp3", 
+        pose: "assets/img/bcdl_1/cogiao.png", 
+        audio: "assets/audio/SFX/cogiao.m4a", 
         customDur: 4
     },
     {
@@ -117,8 +117,8 @@ const sapoScript = [
     {
         name: "Thầy Ủy viên phản biện",
         text: "Bài làm của em suốt cả kỳ rất hoàn hảo, điểm tuyệt đối, nộp bài luôn đúng hạn. Nhưng ngay cả khái niệm cốt lõi do chính em viết ra ở đây, em lại không giải thích được. A này, bài này thực chất là do em tự làm, hay là 'ai đó' làm hộ em?",
-        pose: "assets/img/bcdl_1/thay.png",
-        audio: "assets/audio/SFX/thay.mp3",
+        pose: "assets/img/bcdl_1/thayuyvien.png",
+        audio: "assets/audio/SFX/thayuyvien.m4a",
         customDur: 5.5,
         effectAtEnd: "sapo_end"
     }
@@ -147,11 +147,11 @@ function startSapoSequence() {
         // Bring dialogue UI to front
         const diagBar = document.getElementById('vn-dialogue-bar');
         const charWrap = document.querySelector('.vn-character-wrap');
-        
+
         diagBar.style.zIndex = "1010";
         diagBar.style.opacity = "1";
         diagBar.style.pointerEvents = "all";
-        
+
         if (charWrap) {
             charWrap.style.zIndex = "1009";
             charWrap.classList.add("sapo-mode"); // Avatar nhỏ, bên phải
@@ -160,6 +160,14 @@ function startSapoSequence() {
             charWrap.style.pointerEvents = "none";
         }
 
+        // Ẩn các nút điều khiển exclusive của Amy (LOG, 2D→Pixel, Giọng)
+        const btnLog = document.getElementById("btn-log");
+        const btnStyle = document.getElementById("btn-style");
+        const btnLang = document.getElementById("btn-lang");
+        if (btnLog) btnLog.style.display = "none";
+        if (btnStyle) btnStyle.style.display = "none";
+        if (btnLang) btnLang.style.display = "none";
+
         // Override VN Script
         window.vnScript = sapoScript;
         window.currentStep = 0;
@@ -167,11 +175,14 @@ function startSapoSequence() {
         // Ensure the click event works for advancing
         window.isEffectRunning = false;
         
-        // Hook into displayStep to handle hideSprite — PHẢI đặt TRƯỚC displayStep(0)
+        // Hook into displayStep to handle hideSprite và emotion — PHẢI đặt TRƯỚC displayStep(0)
         const originalDisplayStep = window.displayStep;
         window.displayStep = function(stepIndex) {
             originalDisplayStep(stepIndex);
-            if (window.vnScript[stepIndex] && window.vnScript[stepIndex].hideSprite) {
+            const step = window.vnScript[stepIndex];
+            
+            // Handle hideSprite
+            if (step && step.hideSprite) {
                 if (charWrap) {
                     charWrap.style.display = "flex";
                     charWrap.style.opacity = "0";
@@ -181,7 +192,40 @@ function startSapoSequence() {
                 if (charWrap) {
                     charWrap.style.display = "flex";
                     charWrap.style.opacity = "1";
-                    charWrap.style.pointerEvents = "none"; // Vẫn none vì avatar chỉ hiển thị, không tương tác
+                    charWrap.style.pointerEvents = "none";
+                }
+            }
+
+            // Handle emotion icon — position sát bên phải nhân vật
+            const emotionEl = document.getElementById("vn-emotion");
+            if (emotionEl) {
+                if (step && step.emotion) {
+                    emotionEl.textContent = step.emotion;
+                    emotionEl.className = "vn-emotion active";
+                    // Force reflow để restart animation
+                    void emotionEl.offsetWidth;
+                    // Reset sau 2 giây
+                    setTimeout(() => {
+                        emotionEl.className = "vn-emotion";
+                    }, 2000);
+                } else {
+                    emotionEl.className = "vn-emotion";
+                }
+                // Trong Sapo mode, position lại emotion sát cạnh nhân vật
+                if (charWrap && charWrap.classList.contains("sapo-mode")) {
+                    emotionEl.style.position = "absolute";
+                    emotionEl.style.right = "80px"; // Sát với đầu nhân vật
+                    emotionEl.style.top = "60px"; // Tránh bị quá cao bay mất
+                    emotionEl.style.left = "auto"; // Gỡ left định vị của VN mode
+                    emotionEl.style.fontSize = "35px";
+                    emotionEl.style.zIndex = "1011";
+                } else {
+                    emotionEl.style.position = "";
+                    emotionEl.style.right = "";
+                    emotionEl.style.top = "";
+                    emotionEl.style.left = "";
+                    emotionEl.style.fontSize = "";
+                    emotionEl.style.zIndex = "";
                 }
             }
         };
@@ -255,9 +299,9 @@ window.handleEndEffect = function(step, stepIndex) {
         setTimeout(() => {
             const overlay = document.getElementById('sapo-overlay');
             overlay.style.backgroundImage = "url('assets/img/bcdl_1/NC.png')";
-            overlay.style.backgroundSize = "cover";
+            overlay.style.backgroundSize = "contain";
             overlay.style.backgroundRepeat = "no-repeat";
-            overlay.style.backgroundPosition = "center bottom";
+            overlay.style.backgroundPosition = "center center";
             overlay.style.backgroundColor = "#000";
             
             document.getElementById('docx-ui').style.display = "none";
@@ -274,21 +318,28 @@ window.handleEndEffect = function(step, stepIndex) {
         
     } else if (step.effectAtEnd === "sapo_transition_VD") {
         window.isEffectRunning = true;
-        
-        // Transition to VD
+
+        // Ẩn dialogue và character để tránh ghosting
         document.getElementById('vn-dialogue-bar').style.opacity = "0";
         document.getElementById('vn-dialogue-bar').style.pointerEvents = "none";
-        document.getElementById('sapo-overlay').style.opacity = "0";
-        
+
+        const charWrap = document.querySelector('.vn-character-wrap');
+        if (charWrap) {
+            charWrap.style.opacity = "0";
+        }
+
+        // Giữ overlay màu đen liên tục - KHÔNG xóa backgroundImage tránh lộ màn hình chính
+        const overlay = document.getElementById('sapo-overlay');
+        overlay.style.backgroundColor = "#000";
+        overlay.style.backgroundImage = "url('assets/img/bcdl_1/VD.png')";
+        overlay.style.backgroundSize = "contain";
+        overlay.style.backgroundRepeat = "no-repeat";
+        overlay.style.backgroundPosition = "center center";
+
+        // Fade in với ảnh mới
         setTimeout(() => {
-            const overlay = document.getElementById('sapo-overlay');
-            overlay.style.backgroundImage = "url('assets/img/bcdl_1/VD.png')";
-            overlay.style.backgroundSize = "cover";
-            overlay.style.backgroundRepeat = "no-repeat";
-            overlay.style.backgroundPosition = "center bottom";
-            overlay.style.backgroundColor = "#000";
             overlay.style.opacity = "1";
-            
+
             setTimeout(() => {
                 document.getElementById('vn-dialogue-bar').style.opacity = "1";
                 document.getElementById('vn-dialogue-bar').style.pointerEvents = "all";
@@ -296,24 +347,34 @@ window.handleEndEffect = function(step, stepIndex) {
                 window.vnScript[window.currentStep].effectApplied = true;
                 window.advanceDialogue(true);
             }, 1000);
-        }, 1500);
+        }, 50);
         
     } else if (step.effectAtEnd === "sapo_end") {
-        // Hide all Sapo UI, return to desktop
+        // Show typewriter white screen IMMEDIATELY (no transition delay) to prevent showing windows desktop
+        const overlay = document.getElementById('sapo-typewriter-overlay');
+        if (overlay) {
+            overlay.style.transition = 'none'; // Instant reveal
+            overlay.classList.add('active');
+            void overlay.offsetHeight; // Force reflow
+            overlay.style.transition = 'opacity 0.5s cubic-bezier(0.25, 0.8, 0.25, 1)'; // Restore transition for fade-out later
+        }
+
+        // Hide Sapo visual novel dialogue bar & background overlay behind the white curtain
         document.getElementById('vn-dialogue-bar').style.opacity = "0";
         document.getElementById('vn-dialogue-bar').style.pointerEvents = "none";
         document.getElementById('sapo-overlay').style.opacity = "0";
         document.getElementById('sapo-overlay').style.backgroundImage = "none";
         
-        // Gỡ sapo-mode, khôi phục layout Amy
         const charWrap = document.querySelector('.vn-character-wrap');
-        if (charWrap) charWrap.classList.remove("sapo-mode");
+        if (charWrap) {
+            charWrap.style.opacity = "0";
+            charWrap.style.transition = "opacity 0.5s ease";
+        }
         
         setTimeout(() => {
-            alert("Hết Sapo! (Tiếp tục chương trình...)");
-            window.isEffectRunning = false;
-            window.location.reload(); // Hoặc chuyển sang scene khác
-        }, 1000);
+            if (charWrap) charWrap.classList.remove("sapo-mode");
+            runSapoTypewriter();
+        }, 400); // Start typing faster now that transition is instant
     } else {
         // Fallback to original
         if (typeof originalHandleEndEffect === "function") {
@@ -460,3 +521,90 @@ document.getElementById('sapo-tt3').addEventListener('click', function() {
         }, 3000); // Tăng thời gian chờ cho AI type xong
     }, 500);
 });
+
+// ── Premium Sapo Typewriter Transition Screen ──
+function runSapoTypewriter() {
+    const overlay = document.getElementById('sapo-typewriter-overlay');
+    const textEl = document.getElementById('sapo-typewriter-text');
+    const arrow = document.getElementById('sapo-typewriter-arrow');
+    const cursor = overlay ? overlay.querySelector('.typewriter-cursor') : null;
+    
+    if (!overlay || !textEl || !arrow) return;
+    
+    // Reset contents and elements
+    textEl.textContent = "";
+    arrow.classList.remove('visible');
+    if (cursor) cursor.style.display = 'inline-block';
+    
+    // Activate white screen overlay (usually already active from sapo_end)
+    overlay.classList.add('active');
+    
+    const textToType = "Đằng sau những điểm số an toàn và các bài tập nộp đúng hạn là một cuộc khủng hoảng nhận thức vô hình. Kết quả khảo sát trên 238 sinh viên tại Hà Nội đã phơi bày một sự thật đáng suy ngẫm: AI không còn dừng lại ở vai trò một công cụ hỗ trợ thông thường. Nó đang âm thầm biến thành một \"bộ não thứ hai\", dần thay thế và bào mòn năng lực tư duy độc lập của người trẻ.";
+    
+    let charIndex = 0;
+    let typingInterval = null;
+    let isFinished = false;
+    
+    // Play keyboard sound loop (using existing sapoKeyboardAudio element)
+    sapoKeyboardAudio.currentTime = 0;
+    sapoKeyboardAudio.loop = true;
+    sapoKeyboardAudio.play().catch(e => console.log("Keyboard SFX blocked or delayed:", e));
+    
+    function typeChar() {
+        if (charIndex < textToType.length) {
+            textEl.textContent += textToType.charAt(charIndex);
+            charIndex++;
+        } else {
+            finishTyping();
+        }
+    }
+    
+    function finishTyping() {
+        if (isFinished) return;
+        isFinished = true;
+        
+        clearInterval(typingInterval);
+        textEl.textContent = textToType;
+        
+        // Stop typing sound
+        sapoKeyboardAudio.pause();
+        
+        // Hide blinking insertion cursor
+        if (cursor) {
+            cursor.style.display = 'none';
+        }
+        
+        // Smoothly fade in the pulsating down arrow
+        setTimeout(() => {
+            arrow.classList.add('visible');
+        }, 500);
+    }
+    
+    // Typing speed: 30ms per character (beautifully readable)
+    typingInterval = setInterval(typeChar, 30);
+    
+    // Click handler for the whole overlay screen:
+    // - If typing: skip animation and finish typing immediately.
+    // - If finished: fade out screen and reload to go back to desktop.
+    const handleScreenClick = (e) => {
+        if (!isFinished) {
+            finishTyping();
+        } else {
+            // Clean up listener to prevent leaks
+            overlay.removeEventListener('click', handleScreenClick);
+            
+            // Fade out typewriter screen (using snap-out transition)
+            overlay.classList.remove('active');
+            
+            // End Sapo Mode state
+            isSapoMode = false;
+            
+            // Wait for screen to fade out completely before reloading
+            setTimeout(() => {
+                window.location.reload();
+            }, 600);
+        }
+    };
+    overlay.addEventListener('click', handleScreenClick);
+}
+
