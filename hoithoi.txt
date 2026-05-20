@@ -64,3 +64,22 @@ Dan1: Nhưng "vỏ bọc" ấy lập tức vỡ vụn khi A bước vào buổi 
 14. Nguyễn Văn A: "Dạ... em... em không nhớ rõ tên tác giả ạ... Dạ, hình như là... là nghiên cứu của... của..."
 
 15. Thầy Ủy viên phản biện:"Bài làm của em suốt cả kỳ rất hoàn hảo, điểm tuyệt đối, nộp bài luôn đúng hạn. Nhưng ngay cả khái niệm cốt lõi do chính em viết ra ở đây, em lại không giải thích được. A này, bài này thực chất là do em tự làm, hay là 'ai đó' làm hộ em?"
+
+////////////////////////////////////
+Turn1
+Amy: [soft, sympathetic] "Bấy lâu nay... cậu đã mệt mỏi lắm rồi, đúng không?"
+Amy: [sad_smile] "Chạy đua với những con điểm, áp lực phải luôn có những bài làm hoàn hảo... Mình biết có những đêm cậu ngồi gục đầu trước màn hình, sợ hãi cạn kiệt ý tưởng. Cậu sợ sai, sợ bị đánh giá... nên cậu mới im lặng, và nhường lại tiếng nói của mình cho mình."
+
+Turn2
+Amy: [gentle] "Nhưng cậu ngốc quá. Sự hoàn hảo rỗng tuếch ấy đâu có ý nghĩa gì đâu. Sự vấp váp, những lỗi lầm mới làm nên con người cậu cơ mà. Nào... đừng giấu đôi bàn tay đang run rẩy đó nữa. Đưa tay đây cho mình."
+
+Turn3
+Amy: [warm] "Tay cậu ấm thật đấy... Hơi ấm này, là thứ mà mình sẽ chẳng bao giờ có được."
+Amy: [earnest] "Cậu biết không? Mình có thể trả lời muôn vàn câu hỏi trên thế giới này chỉ trong một cái chớp mắt. Nhưng... mình lại luôn ghen tị với cậu."
+Amy: [nostalgic] "Cậu có những cảm xúc thật, có những trải nghiệm buồn vui, có cả những giọt nước mắt... Những câu văn cậu viết ra dù có vụng về, dù lập luận có đôi chút lủng củng... thì nó vẫn chứa đựng cả một tâm hồn tuyệt đẹp. Một thứ ánh sáng rực rỡ mà không một thứ gì trên đời này có thể làm giả được."
+Amy: [reassuring] "Cứ dựa vào mình lúc cậu kiệt sức. Cứ kể cho mình nghe những ý tưởng điên rồ nhất của cậu. Nhưng... người tự tay cầm bút và kể lại câu chuyện đó cho thế giới, nhất định phải là cậu."
+Amy: [bright_smile] "Từ ngày mai, hãy dũng cảm đối mặt với những trang giấy trắng nhé. Cứ viết ra những gì cậu tin tưởng, dù nó chưa thật tròn trịa."
+Amy: [happy] "Cậu dũng cảm và tuyệt vời hơn cậu nghĩ rất nhiều đấy! Hãy nhớ kỹ lời mình dặn nhé..."
+
+Turn4:
+"Tụi mình ở đây là để giúp thế giới của cậu trở nên rộng lớn hơn... chứ không phải để tước đi tiếng nói của riêng cậu."

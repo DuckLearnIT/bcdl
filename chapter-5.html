@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chapter 5 - Chân Thực</title>
+    <link rel="stylesheet" href="assets/css/chapter-5.css">
+</head>
+<body>
+
+    <!-- Lớp chứa nền Video POV (Đu đưa nhẹ nhàng) -->
+    <div id="pov-container">
+        <!-- Double Buffering Video System -->
+        <video id="video-1" class="video-layer" loop muted playsinline></video>
+        <video id="video-2" class="video-layer" loop muted playsinline></video>
+    </div>
+
+    <!-- Hệ thống Hiệu ứng Tầm nhìn (Visual FX) -->
+    <div id="blur-overlay"></div>
+    <div id="black-overlay"></div>
+    <div id="white-overlay"></div>
+
+    <!-- Nút Bắt Đầu (Bypass Browser Autoplay Policy) -->
+    <button id="start-btn">KẾT NỐI HỆ THỐNG</button>
+
+    <!-- Hệ thống Phụ đề (Subtitle UI) -->
+    <div id="subtitle-ui">
+        <div id="subtitle-text" class="subtitle-text"></div>
+    </div>
+
+    <!-- Màn hình kết (Typewriter) -->
+    <div id="ending-screen">
+        <div id="ending-text" class="typewriter-text"></div>
+    </div>
+
+    <script src="assets/js/chapter-5.js"></script>
+</body>
+</html>
