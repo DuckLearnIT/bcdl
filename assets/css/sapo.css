@@ -595,6 +595,16 @@
     100% { background-position: center top; }
 }
 
+/* ═══ Background Zoom Animation (NC, VD scenes) ═══ */
+#sapo-overlay.sapo-zoom-in {
+    animation: sapoZoomIn 35s cubic-bezier(0.25, 0.8, 0.25, 1) forwards !important;
+}
+
+@keyframes sapoZoomIn {
+    0% { transform: scale(1.5); }
+    100% { transform: scale(1.63); }
+}
+
 /* ═══ Outro Screen & Cinematic Title ═══ */
 #sapo-outro-container {
     position: fixed;

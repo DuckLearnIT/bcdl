@@ -1,33 +1,48 @@
 # Project Summary: Báo chí Dữ liệu Scrollytelling
 
 ## 1. Mục tiêu & Cấu trúc (Project Overview)
-- Mục tiêu: Chuyển đổi dự án từ web tĩnh VnExpress sang trải nghiệm báo chí tương tác (interactive storytelling) offline-first, kết hợp với các định dạng kể chuyện mới (như visual novel).
-- Tech Stack: Vanilla HTML5, CSS3, JavaScript (ES6)
-- Cấu trúc Folder: Toàn bộ CSS, JS, Fonts, Media đã được local hóa vào thư mục /assets/. Các tài nguyên được phân loại thành audio, css, fonts, img (với nhiều sub-folders theo chủ đề), js, svg, video. Hoạt động hoàn toàn offline.
+- **Mục tiêu**: Chuyển đổi dự án báo chí tĩnh sang trải nghiệm báo chí tương tác (interactive storytelling / scrollytelling) offline-first kết hợp đa dạng các định dạng kể chuyện hiện đại (như Visual Novel, mô phỏng hệ điều hành Windows UI, và tương tác giả lập ứng dụng).
+- **Tech Stack**: Vanilla HTML5, CSS3, JavaScript (ES6+).
+- **Cấu trúc Folder**: Toàn bộ CSS, JS, Fonts, Media đã được local hóa vào thư mục `/assets/` (audio, css, fonts, img, js, svg, video), đảm bảo dự án chạy mượt mà không cần kết nối Internet (offline-first).
 
-## 2. Các mốc quan trọng & Các trang chính (Key Achievements & Main Pages)
-- **Hệ thống tin tĩnh VnExpress:** `index.html` (Landing page) và bài viết mẫu `them-mot-nam-ngan-hang-lai-lon-4567878.html`. Đã localize thành công và sửa back-link.
-- **Interactive Scrollytelling (`ai-story.html`):** 
-  - Hiệu ứng 2-Phase Zoom & Spread.
-  - Redirect: Chuyển sang các chapter tiếp theo sau animation.
-- **Các phân cảnh tiếp nối (`chapter-2.html`, `chapter-3.html`):** Phát triển tiếp mạch truyện dựa trên hiệu ứng web.
-- **Trải nghiệm Visual Novel (`visual-novel.html`):**
-  - Đã tích hợp hình thức kể chuyện dạng visual novel.
-  - Hệ thống hội thoại (`hoithoi.txt`, `dialogue-fit.js`), âm thanh lồng tiếng (`assets/audio/Dialougue/`), âm thanh hiệu ứng (`assets/audio/SFX/`), và hình ảnh nhân vật đa dạng trạng thái cảm xúc (`assets/img/amy/`).
+## 2. Mạch truyện & Các trang chính (Key Achievements & Main Pages)
+- **Landing Page VnExpress (`index.html`):** Hệ thống bài báo tĩnh VnExpress, localize thành công các tài nguyên và chỉnh sửa link điều hướng gốc.
+- **Bài viết gốc mẫu (`them-mot-nam-ngan-hang-lai-lon-4567878.html`):** Localize toàn bộ hình ảnh và các tệp style.
+- **Interactive Scrollytelling (`ai-story.html`):**
+  - Trải nghiệm bài viết phân tích tương tác với tiêu đề *"Sinh viên dùng AI: Kiểm soát công nghệ hay bị công nghệ dẫn dắt?"*.
+  - Hiệu ứng Sapo Zoom & Spread (2-Phase) đưa độc giả nhập vai vào câu chuyện.
+  - Tự động chuyển tiếp (redirect) sang chương sau khi hoạt họa kết thúc.
+- **Chương II: Boot Windows (`chapter-2.html`):**
+  - **Màn hình Terminal Boot:** Giả lập Linux Kernel boot, hiển thị logs hệ thống và kiểm tra tài nguyên một cách chân thực.
+  - **Windows 7 Boot Video:** Chuyển tiếp mượt mà qua đoạn video khởi động kinh điển.
+  - **Windows 7 Login Screen:** Màn hình đăng nhập đầy đủ với avatar và ô mật khẩu. Yêu cầu nhập đúng mật khẩu `2017` để truy cập vào Chương III.
+- **Chương III: Không gian tương tác Amy (`chapter-3.html`):**
+  - **Trải nghiệm Visual Novel:**
+    - Gặp gỡ nhân vật Amy với 2 phong cách đồ họa (Pixel hoài cổ và 2D độ phân giải cao).
+    - Hộp hội thoại đầy đủ tính năng: Tùy chỉnh ngôn ngữ lồng tiếng (VI/JP), nút Auto-play, Mute, nút chuyển Style, và Log lịch sử trò chuyện.
+    - Hệ thống hoạt họa (enter, hop, shake, lean, nod) và đồng bộ âm thanh lồng tiếng (`assets/audio/Dialogue/`).
+  - **Mô phỏng Windows 7 Desktop:**
+    - Tự do kéo thả (Drag & Drop) mượt mà các icon trên desktop.
+    - Đồng hồ Taskbar Clock cỡ lớn (19px) và Widget vị trí tự động cập nhật qua IP Location API (`ipinfo.io`).
+    - Hình nền Wallpaper tự động thay đổi theo thời gian thực (Sunrise, Daylight, Sunset, Night) hoặc chỉnh thủ công.
+    - 8 ứng dụng giả lập tích hợp sẵn: *My Computer, Paint, Calendar, Album, Notepad, News, Settings, Donate*.
+    - **Donate App:** Thông tin số tài khoản Techcombank và mã QR cục bộ (`qr.webp`).
+  - **Phân cảnh Sapo tương tác (khi mở News App):**
+    - Kịch bản hội thoại đầy kịch tính về lối sống phụ thuộc AI của sinh viên.
+    - Giả lập Microsoft Word (`docx-ui`) với hiệu ứng tự động gõ văn bản và hiệu ứng âm thanh bàn phím cơ sống động.
+    - Giả lập Chatgipiti (`chatgipiti-ui`) hỗ trợ các tùy chọn tương tác tạo bài luận.
+    - Quét đạo văn TurnItOut (`plagiarism-popup`) giả lập thanh tiến trình quét và hiển thị kết quả.
+    - Kết màn Cinematic Outro hoành tráng: Hiệu ứng panning ảnh nền động (`A+.webp`, `sili.webp`), video nền AI (`AI.mp4`), nhạc kịch tính tăng/giảm âm lượng tự động (`drame.m4a`), và màn hình gõ chữ Typewriter toàn màn hình mượt mà.
+- **Chương IV: Đang phát triển (`chapter-4.html`):**
+  - Thiết kế UI Glassmorphism hiện đại và bắt mắt với ambient glowing spheres.
+  - Nút CTA quay lại chương III cùng hiệu ứng âm thanh Synth tinh tế khi hover.
 
-## 3. Kỹ thuật tối ưu (Technical Highlights)
-- Sharpness: Dùng fontSize, letterSpacing, lineHeight âm trên overlay thay vì transform: scale để giữ chữ luôn sắc nét.
-- DOM Performance: Dùng Range API và TreeWalker để trích xuất text theo từng Word.
-- Quản lý Audio & Đối thoại: Tích hợp kịch bản text bên ngoài, đồng bộ âm thanh và tự động điều chỉnh chữ (`dialogue-fit.js`).
-- GPU Acceleration: Sử dụng transform: translate() cho phase di chuyển để mượt mà 60fps.
+## 3. Kỹ thuật & Tối ưu hóa (Technical Highlights)
+- **CSS/JS Isolation:** Sử dụng namespace ID độc lập cho từng chapter viewport (ví dụ: `#vn-container`, `#docx-ui`) và bao bọc mã nguồn trong IIFE để tránh xung đột CSS/JS toàn cục.
+- **Phông chữ cao cấp (Typography):** Sử dụng các Google Fonts thời thượng như *Outfit, Inter, Merriweather* thay vì font mặc định của trình duyệt để nâng cao thẩm mỹ thị giác.
+- **Bảo mật & Bảo vệ Nội dung (Content Protection):** Tích hợp script chống F12, cấm mở Developer Tools, vô hiệu hóa phím tắt View Source, cấm click chuột phải và xóa clipboard khi nhấn chụp ảnh màn hình (PrintScreen).
+- **GPU Acceleration & Hiệu năng:** Sử dụng `transform: translate()` và `opacity` cho các hoạt họa chuyển cảnh giúp đảm bảo hiệu năng 60fps ổn định trên thiết bị di động.
+- **Dialogue Auto-Fit & Sound Effect:** Tự động căn chỉnh văn bản hộp hội thoại và tích hợp âm thanh gõ nhẹ đi kèm (Typewriter effect) tạo chiều sâu cho tương tác.
 
 ## 4. Tài liệu chỉ dẫn (.ai-instructions)
-- Đã tạo và cập nhật tệp `.ai-instructions` ở thư mục gốc chứa toàn bộ "luật chơi" mới nhất.
-
-## 5. Trạng thái hiện tại (Current Status)
-- Dự án đã mở rộng từ Scrollytelling đơn thuần sang kết hợp Visual Novel.
-- Hệ thống Windows Desktop (Chapter 3) đã hoàn thiện các tính năng:
-  - **Donate App**: Tích hợp thông tin Techcombank, QR code cá nhân (`qr.jpg`) với hiệu ứng zoom/fit.
-  - **Taskbar Enhancements**: Đồng hồ kích thước lớn (19px) và hiển thị vị trí người dùng dựa trên IP (`ipinfo.io`).
-  - **Interactive Desktop**: Hỗ trợ kéo thả (drag-and-drop) các icon trên màn hình nền.
-- Sẵn sàng phát triển các phân cảnh tiếp theo, tối ưu hoặc tích hợp sâu hơn visual novel vào cốt truyện.
+- Đã tạo và duy trì tệp `.ai-instructions` tại thư mục gốc, định hình toàn bộ quy tắc hoạt động ngoại tuyến, quy chuẩn đặt tên và các ràng buộc đặc tả kỹ thuật cho AI.

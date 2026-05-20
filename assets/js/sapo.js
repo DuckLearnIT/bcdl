@@ -332,6 +332,11 @@ window.handleEndEffect = function(step, stepIndex) {
             document.getElementById('docx-ui').style.display = "none";
             document.getElementById('chatgipiti-ui').style.display = "none";
             
+            // Apply subtle zoom in effect
+            overlay.classList.remove('sapo-zoom-in');
+            void overlay.offsetWidth; // trigger reflow
+            overlay.classList.add('sapo-zoom-in');
+            
             setTimeout(() => {
                 document.getElementById('vn-dialogue-bar').style.opacity = "1";
                 document.getElementById('vn-dialogue-bar').style.pointerEvents = "all";
@@ -360,6 +365,11 @@ window.handleEndEffect = function(step, stepIndex) {
         overlay.style.backgroundSize = "contain";
         overlay.style.backgroundRepeat = "no-repeat";
         overlay.style.backgroundPosition = "center center";
+        
+        // Apply subtle zoom in effect
+        overlay.classList.remove('sapo-zoom-in');
+        void overlay.offsetWidth; // trigger reflow
+        overlay.classList.add('sapo-zoom-in');
 
         // Fade in với ảnh mới
         setTimeout(() => {
