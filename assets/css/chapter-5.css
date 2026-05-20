@@ -1,6 +1,6 @@
 @font-face {
-    font-family: 'Momo';
-    src: url('../fonts/momo.woff2') format('woff2');
+    font-family: 'Futura';
+    src: url('../fonts/Futura.woff2') format('woff2');
     font-weight: normal;
     font-style: normal;
 }
@@ -12,7 +12,7 @@ body, html {
     height: 100%;
     overflow: hidden;
     background-color: #000;
-    font-family: 'Momo', sans-serif;
+    font-family: 'Futura', sans-serif;
 }
 
 /* --- Lớp POV (Point of View) --- */
@@ -106,7 +106,7 @@ body, html {
 }
 
 .subtitle-text {
-    font-family: 'Momo', sans-serif;
+    font-family: 'Futura', sans-serif;
     font-size: clamp(14px, 2vw, 22px);
     color: #ffffff;
     text-shadow: 0px 2px 8px rgba(0,0,0,0.8), 0px 0px 4px rgba(0,0,0,1);
@@ -128,7 +128,7 @@ body, html {
 }
 
 .typewriter-text {
-    font-family: 'Momo', sans-serif;
+    font-family: 'Futura', sans-serif;
     font-size: clamp(22px, 3.5vw, 34px);
     color: #000; /* Chữ đen trên nền trắng, hoặc chữ trắng trên nền đen tùy kịch bản. Theo kịch bản màn hình sáng lên nên chữ sẽ màu sậm */
     text-align: center;
@@ -149,7 +149,7 @@ body, html {
     border: 2px solid #fff;
     cursor: pointer;
     z-index: 999;
-    font-family: 'Momo', sans-serif;
+    font-family: 'Futura', sans-serif;
     border-radius: 8px;
     transition: background 0.3s, color 0.3s;
 }
@@ -157,4 +157,114 @@ body, html {
 #start-btn:hover {
     background: #fff;
     color: #000;
+}
+
+/* --- Hiệu ứng chữ bay theo gió (Wind blowing letters) --- */
+.wind-letter {
+    display: inline-block;
+    white-space: pre;
+    transition: transform 3s cubic-bezier(0.1, 0.8, 0.3, 1), 
+                opacity 3s ease-out, 
+                filter 3s ease-out;
+    transform-style: preserve-3d;
+    will-change: transform, opacity, filter;
+}
+
+.wind-letter.blow {
+    opacity: 0;
+    filter: blur(6px);
+    /* Bay xa sang phải và chếch lên trên, xoay ngẫu nhiên */
+    transform: translate3d(calc(120vw * var(--rx)), calc(-70vh * var(--ry) - 30vh), 100px) 
+               rotate3d(var(--rotX), var(--rotY), var(--rotZ), var(--rotD)) 
+               scale(0.3);
+}
+
+/* --- Màn hình Credit --- */
+.credit-screen {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background-color: #000000; /* Nền đen hoàn toàn */
+    z-index: 1000; /* Phải nằm trên cùng */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 2.5s ease, visibility 2.5s ease;
+    color: #ffffff;
+}
+
+.credit-screen.visible {
+    opacity: 1;
+    visibility: visible;
+}
+
+.credit-content {
+    text-align: center;
+    max-width: 600px;
+    padding: 20px;
+    font-family: 'Futura', sans-serif;
+    letter-spacing: 1px;
+}
+
+.credit-title {
+    font-size: clamp(22px, 3.5vw, 32px);
+    margin-bottom: 45px;
+    font-weight: 700;
+    letter-spacing: 4px;
+    background: linear-gradient(45deg, #ffffff, #a1a1a1);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    text-transform: uppercase;
+}
+
+.credit-section {
+    margin-bottom: 25px;
+    opacity: 0;
+    transform: translateY(20px);
+    transition: opacity 1.5s ease, transform 1.5s ease;
+}
+
+.credit-screen.visible .credit-section {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+/* Delay hiện các dòng credit nghệ thuật */
+.credit-screen.visible .credit-section:nth-child(2) { transition-delay: 0.8s; }
+.credit-screen.visible .credit-section:nth-child(3) { transition-delay: 1.6s; }
+.credit-screen.visible .credit-section:nth-child(4) { transition-delay: 2.4s; }
+.credit-screen.visible .credit-section:nth-child(5) { transition-delay: 3.2s; }
+.credit-screen.visible .credit-footer { transition-delay: 4.2s; }
+
+.credit-role {
+    font-size: clamp(11px, 1.3vw, 13px);
+    color: #888888;
+    text-transform: uppercase;
+    margin-bottom: 5px;
+    letter-spacing: 2px;
+}
+
+.credit-names {
+    font-size: clamp(15px, 2vw, 18px);
+    color: #ffffff;
+    font-weight: 500;
+}
+
+.credit-footer {
+    margin-top: 50px;
+    font-size: clamp(13px, 1.6vw, 15px);
+    color: #666666;
+    font-style: italic;
+    opacity: 0;
+    transform: scale(0.95);
+    transition: opacity 2s ease, transform 2s ease;
+}
+
+.credit-screen.visible .credit-footer {
+    opacity: 1;
+    transform: scale(1);
 }

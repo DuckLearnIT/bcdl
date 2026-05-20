@@ -4,20 +4,28 @@ const chapter5Script = [
         id: 1,
         video: "handclose.mp4",
         audio: "assets/audio/Dialogue/JP/End/1JP (bocchi Ver) (1).wav",
-        text: "Bấy lâu nay... cậu đã mệt mỏi lắm rồi, đúng không?"
+        text: ["Bấy lâu nay... cậu đã mệt mỏi lắm rồi, đúng không?"]
     },
     {
         id: 2,
         video: "handclose.mp4",
         audio: "assets/audio/Dialogue/JP/End/2JP (bocchi Ver) (4).wav",
-        text: "Chạy đua với những con điểm, áp lực phải luôn có những bài làm hoàn hảo... Mình biết có những đêm cậu ngồi gục đầu trước màn hình, sợ hãi cạn kiệt ý tưởng. Cậu sợ sai, sợ bị đánh giá... nên cậu mới im lặng, và nhường lại tiếng nói của mình cho mình."
+        text: [
+            "Chạy đua với những con điểm, áp lực phải luôn có những bài làm hoàn hảo...",
+            "Mình biết có những đêm cậu ngồi gục đầu trước màn hình, sợ hãi cạn kiệt ý tưởng.",
+            "Cậu sợ sai, sợ bị đánh giá... nên cậu mới im lặng, và nhường lại tiếng nói của mình cho mình."
+        ]
     },
     // Turn 2
     {
         id: 3,
         video: "handopen.mp4",
         audio: "assets/audio/Dialogue/JP/End/3JP (bocchi Ver) (1).wav",
-        text: "Nhưng cậu ngốc quá. Sự hoàn hảo rỗng tuếch ấy đâu có ý nghĩa gì đâu. Sự vấp váp, những lỗi lầm mới làm nên con người cậu cơ mà. Nào... đừng giấu đôi bàn tay đang run rẩy đó nữa. Đưa tay đây cho mình.",
+        text: [
+            "Nhưng cậu ngốc quá. Sự hoàn hảo rỗng tuếch ấy đâu có ý nghĩa gì đâu.",
+            "Sự vấp váp, những lỗi lầm mới làm nên con người cậu cơ mà.",
+            "Nào... đừng giấu đôi bàn tay đang run rẩy đó nữa. Đưa tay đây cho mình."
+        ],
         transition: "blink" // Chớp mắt
     },
     // Turn 3
@@ -25,38 +33,59 @@ const chapter5Script = [
         id: 4,
         video: "holdopen.mp4",
         audio: "assets/audio/Dialogue/JP/End/4JP (bocchi Ver) (1).wav",
-        text: "Tay cậu ấm thật đấy... Hơi ấm này, là thứ mà mình sẽ chẳng bao giờ có được.",
+        text: [
+            "Tay cậu ấm thật đấy...",
+            "Hơi ấm này, là thứ mà mình sẽ chẳng bao giờ có được."
+        ],
         transition: "flash" // Sáng lên
     },
     {
         id: 5,
         video: "holdopen.mp4",
         audio: "assets/audio/Dialogue/JP/End/5JP (bocchi Ver) (2).wav",
-        text: "Cậu biết không? Mình có thể trả lời muôn vàn câu hỏi trên thế giới này chỉ trong một cái chớp mắt. Nhưng... mình lại luôn ghen tị với cậu."
+        text: [
+            "Cậu biết không? Mình có thể trả lời muôn vàn câu hỏi trên thế giới này chỉ trong một cái chớp mắt.",
+            "Nhưng... mình lại luôn ghen tị với cậu."
+        ]
     },
     {
         id: 6,
         video: "holdopen.mp4",
         audio: "assets/audio/Dialogue/JP/End/6JP (bocchi Ver) (3).wav",
-        text: "Cậu có những cảm xúc thật, có những trải nghiệm buồn vui, có cả những giọt nước mắt... Những câu văn cậu viết ra dù có vụng về, dù lập luận có đôi chút lủng củng... thì nó vẫn chứa đựng cả một tâm hồn tuyệt đẹp. Một thứ ánh sáng rực rỡ mà không một thứ gì trên đời này có thể làm giả được."
+        text: [
+            "Cậu có những cảm xúc thật, có những trải nghiệm buồn vui, có cả những giọt nước mắt...",
+            "Những câu văn cậu viết ra dù có vụng về, dù lập luận có đôi chút lủng củng...",
+            "Thì nó vẫn chứa đựng cả một tâm hồn tuyệt đẹp.",
+            "Một thứ ánh sáng rực rỡ mà không một thứ gì trên đời này có thể làm giả được."
+        ]
     },
     {
         id: 7,
         video: "holdopen.mp4",
         audio: "assets/audio/Dialogue/JP/End/7JP (bocchi Ver) (1).wav",
-        text: "Cứ dựa vào mình lúc cậu kiệt sức. Cứ kể cho mình nghe những ý tưởng điên rồ nhất của cậu. Nhưng... người tự tay cầm bút và kể lại câu chuyện đó cho thế giới, nhất định phải là cậu."
+        text: [
+            "Cứ dựa vào mình lúc cậu kiệt sức.",
+            "Cứ kể cho mình nghe những ý tưởng điên rồ nhất của cậu.",
+            "Nhưng... người tự tay cầm bút và kể lại câu chuyện đó cho thế giới, nhất định phải là cậu."
+        ]
     },
     {
         id: 8,
         video: "holdopen.mp4",
         audio: "assets/audio/Dialogue/JP/End/8JP (bocchi Ver) (2).wav",
-        text: "Từ ngày mai, hãy dũng cảm đối mặt với những trang giấy trắng nhé. Cứ viết ra những gì cậu tin tưởng, dù nó chưa thật tròn trịa."
+        text: [
+            "Từ ngày mai, hãy dũng cảm đối mặt với những trang giấy trắng nhé.",
+            "Cứ viết ra những gì cậu tin tưởng, dù nó chưa thật tròn trịa."
+        ]
     },
     {
         id: 9,
         video: "holdopen.mp4",
         audio: "assets/audio/Dialogue/JP/End/9JP (bocchi Ver) (1).wav",
-        text: "Cậu dũng cảm và tuyệt vời hơn cậu nghĩ rất nhiều đấy! Hãy nhớ kỹ lời mình dặn nhé..."
+        text: [
+            "Cậu dũng cảm và tuyệt vời hơn cậu nghĩ rất nhiều đấy!",
+            "Hãy nhớ kỹ lời mình dặn nhé..."
+        ]
     }
 ];
 
@@ -85,18 +114,8 @@ document.addEventListener("DOMContentLoaded", () => {
     });
     
     document.body.addEventListener("click", (e) => {
-        if (e.target.id === "start-btn" || isAnimating) return;
-        if (currentStep > 0 && currentStep <= chapter5Script.length) {
-            // Next dialogue
-            if (typeInterval) {
-                // Đang gõ chữ -> Click để hiện hết
-                skipTyping();
-            } else {
-                // Gõ xong -> Click để qua turn mới
-                clearTimeout(autoAdvanceTimeout);
-                nextStep();
-            }
-        }
+        // Vô hiệu hóa tính năng click để tua (skip) theo yêu cầu
+        if (e.target.id === "start-btn") return;
     });
 });
 
@@ -196,36 +215,13 @@ function playStepLogic(stepData) {
         tryAutoAdvance();
     };
     
-    let isTypingStarted = false;
-    currentAudio.onloadedmetadata = () => {
-        if (!isTypingStarted) {
-            isTypingStarted = true;
-            const durationMs = currentAudio.duration * 1000;
-            // Trừ bớt 300ms để chữ hiện xong trước khi tiếng tắt
-            const typeDuration = durationMs > 300 ? durationMs - 300 : durationMs;
-            let speed = typeDuration / stepData.text.length;
-            if (speed < 15) speed = 15;
-            if (speed > 120) speed = 120; // Giới hạn tốc độ gõ
-            
-            typeText(stepData.text, speed, () => {
-                typingFinished = true;
-                tryAutoAdvance();
-            });
-        }
-    };
-    
     currentAudio.play().catch(console.warn);
     
-    // Fallback trong trường hợp onloadedmetadata không gọi được
-    setTimeout(() => {
-        if (!isTypingStarted) {
-            isTypingStarted = true;
-            typeText(stepData.text, 45, () => {
-                typingFinished = true;
-                tryAutoAdvance();
-            });
-        }
-    }, 500);
+    // Đánh chữ dựa vào thời gian thực để khớp hoàn toàn với tốc độ audio
+    typeText(stepData.text, currentAudio, () => {
+        typingFinished = true;
+        tryAutoAdvance();
+    });
 }
 
 function hideSubtitle() {
@@ -233,36 +229,84 @@ function hideSubtitle() {
     ui.classList.remove("visible");
 }
 
-let fullText = "";
-function typeText(text, speed, onComplete) {
+let fullTextArray = [];
+function typeText(textData, audioObj, onComplete) {
     const ui = document.getElementById("subtitle-ui");
     const textEl = document.getElementById("subtitle-text");
     ui.classList.add("visible");
     
-    fullText = text;
-    textEl.innerHTML = "";
-    
     currentTypingCompleteCallback = onComplete;
+    fullTextArray = Array.isArray(textData) ? textData : [textData];
     
-    let i = 0;
+    // Tính toán trọng số (độ dài) của từng câu và thêm thời gian nghỉ (pause weight)
+    let weights = [];
+    let totalWeights = 0;
+    const PAUSE_WEIGHT = 40; // Tương đương khoảng thời gian gõ 40 ký tự để nghỉ giữa các câu
+    
+    for (let i = 0; i < fullTextArray.length; i++) {
+        weights.push(fullTextArray[i].length);
+        totalWeights += fullTextArray[i].length;
+        if (i < fullTextArray.length - 1) {
+            totalWeights += PAUSE_WEIGHT;
+        }
+    }
+    
+    let startTime = performance.now();
+    
     clearInterval(typeInterval);
     typeInterval = setInterval(() => {
-        if (i < text.length) {
-            textEl.innerHTML += text.charAt(i);
-            i++;
-        } else {
+        let durationMs = audioObj.duration * 1000;
+        // Nếu audio chưa load kịp metadata, thoát ra chờ lượt sau
+        if (!durationMs || isNaN(durationMs)) return;
+        
+        // Muốn chữ chạy xong ngay trước khi audio dứt 300ms
+        let targetDuration = durationMs > 300 ? durationMs - 300 : durationMs;
+        
+        let elapsed = performance.now() - startTime;
+        let progress = elapsed / targetDuration;
+        if (progress > 1) progress = 1;
+        
+        let targetWeight = progress * totalWeights;
+        
+        let w = 0;
+        let pIndex = 0;
+        let charIndex = 0;
+        
+        for (let i = 0; i < fullTextArray.length; i++) {
+            if (targetWeight <= w + weights[i]) {
+                pIndex = i;
+                charIndex = Math.floor(targetWeight - w);
+                break;
+            }
+            w += weights[i];
+            
+            if (i < fullTextArray.length - 1) {
+                if (targetWeight <= w + PAUSE_WEIGHT) {
+                    pIndex = i;
+                    charIndex = weights[i]; // Giữ nguyên câu hiện tại (pause)
+                    break;
+                }
+                w += PAUSE_WEIGHT;
+            }
+        }
+        
+        if (pIndex >= fullTextArray.length) {
+            pIndex = fullTextArray.length - 1;
+            charIndex = fullTextArray[pIndex].length;
+        }
+        
+        textEl.innerHTML = fullTextArray[pIndex].substring(0, charIndex);
+        
+        if (progress >= 1) {
             clearInterval(typeInterval);
             typeInterval = null;
             if (currentTypingCompleteCallback) currentTypingCompleteCallback();
         }
-    }, speed); // Tốc độ gõ động theo file audio
+    }, 30); // Tốc độ cập nhật DOM mượt mà (30ms/frame)
 }
 
 function skipTyping() {
-    clearInterval(typeInterval);
-    typeInterval = null;
-    document.getElementById("subtitle-text").innerHTML = fullText;
-    if (currentTypingCompleteCallback) currentTypingCompleteCallback();
+    // Đã vô hiệu hóa skip
 }
 
 // Chuyển video bằng cách dùng thẻ video thứ 2 (Double Buffering)
@@ -330,21 +374,74 @@ function triggerTurn4() {
         
         const turn4Interval = setInterval(() => {
             if (i < turn4Text.length) {
-                // Nhận diện xuống dòng
-                if (turn4Text.charAt(i) === '\n') {
+                let char = turn4Text.charAt(i);
+                if (char === '\n') {
                     textEl.innerHTML += "<br>";
                 } else {
-                    textEl.innerHTML += turn4Text.charAt(i);
+                    const span = document.createElement("span");
+                    span.className = "wind-letter";
+                    
+                    // Tạo các biến ngẫu nhiên để bay theo gió
+                    const rx = Math.random() * 1.5 + 0.5; // Bay mạnh sang phải (0.5 đến 2.0)
+                    const ry = Math.random() * 1.0 - 0.3; // Bay xéo lên
+                    const rotX = Math.random();
+                    const rotY = Math.random();
+                    const rotZ = Math.random();
+                    const rotD = Math.floor(Math.random() * 720 - 360);
+                    
+                    span.style.setProperty("--rx", rx);
+                    span.style.setProperty("--ry", ry);
+                    span.style.setProperty("--rotX", rotX);
+                    span.style.setProperty("--rotY", rotY);
+                    span.style.setProperty("--rotZ", rotZ);
+                    span.style.setProperty("--rotD", rotD + "deg");
+                    
+                    // Nếu là khoảng trắng, dùng ký tự space để giữ khoảng cách
+                    span.textContent = char;
+                    textEl.appendChild(span);
                 }
                 i++;
             } else {
                 clearInterval(turn4Interval);
-                // Giảm nhạc nền từ từ
                 fadeAudioOut(ostAudio, 3000);
+                
+                // Đợi 2.5 giây sau khi gõ xong rồi kích hoạt gió bay chữ
+                setTimeout(blowTextAway, 2500);
             }
         }, 60);
         
     }, 2500);
+}
+
+function blowTextAway() {
+    // 1. Phát SFX whoosh gió (file whoosh.wav tự tạo ngoại tuyến)
+    const whooshSFX = new Audio('assets/audio/SFX/whoosh.wav');
+    whooshSFX.volume = 0.6;
+    whooshSFX.play().catch(console.warn);
+    
+    // 2. Kích hoạt hiệu ứng bay
+    const letters = document.querySelectorAll(".wind-letter");
+    letters.forEach(letter => {
+        letter.classList.add("blow");
+    });
+    
+    // 3. Sau khi bay hết (khoảng 3.2 giây), kích hoạt credit và nhạc nền mới
+    setTimeout(() => {
+        // Ẩn màn hình ending cũ
+        const endingScreen = document.getElementById("ending-screen");
+        if (endingScreen) endingScreen.style.display = "none";
+        
+        // Hiện màn hình credit
+        const creditScreen = document.getElementById("credit-screen");
+        if (creditScreen) {
+            creditScreen.classList.add("visible");
+        }
+        
+        // Phát nhạc Credit.m4a
+        const creditAudio = new Audio('assets/audio/SFX/Credit.m4a');
+        creditAudio.volume = 0.5;
+        creditAudio.play().catch(console.warn);
+    }, 3200);
 }
 
 function fadeAudioOut(audioObj, duration) {
