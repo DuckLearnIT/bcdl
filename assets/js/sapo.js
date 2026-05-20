@@ -4,7 +4,7 @@ const sapoScript = [
     {
         name: "Nguyễn Văn A",
         text: "Bài luận 2.000 từ về 'Xu hướng truyền thông số' á? Cô đùa mình chắc, tuần này còn đống deadline chạy sự kiện nữa, đào đâu ra thời gian mà nghiên cứu với viết lách tận 2.000 từ bây giờ?",
-        pose: "assets/img/amy/normal/default.avif", // Fallback pose, we will hide sprite
+        pose: "assets/img/amy/normal/default.webp", // Fallback pose, we will hide sprite
         hideSprite: true,
         audio: "assets/audio/SFX/dialogueSFX.m4a",
         customDur: 2.5 // Tốc độ gõ phím nhanh (2.5 giây cho toàn bộ dòng)
@@ -12,14 +12,14 @@ const sapoScript = [
     {
         name: "Dẫn chuyện",
         text: "Hai ngày sau, A ngồi trước màn hình laptop. Trang Word vẫn trắng trơn, con trỏ chuột nhấp nháy như trêu ngươi. Đồng hồ đã chỉ 1 giờ sáng.",
-        pose: "assets/img/amy/normal/default.avif",
+        pose: "assets/img/amy/normal/default.webp",
         hideSprite: true,
         effectAtEnd: "sapo_show_docx"
     },
     {
         name: "Nguyễn Văn A",
         text: "À... mình là sinh viên Truyền thông thời đại công nghệ số cơ mà? Việc gì phải khổ sở thế này. Thử xem 'người bạn chatgipiti' này lợi hại đến đâu.",
-        pose: "assets/img/amy/normal/default.avif",
+        pose: "assets/img/amy/normal/default.webp",
         hideSprite: true,
         customDur: 2.5,
         effectAtEnd: "sapo_start_interaction"
@@ -27,7 +27,7 @@ const sapoScript = [
     {
         name: "Nguyễn Văn A",
         text: "Kinh thật, chữ nhảy như bấm đàn! Xong! Đúng 3 nốt nhạc. Câu cú mượt mà, luận điểm bén ngót. Đọc qua chỉnh lại mấy từ địa phương là đem nộp thôi. Quá nhàn!",
-        pose: "assets/img/amy/normal/default.avif",
+        pose: "assets/img/amy/normal/default.webp",
         hideSprite: true,
         customDur: 2.5,
         effectAtEnd: "sapo_transition_NC"
@@ -35,13 +35,13 @@ const sapoScript = [
     {
         name: "Dẫn chuyện",
         text: "Một tuần sau, buổi sáng lên lớp. A vừa mở web trường ra xem điểm, mắt sáng rực lên, lập tức quay sang đập vai đứa bạn bên cạnh.",
-        pose: "assets/img/bcdl_1/NC.avif", 
+        pose: "assets/img/bcdl_1/NC.webp", 
         hideSprite: true
     },
     {
         name: "Nguyễn Văn A",
         text: "Nhìn đi con trai! A+ nhé! Thầy còn phê hẳn một câu 'Bài viết có tư duy, cập nhật xu hướng rất nhạy bén' mới chịu cơ.",
-        pose: "assets/img/bcdl_1/NguyenA.avif",
+        pose: "assets/img/bcdl_1/NguyenA.webp",
         audio: "assets/audio/SFX/dialogueSFX.m4a",
         customDur: 3.5,
         emotion: "!"
@@ -49,7 +49,7 @@ const sapoScript = [
     {
         name: "Nguyễn Văn B",
         text: "Ủa thề? Ông tự viết á? Bài này quét đạo văn không bị dính à? Thầy khóa mình check gắt lắm mà.",
-        pose: "assets/img/bcdl_1/NguyenB.avif",
+        pose: "assets/img/bcdl_1/NguyenB.webp",
         audio: "assets/audio/SFX/NguyenB.m4a",
         customDur: 3.5,
         emotion: "?"
@@ -57,7 +57,7 @@ const sapoScript = [
     {
         name: "Nguyễn Văn A",
         text: "Dưới 10% luôn, xanh lét! Thời buổi này ai lại đi cày cuốc còng lưng nữa ông ơi. Quan trọng là cái đầu, biết cách 'xài' AI là làm chủ cuộc chơi ngay. Quá đơn giản!",
-        pose: "assets/img/bcdl_1/NguyenA.avif",
+        pose: "assets/img/bcdl_1/NguyenA.webp",
         audio: "assets/audio/SFX/dialogueSFX.m4a",
         customDur: 4,
         effectAtEnd: "sapo_transition_VD"
@@ -65,13 +65,13 @@ const sapoScript = [
     {
         name: "Dẫn chuyện",
         text: "Nhưng \"vỏ bọc\" ấy lập tức vỡ vụn khi A bước vào buổi thi vấn đáp trực tiếp cuối kỳ.",
-        pose: "assets/img/amy/normal/default.avif",
+        pose: "assets/img/amy/normal/default.webp",
         hideSprite: true
     },
     {
         name: "Thầy Chủ tịch Hội đồng",
         text: "Dựa vào đâu em đưa ra lập luận ở trang số 5? Em phân tích rất sắc sảo về mô hình này, hội đồng muốn nghe rõ hơn về nguồn dữ liệu và tư duy của em.",
-        pose: "assets/img/bcdl_1/thay.avif",
+        pose: "assets/img/bcdl_1/thay.webp",
         audio: "assets/audio/SFX/thay.mp3",
         customDur: 4.5,
         emotion: "?"
@@ -79,7 +79,7 @@ const sapoScript = [
     {
         name: "Nguyễn Văn A",
         text: "(Bừng tỉnh, mắt mở to, nhìn trân trân vào cuốn báo cáo)\nDạ... thưa Thầy... ở trang số 5... cái lập luận đó...",
-        pose: "assets/img/bcdl_1/NguyenA.avif",
+        pose: "assets/img/bcdl_1/NguyenA.webp",
         audio: "assets/audio/SFX/dialogueSFX.m4a",
         customDur: 3.5,
         emotion: "!"
@@ -87,21 +87,21 @@ const sapoScript = [
     {
         name: "Cô Ủy viên",
         text: "Em cứ bình tĩnh nói đi. Ở đây em viết là 'Hệ quả tất yếu từ việc dịch chuyển cấu trúc vĩ mô'. Ý này rất hay, em triển khai nó như thế nào?",
-        pose: "assets/img/bcdl_1/cogiao.avif", 
+        pose: "assets/img/bcdl_1/cogiao.webp", 
         audio: "assets/audio/SFX/cogiao.m4a", 
         customDur: 4
     },
     {
         name: "Nguyễn Văn A",
         text: "Dạ... là do... em... em tổng hợp từ... từ các nguồn...",
-        pose: "assets/img/bcdl_1/NguyenA.avif",
+        pose: "assets/img/bcdl_1/NguyenA.webp",
         audio: "assets/audio/SFX/dialogueSFX.m4a",
         customDur: 2.5
     },
     {
         name: "Thầy Chủ tịch Hội đồng",
         text: "Nguồn cụ thể là nguồn nào em? Sách, nghiên cứu khoa học, hay số liệu thống kê năm nào?",
-        pose: "assets/img/bcdl_1/thay.avif",
+        pose: "assets/img/bcdl_1/thay.webp",
         audio: "assets/audio/SFX/thay.mp3",
         customDur: 3,
         emotion: "?"
@@ -109,7 +109,7 @@ const sapoScript = [
     {
         name: "Nguyễn Văn A",
         text: "Dạ... em... em không nhớ rõ tên tác giả ạ... Dạ, hình như là... là nghiên cứu của... của...",
-        pose: "assets/img/bcdl_1/NguyenA.avif",
+        pose: "assets/img/bcdl_1/NguyenA.webp",
         audio: "assets/audio/SFX/dialogueSFX.m4a",
         customDur: 3.5,
         emotion: "!"
@@ -117,7 +117,7 @@ const sapoScript = [
     {
         name: "Thầy Ủy viên phản biện",
         text: "Bài làm của em suốt cả kỳ rất hoàn hảo, điểm tuyệt đối, nộp bài luôn đúng hạn. Nhưng ngay cả khái niệm cốt lõi do chính em viết ra ở đây, em lại không giải thích được. A này, bài này thực chất là do em tự làm, hay là 'ai đó' làm hộ em?",
-        pose: "assets/img/bcdl_1/thayuyvien.avif",
+        pose: "assets/img/bcdl_1/thayuyvien.webp",
         audio: "assets/audio/SFX/thayuyvien.m4a",
         customDur: 5.5,
         effectAtEnd: "sapo_transition_drama_1"
@@ -125,7 +125,7 @@ const sapoScript = [
     {
         name: "Dẫn chuyện",
         text: "Đằng sau những điểm số an toàn và các bài tập nộp đúng hạn là một cuộc khủng hoảng nhận thức vô hình.",
-        pose: "assets/img/amy/normal/default.avif",
+        pose: "assets/img/amy/normal/default.webp",
         hideSprite: true,
         customDur: 8.0,
         effectAtEnd: "sapo_transition_drama_2"
@@ -133,7 +133,7 @@ const sapoScript = [
     {
         name: "Dẫn chuyện",
         text: "Kết quả khảo sát trên 238 sinh viên tại Hà Nội đã phơi bày một sự thật đáng suy ngẫm:",
-        pose: "assets/img/amy/normal/default.avif",
+        pose: "assets/img/amy/normal/default.webp",
         hideSprite: true,
         customDur: 8.0,
         effectAtEnd: "sapo_transition_drama_3"
@@ -141,7 +141,7 @@ const sapoScript = [
     {
         name: "Dẫn chuyện",
         text: "AI không còn dừng lại ở vai trò một công cụ hỗ trợ thông thường. Nó đang âm thầm biến thành một \"bộ não thứ hai\", dần thay thế và bào mòn năng lực tư duy độc lập của người trẻ.",
-        pose: "assets/img/amy/normal/default.avif",
+        pose: "assets/img/amy/normal/default.webp",
         hideSprite: true,
         customDur: 10.0,
         effectAtEnd: "sapo_end"
@@ -320,10 +320,10 @@ window.handleEndEffect = function(step, stepIndex) {
         document.getElementById('vn-dialogue-bar').style.opacity = "0";
         document.getElementById('vn-dialogue-bar').style.pointerEvents = "none";
         
-        // Change background to NC.avif on sapo-overlay
+        // Change background to NC.webp on sapo-overlay
         setTimeout(() => {
             const overlay = document.getElementById('sapo-overlay');
-            overlay.style.backgroundImage = "url('assets/img/bcdl_1/NC.avif')";
+            overlay.style.backgroundImage = "url('assets/img/bcdl_1/NC.webp')";
             overlay.style.backgroundSize = "contain";
             overlay.style.backgroundRepeat = "no-repeat";
             overlay.style.backgroundPosition = "center center";
@@ -356,7 +356,7 @@ window.handleEndEffect = function(step, stepIndex) {
         // Giữ overlay màu đen liên tục - KHÔNG xóa backgroundImage tránh lộ màn hình chính
         const overlay = document.getElementById('sapo-overlay');
         overlay.style.backgroundColor = "#000";
-        overlay.style.backgroundImage = "url('assets/img/bcdl_1/VD.avif')";
+        overlay.style.backgroundImage = "url('assets/img/bcdl_1/VD.webp')";
         overlay.style.backgroundSize = "contain";
         overlay.style.backgroundRepeat = "no-repeat";
         overlay.style.backgroundPosition = "center center";
@@ -405,8 +405,8 @@ window.handleEndEffect = function(step, stepIndex) {
         overlay.className = 'active';
 
         setTimeout(() => {
-            // Apply A+.avif với panning từ trái qua phải
-            overlay.style.backgroundImage = "url('assets/img/bcdl_1/A+.avif')";
+            // Apply A+.webp với panning từ trái qua phải
+            overlay.style.backgroundImage = "url('assets/img/bcdl_1/A+.webp')";
             overlay.className = 'active pan-left-right';
             
             setTimeout(() => {
@@ -431,8 +431,8 @@ window.handleEndEffect = function(step, stepIndex) {
         overlay.className = 'active';
 
         setTimeout(() => {
-            // Apply sili.avif với panning từ dưới lên trên
-            overlay.style.backgroundImage = "url('assets/img/bcdl_1/sili.avif')";
+            // Apply sili.webp với panning từ dưới lên trên
+            overlay.style.backgroundImage = "url('assets/img/bcdl_1/sili.webp')";
             overlay.className = 'active pan-bottom-top';
 
             setTimeout(() => {

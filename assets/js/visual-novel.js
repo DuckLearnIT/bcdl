@@ -10,32 +10,32 @@ const scriptData = [
     {
         name: "Người Hướng Dẫn",
         text: "Chào mừng bạn đã đến với hệ thống báo chí dữ liệu. Có vẻ như bạn đã vượt qua được bức tường bảo mật.",
-        pose: NORMAL + "smile.avif"
+        pose: NORMAL + "smile.webp"
     },
     {
         name: "Người Hướng Dẫn",
         text: "Nhưng đừng vội mừng, mọi thứ mới chỉ bắt đầu thôi...",
-        pose: NORMAL + "pointout.avif"
+        pose: NORMAL + "pointout.webp"
     },
     {
         name: "Người Hướng Dẫn",
         text: "Ngành ngân hàng năm vừa qua đã ghi nhận những con số khổng lồ.",
-        pose: NORMAL + "thinking.avif"
+        pose: NORMAL + "thinking.webp"
     },
     {
         name: "Người Hướng Dẫn",
         text: "Hơn 11,5 tỷ USD lợi nhuận. Một kỷ lục chưa từng có!",
-        pose: NORMAL + "surprise.avif"
+        pose: NORMAL + "surprise.webp"
     },
     {
         name: "Người Hướng Dẫn",
         text: "Nhưng liệu đằng sau những con số hào nhoáng đó có ẩn chứa điều gì?",
-        pose: NORMAL + "serious.avif"
+        pose: NORMAL + "serious.webp"
     },
     {
         name: "Người Hướng Dẫn",
         text: "Hãy tự mình tìm hiểu và phân tích nhé. Tôi sẽ theo dõi bạn.",
-        pose: NORMAL + "default.avif"
+        pose: NORMAL + "default.webp"
     }
 ];
 

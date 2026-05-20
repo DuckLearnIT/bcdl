@@ -173,7 +173,7 @@ html, body {
   letter-spacing: 1px;
 }
 
-/* Submit button (button1.avif) */
+/* Submit button (button1.webp) */
 .login-submit-btn {
   width: 42px;
   height: 42px;
@@ -197,7 +197,7 @@ html, body {
   transform: scale(0.95);
 }
 
-/* Switch User button (download.avif) */
+/* Switch User button (download.webp) */
 .login-switch-btn {
   background: none;
   border: none;
