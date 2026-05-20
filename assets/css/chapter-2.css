@@ -173,7 +173,7 @@ html, body {
   letter-spacing: 1px;
 }
 
-/* Submit button (button1.png) */
+/* Submit button (button1.avif) */
 .login-submit-btn {
   width: 42px;
   height: 42px;
@@ -197,7 +197,7 @@ html, body {
   transform: scale(0.95);
 }
 
-/* Switch User button (download.png) */
+/* Switch User button (download.avif) */
 .login-switch-btn {
   background: none;
   border: none;

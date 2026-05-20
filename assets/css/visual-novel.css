@@ -1,6 +1,6 @@
 /* ============================================
    VISUAL NOVEL — Chapter 3
-   Dialogue bar: pixel-perfect replica of dialogue_bar.png
+   Dialogue bar: pixel-perfect replica of dialogue_bar.avif
    Font: fonthoithoai.woff2
    ============================================ */
 
@@ -139,7 +139,7 @@ body, html {
 }
 
 /* ══════════════════════════════════════════════
-   DIALOGUE BAR — Pixel-perfect replica of dialogue_bar.png
+   DIALOGUE BAR — Pixel-perfect replica of dialogue_bar.avif
    Structure:
    ┌─ navy outer border (3px solid #00008B) ─────────────────┐
    │ ┌─ dotted white inner border ─────────────────────────┐ │

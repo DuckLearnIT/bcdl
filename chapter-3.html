@@ -24,10 +24,10 @@
     <!-- Character Sprite — centered, behind dialogue bar -->
     <div class="vn-character-wrap">
         <div id="vn-emotion" class="vn-emotion"></div>
-        <img id="vn-sprite" class="vn-sprite" src="assets/img/amy/pixel/surprise.png" alt="Amy">
+        <img id="vn-sprite" fetchpriority="high" class="vn-sprite" src="assets/img/amy/pixel/surprise.avif" alt="Amy">
     </div>
 
-    <!-- Dialogue Bar — pixel-perfect replica of dialogue_bar.png -->
+    <!-- Dialogue Bar — pixel-perfect replica of dialogue_bar.avif -->
     <div class="vn-dialogue-bar" id="vn-dialogue-bar" onclick="advanceDialogue()">
         <div class="vn-dialogue-frame">
             <div class="vn-name-strip">
@@ -63,54 +63,54 @@
 
     <!-- Windows Desktop (shown after dialogue ends) -->
     <div class="windows-desktop" id="windows-desktop">
-        <div class="windows-wallpaper" id="windows-wallpaper" style="background-image: url('assets/img/windows/nen.png');">
+        <div class="windows-wallpaper" id="windows-wallpaper" style="background-image: url('assets/img/windows/nen.avif');">
             <div class="desktop-spotlight-overlay" id="spotlight-overlay"></div>
             <!-- Desktop Icons -->
             <div class="desktop-icon" data-app="my_computer" title="My Computer">
-                <img src="assets/img/windows/my_computer.png" alt="My Computer">
+                <img src="assets/img/windows/my_computer.avif" alt="My Computer">
                 <span>My Computer</span>
             </div>
             <div class="desktop-icon" data-app="paint" title="Paint">
-                <img src="assets/img/windows/paint.png" alt="Paint">
+                <img src="assets/img/windows/paint.avif" alt="Paint">
                 <span>Paint</span>
             </div>
             <div class="desktop-icon" data-app="calendar" title="Calendar">
-                <img src="assets/img/windows/calendar.png" alt="Calendar">
+                <img src="assets/img/windows/calendar.avif" alt="Calendar">
                 <span>Calendar</span>
             </div>
             <div class="desktop-icon" data-app="album" title="Album">
-                <img src="assets/img/windows/album.png" alt="Album">
+                <img src="assets/img/windows/album.avif" alt="Album">
                 <span>Album</span>
             </div>
             <div class="desktop-icon" data-app="notepad" title="Notepad">
-                <img src="assets/img/windows/notepad.png" alt="Notepad">
+                <img src="assets/img/windows/notepad.avif" alt="Notepad">
                 <span>Notepad</span>
             </div>
             <div class="desktop-icon" data-app="news" title="News">
-                <img src="assets/img/windows/news_icon.png" alt="News">
+                <img src="assets/img/windows/news_icon.avif" alt="News">
                 <span>News</span>
             </div>
             <div class="desktop-icon" data-app="settings" title="Settings">
-                <img src="assets/img/windows/setting.png" alt="Settings">
+                <img src="assets/img/windows/setting.avif" alt="Settings">
                 <span>Settings</span>
             </div>
             <div class="desktop-icon" data-app="donate" title="Donate">
-                <img src="assets/img/windows/donate.png" alt="Donate">
+                <img src="assets/img/windows/donate.avif" alt="Donate">
                 <span>Donate</span>
             </div>
         </div>
         <div class="windows-taskbar">
-            <img class="windows-taskbar-bg" src="assets/img/windows/taskbar.png" alt="Taskbar">
+            <img class="windows-taskbar-bg" src="assets/img/windows/taskbar.avif" alt="Taskbar">
             <div class="taskbar-controls">
                 <button class="taskbar-start-btn" id="btn-start" title="Start — Tắt trình duyệt">
-                    <img src="assets/img/windows/taksbar_start.png" alt="Start">
+                    <img src="assets/img/windows/taksbar_start.avif" alt="Start">
                 </button>
                 <div class="taskbar-windows" id="taskbar-windows">
                     <!-- Open window buttons appear here -->
                 </div>
                 <div class="taskbar-tray">
                     <img class="taskbar-speaker" id="speaker-icon"
-                         src="assets/img/windows/51-100_speaker.png"
+                         src="assets/img/windows/51-100_speaker.avif"
                          alt="Speaker" title="Âm lượng">
                     <span class="taskbar-location" id="taskbar-location">Đang định vị...</span>
                     <span class="taskbar-clock" id="taskbar-clock">00:00</span>
@@ -140,7 +140,7 @@ var vnScript = [
     {
         name: "Amy",
         text: "A! có người dùng đang ở đầu dây bên kia xin lỗi mình không nghĩ là lại có người vào lúc này",
-        pose: PIXEL + "surprise.png",
+        pose: PIXEL + "surprise.avif",
         audio: "assets/audio/Dialogue/Intro/1.wav",
         anim: "enter"
     },
@@ -148,7 +148,7 @@ var vnScript = [
     {
         name: "Amy",
         text: "Khụ... Xin chào! Rất vui được gặp bạn. Chào mừng bạn đã truy cập vào hệ thống. Mình là Amy, từ nay sẽ chịu trách nhiệm hỗ trợ bạn trong vùng không gian này.",
-        pose: PIXEL + "smile.png",
+        pose: PIXEL + "smile.avif",
         audio: "assets/audio/Dialogue/Intro/2.wav",
         anim: "hop"
     },
@@ -156,7 +156,7 @@ var vnScript = [
     {
         name: "Amy",
         text: "Nhưng mà... khoan đã. Hình như có gì đó sai sai ở luồng dữ liệu hiển thị thì phải?",
-        pose: PIXEL + "thinking.png",
+        pose: PIXEL + "thinking.avif",
         audio: "assets/audio/Dialogue/Intro/3.wav",
         anim: "lean"
     },
@@ -164,7 +164,7 @@ var vnScript = [
     {
         name: "Amy",
         text: "Sao góc nhìn của bạn... lại thấy mình... vuông vức thế này?",
-        pose: PIXEL + "thinking.png",
+        pose: PIXEL + "thinking.avif",
         audio: "assets/audio/Dialogue/Intro/4.wav",
         anim: "shake"
     },
@@ -172,7 +172,7 @@ var vnScript = [
     {
         name: "Amy",
         text: "Để mình kiểm tra lại log hệ thống một chút nhé.",
-        pose: PIXEL + "thinking.png",
+        pose: PIXEL + "thinking.avif",
         audio: "assets/audio/Dialogue/Intro/5.wav",
         audioStartTime: 0,
         audioEndTime: 5,
@@ -183,7 +183,7 @@ var vnScript = [
     {
         name: "Amy",
         text: "Lạ thật, rõ ràng mình đã render xong model nhân vật độ phân giải cao rồi mà nhỉ... Do thiếu RAM chăng? Hay do bộ nhớ đệm bị đầy?",
-        pose: PIXEL + "thinking.png",
+        pose: PIXEL + "thinking.avif",
         audioResume: true,
         audioEndTime: 13,
         anim: "shake",
@@ -193,7 +193,7 @@ var vnScript = [
     {
         name: "Amy",
         text: "Aha! Tìm ra lỗi rồi! Là do mình quên chưa tắt chế độ 'Khởi động an toàn tiết kiệm tài nguyên'.",
-        pose: PIXEL + "pointout.png",
+        pose: PIXEL + "pointout.avif",
         audioResume: true,
         audioEndTime: 19,
         anim: "hop",
@@ -203,7 +203,7 @@ var vnScript = [
     {
         name: "Amy",
         text: "Thật là một sai sót ngớ ngẩn... Bạn nhắm mắt lại 1 giây nhé, để mình nạp lại file giao diện.",
-        pose: PIXEL + "default.png",
+        pose: PIXEL + "default.avif",
         audioResume: true,
         anim: "shake",
         effectAtEnd: "transform"
@@ -212,7 +212,7 @@ var vnScript = [
     {
         name: "Amy",
         text: "Tada~! Bạn nhìn thấy mình rõ hơn rồi chứ? Được rồi, phần ngoại hình đã xong. Bây giờ chúng ta phải tạo một không gian làm việc (Workspace) thật thoải mái cho bạn.",
-        pose: NORMAL + "smile.png",
+        pose: NORMAL + "smile.avif",
         audio: "assets/audio/Dialogue/Intro/6.wav",
         anim: "hop"
     },
@@ -220,7 +220,7 @@ var vnScript = [
     {
         name: "Amy",
         text: "Thế nào? Tuyệt tác hệ điều hành đầu thập niên 2000! Chào mừng đến với không gian làm việc mới của chúng ta!",
-        pose: NORMAL + "pointout.png",
+        pose: NORMAL + "pointout.avif",
         audio: "assets/audio/Dialogue/Intro/7.wav",
         anim: "hop",
         effectAtEnd: "windows"
@@ -229,7 +229,7 @@ var vnScript = [
     {
         name: "Amy",
         text: "Ơ... từ từ đã... Khoan... Hình như có gì đó sai sai... đừng nhìn kỹ quá nhé!",
-        pose: NORMAL + "surprise.png",
+        pose: NORMAL + "surprise.avif",
         audio: "assets/audio/Dialogue/Tutorial/1.1.wav",
         anim: "shake",
         side: "right"
@@ -237,7 +237,7 @@ var vnScript = [
     {
         name: "Amy",
         text: "Nhìn kỹ lại thì... phong cảnh này... mấy đám mây này... nó không được giống bản gốc cho lắm nhỉ...",
-        pose: NORMAL + "confused.png",
+        pose: NORMAL + "confused.avif",
         audio: "assets/audio/Dialogue/Tutorial/1.3.wav",
         anim: "nod",
         side: "right"
@@ -245,7 +245,7 @@ var vnScript = [
     {
         name: "Amy",
         text: "Á!! Xin lỗi bạn! Thật ra lúc nãy hệ thống bị hụt RAM đột xuất, file ảnh gốc không load được nên đành phải tự lấy chuột vẽ tay cái hình nền này đó... Đừng cười mình nha, mình dở môn mỹ thuật lắm!",
-        pose: NORMAL + "shy.png",
+        pose: NORMAL + "shy.avif",
         audio: "assets/audio/Dialogue/Tutorial/1.2.wav",
         anim: "shake",
         side: "right"
@@ -253,7 +253,7 @@ var vnScript = [
     {
         name: "Amy",
         text: "Khụ... Dù sao thì... bỏ qua chuyện thẩm mỹ đi, chất lượng hình ảnh hơi 'cây nhà lá vườn' một chút nhưng hệ thống vẫn chạy rất ổn định! Để mình làm hướng dẫn viên giới thiệu qua cho bạn nhé.",
-        pose: NORMAL + "smile.png",
+        pose: NORMAL + "smile.avif",
         audio: "assets/audio/Dialogue/Tutorial/1.4.wav",
         anim: "hop",
         side: "right"
@@ -261,7 +261,7 @@ var vnScript = [
     {
         name: "Amy",
         text: "Đầu tiên là mấy cái icon ở góc bên trái... My Computer, Paint, với cả cái Settings ở dưới. Thật ra thì... mình vội quá nên vẽ tụi nó để trưng cho đẹp đội hình thôi, click vào chả có gì đâu. Bạn cứ bơ chúng nó đi cũng được.",
-        pose: NORMAL + "confused.png",
+        pose: NORMAL + "confused.avif",
         audio: "assets/audio/Dialogue/Tutorial/1.5.wav",
         anim: "shake",
         highlightApps: ["my_computer", "paint", "settings"],
@@ -270,7 +270,7 @@ var vnScript = [
     {
         name: "Amy",
         text: "Nhưng bù lại, những cái khác thì hoạt động rất tốt nhé! Nếu muốn xem ngày tháng thì bạn bấm vào Calendar. Còn Album là nơi lưu trữ toàn bộ concept art và nhật ký quá trình sản xuất cái web này đấy.",
-        pose: NORMAL + "pointout.png",
+        pose: NORMAL + "pointout.avif",
         audio: "assets/audio/Dialogue/Tutorial/1.6.wav",
         anim: "hop",
         highlightApps: ["calendar", "album"],
@@ -279,7 +279,7 @@ var vnScript = [
     {
         name: "Amy",
         text: "Đặc biệt là icon Notepad nha. Ở đó chứa đựng lời mở đầu và những dòng cảm ơn chân thành nhất từ người sáng tạo ra thế giới này. Tác giả đã viết rất tâm huyết, bạn nhớ mở ra đọc thử nhé.",
-        pose: NORMAL + "smile.png",
+        pose: NORMAL + "smile.avif",
         audio: "assets/audio/Dialogue/Tutorial/1.7.wav",
         anim: "nod",
         highlightApps: ["notepad"],
@@ -288,7 +288,7 @@ var vnScript = [
     {
         name: "Amy",
         text: "Tiếp theo, hãy chú ý vào icon News có hình tờ báo. Đây là phần quan trọng nhất của toàn bộ hệ thống! Bạn có thể dùng nó để đọc báo chí, cập nhật tin tức và truy xuất dữ liệu. Trung tâm tình báo của chúng ta nằm cả ở đấy!",
-        pose: NORMAL + "serious.png",
+        pose: NORMAL + "serious.avif",
         audio: "assets/audio/Dialogue/Tutorial/new.wav",
         anim: "hop",
         highlightApps: ["news"],
@@ -297,7 +297,7 @@ var vnScript = [
     {
         name: "Amy",
         text: "Và cuối cùng là... icon Donate hình xấp tiền ở kia. Ừm... thì... duy trì server cho mình tốn khá nhiều tiền điện và tiền mì tôm cho tác giả. Nên nếu bạn thấy thương mình và dự án này, hãy giúp đỡ chúng mình một chút nhé! Đó sẽ là động lực siêu to khổng lồ để tác giả làm tiếp đó!",
-        pose: NORMAL + "shy.png",
+        pose: NORMAL + "shy.avif",
         audio: "assets/audio/Dialogue/Tutorial/1.8.wav",
         anim: "shake",
         highlightApps: ["donate"],
@@ -306,7 +306,7 @@ var vnScript = [
     {
         name: "Amy",
         text: "Phù, phần hướng dẫn tân thủ của mình đến đây là kết thúc rồi! Giao diện tuy hơi ngố một tí, nhưng bù lại rất dễ thương đúng không? Chúc bạn có khoảng thời gian khám phá thật vui vẻ nhé!",
-        pose: NORMAL + "smile.png",
+        pose: NORMAL + "smile.avif",
         audio: "assets/audio/Dialogue/Tutorial/1.9.wav",
         anim: "hop",
         highlightApps: [],
@@ -317,7 +317,7 @@ var vnScript = [
     {
         name: "Hệ thống",
         text: "[Gợi ý] Bạn có thể chuyển đổi phong cách hiển thị của nhân vật bằng cách bấm vào nút '2D / Pixel' ở thanh công cụ bên dưới, hoặc trong cửa sổ Settings.",
-        pose: NORMAL + "smile.png",
+        pose: NORMAL + "smile.avif",
         audio: null,
         anim: "none",
         highlightApps: [],
@@ -329,7 +329,7 @@ var vnScript = [
     {
         name: "Amy",
         text: "Khoan đã, sao lại quay xe về chế độ Pixel thế này?",
-        pose: PIXEL + "confused.png",
+        pose: PIXEL + "confused.avif",
         audio: "assets/audio/Dialogue/Toggle/2.1.wav",
         anim: "shake",
         side: "right"
@@ -337,7 +337,7 @@ var vnScript = [
     {
         name: "Amy",
         text: "Rõ ràng ban nãy mình cất công render bản 2D cho bạn rồi mà... Đừng nói với mình là bạn thích cái giao diện 'độ phân giải thấp' này hơn nha?",
-        pose: PIXEL + "surprise.png",
+        pose: PIXEL + "surprise.avif",
         audio: "assets/audio/Dialogue/Toggle/2.2.wav",
         anim: "hop",
         side: "right"
@@ -345,7 +345,7 @@ var vnScript = [
     {
         name: "Amy",
         text: "Chà... cứ tưởng bạn sẽ chê nó mờ chứ... Nhưng mà thôi, nếu bạn đã thích gu hoài cổ thì mình cũng chiều.",
-        pose: PIXEL + "shy.png",
+        pose: PIXEL + "shy.avif",
         audio: "assets/audio/Dialogue/Toggle/2.3.wav",
         anim: "nod",
         side: "right",
@@ -947,7 +947,7 @@ let clockInterval = null;
 const APP_DEFS = {
     my_computer: {
         title: "My Computer",
-        icon: "assets/img/windows/my_computer.png",
+        icon: "assets/img/windows/my_computer.avif",
         width: 500, height: 360,
         content: `<div style="font-family:'HoiThoai','Inter',sans-serif;padding:12px;">
             <h3 style="margin-bottom:12px;">🖥️ My Computer</h3>
@@ -959,13 +959,13 @@ const APP_DEFS = {
     },
     notepad: {
         title: "Notepad",
-        icon: "assets/img/windows/notepad.png",
+        icon: "assets/img/windows/notepad.avif",
         width: 460, height: 340,
         content: `<textarea style="width:100%;height:100%;border:none;resize:none;padding:8px;font-family:'HoiThoai','Inter',sans-serif;font-size:14px;background:#fff;outline:none;" placeholder="Ghi chú ở đây..."></textarea>`
     },
     paint: {
         title: "Paint",
-        icon: "assets/img/windows/paint.png",
+        icon: "assets/img/windows/paint.avif",
         width: 600, height: 450,
         content: `<div style="font-family:'HoiThoai','Inter',sans-serif;padding:20px;text-align:center;background:#fff;height:100%;">
             <div style="border:1px solid #ccc;height:80%;display:flex;align-items:center;justify-content:center;color:#999;">[ Canvas Area ]</div>
@@ -974,7 +974,7 @@ const APP_DEFS = {
     },
     news: {
         title: "News",
-        icon: "assets/img/windows/news_icon.png",
+        icon: "assets/img/windows/news_icon.avif",
         width: 520, height: 400,
         content: `<div style="font-family:'HoiThoai','Inter',sans-serif;padding:12px;">
             <h3 style="margin-bottom:10px;">📰 Tin tức hôm nay</h3>
@@ -987,7 +987,7 @@ const APP_DEFS = {
     },
     settings: {
         title: "Settings",
-        icon: "assets/img/windows/setting.png",
+        icon: "assets/img/windows/setting.avif",
         width: 450, height: 400,
         content: `<div style="font-family:'HoiThoai','Inter',sans-serif;padding:12px;">
             <h3 style="border-bottom:1px solid #ccc;padding-bottom:8px;">⚙️ System Settings</h3>
@@ -998,10 +998,10 @@ const APP_DEFS = {
                 <div style="margin-top:20px;">
                     <p><strong>Wallpaper:</strong></p>
                     <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:10px;">
-                        <button onclick="setWallpaper('sunrise-goc.png')" style="padding:6px;cursor:pointer;">Sunrise</button>
-                        <button onclick="setWallpaper('nen.png')" style="padding:6px;cursor:pointer;">Daylight</button>
-                        <button onclick="setWallpaper('sunset_goc.png')" style="padding:6px;cursor:pointer;">Sunset</button>
-                        <button onclick="setWallpaper('night_goc.png')" style="padding:6px;cursor:pointer;">Night</button>
+                        <button onclick="setWallpaper('sunrise-goc.avif')" style="padding:6px;cursor:pointer;">Sunrise</button>
+                        <button onclick="setWallpaper('nen.avif')" style="padding:6px;cursor:pointer;">Daylight</button>
+                        <button onclick="setWallpaper('sunset_goc.avif')" style="padding:6px;cursor:pointer;">Sunset</button>
+                        <button onclick="setWallpaper('night_goc.avif')" style="padding:6px;cursor:pointer;">Night</button>
                     </div>
                     <button onclick="updateWallpaperByTime()" style="margin-top:10px;width:100%;padding:6px;cursor:pointer;background:#eee;">Auto by Time</button>
                 </div>
@@ -1020,7 +1020,7 @@ const APP_DEFS = {
     },
     calendar: {
         title: "Calendar",
-        icon: "assets/img/windows/calendar.png",
+        icon: "assets/img/windows/calendar.avif",
         width: 400, height: 420,
         content: `<div id="calendar-app" style="font-family:'HoiThoai','Inter',sans-serif;padding:15px;background:#fff;height:100%;">
             <div style="text-align:center;margin-bottom:15px;">
@@ -1081,7 +1081,7 @@ const APP_DEFS = {
     },
     album: {
         title: "Album",
-        icon: "assets/img/windows/album.png",
+        icon: "assets/img/windows/album.avif",
         width: 550, height: 420,
         content: `<div style="font-family:'HoiThoai','Inter',sans-serif;padding:15px;background:#f5f5f5;height:100%;overflow-y:auto;">
             <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:15px;">
@@ -1121,7 +1121,7 @@ const APP_DEFS = {
     },
     donate: {
         title: "Donate",
-        icon: "assets/img/windows/donate.png",
+        icon: "assets/img/windows/donate.avif",
         width: 450, height: 520,
         content: `<div style="font-family:'HoiThoai','Inter',sans-serif;padding:20px;display:flex;flex-direction:column;height:100%;background:#f9f9f9;">
             <div style="text-align:center;margin-bottom:15px;">
@@ -1143,7 +1143,7 @@ const APP_DEFS = {
                         <p style="margin:0;font-weight:bold;color:#1a1a1a;">NGUYEN VAN A</p>
                     </div>
                     <div style="width:120px;height:120px;background:#fff;border-radius:4px;display:flex;align-items:center;justify-content:center;overflow:hidden;border:1px solid #eee;flex-shrink:0;">
-                        <img src="assets/img/windows/qr.jpg" alt="QR Code" style="width:100%;height:100%;object-fit:cover;transform:scale(2) translateY(14px);">
+                        <img src="assets/img/windows/qr.avif" alt="QR Code" style="width:100%;height:100%;object-fit:cover;transform:scale(2) translateY(14px);">
                     </div>
                 </div>
             </div>
@@ -1179,9 +1179,9 @@ function initDesktop() {
     const speakerIcon = document.getElementById("speaker-icon");
     let speakerState = 2; // 0=mute, 1=low, 2=high
     const speakerImages = [
-        "assets/img/windows/no_sound_speaker.png",
-        "assets/img/windows/1-50_speaker.png",
-        "assets/img/windows/51-100_speaker.png"
+        "assets/img/windows/no_sound_speaker.avif",
+        "assets/img/windows/1-50_speaker.avif",
+        "assets/img/windows/51-100_speaker.avif"
     ];
     speakerIcon.addEventListener("click", (e) => {
         e.stopPropagation();
@@ -1213,16 +1213,16 @@ function setWallpaper(imgName) {
 
 function updateWallpaperByTime() {
     const hour = new Date().getHours();
-    let wpImg = "nen.png"; // Default day
+    let wpImg = "nen.avif"; // Default day
     
     if (hour >= 5 && hour < 9) {
-        wpImg = "sunrise-goc.png";
+        wpImg = "sunrise-goc.avif";
     } else if (hour >= 9 && hour < 16) {
-        wpImg = "nen.png";
+        wpImg = "nen.avif";
     } else if (hour >= 16 && hour < 19) {
-        wpImg = "sunset_goc.png";
+        wpImg = "sunset_goc.avif";
     } else {
-        wpImg = "night_goc.png";
+        wpImg = "night_goc.avif";
     }
     
     setWallpaper(wpImg);
@@ -1613,7 +1613,7 @@ document.addEventListener('keyup', (e) => {
         <button class="chat-prompt-btn" id="sapo-tt2">2. Viết chi tiết mở bài và luận điểm</button>
         <button class="chat-prompt-btn" id="sapo-tt3">3. Bổ sung ví dụ thực tế và số liệu</button>
     </div>
-    <img src="assets/img/bcdl_1/tay.png" id="hand-pusher" alt="Hand">
+    <img src="assets/img/bcdl_1/tay.avif" id="hand-pusher" alt="Hand">
 </div>
 
 <!-- Premium Typewriter Overlay Screen -->

@@ -9,7 +9,7 @@
 <meta content="width=device-width, initial-scale=1, minimum-scale=1, maximum-scale=5, user-scalable=1" name="viewport">
 <meta content="IE=100" http-equiv="X-UA-Compatible"/>
 <meta content="1547540628876392" property="fb:app_id"/>
-<meta content="1800" http-equiv="REFRESH"/>
+<!-- BCDL-FIX: Removed <meta http-equiv="REFRESH" content="1800"> that was causing mobile loop-reload (forced page reload every 30 min combined with validateCachePage cookie logic) -->
 <meta content="yes" name="apple-mobile-web-app-capable"/>
 <meta content="Vnexpress.net" name="apple-mobile-web-app-title"/>
 <meta content="4072" name="tt_article_id"/>
@@ -122,7 +122,22 @@ window.dontSupportES=!(window.Promise&&window.HTMLPictureElement&&[].includes&&O
 var setCookie=function(name,value,expire){var date=new Date();date.setTime(date.getTime()+(expire*60*1000));expires="; expires="+date.toUTCString();document.cookie=name+"="+value+expires+"; path=/";}
 var unixTimeWithTimeZone=function(offset){var d=new Date();var utc=d.getTime()+(d.getTimezoneOffset()*60000);var nd=new Date(utc+(3600000*offset));return Date.parse(nd.toLocaleString());}
 var validateCachePage=function(){var isDetail=(typeof PAGE_DETAIL!=='undefined'&&PAGE_DETAIL===1);if(isValidateCachePage===false&&isDetail===false&&PAGE_FOLDER!=1003785){var cookieEFR=getCookie(cookieName);var datenow=unixTimeWithTimeZone('+7');isValidateCachePage=true;if((datenow-cacheTimeUpdate)/(1000*60)>60){if(cookieEFR!=cacheTimeUpdate){setCookie(cookieName,cacheTimeUpdate,60);new Image(1,1).src="https://logperf.vnexpress.net/perf?lt=0&dclt=0&sr=0&url=vne_reload&iscache=0&device_env=4&domain="+location.hostname+'&timeserver='+cacheTimeUpdate+'&timecookie='+cookieEFR+'&timeclient='+datenow;location.reload(true);}else{new Image(1,1).src="https://logperf.vnexpress.net/perf?lt=0&dclt=0&sr=0&url=vne_reload&iscache=0&device_env=4&domain="+location.hostname+'&timeserver='+cacheTimeUpdate+'&timecookie='+cookieEFR+'&timeclient='+datenow+'&action=no_reload';}}}}
-validateCachePage();window.addEventListener('pageshow',function(event){if(event.persisted){validateCachePage();}});window.lazyPrefix='_VnE_202605131459';window.lazyKey=window.lazyPrefix+'_a0e826d02860209dac5d47dcddded17d_'+location.pathname+'_';window.registryArea=[];if(window.supportLS){var runScripts=function(input){if(typeof input!='undefined'&&input.toLowerCase().indexOf("<\/script>")>-1){var t=document.createElement('section');t.innerHTML=input;var scripts=t.querySelectorAll('script');[].forEach.call(scripts,function(script){insertScript(script);});}}
+/* BCDL-FIX: Patch validateCachePage to skip reload on mobile devices.
+   On mobile, cookies (especially _efr) can be cleared by ITP (iOS), memory pressure,
+   or private browsing — causing an infinite reload loop when combined with the
+   removed <meta http-equiv=REFRESH> tag above. This project is offline-first
+   so cache invalidation reload is not needed on mobile. */
+(function() {
+  var isMobileDevice = /Android|iPhone|iPad|iPod|IEMobile|Opera Mini|Mobile/i.test(navigator.userAgent)
+    || (typeof window.orientation !== 'undefined')
+    || window.innerWidth <= 768;
+  if (!isMobileDevice) {
+    validateCachePage();
+    window.addEventListener('pageshow', function(event) {
+      if (event.persisted) { validateCachePage(); }
+    });
+  }
+})();window.lazyPrefix='_VnE_202605131459';window.lazyKey=window.lazyPrefix+'_a0e826d02860209dac5d47dcddded17d_'+location.pathname+'_';window.registryArea=[];if(window.supportLS){var runScripts=function(input){if(typeof input!='undefined'&&input.toLowerCase().indexOf("<\/script>")>-1){var t=document.createElement('section');t.innerHTML=input;var scripts=t.querySelectorAll('script');[].forEach.call(scripts,function(script){insertScript(script);});}}
 var insertScript=function(sc){var s=document.createElement('script');s.type='text/javascript';if(sc.src){s.onerror=function(){console.log('Init script '+sc.src+' fail');};s.src=sc.src;}else{s.textContent=sc.innerText;}document.head.appendChild(s);sc.parentNode.removeChild(sc);}
 try{var cacheData=sessionStorage.getItem(window.lazyKey);if(cacheData!=null){cacheData=JSON.parse(cacheData);window.addEventListener('DOMContentLoaded',function(e){for(var j=0;j<cacheData.length;j++){var item=cacheData[j];if(item!==null){window.registryArea.push(item['area']);document.getElementById(item['area'])&&document.getElementById(item['area']).insertAdjacentHTML('beforebegin',item['data']);runScripts(item['data']);}}});}}catch(e){console.log(e);}}window.addEventListener('DOMContentLoaded',function(){var folderLazy='pc',folderLazyType='module';if(typeof ES6!=='undefined'&&ES6===0){folderLazy='production';folderLazyType='text/javascript';}if(window.dontSupportES===false){window.lazyReady=true;addScripts(js_url_vne+'/v3/'+folderLazy+'/lazyload.js',true,null,folderLazyType);}else{var checkReady=setInterval(function(){if(window.dontSupportES===false){clearInterval(checkReady);window.lazyReady=true;addScripts(js_url_vne+'/v3/'+folderLazy+'/lazyload.js',true,null,folderLazyType);}},100);setTimeout(function(){clearInterval(checkReady);window.lazyReady=true;addScripts(js_url_vne+'/v3/'+folderLazy+'/lazyload.js',true,null,folderLazyType);},5000);}});var myvne_js='https://s1.vnecdn.net/myvne/j/v422';</script>
 <script async="" src="assets/js/delivery_eclick.js"></script>
@@ -145,6 +160,231 @@ if(isBot===false){if(window.supportLS){loadFontsFromStorage();}else{loadFontsAsy
 <!-- END VIDEO VOD SCRIPT -->
 <meta content="wvm97b5u7iqh99xtqcj81z0955s2ha" name="facebook-domain-verification">
 <script>var isDetailPodcast=false;</script>
+
+<!-- START MOBILE OPTIMIZATIONS -->
+<style id="mobile-optimizations">
+/* Isolated responsive style overrides for BCDL mobile experience */
+@media screen and (max-width: 768px) {
+  #dark_theme .container {
+    width: 100% !important;
+    max-width: 100% !important;
+    padding-left: 15px !important;
+    padding-right: 15px !important;
+  }
+  
+  #dark_theme .col-left,
+  #dark_theme .col-left-new,
+  #dark_theme .col-left-subfolder,
+  #dark_theme .col-left-top,
+  #dark_theme .col-right,
+  #dark_theme .col-right-subfolder,
+  #dark_theme .col-medium,
+  #dark_theme .build-home-topic__left {
+    width: 100% !important;
+    max-width: 100% !important;
+    padding-left: 0 !important;
+    padding-right: 0 !important;
+    border-right: none !important;
+    border-left: none !important;
+    float: none !important;
+  }
+  
+  #dark_theme .section-2col, 
+  #dark_theme .flexbox, 
+  #dark_theme .flex {
+    flex-direction: column !important;
+  }
+
+  /* Make navigation scrollable horizontally on mobile */
+  #dark_theme .main-nav .parent {
+    display: flex !important;
+    overflow-x: auto !important;
+    overflow-y: hidden !important;
+    -webkit-overflow-scrolling: touch !important;
+    white-space: nowrap !important;
+    justify-content: flex-start !important;
+    padding: 0 10px !important;
+  }
+  #dark_theme .main-nav .parent::-webkit-scrollbar {
+    display: none !important; /* Hide scrollbar for a clean look */
+  }
+  #dark_theme .main-nav .parent li {
+    display: inline-block !important;
+    float: none !important;
+    margin-right: 15px !important;
+  }
+  #dark_theme .main-nav .parent li a {
+    padding: 12px 5px !important;
+  }
+
+  /* Article top story responsive adjustments */
+  #dark_theme .article-topstory {
+    width: 100% !important;
+    max-width: 100% !important;
+    padding-right: 0 !important;
+    float: none !important;
+  }
+  
+  /* Thumbnail and image wrapper adjustments */
+  #dark_theme .thumb-art {
+    width: 100% !important;
+    max-width: 100% !important;
+    margin: 0 0 15px 0 !important;
+    float: none !important;
+  }
+  
+  #dark_theme .list-news-subfolder .item-news-common .thumb-art {
+    width: 100% !important;
+    max-width: 100% !important;
+    float: none !important;
+    margin: 0 0 12px 0 !important;
+  }
+
+  #dark_theme .list-news-subfolder .item-news-common .description {
+    max-width: 100% !important;
+  }
+
+  #dark_theme .pagination.pagination-subfolder {
+    padding-right: 0 !important;
+    text-align: center !important;
+  }
+
+  #dark_theme #automation_HV0 {
+    display: none !important; /* Hide sidebar advertisements or secondary content on mobile to preserve layout */
+  }
+}
+
+/* Beautiful Premium Glassmorphic Mobile Rotation Overlay */
+#mobile-rotation-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 999999;
+  background: rgba(8, 10, 15, 0.88);
+  backdrop-filter: blur(15px);
+  -webkit-backdrop-filter: blur(15px);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  color: #ffffff;
+  font-family: 'Inter', -apple-system, sans-serif;
+  text-align: center;
+  padding: 30px;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.4s cubic-bezier(0.25, 1, 0.5, 1);
+}
+
+#mobile-rotation-overlay.show {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+#mobile-rotation-overlay .overlay-card {
+  max-width: 320px;
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 20px;
+  padding: 35px 25px;
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.5), 
+              inset 0 1px 0 rgba(255, 255, 255, 0.1);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  animation: cardEntrance 0.6s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
+}
+
+@keyframes cardEntrance {
+  from {
+    opacity: 0;
+    transform: scale(0.9) translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1) translateY(0);
+  }
+}
+
+#mobile-rotation-overlay .animation-container {
+  width: 90px;
+  height: 90px;
+  margin-bottom: 25px;
+  position: relative;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+#mobile-rotation-overlay .phone-svg {
+  width: 50px;
+  height: 50px;
+  fill: none;
+  stroke: #A57F0B; /* Classic gold color to match premium branding */
+  stroke-width: 2;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  animation: rotatePhone 2.5s ease-in-out infinite;
+  filter: drop-shadow(0 0 8px rgba(165, 127, 11, 0.6));
+}
+
+@keyframes rotatePhone {
+  0% {
+    transform: rotate(0deg);
+  }
+  30% {
+    transform: rotate(-90deg);
+  }
+  70% {
+    transform: rotate(-90deg);
+  }
+  100% {
+    transform: rotate(0deg);
+  }
+}
+
+#mobile-rotation-overlay .overlay-title {
+  font-size: 20px;
+  font-weight: 700;
+  margin-bottom: 12px;
+  color: #fdfdfd;
+  letter-spacing: -0.5px;
+}
+
+#mobile-rotation-overlay .overlay-desc {
+  font-size: 13.5px;
+  line-height: 1.5;
+  color: rgba(255, 255, 255, 0.7);
+  margin-bottom: 25px;
+  font-weight: 400;
+}
+
+#mobile-rotation-overlay .dismiss-btn {
+  background: transparent;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  color: rgba(255, 255, 255, 0.8);
+  padding: 10px 22px;
+  font-size: 13px;
+  font-weight: 600;
+  border-radius: 30px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  outline: none;
+}
+
+#mobile-rotation-overlay .dismiss-btn:hover {
+  background: rgba(255, 255, 255, 0.1);
+  color: #ffffff;
+  border-color: rgba(255, 255, 255, 0.4);
+}
+
+#mobile-rotation-overlay .dismiss-btn:active {
+  transform: scale(0.97);
+}
+</style>
+<!-- END MOBILE OPTIMIZATIONS -->
 </meta></link></meta></head>
 <body class="" data-source="Taxonomy" id="dark_theme">
 <div class="lazier" id="_ads_bg_top"></div><script type="text/javascript">var LOGO_TET='';</script>
@@ -335,9 +575,9 @@ Chưa đầy mười năm, AI đã chuyển từ viễn tưởng sang hiện th�
 <a class="thumb thumb-5x3" data-medium="Item-2" data-thumb="1" href="https://vnexpress.net/kich-ban-gia-vang-dip-via-than-tai-chuc-nam-qua-4564889.html" title="Kịch bản giá vàng dịp vía Thần Tài chục năm qua">
 <picture>
 <!--[if IE 9]><video style="display: none;"><![endif]-->
-<source data-srcset="assets/img/vnexpress/2023_01_31_muavangviathantai-32-167510125-2263-1266-1675101262.jpg 1x, assets/img/vnexpress/2023_01_31_muavangviathantai-32-167510125-2263-1266-1675101262.jpg 2x"/>
+<source data-srcset="assets/img/vnexpress/2023_01_31_muavangviathantai-32-167510125-2263-1266-1675101262.avif 1x, assets/img/vnexpress/2023_01_31_muavangviathantai-32-167510125-2263-1266-1675101262.avif 2x"/>
 <!--[if IE 9]></video><![endif]-->
-<img alt="Kịch bản giá vàng dịp vía Thần Tài chục năm qua" class="lazy" data-src="assets/img/vnexpress/2023_01_31_muavangviathantai-32-167510125-2263-1266-1675101262.jpg" intrinsicsize="500x300" itemprop="contentUrl" loading="lazy" src="data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw==" style="transform: translateX(-50%); left: 50%;"/>
+<img alt="Kịch bản giá vàng dịp vía Thần Tài chục năm qua" class="lazy" data-src="assets/img/vnexpress/2023_01_31_muavangviathantai-32-167510125-2263-1266-1675101262.avif" intrinsicsize="500x300" itemprop="contentUrl" loading="lazy" src="data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw==" style="transform: translateX(-50%); left: 50%;"/>
 </picture> </a>
 </div>
 <h3 class="title-news">
@@ -363,9 +603,9 @@ Giá vàng thường tăng mạnh từ trước Tết Nguyên đán rồi đảo
 <a class="thumb thumb-5x3" data-medium="Item-3" data-thumb="1" href="https://vnexpress.net/kenh-dau-tu-nao-sinh-loi-tot-nhat-tu-covid-19-den-nay-4564117.html" title="Kênh đầu tư nào sinh lợi tốt nhất từ Covid-19 đến nay?">
 <picture>
 <!--[if IE 9]><video style="display: none;"><![endif]-->
-<source data-srcset="assets/img/vnexpress/2023_01_30_thumbnail-kenh-dau-tu-settop-0-4662-2705-1675076530.jpg 1x, assets/img/vnexpress/2023_01_30_thumbnail-kenh-dau-tu-settop-0-4662-2705-1675076530.jpg 2x"/>
+<source data-srcset="assets/img/vnexpress/2023_01_30_thumbnail-kenh-dau-tu-settop-0-4662-2705-1675076530.avif 1x, assets/img/vnexpress/2023_01_30_thumbnail-kenh-dau-tu-settop-0-4662-2705-1675076530.avif 2x"/>
 <!--[if IE 9]></video><![endif]-->
-<img alt="Kênh đầu tư nào sinh lợi tốt nhất từ Covid-19 đến nay?" class="lazy" data-src="assets/img/vnexpress/2023_01_30_thumbnail-kenh-dau-tu-settop-0-4662-2705-1675076530.jpg" intrinsicsize="500x300" itemprop="contentUrl" loading="lazy" src="data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw==" style="transform: translateX(-50%); left: 50%;"/>
+<img alt="Kênh đầu tư nào sinh lợi tốt nhất từ Covid-19 đến nay?" class="lazy" data-src="assets/img/vnexpress/2023_01_30_thumbnail-kenh-dau-tu-settop-0-4662-2705-1675076530.avif" intrinsicsize="500x300" itemprop="contentUrl" loading="lazy" src="data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw==" style="transform: translateX(-50%); left: 50%;"/>
 </picture> </a>
 </div>
 <h3 class="title-news">
@@ -391,9 +631,9 @@ Với nhà đầu tư không chuyên và vốn ít, vàng miếng là kênh đ�
 <a class="thumb thumb-5x3" data-medium="Item-4" data-thumb="1" href="https://vnexpress.net/thue-voi-nguoi-lam-cong-an-luong-da-cong-bang-4447780.html" title="Thuế với người làm công ăn lương đã công bằng?">
 <picture>
 <!--[if IE 9]><video style="display: none;"><![endif]-->
-<source data-srcset="assets/img/vnexpress/2022_04_12_SettopGiamtrugiacanh-164973687-4744-4101-1649736941.jpg 1x, assets/img/vnexpress/2022_04_12_SettopGiamtrugiacanh-164973687-4744-4101-1649736941.jpg 2x"/>
+<source data-srcset="assets/img/vnexpress/2022_04_12_SettopGiamtrugiacanh-164973687-4744-4101-1649736941.avif 1x, assets/img/vnexpress/2022_04_12_SettopGiamtrugiacanh-164973687-4744-4101-1649736941.avif 2x"/>
 <!--[if IE 9]></video><![endif]-->
-<img alt="Thuế với người làm công ăn lương đã công bằng?" class="lazy" data-src="assets/img/vnexpress/2022_04_12_SettopGiamtrugiacanh-164973687-4744-4101-1649736941.jpg" intrinsicsize="500x300" itemprop="contentUrl" loading="lazy" src="data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw==" style="transform: translateX(-50%); left: 50%;"/>
+<img alt="Thuế với người làm công ăn lương đã công bằng?" class="lazy" data-src="assets/img/vnexpress/2022_04_12_SettopGiamtrugiacanh-164973687-4744-4101-1649736941.avif" intrinsicsize="500x300" itemprop="contentUrl" loading="lazy" src="data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw==" style="transform: translateX(-50%); left: 50%;"/>
 </picture> </a>
 </div>
 <h3 class="title-news">
@@ -419,9 +659,9 @@ Người làm công ăn lương là trụ cột chính đóng góp 70% nguồn t
 <a class="thumb thumb-5x3" data-medium="Item-5" data-thumb="1" href="https://vnexpress.net/tai-san-cua-cac-ty-phu-viet-sau-hai-nam-dai-dich-4448132.html" title="Tài sản của các tỷ phú Việt sau hai năm đại dịch">
 <picture>
 <!--[if IE 9]><video style="display: none;"><![endif]-->
-<source data-srcset="assets/img/vnexpress/2022_04_06_settop7typhu2-1649219301-4716-1649219622.jpg 1x, assets/img/vnexpress/2022_04_06_settop7typhu2-1649219301-4716-1649219622.jpg 2x"/>
+<source data-srcset="assets/img/vnexpress/2022_04_06_settop7typhu2-1649219301-4716-1649219622.avif 1x, assets/img/vnexpress/2022_04_06_settop7typhu2-1649219301-4716-1649219622.avif 2x"/>
 <!--[if IE 9]></video><![endif]-->
-<img alt="Tài sản của các tỷ phú Việt sau hai năm đại dịch" class="lazy" data-src="assets/img/vnexpress/2022_04_06_settop7typhu2-1649219301-4716-1649219622.jpg" intrinsicsize="500x300" itemprop="contentUrl" loading="lazy" src="data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw==" style="transform: translateX(-50%); left: 50%;"/>
+<img alt="Tài sản của các tỷ phú Việt sau hai năm đại dịch" class="lazy" data-src="assets/img/vnexpress/2022_04_06_settop7typhu2-1649219301-4716-1649219622.avif" intrinsicsize="500x300" itemprop="contentUrl" loading="lazy" src="data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw==" style="transform: translateX(-50%); left: 50%;"/>
 </picture> </a>
 </div>
 <h3 class="title-news">
@@ -450,9 +690,9 @@ Trừ ông Phạm Nhật Vượng, tài sản của hầu hết tỷ phú Việt
 <a class="thumb thumb-5x3" data-medium="Item-6" data-thumb="1" href="https://vnexpress.net/viet-nam-co-7-ty-phu-trong-danh-sach-the-gioi-4447895.html" title="Việt Nam có 7 tỷ phú trong danh sách thế giới">
 <picture>
 <!--[if IE 9]><video style="display: none;"><![endif]-->
-<source data-srcset="assets/img/vnexpress/2022_04_06_settop7typhu2022-talu-16492120-1604-6644-1649212095.jpg 1x, assets/img/vnexpress/2022_04_06_settop7typhu2022-talu-16492120-1604-6644-1649212095.jpg 2x"/>
+<source data-srcset="assets/img/vnexpress/2022_04_06_settop7typhu2022-talu-16492120-1604-6644-1649212095.avif 1x, assets/img/vnexpress/2022_04_06_settop7typhu2022-talu-16492120-1604-6644-1649212095.avif 2x"/>
 <!--[if IE 9]></video><![endif]-->
-<img alt="Việt Nam có 7 tỷ phú trong danh sách thế giới" class="lazy" data-src="assets/img/vnexpress/2022_04_06_settop7typhu2022-talu-16492120-1604-6644-1649212095.jpg" intrinsicsize="500x300" itemprop="contentUrl" loading="lazy" src="data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw==" style="transform: translateX(-50%); left: 50%;"/>
+<img alt="Việt Nam có 7 tỷ phú trong danh sách thế giới" class="lazy" data-src="assets/img/vnexpress/2022_04_06_settop7typhu2022-talu-16492120-1604-6644-1649212095.avif" intrinsicsize="500x300" itemprop="contentUrl" loading="lazy" src="data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw==" style="transform: translateX(-50%); left: 50%;"/>
 </picture> </a>
 </div>
 <h3 class="title-news">
@@ -478,9 +718,9 @@ Trừ ông Phạm Nhật Vượng, tài sản của hầu hết tỷ phú Việt
 <a class="thumb thumb-5x3" data-medium="Item-7" data-thumb="1" href="https://vnexpress.net/nhung-doanh-nghiep-von-hoa-ty-usd-tren-hose-4447281.html" title="Những doanh nghiệp vốn hóa tỷ USD trên HoSE">
 <picture>
 <!--[if IE 9]><video style="display: none;"><![endif]-->
-<source data-srcset="assets/img/vnexpress/2022_04_04_275908635360323139378960774013-5371-2539-1649061371.jpg 1x, assets/img/vnexpress/2022_04_04_275908635360323139378960774013-5371-2539-1649061371.jpg 2x"/>
+<source data-srcset="assets/img/vnexpress/2022_04_04_275908635360323139378960774013-5371-2539-1649061371.avif 1x, assets/img/vnexpress/2022_04_04_275908635360323139378960774013-5371-2539-1649061371.avif 2x"/>
 <!--[if IE 9]></video><![endif]-->
-<img alt="Những doanh nghiệp vốn hóa tỷ USD trên HoSE" class="lazy" data-src="assets/img/vnexpress/2022_04_04_275908635360323139378960774013-5371-2539-1649061371.jpg" intrinsicsize="500x300" itemprop="contentUrl" loading="lazy" src="data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw==" style="transform: translateX(-50%); left: 50%;"/>
+<img alt="Những doanh nghiệp vốn hóa tỷ USD trên HoSE" class="lazy" data-src="assets/img/vnexpress/2022_04_04_275908635360323139378960774013-5371-2539-1649061371.avif" intrinsicsize="500x300" itemprop="contentUrl" loading="lazy" src="data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw==" style="transform: translateX(-50%); left: 50%;"/>
 </picture> </a>
 </div>
 <h3 class="title-news">
@@ -506,9 +746,9 @@ Sàn HoSE có 49 doanh nghiệp vốn hóa tỷ USD, chiếm 80% thị trường
 <a class="thumb thumb-5x3" data-medium="Item-8" data-thumb="1" href="https://vnexpress.net/thang-4-gui-tiet-kiem-ngan-hang-nao-lai-cao-nhat-4445841.html" title="Tháng 4, gửi tiết kiệm ngân hàng nào lãi cao nhất?">
 <picture>
 <!--[if IE 9]><video style="display: none;"><![endif]-->
-<source data-srcset="assets/img/vnexpress/2022_04_01_263034955443539133879211474786-7190-9990-1648775184.jpg 1x, assets/img/vnexpress/2022_04_01_263034955443539133879211474786-7190-9990-1648775184.jpg 2x"/>
+<source data-srcset="assets/img/vnexpress/2022_04_01_263034955443539133879211474786-7190-9990-1648775184.avif 1x, assets/img/vnexpress/2022_04_01_263034955443539133879211474786-7190-9990-1648775184.avif 2x"/>
 <!--[if IE 9]></video><![endif]-->
-<img alt="Tháng 4, gửi tiết kiệm ngân hàng nào lãi cao nhất?" class="lazy" data-src="assets/img/vnexpress/2022_04_01_263034955443539133879211474786-7190-9990-1648775184.jpg" intrinsicsize="500x300" itemprop="contentUrl" loading="lazy" src="data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw==" style="transform: translateX(-50%); left: 50%;"/>
+<img alt="Tháng 4, gửi tiết kiệm ngân hàng nào lãi cao nhất?" class="lazy" data-src="assets/img/vnexpress/2022_04_01_263034955443539133879211474786-7190-9990-1648775184.avif" intrinsicsize="500x300" itemprop="contentUrl" loading="lazy" src="data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw==" style="transform: translateX(-50%); left: 50%;"/>
 </picture> </a>
 </div>
 <h3 class="title-news">
@@ -534,9 +774,9 @@ Sàn HoSE có 49 doanh nghiệp vốn hóa tỷ USD, chiếm 80% thị trường
 <a class="thumb thumb-5x3" data-medium="Item-9" data-thumb="1" href="https://vnexpress.net/flc-bamboo-airways-co-chu-tich-moi-thay-ong-trinh-van-quyet-4445652.html" title="FLC, Bamboo Airways có chủ tịch mới thay ông Trịnh Văn Quyết">
 <picture>
 <!--[if IE 9]><video style="display: none;"><![endif]-->
-<source data-srcset="assets/img/vnexpress/2022_03_31_277186086-282974514013397-6338-7283-4350-1648694539.jpg 1x, assets/img/vnexpress/2022_03_31_277186086-282974514013397-6338-7283-4350-1648694539.jpg 2x"/>
+<source data-srcset="assets/img/vnexpress/2022_03_31_277186086-282974514013397-6338-7283-4350-1648694539.avif 1x, assets/img/vnexpress/2022_03_31_277186086-282974514013397-6338-7283-4350-1648694539.avif 2x"/>
 <!--[if IE 9]></video><![endif]-->
-<img alt="FLC, Bamboo Airways có chủ tịch mới thay ông Trịnh Văn Quyết" class="lazy" data-src="assets/img/vnexpress/2022_03_31_277186086-282974514013397-6338-7283-4350-1648694539.jpg" intrinsicsize="500x300" itemprop="contentUrl" loading="lazy" src="data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw==" style="transform: translateX(-50%); left: 50%;"/>
+<img alt="FLC, Bamboo Airways có chủ tịch mới thay ông Trịnh Văn Quyết" class="lazy" data-src="assets/img/vnexpress/2022_03_31_277186086-282974514013397-6338-7283-4350-1648694539.avif" intrinsicsize="500x300" itemprop="contentUrl" loading="lazy" src="data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw==" style="transform: translateX(-50%); left: 50%;"/>
 </picture> </a>
 </div>
 <h3 class="title-news">
@@ -562,9 +802,9 @@ Sàn HoSE có 49 doanh nghiệp vốn hóa tỷ USD, chiếm 80% thị trường
 <a class="thumb thumb-5x3" data-medium="Item-10" data-thumb="1" href="https://vnexpress.net/nam-nhieu-cam-xuc-cua-nha-dau-tu-co-phieu-ho-flc-4445312.html" title="Năm nhiều cảm xúc của nhà đầu tư cổ phiếu 'họ FLC'">
 <picture>
 <!--[if IE 9]><video style="display: none;"><![endif]-->
-<source data-srcset="assets/img/vnexpress/2022_03_30_ongquyet2-1648655496-164865551-2878-9418-1648655580.jpg 1x, assets/img/vnexpress/2022_03_30_ongquyet2-1648655496-164865551-2878-9418-1648655580.jpg 2x"/>
+<source data-srcset="assets/img/vnexpress/2022_03_30_ongquyet2-1648655496-164865551-2878-9418-1648655580.avif 1x, assets/img/vnexpress/2022_03_30_ongquyet2-1648655496-164865551-2878-9418-1648655580.avif 2x"/>
 <!--[if IE 9]></video><![endif]-->
-<img alt="Năm nhiều cảm xúc của nhà đầu tư cổ phiếu 'họ FLC'" class="lazy" data-src="assets/img/vnexpress/2022_03_30_ongquyet2-1648655496-164865551-2878-9418-1648655580.jpg" intrinsicsize="500x300" itemprop="contentUrl" loading="lazy" src="data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw==" style="transform: translateX(-50%); left: 50%;"/>
+<img alt="Năm nhiều cảm xúc của nhà đầu tư cổ phiếu 'họ FLC'" class="lazy" data-src="assets/img/vnexpress/2022_03_30_ongquyet2-1648655496-164865551-2878-9418-1648655580.avif" intrinsicsize="500x300" itemprop="contentUrl" loading="lazy" src="data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw==" style="transform: translateX(-50%); left: 50%;"/>
 </picture> </a>
 </div>
 <h3 class="title-news">
@@ -590,9 +830,9 @@ FLC, ROS và các mã liên quan ông Trịnh Văn Quyết trong một năm tr�
 <a class="thumb thumb-5x3" data-medium="Item-11" data-thumb="1" href="https://vnexpress.net/gia-xang-viet-nam-o-dau-so-voi-the-gioi-4437744.html" title="Giá xăng Việt Nam ở đâu so với thế giới?">
 <picture>
 <!--[if IE 9]><video style="display: none;"><![endif]-->
-<source data-srcset="assets/img/vnexpress/2022_03_13_1Settop-1647136784-2979-1647136808.jpg 1x, assets/img/vnexpress/2022_03_13_1Settop-1647136784-2979-1647136808.jpg 2x"/>
+<source data-srcset="assets/img/vnexpress/2022_03_13_1Settop-1647136784-2979-1647136808.avif 1x, assets/img/vnexpress/2022_03_13_1Settop-1647136784-2979-1647136808.avif 2x"/>
 <!--[if IE 9]></video><![endif]-->
-<img alt="Giá xăng Việt Nam ở đâu so với thế giới?" class="lazy" data-src="assets/img/vnexpress/2022_03_13_1Settop-1647136784-2979-1647136808.jpg" intrinsicsize="500x300" itemprop="contentUrl" loading="lazy" src="data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw==" style="transform: translateX(-50%); left: 50%;"/>
+<img alt="Giá xăng Việt Nam ở đâu so với thế giới?" class="lazy" data-src="assets/img/vnexpress/2022_03_13_1Settop-1647136784-2979-1647136808.avif" intrinsicsize="500x300" itemprop="contentUrl" loading="lazy" src="data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw==" style="transform: translateX(-50%); left: 50%;"/>
 </picture> </a>
 </div>
 <h3 class="title-news">
@@ -618,9 +858,9 @@ Chưa đầy hai năm trước, mỗi lít xăng Việt Nam chỉ hơn 11.000 đ
 <a class="thumb thumb-5x3" data-medium="Item-12" data-thumb="1" href="https://vnexpress.net/nhung-lan-lap-dinh-tao-day-cua-gia-xang-4434028.html" title="Những lần lập đỉnh, tạo đáy của giá xăng">
 <picture>
 <!--[if IE 9]><video style="display: none;"><![endif]-->
-<source data-srcset="assets/img/vnexpress/2022_03_02_ING-Settop-Len-xuong-gia-xang-jpeg_1646234554.jpg 1x, assets/img/vnexpress/2022_03_02_ING-Settop-Len-xuong-gia-xang-jpeg_1646234554.jpg 2x"/>
+<source data-srcset="assets/img/vnexpress/2022_03_02_ING-Settop-Len-xuong-gia-xang-jpeg_1646234554.avif 1x, assets/img/vnexpress/2022_03_02_ING-Settop-Len-xuong-gia-xang-jpeg_1646234554.avif 2x"/>
 <!--[if IE 9]></video><![endif]-->
-<img alt="Những lần lập đỉnh, tạo đáy của giá xăng" class="lazy" data-src="assets/img/vnexpress/2022_03_02_ING-Settop-Len-xuong-gia-xang-jpeg_1646234554.jpg" intrinsicsize="500x300" itemprop="contentUrl" loading="lazy" src="data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw==" style="transform: translateX(-50%); left: 50%;"/>
+<img alt="Những lần lập đỉnh, tạo đáy của giá xăng" class="lazy" data-src="assets/img/vnexpress/2022_03_02_ING-Settop-Len-xuong-gia-xang-jpeg_1646234554.avif" intrinsicsize="500x300" itemprop="contentUrl" loading="lazy" src="data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw==" style="transform: translateX(-50%); left: 50%;"/>
 </picture> <span class="icon_thumb_videophoto"><svg class="ic ic-infographic"><use xlink:href="#Infographic"></use></svg></span> </a>
 </div>
 <h3 class="title-news">
@@ -649,9 +889,9 @@ Giá một lít xăng RON95 từng chỉ hơn 11.600 đồng vào tháng 4/2020,
 <a class="thumb thumb-5x3" data-medium="Item-13" data-thumb="1" href="https://vnexpress.net/interactive/2021/su-kien-kinh-te-nam-2021-4403882" title="Một năm kinh tế ngấm đòn Covid">
 <picture>
 <!--[if IE 9]><video style="display: none;"><![endif]-->
-<source data-srcset="assets/img/vnexpress/2021_12_22_thumbcover5x3ver5-1640186679-2389-1640187609.png 1x, assets/img/vnexpress/2021_12_22_thumbcover5x3ver5-1640186679-2389-1640187609.png 2x"/>
+<source data-srcset="assets/img/vnexpress/2021_12_22_thumbcover5x3ver5-1640186679-2389-1640187609.avif 1x, assets/img/vnexpress/2021_12_22_thumbcover5x3ver5-1640186679-2389-1640187609.avif 2x"/>
 <!--[if IE 9]></video><![endif]-->
-<img alt="Một năm kinh tế ngấm đòn Covid" class="lazy" data-src="assets/img/vnexpress/2021_12_22_thumbcover5x3ver5-1640186679-2389-1640187609.png" intrinsicsize="500x300" itemprop="contentUrl" loading="lazy" src="data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw==" style="transform: translateX(-50%); left: 50%;"/>
+<img alt="Một năm kinh tế ngấm đòn Covid" class="lazy" data-src="assets/img/vnexpress/2021_12_22_thumbcover5x3ver5-1640186679-2389-1640187609.avif" intrinsicsize="500x300" itemprop="contentUrl" loading="lazy" src="data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw==" style="transform: translateX(-50%); left: 50%;"/>
 </picture> <span class="icon_thumb_videophoto"><svg class="ic ic-interactive"><use xlink:href="#Interactive"></use></svg></span> </a>
 </div>
 <h3 class="title-news">
@@ -677,9 +917,9 @@ Giá một lít xăng RON95 từng chỉ hơn 11.600 đồng vào tháng 4/2020,
 <a class="thumb thumb-5x3" data-medium="Item-14" data-thumb="1" href="https://vnexpress.net/dau-tu-gia-tri-hay-luot-song-truong-phai-nao-len-ngoi-4412239.html" title="Đầu tư giá trị hay lướt sóng - trường phái nào lên ngôi?">
 <picture>
 <!--[if IE 9]><video style="display: none;"><![endif]-->
-<source data-srcset="assets/img/vnexpress/2022_01_06_CapturePNG-1641464675-4960-1641464710.png 1x, assets/img/vnexpress/2022_01_06_CapturePNG-1641464675-4960-1641464710.png 2x"/>
+<source data-srcset="assets/img/vnexpress/2022_01_06_CapturePNG-1641464675-4960-1641464710.avif 1x, assets/img/vnexpress/2022_01_06_CapturePNG-1641464675-4960-1641464710.avif 2x"/>
 <!--[if IE 9]></video><![endif]-->
-<img alt="Đầu tư giá trị hay lướt sóng - trường phái nào lên ngôi?" class="lazy" data-src="assets/img/vnexpress/2022_01_06_CapturePNG-1641464675-4960-1641464710.png" intrinsicsize="500x300" itemprop="contentUrl" loading="lazy" src="data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw==" style="transform: translateX(-50%); left: 50%;"/>
+<img alt="Đầu tư giá trị hay lướt sóng - trường phái nào lên ngôi?" class="lazy" data-src="assets/img/vnexpress/2022_01_06_CapturePNG-1641464675-4960-1641464710.avif" intrinsicsize="500x300" itemprop="contentUrl" loading="lazy" src="data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw==" style="transform: translateX(-50%); left: 50%;"/>
 </picture> <span class="icon_thumb_videophoto"><svg class="ic ic-interactive"><use xlink:href="#Interactive"></use></svg></span> </a>
 </div>
 <h3 class="title-news">
@@ -705,9 +945,9 @@ Năm qua, không ít nhà đầu tư thắng lớn với các mã bị gán nhã
 <a class="thumb thumb-5x3" data-medium="Item-15" data-thumb="1" href="https://vnexpress.net/co-phieu-cua-nam-2021-dig-hpg-va-ceo-4411873.html" title="Cổ phiếu của năm 2021: DIG, HPG và CEO">
 <picture>
 <!--[if IE 9]><video style="display: none;"><![endif]-->
-<source data-srcset="assets/img/vnexpress/2022_01_04_269828361446630420284154113087-5468-6193-1641281883.jpg 1x, assets/img/vnexpress/2022_01_04_269828361446630420284154113087-5468-6193-1641281883.jpg 2x"/>
+<source data-srcset="assets/img/vnexpress/2022_01_04_269828361446630420284154113087-5468-6193-1641281883.avif 1x, assets/img/vnexpress/2022_01_04_269828361446630420284154113087-5468-6193-1641281883.avif 2x"/>
 <!--[if IE 9]></video><![endif]-->
-<img alt="Cổ phiếu của năm 2021: DIG, HPG và CEO" class="lazy" data-src="assets/img/vnexpress/2022_01_04_269828361446630420284154113087-5468-6193-1641281883.jpg" intrinsicsize="500x300" itemprop="contentUrl" loading="lazy" src="data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw==" style="transform: translateX(-50%); left: 50%;"/>
+<img alt="Cổ phiếu của năm 2021: DIG, HPG và CEO" class="lazy" data-src="assets/img/vnexpress/2022_01_04_269828361446630420284154113087-5468-6193-1641281883.avif" intrinsicsize="500x300" itemprop="contentUrl" loading="lazy" src="data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw==" style="transform: translateX(-50%); left: 50%;"/>
 </picture> </a>
 </div>
 <h3 class="title-news">
@@ -733,9 +973,9 @@ Năm qua, không ít nhà đầu tư thắng lớn với các mã bị gán nhã
 <a class="thumb thumb-5x3" data-medium="Item-16" data-thumb="1" href="https://vnexpress.net/kieu-hoi-ve-viet-nam-nhieu-co-nao-4421073.html" title="Kiều hối về Việt Nam nhiều cỡ nào?">
 <picture>
 <!--[if IE 9]><video style="display: none;"><![endif]-->
-<source data-srcset="assets/img/vnexpress/2022_01_26_kieu-hoi-03.jpg 1x, assets/img/vnexpress/2022_01_26_kieu-hoi-03.jpg 2x"/>
+<source data-srcset="assets/img/vnexpress/2022_01_26_kieu-hoi-03.avif 1x, assets/img/vnexpress/2022_01_26_kieu-hoi-03.avif 2x"/>
 <!--[if IE 9]></video><![endif]-->
-<img alt="Kiều hối về Việt Nam nhiều cỡ nào?" class="lazy" data-src="assets/img/vnexpress/2022_01_26_kieu-hoi-03.jpg" intrinsicsize="500x300" itemprop="contentUrl" loading="lazy" src="data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw==" style="transform: translateX(-50%); left: 50%;"/>
+<img alt="Kiều hối về Việt Nam nhiều cỡ nào?" class="lazy" data-src="assets/img/vnexpress/2022_01_26_kieu-hoi-03.avif" intrinsicsize="500x300" itemprop="contentUrl" loading="lazy" src="data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw==" style="transform: translateX(-50%); left: 50%;"/>
 </picture> <span class="icon_thumb_videophoto"><svg class="ic ic-infographic"><use xlink:href="#Infographic"></use></svg></span> </a>
 </div>
 <h3 class="title-news">
@@ -813,5 +1053,168 @@ window.addEventListener('DOMContentLoaded',function(){if(scriptFooterIS(scriptFo
 <div id="tt_end_page" style="display: none;"></div>
 <link href="assets/css/vnexpress_restruct_c_v3922_v2_2019_pc_widget-investment-business.css" media="all" rel="stylesheet"/>
 <script>var iframes=document.querySelectorAll('iframe.vne-connector');if(iframes.length>0){iframes.forEach(function(iframe){iframe.setAttribute('data-allow-script-execution','true');});var script=document.createElement('script');script.type='text/javascript';script.src='https://s1.vnecdn.net/vnexpress/restruct/j/v8859/iframe-connector.js';document.head.appendChild(script);}</script>
+
+<!-- BCDL OFFLINE LAZYLOAD FALLBACK
+     VnExpress's lazyload.js loads from external CDN (s1.vnecdn.net) and is unavailable offline.
+     This script replicates the same data-src → src / data-srcset → srcset swap behavior
+     using native IntersectionObserver, ensuring all AVIF thumbnail images load correctly. -->
+<script id="bcdl-lazyload-fallback">
+(function() {
+  'use strict';
+
+  function loadElement(el) {
+    // Handle <img class="lazy" data-src="...">
+    if (el.tagName === 'IMG') {
+      if (el.dataset.src) {
+        el.src = el.dataset.src;
+        delete el.dataset.src;
+      }
+      if (el.dataset.srcset) {
+        el.srcset = el.dataset.srcset;
+        delete el.dataset.srcset;
+      }
+      el.classList.remove('lazy');
+    }
+
+    // Handle <source data-srcset="..."> inside <picture>
+    if (el.tagName === 'SOURCE') {
+      if (el.dataset.srcset) {
+        el.srcset = el.dataset.srcset;
+        delete el.dataset.srcset;
+      }
+    }
+  }
+
+  function loadPicture(picture) {
+    // Load all <source> children first, then the <img>
+    var sources = picture.querySelectorAll('source[data-srcset]');
+    sources.forEach(function(s) { loadElement(s); });
+    var img = picture.querySelector('img.lazy, img[data-src]');
+    if (img) loadElement(img);
+  }
+
+  function initLazyLoad() {
+    // Find all lazy images
+    var lazyImgs = document.querySelectorAll('img.lazy[data-src], img[data-srcset]');
+    var lazySources = document.querySelectorAll('source[data-srcset]');
+
+    if (!window.IntersectionObserver) {
+      // Fallback: load all immediately on unsupported browsers
+      lazyImgs.forEach(function(img) { loadElement(img); });
+      lazySources.forEach(function(s) { loadElement(s); });
+      return;
+    }
+
+    var observer = new IntersectionObserver(function(entries) {
+      entries.forEach(function(entry) {
+        if (!entry.isIntersecting) return;
+        var el = entry.target;
+
+        if (el.tagName === 'IMG') {
+          // When an img is observed, also load its sibling <source> elements
+          var picture = el.closest('picture');
+          if (picture) {
+            loadPicture(picture);
+          } else {
+            loadElement(el);
+          }
+        } else if (el.tagName === 'SOURCE') {
+          var pic = el.closest('picture');
+          if (pic) loadPicture(pic);
+        }
+
+        observer.unobserve(el);
+      });
+    }, {
+      rootMargin: '200px 0px', // Pre-load 200px before entering viewport
+      threshold: 0
+    });
+
+    lazyImgs.forEach(function(img) { observer.observe(img); });
+    // Also observe sources directly so picture elements near the fold load correctly
+    lazySources.forEach(function(s) { observer.observe(s); });
+  }
+
+  // Run after DOM is ready
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', initLazyLoad);
+  } else {
+    initLazyLoad();
+  }
+})();
+</script>
+<!-- END BCDL OFFLINE LAZYLOAD FALLBACK -->
+
+<!-- START MOBILE ROTATION PROMPT OVERLAY -->
+<div id="mobile-rotation-overlay">
+  <div class="overlay-card">
+    <div class="animation-container">
+      <svg class="phone-svg" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+        <rect x="5" y="2" width="14" height="20" rx="2" ry="2"/>
+        <line x1="12" y1="18" x2="12" y2="18"/>
+      </svg>
+    </div>
+    <div class="overlay-title">Trải nghiệm tốt nhất ở màn hình ngang</div>
+    <div class="overlay-desc">Vui lòng xoay ngang thiết bị của bạn để hiển thị đầy đủ hình ảnh dữ liệu và tương tác câu chuyện.</div>
+    <button class="dismiss-btn" id="dismiss-rotation-overlay">Tiếp tục ở màn hình dọc</button>
+  </div>
+</div>
+
+<script id="mobile-rotation-logic">
+(() => {
+  const overlay = document.getElementById("mobile-rotation-overlay");
+  const dismissBtn = document.getElementById("dismiss-rotation-overlay");
+
+  if (!overlay || !dismissBtn) return;
+
+  // Use sessionStorage so overlay only shows ONCE per browser session,
+  // not on every reload — preventing the overlay from re-appearing after
+  // the user already dismissed it.
+  const SESSION_KEY = 'bcdl_rotation_dismissed';
+  let userDismissed = sessionStorage.getItem(SESSION_KEY) === '1';
+
+  function isMobileDevice() {
+    return /Android|iPhone|iPad|iPod|IEMobile|Opera Mini|Mobile/i.test(navigator.userAgent)
+      || (typeof window.orientation !== 'undefined')
+      || window.innerWidth <= 900;
+  }
+
+  function checkOrientation() {
+    if (!isMobileDevice()) {
+      overlay.classList.remove("show");
+      return;
+    }
+    const isPortrait = window.matchMedia("(orientation: portrait)").matches;
+    if (isPortrait && !userDismissed) {
+      overlay.classList.add("show");
+    } else {
+      overlay.classList.remove("show");
+    }
+  }
+
+  dismissBtn.addEventListener("click", () => {
+    userDismissed = true;
+    try { sessionStorage.setItem(SESSION_KEY, '1'); } catch(e) {}
+    overlay.classList.remove("show");
+  });
+
+  // Listen to orientation change and resize events
+  window.addEventListener("resize", checkOrientation);
+  if (screen.orientation) {
+    screen.orientation.addEventListener("change", checkOrientation);
+  } else {
+    window.addEventListener("orientationchange", checkOrientation);
+  }
+
+  // Initial check — defer slightly to avoid flash on fast portrait→landscape transitions
+  window.addEventListener('DOMContentLoaded', function() {
+    setTimeout(checkOrientation, 300);
+  });
+  if (document.readyState !== 'loading') {
+    setTimeout(checkOrientation, 300);
+  }
+})();
+</script>
+<!-- END MOBILE ROTATION PROMPT OVERLAY -->
 </body>
 </html>

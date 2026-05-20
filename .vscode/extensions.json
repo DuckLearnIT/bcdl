@@ -1,0 +1,12 @@
+{
+  "recommendations": [
+    "ritwickdey.LiveServer",
+    "christian-kohler.path-intellisense",
+    "ecmel.vscode-html-css",
+    "pranayg.g-css-peek",
+    "esbenp.prettier-vscode",
+    "streetsidesoftware.code-spell-checker",
+    "aaron-bond.better-comments",
+    "cssho.vscode-svgviewer"
+  ]
+}
