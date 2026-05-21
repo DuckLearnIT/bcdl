@@ -5,6 +5,13 @@
     font-style: normal;
 }
 
+@font-face {
+    font-family: 'Momo';
+    src: url('../fonts/momo.woff2') format('woff2');
+    font-weight: normal;
+    font-style: normal;
+}
+
 body, html {
     margin: 0;
     padding: 0;
@@ -128,12 +135,13 @@ body, html {
 }
 
 .typewriter-text {
-    font-family: 'Futura', sans-serif;
+    font-family: 'Momo', 'Futura', sans-serif;
     font-size: clamp(22px, 3.5vw, 34px);
     color: #000; /* Chữ đen trên nền trắng, hoặc chữ trắng trên nền đen tùy kịch bản. Theo kịch bản màn hình sáng lên nên chữ sẽ màu sậm */
     text-align: center;
     max-width: 900px;
-    line-height: 1.8;
+    line-height: 1.9;
+    letter-spacing: 0.02em;
     padding: 40px;
 }
 
@@ -163,20 +171,21 @@ body, html {
 .wind-letter {
     display: inline-block;
     white-space: pre;
-    transition: transform 3s cubic-bezier(0.1, 0.8, 0.3, 1), 
-                opacity 3s ease-out, 
-                filter 3s ease-out;
+    transition: transform 4.6s cubic-bezier(0.22, 1, 0.36, 1), 
+                opacity 4.2s ease-out, 
+                filter 4.2s ease-out;
+    transition-delay: var(--blow-delay, 0ms);
     transform-style: preserve-3d;
     will-change: transform, opacity, filter;
 }
 
 .wind-letter.blow {
     opacity: 0;
-    filter: blur(6px);
-    /* Bay xa sang phải và chếch lên trên, xoay ngẫu nhiên */
-    transform: translate3d(calc(120vw * var(--rx)), calc(-70vh * var(--ry) - 30vh), 100px) 
+    filter: blur(3px);
+    /* Chữ tan nhẹ như bị gió cuốn thay vì văng mạnh khỏi màn hình. */
+    transform: translate3d(calc(28vw * var(--rx)), calc(-20vh * var(--ry) - 4vh), 40px) 
                rotate3d(var(--rotX), var(--rotY), var(--rotZ), var(--rotD)) 
-               scale(0.3);
+               scale(0.78);
 }
 
 /* --- Màn hình Credit --- */

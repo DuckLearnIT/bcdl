@@ -90,11 +90,14 @@ const chapter5Script = [
 ];
 
 const turn4Text = "Tụi mình ở đây là để giúp thế giới của cậu trở nên rộng lớn hơn... chứ không phải để tước đi tiếng nói của riêng cậu.";
+const endingVoicePath = "assets/audio/Dialogue/JP/End/credit.wav";
+const endingVoiceFallbackDurationMs = 11500;
 
 let currentStep = 0;
 let isAnimating = false;
 let typeInterval = null;
 let currentAudio = null;
+let endingVoiceAudio = null;
 
 // Audio instances
 const ostAudio = new Audio('assets/audio/SFX/OST.m4a');
@@ -368,49 +371,114 @@ function triggerTurn4() {
         document.getElementById("video-1").pause();
         document.getElementById("video-2").pause();
         
-        // Hiện text typewriter
-        const textEl = document.getElementById("ending-text");
-        let i = 0;
-        
-        const turn4Interval = setInterval(() => {
-            if (i < turn4Text.length) {
-                let char = turn4Text.charAt(i);
-                if (char === '\n') {
-                    textEl.innerHTML += "<br>";
-                } else {
-                    const span = document.createElement("span");
-                    span.className = "wind-letter";
-                    
-                    // Tạo các biến ngẫu nhiên để bay theo gió
-                    const rx = Math.random() * 1.5 + 0.5; // Bay mạnh sang phải (0.5 đến 2.0)
-                    const ry = Math.random() * 1.0 - 0.3; // Bay xéo lên
-                    const rotX = Math.random();
-                    const rotY = Math.random();
-                    const rotZ = Math.random();
-                    const rotD = Math.floor(Math.random() * 720 - 360);
-                    
-                    span.style.setProperty("--rx", rx);
-                    span.style.setProperty("--ry", ry);
-                    span.style.setProperty("--rotX", rotX);
-                    span.style.setProperty("--rotY", rotY);
-                    span.style.setProperty("--rotZ", rotZ);
-                    span.style.setProperty("--rotD", rotD + "deg");
-                    
-                    // Nếu là khoảng trắng, dùng ký tự space để giữ khoảng cách
-                    span.textContent = char;
-                    textEl.appendChild(span);
-                }
-                i++;
-            } else {
-                clearInterval(turn4Interval);
-                fadeAudioOut(ostAudio, 3000);
-                
-                // Đợi 2.5 giây sau khi gõ xong rồi kích hoạt gió bay chữ
-                setTimeout(blowTextAway, 2500);
-            }
-        }, 60);
+        playEndingQuote();
         
     }, 2500);
+}
+
+function playEndingQuote() {
+    const textEl = document.getElementById("ending-text");
+    textEl.innerHTML = "";
+
+    endingVoiceAudio = new Audio(endingVoicePath);
+    endingVoiceAudio.volume = 0.95;
+    let didStartEndingTypewriter = false;
+
+    const startTypewriter = () => {
+        if (didStartEndingTypewriter) return;
+        didStartEndingTypewriter = true;
+
+        const audioDurationMs = Number.isFinite(endingVoiceAudio.duration)
+            ? endingVoiceAudio.duration * 1000
+            : endingVoiceFallbackDurationMs;
+        const typingDurationMs = Math.max(5000, audioDurationMs - 500);
+
+        typeEndingText(textEl, typingDurationMs, () => {
+            fadeAudioOut(ostAudio, 3000);
+            waitForEndingVoiceThenBlow();
+        });
+    };
+
+    endingVoiceAudio.addEventListener("loadedmetadata", startTypewriter, { once: true });
+    endingVoiceAudio.play().catch((error) => {
+        console.warn(error);
+        startTypewriter();
+    });
+}
+
+function typeEndingText(textEl, durationMs, onComplete) {
+    let lastVisibleCount = 0;
+    let didComplete = false;
+    const startTime = performance.now();
+
+    function revealCharacters() {
+        const elapsed = performance.now() - startTime;
+        const progress = Math.min(elapsed / durationMs, 1);
+        const targetCount = Math.floor(progress * turn4Text.length);
+
+        while (lastVisibleCount < targetCount) {
+            appendEndingCharacter(textEl, turn4Text.charAt(lastVisibleCount), lastVisibleCount);
+            lastVisibleCount++;
+        }
+
+        if (progress < 1) {
+            requestAnimationFrame(revealCharacters);
+            return;
+        }
+
+        while (lastVisibleCount < turn4Text.length) {
+            appendEndingCharacter(textEl, turn4Text.charAt(lastVisibleCount), lastVisibleCount);
+            lastVisibleCount++;
+        }
+
+        if (!didComplete) {
+            didComplete = true;
+            onComplete();
+        }
+    }
+
+    requestAnimationFrame(revealCharacters);
+}
+
+function appendEndingCharacter(textEl, char, index) {
+    if (char === "\n") {
+        textEl.appendChild(document.createElement("br"));
+        return;
+    }
+
+    const span = document.createElement("span");
+    span.className = "wind-letter";
+
+    const rx = Math.random() * 0.9 - 0.1;
+    const ry = Math.random() * 0.7 + 0.2;
+    const rotX = Math.random() * 0.45;
+    const rotY = Math.random() * 0.45;
+    const rotZ = Math.random() * 0.7 + 0.3;
+    const rotD = Math.floor(Math.random() * 48 - 24);
+    const blowDelay = Math.min(index * 12, 900);
+
+    span.style.setProperty("--rx", rx);
+    span.style.setProperty("--ry", ry);
+    span.style.setProperty("--rotX", rotX);
+    span.style.setProperty("--rotY", rotY);
+    span.style.setProperty("--rotZ", rotZ);
+    span.style.setProperty("--rotD", rotD + "deg");
+    span.style.setProperty("--blow-delay", blowDelay + "ms");
+    span.textContent = char;
+    textEl.appendChild(span);
+}
+
+function waitForEndingVoiceThenBlow() {
+    const holdBeforeBlowMs = 1400;
+
+    if (!endingVoiceAudio || endingVoiceAudio.ended || endingVoiceAudio.paused) {
+        setTimeout(blowTextAway, holdBeforeBlowMs);
+        return;
+    }
+
+    endingVoiceAudio.addEventListener("ended", () => {
+        setTimeout(blowTextAway, holdBeforeBlowMs);
+    }, { once: true });
 }
 
 function blowTextAway() {
@@ -421,11 +489,13 @@ function blowTextAway() {
     
     // 2. Kích hoạt hiệu ứng bay
     const letters = document.querySelectorAll(".wind-letter");
-    letters.forEach(letter => {
-        letter.classList.add("blow");
+    requestAnimationFrame(() => {
+        letters.forEach(letter => {
+            letter.classList.add("blow");
+        });
     });
     
-    // 3. Sau khi bay hết (khoảng 3.2 giây), kích hoạt credit và nhạc nền mới
+    // 3. Sau khi bay hết, kích hoạt credit và nhạc nền mới
     setTimeout(() => {
         // Ẩn màn hình ending cũ
         const endingScreen = document.getElementById("ending-screen");
@@ -441,7 +511,7 @@ function blowTextAway() {
         const creditAudio = new Audio('assets/audio/SFX/Credit.m4a');
         creditAudio.volume = 0.5;
         creditAudio.play().catch(console.warn);
-    }, 3200);
+    }, 5600);
 }
 
 function fadeAudioOut(audioObj, duration) {
