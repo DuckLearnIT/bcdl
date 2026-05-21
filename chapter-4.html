@@ -686,7 +686,7 @@ button {
 }
 
 .student:hover {
-    transform: translateY(-2px);
+    transform: translate(-50%, calc(-50% - 2px));
     filter: brightness(1.1);
 }
 
@@ -919,6 +919,14 @@ button {
     margin: 0;
     font-size: clamp(15px, 2.2vw, 20px);
     line-height: 1.5;
+}
+
+.chart-note {
+    margin-top: 10px;
+    font-size: clamp(12px, 1.5vw, 14px) !important;
+    font-style: italic;
+    color: #555;
+    opacity: 0.85;
 }
 
 .chart-card {
@@ -1323,6 +1331,7 @@ button {
             </div>
             <h2>Tần suất sử dụng AI trong học tập</h2>
             <p>Kéo cần dữ liệu để dựng biểu đồ. Sau khi biểu đồ hiện đủ, bấm từng lát donut để xem nhóm dữ liệu tương ứng.</p>
+            <p class="chart-note">Biểu đồ "Tần suất sử dụng AI trong học tập của sinh viên hiện đại." (khảo sát trên 238 sinh viên địa bàn Hà Nội thực hiện bởi nhóm phóng viên)</p>
         </article>
         <article class="chart-card">
             <div class="spark-field" id="spark-field"></div>
