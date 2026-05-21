@@ -521,6 +521,14 @@ button {
     transition: width 300ms ease;
 }
 
+.progress-stats {
+    font-size: clamp(12px, 1.6vw, 15px);
+    font-weight: 700;
+    margin-top: 5px;
+    color: #17213d;
+    opacity: 0.85;
+}
+
 .mini-map {
     min-width: 102px;
     text-align: center;
@@ -961,10 +969,8 @@ button {
     inset: 27%;
     display: grid;
     place-items: center;
-    border: 3px solid #17213d;
-    background: #fffdf6;
+    background: transparent;
     text-align: center;
-    box-shadow: inset 0 0 0 5px #f7e4ab;
 }
 
 .donut-center strong {
@@ -1268,22 +1274,12 @@ button {
 </style>
 </head>
 <body class="chapter4-page" oncontextmenu="return false;">
-<section class="screen title-screen is-active" id="title-screen" aria-label="Màn hình mở đầu">
-    <div class="title-cloud one"></div>
-    <div class="title-cloud two"></div>
-    <div class="title-card">
-        <span class="title-kicker">Chương IV</span>
-        <h1>Pixel Classroom Survey</h1>
-        <p>Một lớp học 2D pixel nơi bạn tự đi hỏi 10 người bạn về thói quen dùng AI trong học tập.</p>
-        <button class="pixel-button" id="start-game" type="button">Bắt đầu</button>
-    </div>
-</section>
-
 <section class="screen game-screen" id="game-screen" aria-label="Lớp học pixel">
     <div class="game-hud" id="game-hud">
         <div>
             <div class="progress-label" id="progress-label">Phiếu khảo sát: 0/10</div>
             <div class="progress-track" aria-hidden="true"><div class="progress-fill" id="progress-fill"></div></div>
+            <div class="progress-stats" id="progress-stats">Hằng ngày: 0 | Vài lần/tuần: 0</div>
         </div>
         <div class="mini-map" id="near-label">Tìm bạn để hỏi</div>
     </div>
@@ -1533,7 +1529,6 @@ const state = {
 };
 
 const $ = (selector) => document.querySelector(selector);
-const titleScreen = $("#title-screen");
 const gameScreen = $("#game-screen");
 const chartScreen = $("#chart-screen");
 const classroom = $("#classroom");
@@ -1543,6 +1538,7 @@ const playerEl = $("#player");
 const gameHud = $("#game-hud");
 const progressLabel = $("#progress-label");
 const progressFill = $("#progress-fill");
+const progressStats = $("#progress-stats");
 const nearLabel = $("#near-label");
 const promptEl = $("#interaction-prompt");
 const mobileControls = $("#mobile-controls");
@@ -1584,7 +1580,6 @@ function placeWorld(el, x, y) {
 }
 
 function showScreen(screenName) {
-    titleScreen.classList.toggle("is-active", screenName === "title");
     gameScreen.classList.toggle("is-active", screenName === "game");
     chartScreen.classList.toggle("is-active", screenName === "chart");
 }
@@ -1606,6 +1601,9 @@ function setAmyPose(step) {
     }
     amyWrap.classList.remove("is-chart");
     setAmyVisible(true);
+    // Reset về pixel mặc định khi chuyển thoại
+    const styleBtn = document.getElementById("btn-style");
+    if (styleBtn) styleBtn.textContent = "2D / Pixel";
     if (spriteEl.getAttribute("src") !== step.pose) {
         spriteEl.style.opacity = "0";
         setTimeout(() => {
@@ -1828,6 +1826,16 @@ function updateSurveyHud() {
     const count = state.surveyed.size;
     progressLabel.textContent = `Phiếu khảo sát: ${count}/10`;
     progressFill.style.width = `${count * 10}%`;
+    let daily = 0;
+    let weekly = 0;
+    state.surveyed.forEach((id) => {
+        const student = students.find((s) => s.id === id);
+        if (student) {
+            if (student.category === "Hằng ngày") daily++;
+            else if (student.category === "Vài lần/tuần") weekly++;
+        }
+    });
+    progressStats.textContent = `Hằng ngày: ${daily} | Vài lần/tuần: ${weekly}`;
 }
 
 function distanceToStudent(student) {
@@ -1877,8 +1885,7 @@ function handleStudentTap(student) {
         openStudentSurvey(student);
         return;
     }
-    state.target = { x: student.x, y: Math.min(world.height - 42, student.y + 36) };
-    promptEl.textContent = `Đang đi tới gần ${student.name}. Khi đứng cạnh bạn ấy, nhấn Hỏi.`;
+    promptEl.textContent = `Chưa đủ gần ${student.name}. Hãy di chuyển tới cạnh bạn ấy trước.`;
     promptEl.classList.add("is-visible");
 }
 
@@ -2104,17 +2111,12 @@ function burstSparks() {
 }
 
 function bindControls() {
-    $("#start-game").addEventListener("click", startIntro);
     $("#begin-survey").addEventListener("click", beginSurvey);
     recordAnswer.addEventListener("click", recordStudentAnswer);
     interactButton.addEventListener("click", tryInteract);
     dataLever.addEventListener("click", pullLever);
 
-    classroom.addEventListener("click", (event) => {
-        if (state.phase !== "survey") return;
-        if (event.target.closest(".student")) return;
-        state.target = classroomPointerToWorld(event);
-    });
+
 
     window.addEventListener("keydown", (event) => {
         const key = event.key.length === 1 ? event.key.toLowerCase() : event.key;
@@ -2158,6 +2160,7 @@ function init() {
     bindControls();
     updateSurveyHud();
     updateNearState();
+    startIntro();
     [PIXEL + "thinking.webp", PIXEL + "pointout.webp", PIXEL + "smile.webp", PIXEL + "surprise.webp", PIXEL + "serious.webp"].forEach((src) => {
         const img = new Image();
         img.src = src;
