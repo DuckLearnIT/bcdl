@@ -1610,13 +1610,18 @@ function setAmyPose(step) {
     }
     amyWrap.classList.remove("is-chart");
     setAmyVisible(true);
-    // Reset về pixel mặc định khi chuyển thoại
+
+    let pose = step.pose;
     const styleBtn = document.getElementById("btn-style");
-    if (styleBtn) styleBtn.textContent = "2D / Pixel";
-    if (spriteEl.getAttribute("src") !== step.pose) {
+    // Giữ trạng thái 2D nếu user đang ở mode 2D
+    if (styleBtn && styleBtn.textContent === "Pixel / 2D") {
+        pose = step.pose.replace("/pixel/", "/normal/");
+    }
+
+    if (spriteEl.getAttribute("src") !== pose) {
         spriteEl.style.opacity = "0";
         setTimeout(() => {
-            spriteEl.src = step.pose;
+            spriteEl.src = pose;
             spriteEl.onload = () => {
                 spriteEl.style.opacity = "1";
             };
