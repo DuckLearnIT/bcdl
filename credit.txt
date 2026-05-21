@@ -1,0 +1,247 @@
+Với một sản phẩm data journalism / interactive longform nhiều lớp (web + code + motion + audio + illustration + reporting), phần credit thường được chia theo pipeline sản xuất thay vì chỉ ghi tên kiểu “Design by…”. Mục tiêu là:
+
+* nhìn chuyên nghiệp,
+* phản ánh đúng công lao,
+* và giúp người ngoài hiểu quy mô dự án.
+
+Các newsroom lớn như The New York Times, Reuters hay South China Morning Post thường chia rất chi tiết.
+
+Một structure phổ biến:
+
+---
+
+PROJECT TEAM
+
+Executive Editor
+Managing Editor
+Project Director
+
+Editorial Lead
+Data Editor
+Visual Editor
+
+---
+
+REPORTING
+
+Lead Reporter
+Field Reporting
+Research Support
+Fact-checking
+Interview Coordination
+
+Nếu có điều tra dữ liệu:
+
+* OSINT Research
+* Archival Research
+* Document Analysis
+
+---
+
+DATA
+
+Data Collection
+Data Cleaning
+Data Analysis
+Statistical Modeling
+Data Visualization
+Database Engineering
+
+Có thể tách:
+
+* GIS / Mapping
+* Scraping
+* API Integration
+
+---
+
+DESIGN
+
+Art Direction
+Visual Design
+Interaction Design
+UI/UX Design
+Typography
+Layout System
+
+Nếu có minh họa:
+
+* Illustration
+* Storyboarding
+* Concept Art
+
+---
+
+DEVELOPMENT
+
+Frontend Development
+Backend Development
+Creative Development
+Interactive Engineering
+Motion Implementation
+Performance Optimization
+
+Nếu xài WebGL / Three.js:
+
+* 3D Development
+* Rendering Pipeline
+
+---
+
+MOTION & MEDIA
+
+Motion Graphics
+Animation
+Video Editing
+Color Grading
+Sound Design
+Voice Over
+Music Supervision
+
+GIF riêng thì:
+
+* Animated Assets
+
+---
+
+SPECIAL THANKS / CONTRIBUTIONS
+
+Local Contributors
+Academic Advisors
+Partner Organizations
+Open-source Libraries
+Community Support
+
+---
+
+TECHNICAL STACK (nếu muốn kiểu “tech flex”)
+
+Built with:
+
+* React
+* D3.js
+* Three.js
+* GSAP
+* Blender
+* After Effects
+* Mapbox
+* R / Python
+
+Nhưng newsroom thường để kín đáo.
+
+---
+
+Nếu muốn cinematic kiểu interactive quốc tế, thường họ dùng format này:
+
+Credits
+
+Story
+A, B, C
+
+Reporting
+A, B
+
+Data Analysis
+A
+
+Design & Art Direction
+A
+
+Interactive Development
+A, B
+
+Motion Design
+C
+
+Illustration
+D
+
+Narration
+E
+
+Sound Design
+F
+
+Editing
+G
+
+---
+
+Hoặc kiểu “film ending”:
+
+An Interactive Production by [Studio/Newsroom]
+
+Executive Producer
+…
+
+Creative Director
+…
+
+Lead Developer
+…
+
+Data Visualization
+…
+
+Research
+…
+
+Voice Talent
+…
+
+---
+
+Một trick hay là chia thành:
+
+* Editorial
+* Visual
+* Technical
+* Production
+
+=> nhìn gọn nhưng vẫn “dài”.
+
+Ví dụ mockup:
+
+Editorial
+Nguyễn A, Trần B
+
+Data & Research
+Lê C, Phạm D
+
+Visual Design
+Nguyễn E
+
+Interactive Development
+Nguyễn E, Võ F
+
+Motion & Audio
+G, H
+
+Illustration
+I
+
+Field Production
+K
+
+Voice Over
+L
+
+Special Thanks
+…
+
+---
+
+Nếu dự án cực lớn, có thể thêm:
+
+* Accessibility Review
+* Mobile Optimization
+* QA Testing
+* Localization
+* Translation
+* Legal Review
+* Security Consulting
+
+Mấy mục này làm credit trông rất “AAA production”.
+
+Một lưu ý:
+Trong interactive journalism, “Creative Technologist” và “Interactive Developer” nghe nghề hơn “coder” rất nhiều 😄

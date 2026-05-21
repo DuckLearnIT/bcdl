@@ -83,3 +83,18 @@ Amy: [happy] "Cậu dũng cảm và tuyệt vời hơn cậu nghĩ rất nhiều
 
 Turn4:
 "Tụi mình ở đây là để giúp thế giới của cậu trở nên rộng lớn hơn... chứ không phải để tước đi tiếng nói của riêng cậu."
+
+
+//////////////////////////////////////////////
+1.1Amy: [thoughtful] "Cậu có để ý dạo này ở trường... đi đâu cũng thấy màn hình sáng lên mấy khung chat của AI không?"
+1.2Amy: [curious] "Hay là vầy đi... Tụi mình thử làm một bài test nhỏ nhé?"
+1.3Amy: [wink] "Bây giờ cậu thử dạo quanh một vòng, đi hỏi khoảng 10 người bạn trong lớp xem thói quen làm bài của họ dạo này thế nào nhé. Trong lúc đó, mình sẽ đi hóng hớt ở các khu vực khác xem sao."
+1.4Amy: [cheerful] "Lát nữa tụi mình quay lại đây nha! Cố lên!"
+
+2.1Amy: [surprised] "A, cậu về rồi! Mọi người trong lớp nói sao? Họ dùng nhiều lắm đúng không?"
+2.2Amy: [sigh] "Dữ liệu mình vừa thu thập được cũng khớp y hệt với quan sát của cậu luôn. Nghe này..."
+2.3my: [informative] "Có tới gần 6 trên 10 bạn sinh viên đang sử dụng AI mỗi ngày. Và hơn 25% các bạn khác dùng nó vài lần một tuần."
+Biểu đồ tròn khuyết - Donut Chart “Tần suất sử dụng AI trong học tập của sinh viên hiện đại.”
+58,8% Hàng ngày
+ 27,7% Vài lần/Tuần 
+ 0,4% sinh viên cho biết chưa từng sử dụng AI. 
