@@ -5,10 +5,12 @@
   var blackOver  = document.getElementById('black-overlay');
   var bar        = document.getElementById('progress-bar');
   var triggered  = false;
+  var finished   = false;
   var THRESHOLD  = 300;
+  var MAX_WORDS  = 400; // Giới hạn tối đa số từ để tránh crash trên mobile
 
   window.addEventListener('scroll', function(){
-    if(triggered) return;
+    if(triggered || finished) return;
     var y = window.scrollY;
     var h = document.documentElement.scrollHeight - window.innerHeight;
     if(h > 0) bar.style.width = Math.min(y/h*100,100)+'%';
@@ -19,28 +21,35 @@
   function extractVisibleWords(){
     var words = [];
     var vh = window.innerHeight;
-    var vw = window.innerWidth;
     var walker = document.createTreeWalker(content, NodeFilter.SHOW_TEXT, null);
     var node;
 
     while(node = walker.nextNode()){
+      if(words.length >= MAX_WORDS) break; // Giới hạn số từ
+
       var parent = node.parentElement;
       if(!parent) continue;
       var cs = getComputedStyle(parent);
       if(cs.display==='none'||cs.visibility==='hidden'||cs.opacity==='0') continue;
 
       var text = node.textContent;
-      // Regex: tìm từng "word" (bao gồm cả dấu câu dính liền)
       var re = /\S+/g;
       var match;
       while(match = re.exec(text)){
+        if(words.length >= MAX_WORDS) break;
+
         var start = match.index;
         var end   = start + match[0].length;
+        var range, rect;
 
-        var range = document.createRange();
-        range.setStart(node, start);
-        range.setEnd(node, end);
-        var rect = range.getBoundingClientRect();
+        try {
+          range = document.createRange();
+          range.setStart(node, start);
+          range.setEnd(node, end);
+          rect = range.getBoundingClientRect();
+        } catch(e) {
+          continue;
+        }
 
         if(rect.width < 1 || rect.height < 1) continue;
         if(rect.bottom < -20 || rect.top > vh + 20) continue;
@@ -49,9 +58,7 @@
           text: match[0],
           x: rect.left,
           y: rect.top,
-          w: rect.width,
-          h: rect.height,
-          cx: rect.left + rect.width/2,   // tâm ký tự
+          cx: rect.left + rect.width/2,
           cy: rect.top + rect.height/2,
           fontSize: parseFloat(cs.fontSize),
           fontFamily: cs.fontFamily,
@@ -65,103 +72,111 @@
   }
 
   function extractAndAnimate(){
-    document.body.style.overflow = 'hidden';
+    try {
+      document.body.style.overflow = 'hidden';
 
-    var words = extractVisibleWords();
-    var vh = window.innerHeight;
-    var vw = window.innerWidth;
-    var centerX = vw / 2;
-    var centerY = vh / 2;
+      var words = extractVisibleWords();
+      var vh = window.innerHeight;
+      var vw = window.innerWidth;
+      var centerX = vw / 2;
+      var centerY = vh / 2;
 
-    charLayer.style.display = 'block';
-    var frag = document.createDocumentFragment();
+      if(!charLayer) {
+        finished = true;
+        return;
+      }
 
-    // Tính hướng lan tỏa cho mỗi từ (vector từ tâm màn hình ra ngoài)
-    var SPREAD = 5;      // hệ số lan tỏa ra ngoài
-    var FONT_MULT = 25;   // font phóng to gấp bao nhiêu lần
+      // Cleanup spans cũ nếu có
+      while(charLayer.firstChild){
+        charLayer.removeChild(charLayer.firstChild);
+      }
 
-    words.forEach(function(w){
-      var span = document.createElement('span');
-      span.textContent = w.text;
+      charLayer.style.display = 'block';
+      var frag = document.createDocumentFragment();
 
-      // Tính offset lan tỏa: đẩy từ ra xa từ tâm viewport
-      var dx = (w.cx - centerX) * SPREAD;
-      var dy = (w.cy - centerY) * SPREAD;
+      var SPREAD = 5;
+      var FONT_MULT = 25;
 
-      span.style.cssText =
-        'position:fixed;' +
-        'left:' + w.x + 'px;' +
-        'top:' + w.y + 'px;' +
-        'font-size:' + w.fontSize + 'px;' +
-        'font-family:' + w.fontFamily + ';' +
-        'font-weight:' + w.fontWeight + ';' +
-        'font-style:' + w.fontStyle + ';' +
-        'color:' + w.color + ';' +
-        'line-height:1;' +
-        'white-space:pre;' +
-        'pointer-events:none;' +
-        'letter-spacing:0;' +
-        'line-height:1;' +
-        'transform:translate(0,0);' +
-        'transition:font-size 1.5s cubic-bezier(.25,.1,.25,1),' +
-                   'transform 1.5s cubic-bezier(.25,.1,.25,1),' +
-                   'letter-spacing 1.5s cubic-bezier(.25,.1,.25,1),' +
-                   'line-height 1.5s cubic-bezier(.25,.1,.25,1),' +
-                   'font-weight .3s ease,' +
-                   'opacity .8s ease;';
+      words.forEach(function(w){
+        var span = document.createElement('span');
+        span.textContent = w.text;
 
-      // Lưu offset target vào dataset
-      span.dataset.dx = dx;
-      span.dataset.dy = dy;
-      span.dataset.origSize = w.fontSize;
+        var dx = (w.cx - centerX) * SPREAD;
+        var dy = (w.cy - centerY) * SPREAD;
 
-      frag.appendChild(span);
-    });
+        span.style.cssText =
+          'position:fixed;' +
+          'left:' + w.x + 'px;' +
+          'top:' + w.y + 'px;' +
+          'font-size:' + w.fontSize + 'px;' +
+          'font-family:' + w.fontFamily + ';' +
+          'font-weight:' + w.fontWeight + ';' +
+          'font-style:' + w.fontStyle + ';' +
+          'color:' + w.color + ';' +
+          'line-height:1;' +
+          'white-space:pre;' +
+          'pointer-events:none;' +
+          'letter-spacing:0;' +
+          'transform:translate(0,0);' +
+          'transition:font-size 1.5s cubic-bezier(.25,.1,.25,1),' +
+                     'transform 1.5s cubic-bezier(.25,.1,.25,1),' +
+                     'letter-spacing 1.5s cubic-bezier(.25,.1,.25,1),' +
+                     'line-height 1.5s cubic-bezier(.25,.1,.25,1),' +
+                     'font-weight .3s ease,' +
+                     'opacity .8s ease;';
 
-    charLayer.appendChild(frag);
+        span.dataset.dx = dx;
+        span.dataset.dy = dy;
+        span.dataset.origSize = w.fontSize;
 
-    // Ẩn gốc + header
-    content.style.visibility = 'hidden';
-    header.style.visibility = 'hidden';
+        frag.appendChild(span);
+      });
 
-    var spans = charLayer.children;
+      charLayer.appendChild(frag);
 
-    // Trigger animation sau 2 frame (để browser paint trước)
-    requestAnimationFrame(function(){
+      content.style.visibility = 'hidden';
+      header.style.visibility = 'hidden';
+
+      var spans = charLayer.children;
+
       requestAnimationFrame(function(){
+        requestAnimationFrame(function(){
 
-        // ── PHASE 1: phóng to + tỏa ra ngoài (1.5s) ──
-        for(var i = 0; i < spans.length; i++){
-          var s = spans[i];
-          var origSize = parseFloat(s.dataset.origSize);
-          s.style.fontSize = (origSize * FONT_MULT) + 'px';
-          s.style.fontWeight = '900';
-          s.style.letterSpacing = '-0.3em';
-          s.style.lineHeight = '0.5';
-          s.style.transform = 'translate(' + s.dataset.dx + 'px,' + s.dataset.dy + 'px)';
-        }
-
-        // ── PHASE 2: sau 1.5s, dồn chữ từ ngoài VÀO màn hình (hình chữ nhật ngang) ──
-        setTimeout(function(){
           for(var i = 0; i < spans.length; i++){
             var s = spans[i];
-            s.style.transition = 'transform 1s cubic-bezier(.25,.1,.25,1)';
-            // Giữ 40% spread ngang + chỉ 10% spread dọc → hình chữ nhật ngang
-            var dx2 = parseFloat(s.dataset.dx) * 0.4;
-            var dy2 = parseFloat(s.dataset.dy) * 0.1;
-            s.style.transform = 'translate(' + dx2 + 'px,' + dy2 + 'px)';
+            var origSize = parseFloat(s.dataset.origSize);
+            s.style.fontSize = (origSize * FONT_MULT) + 'px';
+            s.style.fontWeight = '900';
+            s.style.letterSpacing = '-0.3em';
+            s.style.lineHeight = '0.5';
+            s.style.transform = 'translate(' + s.dataset.dx + 'px,' + s.dataset.dy + 'px)';
           }
 
-          // Đợi phase 2 xong (1s) + 2s ngắm → fade đen → redirect
           setTimeout(function(){
-            blackOver.style.opacity = '1';
-            blackOver.style.pointerEvents = 'all';
+            for(var i = 0; i < spans.length; i++){
+              var s = spans[i];
+              s.style.transition = 'transform 1s cubic-bezier(.25,.1,.25,1)';
+              var dx2 = parseFloat(s.dataset.dx) * 0.4;
+              var dy2 = parseFloat(s.dataset.dy) * 0.1;
+              s.style.transform = 'translate(' + dx2 + 'px,' + dy2 + 'px)';
+            }
+
             setTimeout(function(){
-              window.location.href = 'chapter-2.html';
-            }, 800);
-          }, 1000 + 2000);
-        }, 1500);
+              blackOver.style.opacity = '1';
+              blackOver.style.pointerEvents = 'all';
+              setTimeout(function(){
+                finished = true;
+                window.location.href = 'chapter-2.html';
+              }, 800);
+            }, 1000 + 2000);
+          }, 1500);
+        });
       });
-    });
+    } catch(err) {
+      console.error('Animation error:', err);
+      finished = true;
+      // Fallback: redirect ngay nếu animation lỗi
+      window.location.href = 'chapter-2.html';
+    }
   }
 })();
