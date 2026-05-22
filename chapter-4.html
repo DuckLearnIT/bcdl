@@ -2039,7 +2039,7 @@ function buildChart() {
         button.type = "button";
         button.className = "legend-button";
         button.dataset.chartIndex = index;
-        button.innerHTML = `<span class="legend-dot" style="--color:${item.color}"></span><span>${item.label}</span><strong>${item.value.toLocaleString("vi-VN")}%</strong>`;
+        button.innerHTML = `<span class="legend-dot" style="--color:${item.color}"></span><span>${item.label}</span><strong class="legend-pct" data-pct="${item.value.toLocaleString("vi-VN")}%" style="visibility:hidden">—</strong>`;
         button.addEventListener("click", () => selectChartSegment(index));
         legendEl.appendChild(button);
     });
@@ -2095,6 +2095,10 @@ function updateChart(progress) {
     centerLabel.textContent = progress < 100 ? "Đang quét dữ liệu" : "Hằng ngày";
     if (progress >= 100 && !state.chartComplete) {
         state.chartComplete = true;
+        document.querySelectorAll(".legend-pct").forEach(el => {
+            el.textContent = el.dataset.pct;
+            el.style.visibility = "visible";
+        });
         burstSparks();
         selectChartSegment(0);
     }
