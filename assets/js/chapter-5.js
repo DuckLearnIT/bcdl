@@ -108,6 +108,8 @@ let autoAdvanceTimeout = null;
 let currentTypingCompleteCallback = null;
 
 document.addEventListener("DOMContentLoaded", () => {
+    preloadEndingFont();
+
     // Chặn không cho click khi chưa bắt đầu
     const povContainer = document.getElementById("pov-container");
     
@@ -121,6 +123,11 @@ document.addEventListener("DOMContentLoaded", () => {
         if (e.target.id === "start-btn") return;
     });
 });
+
+function preloadEndingFont() {
+    if (!document.fonts || !document.fonts.load) return Promise.resolve();
+    return document.fonts.load("34px Momo", turn4Text).catch(console.warn);
+}
 
 function startGame() {
     isAnimating = true;
@@ -379,6 +386,7 @@ function triggerTurn4() {
 function playEndingQuote() {
     const textEl = document.getElementById("ending-text");
     textEl.innerHTML = "";
+    textEl.currentWordSpan = null;
 
     endingVoiceAudio = new Audio(endingVoicePath);
     endingVoiceAudio.volume = 0.95;
@@ -388,14 +396,16 @@ function playEndingQuote() {
         if (didStartEndingTypewriter) return;
         didStartEndingTypewriter = true;
 
-        const audioDurationMs = Number.isFinite(endingVoiceAudio.duration)
-            ? endingVoiceAudio.duration * 1000
-            : endingVoiceFallbackDurationMs;
-        const typingDurationMs = Math.max(5000, audioDurationMs - 500);
+        preloadEndingFont().finally(() => {
+            const audioDurationMs = Number.isFinite(endingVoiceAudio.duration)
+                ? endingVoiceAudio.duration * 1000
+                : endingVoiceFallbackDurationMs;
+            const typingDurationMs = Math.max(5000, audioDurationMs - 500);
 
-        typeEndingText(textEl, typingDurationMs, () => {
-            fadeAudioOut(ostAudio, 3000);
-            waitForEndingVoiceThenBlow();
+            typeEndingText(textEl, typingDurationMs, () => {
+                fadeAudioOut(ostAudio, 3000);
+                waitForEndingVoiceThenBlow();
+            });
         });
     };
 
@@ -443,7 +453,21 @@ function typeEndingText(textEl, durationMs, onComplete) {
 function appendEndingCharacter(textEl, char, index) {
     if (char === "\n") {
         textEl.appendChild(document.createElement("br"));
+        textEl.currentWordSpan = null;
         return;
+    }
+
+    if (/\s/.test(char)) {
+        textEl.appendChild(document.createTextNode(char));
+        textEl.currentWordSpan = null;
+        return;
+    }
+
+    if (!textEl.currentWordSpan) {
+        const wordSpan = document.createElement("span");
+        wordSpan.className = "wind-word";
+        textEl.currentWordSpan = wordSpan;
+        textEl.appendChild(wordSpan);
     }
 
     const span = document.createElement("span");
@@ -465,7 +489,7 @@ function appendEndingCharacter(textEl, char, index) {
     span.style.setProperty("--rotD", rotD + "deg");
     span.style.setProperty("--blow-delay", blowDelay + "ms");
     span.textContent = char;
-    textEl.appendChild(span);
+    textEl.currentWordSpan.appendChild(span);
 }
 
 function waitForEndingVoiceThenBlow() {
