@@ -7,6 +7,8 @@
 <title>Lớp sơn son trên những lầu các rỗng</title>
 <link href="assets/favicon.ico" rel="shortcut icon" type="image/x-icon">
 <link href="https://fonts.googleapis.com/css2?family=Merriweather:ital,wght@0,400;0,700;1,400&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="preload" href="assets/img/amy/pixel/surprise.webp" as="image" type="image/webp">
+<link rel="preload" href="assets/img/windows/nen.webp" as="image" type="image/webp">
 <link rel="stylesheet" href="assets/css/visual-novel.css">
 <link rel="stylesheet" href="assets/css/sapo.css">
 </head>
@@ -40,7 +42,7 @@
                     <button class="vn-control-btn" id="btn-lang" onclick="toggleLang(event)">Giọng: VI</button>
                     <button class="vn-control-btn" id="btn-style" style="display:none;" onclick="toggleStyle(event)">2D / Pixel</button>
                     <button class="vn-control-btn" id="btn-mute" onclick="toggleMute(event)" title="Bật/Tắt âm thanh">🔊</button>
-                    <button class="vn-control-btn" id="btn-auto" onclick="toggleAuto(event)">Auto</button>
+                    <button class="vn-control-btn active" id="btn-auto" onclick="toggleAuto(event)">Auto</button>
                     <button class="vn-control-btn" id="btn-log" onclick="openLog(event)">Log</button>
                 </div>
                 <div class="vn-next-indicator" id="vn-indicator">▼</div>
@@ -359,7 +361,7 @@ let isTyping = false;
 let typeTimer = null;
 let currentStepText = "";
 let audioTimeCheckInterval = null;
-let isAutoMode = false;
+let isAutoMode = true;
 // Synchronize the local isAutoMode variable with the global window.isAutoMode property
 Object.defineProperty(window, 'isAutoMode', {
     get: function() { return isAutoMode; },
