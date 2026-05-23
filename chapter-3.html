@@ -67,35 +67,35 @@
             <div class="desktop-spotlight-overlay" id="spotlight-overlay"></div>
             <!-- Desktop Icons -->
             <div class="desktop-icon" data-app="my_computer" title="My Computer">
-                <img src="assets/img/windows/my_computer.webp" alt="My Computer">
+                <img src="assets/img/windows/my_computer.webp" alt="My Computer" decoding="async">
                 <span>My Computer</span>
             </div>
             <div class="desktop-icon" data-app="paint" title="Paint">
-                <img src="assets/img/windows/paint.webp" alt="Paint">
+                <img src="assets/img/windows/paint.webp" alt="Paint" decoding="async">
                 <span>Paint</span>
             </div>
             <div class="desktop-icon" data-app="calendar" title="Calendar">
-                <img src="assets/img/windows/calendar.webp" alt="Calendar">
+                <img src="assets/img/windows/calendar.webp" alt="Calendar" decoding="async">
                 <span>Calendar</span>
             </div>
             <div class="desktop-icon" data-app="album" title="Album">
-                <img src="assets/img/windows/album.webp" alt="Album">
+                <img src="assets/img/windows/album.webp" alt="Album" decoding="async">
                 <span>Album</span>
             </div>
             <div class="desktop-icon" data-app="notepad" title="Notepad">
-                <img src="assets/img/windows/notepad.webp" alt="Notepad">
+                <img src="assets/img/windows/notepad.webp" alt="Notepad" decoding="async">
                 <span>Notepad</span>
             </div>
             <div class="desktop-icon" data-app="news" title="News">
-                <img src="assets/img/windows/news_icon.webp" alt="News">
+                <img src="assets/img/windows/news_icon.webp" alt="News" decoding="async">
                 <span>News</span>
             </div>
             <div class="desktop-icon" data-app="settings" title="Settings">
-                <img src="assets/img/windows/setting.webp" alt="Settings">
+                <img src="assets/img/windows/setting.webp" alt="Settings" decoding="async">
                 <span>Settings</span>
             </div>
             <div class="desktop-icon" data-app="donate" title="Donate">
-                <img src="assets/img/windows/donate.webp" alt="Donate">
+                <img src="assets/img/windows/donate.webp" alt="Donate" decoding="async">
                 <span>Donate</span>
             </div>
         </div>
@@ -123,7 +123,7 @@
 
 <!-- Audio elements -->
 <audio id="vn-audio"></audio>
-<audio id="sfx-snap" src="assets/audio/SFX/fingersnap.mp3" preload="auto"></audio>
+<audio id="sfx-snap" src="assets/audio/SFX/fingersnap.mp3" preload="none"></audio>
 
 <script>
 // ================================================================
@@ -141,7 +141,7 @@ var vnScript = [
         name: "Amy",
         text: "A! có người dùng đang ở đầu dây bên kia xin lỗi mình không nghĩ là lại có người vào lúc này",
         pose: PIXEL + "surprise.webp",
-        audio: "assets/audio/Dialogue/Intro/1.wav",
+        audio: "assets/audio/Dialogue/Intro/1.ogg",
         anim: "enter"
     },
     // ── Audio 2 (10s) — Chào hỏi vui vẻ ──
@@ -149,7 +149,7 @@ var vnScript = [
         name: "Amy",
         text: "Khụ... Xin chào! Rất vui được gặp bạn. Chào mừng bạn đã truy cập vào hệ thống. Mình là Amy, từ nay sẽ chịu trách nhiệm hỗ trợ bạn trong vùng không gian này.",
         pose: PIXEL + "smile.webp",
-        audio: "assets/audio/Dialogue/Intro/2.wav",
+        audio: "assets/audio/Dialogue/Intro/2.ogg",
         anim: "hop"
     },
     // ── Audio 3 (6s) — Bối rối nhận ra lỗi ──
@@ -157,7 +157,7 @@ var vnScript = [
         name: "Amy",
         text: "Nhưng mà... khoan đã. Hình như có gì đó sai sai ở luồng dữ liệu hiển thị thì phải?",
         pose: PIXEL + "thinking.webp",
-        audio: "assets/audio/Dialogue/Intro/3.wav",
+        audio: "assets/audio/Dialogue/Intro/3.ogg",
         anim: "lean"
     },
     // ── Audio 4 (4s) — Nhìn xuống bản thân ──
@@ -165,7 +165,7 @@ var vnScript = [
         name: "Amy",
         text: "Sao góc nhìn của bạn... lại thấy mình... vuông vức thế này?",
         pose: PIXEL + "thinking.webp",
-        audio: "assets/audio/Dialogue/Intro/4.wav",
+        audio: "assets/audio/Dialogue/Intro/4.ogg",
         anim: "shake"
     },
     // ── Audio 5a — Kiểm tra log ──
@@ -173,7 +173,7 @@ var vnScript = [
         name: "Amy",
         text: "Để mình kiểm tra lại log hệ thống một chút nhé.",
         pose: PIXEL + "thinking.webp",
-        audio: "assets/audio/Dialogue/Intro/5.wav",
+        audio: "assets/audio/Dialogue/Intro/5.ogg",
         audioStartTime: 0,
         audioEndTime: 5,
         anim: "nod",
@@ -213,7 +213,7 @@ var vnScript = [
         name: "Amy",
         text: "Tada~! Bạn nhìn thấy mình rõ hơn rồi chứ? Được rồi, phần ngoại hình đã xong. Bây giờ chúng ta phải tạo một không gian làm việc (Workspace) thật thoải mái cho bạn.",
         pose: NORMAL + "smile.webp",
-        audio: "assets/audio/Dialogue/Intro/6.wav",
+        audio: "assets/audio/Dialogue/Intro/6.ogg",
         anim: "hop"
     },
     // ── Audio 7 (7s) — Windows desktop ──
@@ -221,7 +221,7 @@ var vnScript = [
         name: "Amy",
         text: "Thế nào? Tuyệt tác hệ điều hành đầu thập niên 2000! Chào mừng đến với không gian làm việc mới của chúng ta!",
         pose: NORMAL + "pointout.webp",
-        audio: "assets/audio/Dialogue/Intro/7.wav",
+        audio: "assets/audio/Dialogue/Intro/7.ogg",
         anim: "hop",
         effectAtEnd: "windows"
     },
@@ -230,7 +230,7 @@ var vnScript = [
         name: "Amy",
         text: "Ơ... từ từ đã... Khoan... Hình như có gì đó sai sai... đừng nhìn kỹ quá nhé!",
         pose: NORMAL + "surprise.webp",
-        audio: "assets/audio/Dialogue/Tutorial/1.1.wav",
+        audio: "assets/audio/Dialogue/Tutorial/1.1.ogg",
         anim: "shake",
         side: "right"
     },
@@ -238,7 +238,7 @@ var vnScript = [
         name: "Amy",
         text: "Nhìn kỹ lại thì... phong cảnh này... mấy đám mây này... nó không được giống bản gốc cho lắm nhỉ...",
         pose: NORMAL + "confused.webp",
-        audio: "assets/audio/Dialogue/Tutorial/1.3.wav",
+        audio: "assets/audio/Dialogue/Tutorial/1.3.ogg",
         anim: "nod",
         side: "right"
     },
@@ -246,7 +246,7 @@ var vnScript = [
         name: "Amy",
         text: "Á!! Xin lỗi bạn! Thật ra lúc nãy hệ thống bị hụt RAM đột xuất, file ảnh gốc không load được nên đành phải tự lấy chuột vẽ tay cái hình nền này đó... Đừng cười mình nha, mình dở môn mỹ thuật lắm!",
         pose: NORMAL + "shy.webp",
-        audio: "assets/audio/Dialogue/Tutorial/1.2.wav",
+        audio: "assets/audio/Dialogue/Tutorial/1.2.ogg",
         anim: "shake",
         side: "right"
     },
@@ -254,7 +254,7 @@ var vnScript = [
         name: "Amy",
         text: "Khụ... Dù sao thì... bỏ qua chuyện thẩm mỹ đi, chất lượng hình ảnh hơi 'cây nhà lá vườn' một chút nhưng hệ thống vẫn chạy rất ổn định! Để mình làm hướng dẫn viên giới thiệu qua cho bạn nhé.",
         pose: NORMAL + "smile.webp",
-        audio: "assets/audio/Dialogue/Tutorial/1.4.wav",
+        audio: "assets/audio/Dialogue/Tutorial/1.4.ogg",
         anim: "hop",
         side: "right"
     },
@@ -262,7 +262,7 @@ var vnScript = [
         name: "Amy",
         text: "Đầu tiên là mấy cái icon ở góc bên trái... My Computer, Paint, với cả cái Settings ở dưới. Thật ra thì... mình vội quá nên vẽ tụi nó để trưng cho đẹp đội hình thôi, click vào chả có gì đâu. Bạn cứ bơ chúng nó đi cũng được.",
         pose: NORMAL + "confused.webp",
-        audio: "assets/audio/Dialogue/Tutorial/1.5.wav",
+        audio: "assets/audio/Dialogue/Tutorial/1.5.ogg",
         anim: "shake",
         highlightApps: ["my_computer", "paint", "settings"],
         side: "right"
@@ -271,7 +271,7 @@ var vnScript = [
         name: "Amy",
         text: "Nhưng bù lại, những cái khác thì hoạt động rất tốt nhé! Nếu muốn xem ngày tháng thì bạn bấm vào Calendar. Còn Album là nơi lưu trữ toàn bộ concept art và nhật ký quá trình sản xuất cái web này đấy.",
         pose: NORMAL + "pointout.webp",
-        audio: "assets/audio/Dialogue/Tutorial/1.6.wav",
+        audio: "assets/audio/Dialogue/Tutorial/1.6.ogg",
         anim: "hop",
         highlightApps: ["calendar", "album"],
         side: "right"
@@ -280,7 +280,7 @@ var vnScript = [
         name: "Amy",
         text: "Đặc biệt là icon Notepad nha. Ở đó chứa đựng lời mở đầu và những dòng cảm ơn chân thành nhất từ người sáng tạo ra thế giới này. Tác giả đã viết rất tâm huyết, bạn nhớ mở ra đọc thử nhé.",
         pose: NORMAL + "smile.webp",
-        audio: "assets/audio/Dialogue/Tutorial/1.7.wav",
+        audio: "assets/audio/Dialogue/Tutorial/1.7.ogg",
         anim: "nod",
         highlightApps: ["notepad"],
         side: "right"
@@ -289,7 +289,7 @@ var vnScript = [
         name: "Amy",
         text: "Tiếp theo, hãy chú ý vào icon News có hình tờ báo. Đây là phần quan trọng nhất của toàn bộ hệ thống! Bạn có thể dùng nó để đọc báo chí, cập nhật tin tức và truy xuất dữ liệu. Trung tâm tình báo của chúng ta nằm cả ở đấy!",
         pose: NORMAL + "serious.webp",
-        audio: "assets/audio/Dialogue/Tutorial/new.wav",
+        audio: "assets/audio/Dialogue/Tutorial/new.ogg",
         anim: "hop",
         highlightApps: ["news"],
         side: "right"
@@ -298,7 +298,7 @@ var vnScript = [
         name: "Amy",
         text: "Và cuối cùng là... icon Donate hình xấp tiền ở kia. Ừm... thì... duy trì server cho mình tốn khá nhiều tiền điện và tiền mì tôm cho tác giả. Nên nếu bạn thấy thương mình và dự án này, hãy giúp đỡ chúng mình một chút nhé! Đó sẽ là động lực siêu to khổng lồ để tác giả làm tiếp đó!",
         pose: NORMAL + "shy.webp",
-        audio: "assets/audio/Dialogue/Tutorial/1.8.wav",
+        audio: "assets/audio/Dialogue/Tutorial/1.8.ogg",
         anim: "shake",
         highlightApps: ["donate"],
         side: "right"
@@ -307,7 +307,7 @@ var vnScript = [
         name: "Amy",
         text: "Phù, phần hướng dẫn tân thủ của mình đến đây là kết thúc rồi! Giao diện tuy hơi ngố một tí, nhưng bù lại rất dễ thương đúng không? Chúc bạn có khoảng thời gian khám phá thật vui vẻ nhé!",
         pose: NORMAL + "smile.webp",
-        audio: "assets/audio/Dialogue/Tutorial/1.9.wav",
+        audio: "assets/audio/Dialogue/Tutorial/1.9.ogg",
         anim: "hop",
         highlightApps: [],
         side: "right",
@@ -330,7 +330,7 @@ var vnScript = [
         name: "Amy",
         text: "Khoan đã, sao lại quay xe về chế độ Pixel thế này?",
         pose: PIXEL + "confused.webp",
-        audio: "assets/audio/Dialogue/Toggle/2.1.wav",
+        audio: "assets/audio/Dialogue/Toggle/2.1.ogg",
         anim: "shake",
         side: "right"
     },
@@ -338,7 +338,7 @@ var vnScript = [
         name: "Amy",
         text: "Rõ ràng ban nãy mình cất công render bản 2D cho bạn rồi mà... Đừng nói với mình là bạn thích cái giao diện 'độ phân giải thấp' này hơn nha?",
         pose: PIXEL + "surprise.webp",
-        audio: "assets/audio/Dialogue/Toggle/2.2.wav",
+        audio: "assets/audio/Dialogue/Toggle/2.2.ogg",
         anim: "hop",
         side: "right"
     },
@@ -346,7 +346,7 @@ var vnScript = [
         name: "Amy",
         text: "Chà... cứ tưởng bạn sẽ chê nó mờ chứ... Nhưng mà thôi, nếu bạn đã thích gu hoài cổ thì mình cũng chiều.",
         pose: PIXEL + "shy.webp",
-        audio: "assets/audio/Dialogue/Toggle/2.3.wav",
+        audio: "assets/audio/Dialogue/Toggle/2.3.ogg",
         anim: "nod",
         side: "right",
         effectAtEnd: "finish_style_dialogue"
@@ -404,7 +404,7 @@ function getAudioPath(originalPath) {
     }
     const base = originalPath.replace("assets/audio/Dialogue/", "");
     const nameWithoutExt = base.substring(0, base.lastIndexOf('.'));
-    const ext = '.wav';
+    const ext = '.ogg';
     return `assets/audio/Dialogue/${currentLang}/${nameWithoutExt}${ext}`;
 }
 
@@ -432,6 +432,19 @@ function toggleLang(e) {
 }
 
 // Preload all images
+
+// Prefetch next audio file for smoother playback
+function prefetchNextAudio(stepIndex) {
+    const nextStep = vnScript[stepIndex + 1];
+    if (nextStep && nextStep.audio && !nextStep.audioResume) {
+        const nextSrc = getAudioPath(nextStep.audio);
+        const link = document.createElement("link");
+        link.rel = "prefetch";
+        link.as = "audio";
+        link.href = nextSrc;
+        document.head.appendChild(link);
+    }
+}
 vnScript.forEach(s => { const i = new Image(); i.src = s.pose; });
 
 // ────────────────────────────────────────────
@@ -476,7 +489,7 @@ function toggleStyle(e) {
         hasSeenStyleDialogue = true;
         
         // Find index of 2.1 dialogue
-        const startIndex = vnScript.findIndex(s => s.audio && s.audio.includes("2.1.wav"));
+        const startIndex = vnScript.findIndex(s => s.audio && s.audio.includes("2.1.ogg"));
         if (startIndex !== -1) {
             currentStep = startIndex;
             
@@ -728,6 +741,7 @@ function displayStep(stepIndex) {
                 audio.currentTime = 0;
             }
             audio.play().catch(e => console.log("Play blocked", e));
+            prefetchNextAudio(currentStep);
 
             const totalDur = step.customDur || (step.audioEndTime
                 ? step.audioEndTime - (step.audioStartTime || 0)
@@ -1143,7 +1157,7 @@ const APP_DEFS = {
                         <p style="margin:0;font-weight:bold;color:#1a1a1a;">NGUYEN VAN A</p>
                     </div>
                     <div style="width:120px;height:120px;background:#fff;border-radius:4px;display:flex;align-items:center;justify-content:center;overflow:hidden;border:1px solid #eee;flex-shrink:0;">
-                        <img src="assets/img/windows/qr.webp" alt="QR Code" style="width:100%;height:100%;object-fit:cover;transform:scale(2) translateY(14px);">
+                        <img src="assets/img/windows/qr.webp" alt="QR Code" loading="lazy" decoding="async" style="width:100%;height:100%;object-fit:cover;transform:scale(2) translateY(14px);">
                     </div>
                 </div>
             </div>
@@ -1613,7 +1627,7 @@ document.addEventListener('keyup', (e) => {
         <button class="chat-prompt-btn" id="sapo-tt2">2. Viết chi tiết mở bài và luận điểm</button>
         <button class="chat-prompt-btn" id="sapo-tt3">3. Bổ sung ví dụ thực tế và số liệu</button>
     </div>
-    <img src="assets/img/bcdl_1/tay.webp" id="hand-pusher" alt="Hand">
+    <img src="assets/img/bcdl_1/tay.webp" id="hand-pusher" alt="Hand" loading="lazy" decoding="async">
 </div>
 
 <!-- Premium Typewriter Overlay Screen -->

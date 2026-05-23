@@ -395,8 +395,7 @@ if(isBot===false){if(window.supportLS){loadFontsFromStorage();}else{loadFontsAsy
 <img alt="VnExpress - Bao tieng Viet nhieu nguoi xem nhat" src="assets/svg/vnexpress_restruct_i_v9811_v2_2019_pc_graphics_logo_tagline.svg"/>
 </a>
 <span class="time-now">
-<a data-medium="LichAm" data-term="Mobile" href="/lich-van-nien" id="timeNow" title="Lịch âm">
-Thứ tư, 13/5/2026	</a>
+<a data-medium="LichAm" data-term="Mobile" href="/lich-van-nien" id="timeNow" title="Lịch âm"></a>
 </span>
 <div class="right">
 <a class="btn24hqua" data-campaign="menu-MoiNhat" data-medium="Item-MoiNhat" href="/tin-tuc-24h" title="Mới nhất">
@@ -1052,7 +1051,7 @@ window.addEventListener('DOMContentLoaded',function(){if(scriptFooterIS(scriptFo
 </section>
 </div>
 <div id="tt_end_page" style="display: none;"></div>
-<link href="assets/css/vnexpress_restruct_c_v3922_v2_2019_pc_widget-investment-business.css" media="all" rel="stylesheet"/>
+
 <script>var iframes=document.querySelectorAll('iframe.vne-connector');if(iframes.length>0){iframes.forEach(function(iframe){iframe.setAttribute('data-allow-script-execution','true');});var script=document.createElement('script');script.type='text/javascript';script.src='https://s1.vnecdn.net/vnexpress/restruct/j/v8859/iframe-connector.js';document.head.appendChild(script);}</script>
 
 <!-- BCDL OFFLINE LAZYLOAD FALLBACK
@@ -1217,5 +1216,22 @@ window.addEventListener('DOMContentLoaded',function(){if(scriptFooterIS(scriptFo
 })();
 </script>
 <!-- END MOBILE ROTATION PROMPT OVERLAY -->
+<script>
+(function() {
+    var days = ['Chủ nhật','Thứ hai','Thứ ba','Thứ tư','Thứ năm','Thứ sáu','Thứ bảy'];
+    function updateTime() {
+        var now = new Date();
+        var vnTime = new Date(now.toLocaleString('en-US', { timeZone: 'Asia/Ho_Chi_Minh' }));
+        var dayName = days[vnTime.getDay()];
+        var d = vnTime.getDate();
+        var m = vnTime.getMonth() + 1;
+        var y = vnTime.getFullYear();
+        var el = document.getElementById('timeNow');
+        if (el) el.textContent = dayName + ', ' + d + '/' + m + '/' + y;
+    }
+    updateTime();
+    setInterval(updateTime, 60000);
+})();
+</script>
 </body>
 </html>

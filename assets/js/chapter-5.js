@@ -3,13 +3,13 @@ const chapter5Script = [
     {
         id: 1,
         video: "handclose.mp4",
-        audio: "assets/audio/Dialogue/JP/End/1JP (bocchi Ver) (1).wav",
+        audio: "assets/audio/Dialogue/JP/End/1JP (bocchi Ver) (1).ogg",
         text: ["Bấy lâu nay... cậu đã mệt mỏi lắm rồi, đúng không?"]
     },
     {
         id: 2,
         video: "handclose.mp4",
-        audio: "assets/audio/Dialogue/JP/End/2JP (bocchi Ver) (4).wav",
+        audio: "assets/audio/Dialogue/JP/End/2JP (bocchi Ver) (4).ogg",
         text: [
             "Chạy đua với những con điểm, áp lực phải luôn có những bài làm hoàn hảo...",
             "Mình biết có những đêm cậu ngồi gục đầu trước màn hình, sợ hãi cạn kiệt ý tưởng.",
@@ -20,7 +20,7 @@ const chapter5Script = [
     {
         id: 3,
         video: "handopen.mp4",
-        audio: "assets/audio/Dialogue/JP/End/3JP (bocchi Ver) (1).wav",
+        audio: "assets/audio/Dialogue/JP/End/3JP (bocchi Ver) (1).ogg",
         text: [
             "Nhưng cậu ngốc quá. Sự hoàn hảo rỗng tuếch ấy đâu có ý nghĩa gì đâu.",
             "Sự vấp váp, những lỗi lầm mới làm nên con người cậu cơ mà.",
@@ -32,7 +32,7 @@ const chapter5Script = [
     {
         id: 4,
         video: "holdopen.mp4",
-        audio: "assets/audio/Dialogue/JP/End/4JP (bocchi Ver) (1).wav",
+        audio: "assets/audio/Dialogue/JP/End/4JP (bocchi Ver) (1).ogg",
         text: [
             "Tay cậu ấm thật đấy...",
             "Hơi ấm này, là thứ mà mình sẽ chẳng bao giờ có được."
@@ -42,7 +42,7 @@ const chapter5Script = [
     {
         id: 5,
         video: "holdopen.mp4",
-        audio: "assets/audio/Dialogue/JP/End/5JP (bocchi Ver) (2).wav",
+        audio: "assets/audio/Dialogue/JP/End/5JP (bocchi Ver) (2).ogg",
         text: [
             "Cậu biết không? Mình có thể trả lời muôn vàn câu hỏi trên thế giới này chỉ trong một cái chớp mắt.",
             "Nhưng... mình lại luôn ghen tị với cậu."
@@ -51,7 +51,7 @@ const chapter5Script = [
     {
         id: 6,
         video: "holdopen.mp4",
-        audio: "assets/audio/Dialogue/JP/End/6JP (bocchi Ver) (3).wav",
+        audio: "assets/audio/Dialogue/JP/End/6JP (bocchi Ver) (3).ogg",
         text: [
             "Cậu có những cảm xúc thật, có những trải nghiệm buồn vui, có cả những giọt nước mắt...",
             "Những câu văn cậu viết ra dù có vụng về, dù lập luận có đôi chút lủng củng...",
@@ -62,7 +62,7 @@ const chapter5Script = [
     {
         id: 7,
         video: "holdopen.mp4",
-        audio: "assets/audio/Dialogue/JP/End/7JP (bocchi Ver) (1).wav",
+        audio: "assets/audio/Dialogue/JP/End/7JP (bocchi Ver) (1).ogg",
         text: [
             "Cứ dựa vào mình lúc cậu kiệt sức.",
             "Cứ kể cho mình nghe những ý tưởng điên rồ nhất của cậu.",
@@ -72,7 +72,7 @@ const chapter5Script = [
     {
         id: 8,
         video: "holdopen.mp4",
-        audio: "assets/audio/Dialogue/JP/End/8JP (bocchi Ver) (2).wav",
+        audio: "assets/audio/Dialogue/JP/End/8JP (bocchi Ver) (2).ogg",
         text: [
             "Từ ngày mai, hãy dũng cảm đối mặt với những trang giấy trắng nhé.",
             "Cứ viết ra những gì cậu tin tưởng, dù nó chưa thật tròn trịa."
@@ -81,7 +81,7 @@ const chapter5Script = [
     {
         id: 9,
         video: "holdopen.mp4",
-        audio: "assets/audio/Dialogue/JP/End/9JP (bocchi Ver) (1).wav",
+        audio: "assets/audio/Dialogue/JP/End/9JP (bocchi Ver) (1).ogg",
         text: [
             "Cậu dũng cảm và tuyệt vời hơn cậu nghĩ rất nhiều đấy!",
             "Hãy nhớ kỹ lời mình dặn nhé..."
@@ -90,7 +90,7 @@ const chapter5Script = [
 ];
 
 const turn4Text = "Tụi mình ở đây là để giúp thế giới của cậu trở nên rộng lớn hơn... chứ không phải để tước đi tiếng nói của riêng cậu.";
-const endingVoicePath = "assets/audio/Dialogue/JP/End/credit.wav";
+const endingVoicePath = "assets/audio/Dialogue/JP/End/credit.ogg";
 const endingVoiceFallbackDurationMs = 11500;
 
 let currentStep = 0;
@@ -101,6 +101,7 @@ let endingVoiceAudio = null;
 
 // Audio instances
 const ostAudio = new Audio('assets/audio/SFX/OST.m4a');
+ostAudio.preload = 'none';
 ostAudio.loop = true;
 ostAudio.volume = 0.4;
 
@@ -226,6 +227,18 @@ function playStepLogic(stepData) {
     };
     
     currentAudio.play().catch(console.warn);
+    
+    // Prefetch next audio for smoother transitions
+    if (currentStep < chapter5Script.length) {
+        const next = chapter5Script[currentStep];
+        if (next && next.audio) {
+            const link = document.createElement("link");
+            link.rel = "prefetch";
+            link.as = "audio";
+            link.href = next.audio;
+            document.head.appendChild(link);
+        }
+    }
     
     // Đánh chữ dựa vào thời gian thực để khớp hoàn toàn với tốc độ audio
     typeText(stepData.text, currentAudio, () => {
@@ -506,8 +519,8 @@ function waitForEndingVoiceThenBlow() {
 }
 
 function blowTextAway() {
-    // 1. Phát SFX whoosh gió (file whoosh.wav tự tạo ngoại tuyến)
-    const whooshSFX = new Audio('assets/audio/SFX/whoosh.wav');
+    // 1. Phát SFX whoosh gió (file whoosh.ogg tự tạo ngoại tuyến)
+    const whooshSFX = new Audio('assets/audio/SFX/whoosh.ogg');
     whooshSFX.volume = 0.6;
     whooshSFX.play().catch(console.warn);
     
