@@ -2127,10 +2127,23 @@ function pullLever() {
     const progress = { value: state.chartProgress };
     const segments = [...document.querySelectorAll(".donut-segment")];
 
+    const arm = document.getElementById("lever-arm");
+
     anime.remove(dataLever);
+    anime.remove(arm);
     anime.remove(".donut-wrap svg");
     anime.remove(".donut-center div");
     anime.remove(segments);
+    anime.remove(".chart-card");
+
+    // Lever gạt với elastic rotation
+    anime({
+        targets: arm,
+        rotate: ["-25deg", "25deg"],
+        duration: 600,
+        easing: "easeOutElastic(1, .6)"
+    });
+
     anime({
         targets: dataLever,
         scale: [1, 0.94, 1],
@@ -2150,6 +2163,15 @@ function pullLever() {
         easing: "easeOutBack"
     });
 
+    // Card rung nhẹ kiểu máy đang hoạt động
+    anime({
+        targets: ".chart-card",
+        translateX: [0, 2, -2, 1, -1, 0],
+        duration: 400,
+        easing: "easeInOutSine",
+        loop: 3
+    });
+
     anime({
         targets: progress,
         value: 100,
@@ -2160,6 +2182,13 @@ function pullLever() {
             if (!state.chartComplete) {
                 updateChart(100);
             }
+            // Reset lever arm về vị trí ban đầu mượt mà
+            anime({
+                targets: arm,
+                rotate: "-25deg",
+                duration: 500,
+                easing: "easeOutQuad"
+            });
             dataLever.classList.remove("is-pulled");
             leverReadout.textContent = "Hoàn thành";
             isPulling = false;
@@ -2233,29 +2262,49 @@ function completeChartReveal() {
 
     if (!canUseAnime()) return;
 
+    // Center div pop-in mạnh hơn với elastic
     anime({
         targets: ".donut-center div",
-        scale: [0.86, 1],
-        opacity: [0.7, 1],
-        duration: 560,
-        easing: "easeOutBack"
+        scale: [0.6, 1.1, 1],
+        opacity: [0, 1],
+        duration: 700,
+        easing: "easeOutElastic(1, .65)"
     });
-    anime({
-        targets: segments,
-        strokeWidth: [18, 22, 18],
-        delay: anime.stagger(70),
-        duration: 640,
-        easing: "easeOutQuad",
-        complete: () => {
-            segments.forEach((segment) => {
-                segment.style.strokeWidth = "";
-            });
-        }
+
+    // Segments lần lượt "bật" ra với elastic overshoot + glow
+    segments.forEach((circle, i) => {
+        anime({
+            targets: circle,
+            opacity: [0, 1],
+            strokeWidth: [18, 26, 22],
+            filter: [
+                "drop-shadow(0 0 0px transparent)",
+                "drop-shadow(0 0 12px " + chartData[i].color + ")",
+                "drop-shadow(0 0 6px " + chartData[i].color + ")"
+            ],
+            duration: 800,
+            delay: i * 140,
+            easing: "easeOutElastic(1, .6)",
+            complete: () => {
+                circle.style.strokeWidth = "";
+                circle.style.filter = "";
+            }
+        });
     });
+
+    // Card nảy nhẹ rồi float
     anime({
         targets: ".chart-card",
-        translateY: [0, -6, 0],
-        duration: 520,
+        translateY: [0, -10, 0],
+        duration: 700,
+        easing: "easeOutBack"
+    });
+
+    // Donut wrap phát sáng pulse
+    anime({
+        targets: ".donut-wrap",
+        scale: [1, 1.03, 1],
+        duration: 800,
         easing: "easeOutSine"
     });
 }
@@ -2322,44 +2371,109 @@ function selectChartSegment(index) {
     });
     document.querySelectorAll(".donut-segment").forEach((el) => el.classList.toggle("is-active", Number(el.dataset.chartIndex) === index));
     document.querySelectorAll(".legend-button").forEach((el) => el.classList.toggle("is-active", Number(el.dataset.chartIndex) === index));
-    centerValue.textContent = `${item.value.toLocaleString("vi-VN")}%`;
-    centerLabel.textContent = item.label;
     const copy = $(".chart-copy p");
     copy.textContent = item.note;
 
     if (canUseAnime()) {
         anime.remove(".donut-center div");
+        anime.remove(".donut-center strong");
+        anime.remove(".donut-center span");
+
+        // Center text swap: scale down nhanh rồi scale up elastic với giá trị mới
         anime({
             targets: ".donut-center div",
-            scale: [0.96, 1],
-            duration: 240,
-            easing: "easeOutSine"
+            scale: [1, 0.85, 1.08, 1],
+            duration: 500,
+            easing: "easeOutElastic(1, .65)"
         });
         anime({
-            targets: `.donut-segment[data-chart-index="${index}"]`,
-            strokeWidth: [23, 25, 23],
-            duration: 360,
-            easing: "easeOutSine",
-            complete: (animation) => {
-                animation.animatables.forEach((animatable) => {
-                    animatable.target.style.strokeWidth = "";
-                });
-            }
+            targets: ".donut-center strong",
+            opacity: [1, 0, 1],
+            scale: [1, 0.8, 1.1, 1],
+            duration: 450,
+            easing: "easeOutElastic(1, .6)"
+        });
+        anime({
+            targets: ".donut-center span",
+            opacity: [1, 0, 1],
+            duration: 350,
+            easing: "easeInOutQuad"
+        });
+
+        // Elastic bounce cho segment được chọn + glow pulse
+        const targetSegment = document.querySelector(`.donut-segment[data-chart-index="${index}"]`);
+        if (targetSegment) {
+            anime({
+                targets: targetSegment,
+                strokeWidth: [18, 28, 23],
+                duration: 600,
+                easing: "easeOutElastic(1, .55)",
+                complete: () => {
+                    targetSegment.style.strokeWidth = "";
+                }
+            });
+            anime({
+                targets: targetSegment,
+                filter: [
+                    "drop-shadow(0 0 2px rgba(23, 33, 61, 0.1))",
+                    "drop-shadow(0 0 14px rgba(23, 33, 61, 0.45))",
+                    "drop-shadow(0 0 8px rgba(23, 33, 61, 0.28))"
+                ],
+                duration: 600,
+                easing: "easeOutSine"
+            });
+        }
+
+        // Các segment khác thu nhỏ về bình thường
+        document.querySelectorAll(`.donut-segment:not([data-chart-index="${index}"])`).forEach((seg) => {
+            anime({
+                targets: seg,
+                strokeWidth: 18,
+                filter: "drop-shadow(0 0 0px transparent)",
+                duration: 300,
+                easing: "easeOutQuad"
+            });
         });
     }
+
+    centerValue.textContent = `${item.value.toLocaleString("vi-VN")}%`;
+    centerLabel.textContent = item.label;
 }
 
 function burstSparks() {
-    for (let i = 0; i < 18; i++) {
+    const colors = ["#ffd166", "#ff6f91", "#37d37f", "#2667ff", "#7a5cff", "#fff"];
+    const count = 40;
+    for (let i = 0; i < count; i++) {
         const spark = document.createElement("span");
         spark.className = "spark";
-        spark.style.left = `${45 + Math.random() * 20}%`;
-        spark.style.top = `${34 + Math.random() * 22}%`;
-        spark.style.background = chartData[i % chartData.length].color;
-        spark.style.setProperty("--dx", `${-160 + Math.random() * 320}px`);
-        spark.style.setProperty("--dy", `${-140 + Math.random() * 260}px`);
+        const color = colors[i % colors.length];
+        spark.style.background = color;
+        spark.style.borderColor = "#17213d";
+        const left = 45 + Math.random() * 20;
+        const top = 34 + Math.random() * 22;
+        spark.style.left = `${left}%`;
+        spark.style.top = `${top}%`;
+        const size = 4 + Math.random() * 8;
+        spark.style.width = `${size}px`;
+        spark.style.height = `${size}px`;
         sparkField.appendChild(spark);
-        setTimeout(() => spark.remove(), 900);
+
+        const angle = Math.random() * Math.PI * 2;
+        const distance = 80 + Math.random() * 240;
+        const dx = Math.cos(angle) * distance;
+        const dy = Math.sin(angle) * distance - 40;
+
+        anime({
+            targets: spark,
+            translateX: dx,
+            translateY: dy,
+            scale: [1, 0.1],
+            rotate: Math.random() * 720 - 360,
+            opacity: [1, 0],
+            duration: 700 + Math.random() * 600,
+            easing: "easeOutExpo",
+            complete: () => spark.remove()
+        });
     }
 }
 
