@@ -8,6 +8,7 @@
 <link href="assets/favicon.ico" rel="shortcut icon" type="image/x-icon">
 <link rel="preload" href="assets/img/amy/pixel/thinking.webp" as="image" type="image/webp">
 <link rel="stylesheet" href="assets/css/visual-novel.css">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.2/anime.min.js"></script>
 <style>
 @font-face {
     font-family: "FuturaLocal";
@@ -906,6 +907,7 @@ button {
     background-size: 18px 18px;
     padding: clamp(18px, 3vw, 30px);
     box-shadow: 0 10px 0 rgba(23, 33, 61, 0.12);
+    opacity: 0;
 }
 
 .chart-copy h2 {
@@ -937,6 +939,7 @@ button {
     min-height: 500px;
     padding: clamp(16px, 3vw, 30px);
     box-shadow: 0 10px 0 rgba(23, 33, 61, 0.12);
+    opacity: 0;
 }
 
 .donut-wrap {
@@ -957,6 +960,8 @@ button {
     fill: none;
     stroke: #edf0f5;
     stroke-width: 18;
+    stroke-dasharray: 100;
+    stroke-dashoffset: 100;
 }
 
 .donut-segment {
@@ -964,12 +969,11 @@ button {
     stroke-width: 18;
     stroke-linecap: butt;
     cursor: pointer;
-    transition: stroke-width 180ms ease, filter 180ms ease;
+    transition: filter 180ms ease;
+    transform-origin: center;
 }
 
-.donut-segment.is-active,
 .donut-segment:hover {
-    stroke-width: 23;
     filter: drop-shadow(0 0 8px rgba(23, 33, 61, 0.28));
 }
 
@@ -1018,7 +1022,7 @@ button {
     font-family: "HoiThoai", "FuturaLocal", sans-serif;
     color: #17213d;
     cursor: pointer;
-    transition: background 0.2s ease, transform 0.2s ease;
+    transition: background 0.2s ease;
 }
 
 .legend-button strong {
@@ -1138,6 +1142,47 @@ button {
 @keyframes sparkFly {
     from { opacity: 1; transform: translate(0, 0) scale(1); }
     to { opacity: 0; transform: translate(var(--dx), var(--dy)) scale(0.2) rotate(180deg); }
+}
+
+.donut-segment.is-active {
+    filter: drop-shadow(0 0 12px currentColor);
+}
+
+.legend-button {
+    opacity: 0;
+    transform: translateX(-30px);
+}
+
+.legend-button.is-revealed {
+    opacity: 1;
+    transform: translateX(0);
+}
+
+.chart-card.is-complete .donut-wrap {
+    animation: donutCelebrate 600ms ease;
+}
+
+@keyframes donutCelebrate {
+    0%, 100% { transform: scale(1); }
+    50% { transform: scale(1.04); }
+}
+
+.center-pop {
+    animation: centerPop 500ms cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+@keyframes centerPop {
+    0% { transform: scale(0.5); opacity: 0; }
+    100% { transform: scale(1); opacity: 1; }
+}
+
+.confetti-particle {
+    position: absolute;
+    width: 6px;
+    height: 10px;
+    border-radius: 2px;
+    pointer-events: none;
+    opacity: 0;
 }
 
 .chapter4-page .vn-character-wrap {
@@ -1963,12 +2008,47 @@ function startChartScene() {
     showScreen("chart");
     setDialogueVisible(true);
     amyWrap.classList.add("is-chart");
+
+    // Animate chart screen entrance with anime.js
+    anime({
+        targets: ".chart-copy",
+        translateX: [-60, 0],
+        opacity: [0, 1],
+        duration: 800,
+        easing: "easeOutQuart",
+        delay: 200
+    });
+
+    anime({
+        targets: ".chart-card",
+        translateX: [60, 0],
+        opacity: [0, 1],
+        duration: 800,
+        easing: "easeOutQuart",
+        delay: 400
+    });
+
+    // Donut ring drawing intro
+    anime({
+        targets: ".donut-bg",
+        strokeDashoffset: [100, 0],
+        duration: 1200,
+        easing: "easeInOutQuad",
+        delay: 600
+    });
+
     runDialogue(dialogueSets.chart, () => {
         // Sau khi Amy nói xong, ẩn dialogue bar để người chơi tương tác với biểu đồ
         setTimeout(() => {
             setDialogueVisible(false);
             // Highlight cần gạt để user biết cần tương tác
-            dataLever.style.animation = "pulse 1s ease-in-out infinite";
+            anime({
+                targets: "#data-lever",
+                scale: [1, 1.1, 1],
+                duration: 800,
+                loop: true,
+                easing: "easeInOutSine"
+            });
         }, 1200);
     });
 }
@@ -2035,6 +2115,7 @@ function buildChart() {
     chartData.forEach((item, index) => {
         const circle = segments[index];
         circle.style.stroke = item.color;
+        circle.style.strokeDasharray = "0 100";
         circle.addEventListener("click", () => selectChartSegment(index));
         const button = document.createElement("button");
         button.type = "button";
@@ -2044,7 +2125,6 @@ function buildChart() {
         button.addEventListener("click", () => selectChartSegment(index));
         legendEl.appendChild(button);
     });
-    updateChart(0);
 }
 
 let isPulling = false;
@@ -2052,33 +2132,162 @@ let isPulling = false;
 function pullLever() {
     if (isPulling || state.chartComplete) return;
     isPulling = true;
-    
-    // Animation cần gạt
+
     dataLever.classList.add("is-pulled");
+    anime.remove(dataLever);
+    dataLever.style.transform = "";
     leverReadout.textContent = "Đang quét...";
-    
-    // Tự động animate biểu đồ từ 0 lên 100
-    let progress = 0;
-    const duration = 2000; // 2 giây
-    const startTime = performance.now();
-    
-    function animate(now) {
-        const elapsed = now - startTime;
-        progress = Math.min(100, (elapsed / duration) * 100);
-        
-        updateChart(Math.floor(progress));
-        
-        if (progress < 100) {
-            requestAnimationFrame(animate);
-        } else {
-            // Hoàn thành
+
+    const segments = [...document.querySelectorAll(".donut-segment")];
+    const chartCard = document.querySelector(".chart-card");
+
+    // Phase 1: Lever bounce animation
+    anime({
+        targets: ".lever-arm",
+        rotate: ["-25deg", "25deg"],
+        duration: 400,
+        easing: "easeOutBack"
+    });
+
+    // Phase 2: Staggered donut segments grow with elastic easing
+    const segmentTimeline = anime.timeline({
+        easing: "easeOutElastic(1, .6)",
+        complete: () => {
             dataLever.classList.remove("is-pulled");
             leverReadout.textContent = "Hoàn thành";
             isPulling = false;
+            state.chartProgress = 100;
+            state.chartComplete = true;
+
+            // Phase 3: Legend items reveal with stagger
+            revealLegendItems();
+
+            // Phase 4: Completion celebration
+            setTimeout(() => {
+                chartCard.classList.add("is-complete");
+                burstConfetti();
+                burstSparks();
+
+                // Pop center text
+                const centerDiv = document.querySelector(".donut-center div");
+                centerDiv.classList.add("center-pop");
+                centerValue.textContent = "58,8%";
+                centerLabel.textContent = "Hằng ngày";
+
+                selectChartSegment(0);
+            }, 400);
         }
+    });
+
+    let cumulativeOffset = 0;
+    chartData.forEach((item, index) => {
+        const targetValue = item.value;
+        const segStartOffset = cumulativeOffset;
+        const animObj = { value: 0 };
+
+        segmentTimeline.add({
+            targets: animObj,
+            value: targetValue,
+            duration: 900,
+            easing: "easeOutCubic",
+            update: () => {
+                segments[index].style.strokeDasharray = `${animObj.value} ${100 - animObj.value}`;
+                segments[index].style.strokeDashoffset = String(-segStartOffset);
+
+                // Update center readout during animation
+                const totalVisible = chartData.reduce((sum, d, i) => {
+                    if (i < index) return sum + d.value;
+                    if (i === index) return sum + animObj.value;
+                    return sum;
+                }, 0);
+                const pct = Math.round(totalVisible);
+                leverReadout.textContent = `${pct}%`;
+                centerValue.textContent = `${Math.round(58.8 * Math.min(pct / 100, 1))}%`;
+                centerLabel.textContent = "Đang quét dữ liệu";
+            }
+        }, index === 0 ? 300 : `-=600`);
+
+        cumulativeOffset += targetValue;
+    });
+
+    // Subtle rotation of the whole donut during build
+    anime({
+        targets: ".donut-wrap svg",
+        rotate: ["-90deg", "-85deg", "-90deg"],
+        duration: 3200,
+        easing: "easeInOutSine"
+    });
+}
+
+function revealLegendItems() {
+    const buttons = document.querySelectorAll(".legend-button");
+    buttons.forEach(btn => {
+        btn.style.opacity = "0";
+        btn.style.transform = "translateX(-30px)";
+    });
+
+    anime({
+        targets: ".legend-button",
+        opacity: [0, 1],
+        translateX: [-30, 0],
+        delay: anime.stagger(150, { start: 100 }),
+        duration: 600,
+        easing: "easeOutQuart",
+        begin: () => {
+            buttons.forEach(btn => btn.classList.add("is-revealed"));
+        },
+        complete: () => {
+            document.querySelectorAll(".legend-pct").forEach(el => {
+                el.style.visibility = "visible";
+                // Count up each percentage
+                const finalText = el.dataset.pct;
+                const numMatch = finalText.match(/([\d,]+)/);
+                if (numMatch) {
+                    const target = parseFloat(numMatch[1].replace(",", "."));
+                    const obj = { val: 0 };
+                    anime({
+                        targets: obj,
+                        val: target,
+                        duration: 800,
+                        easing: "easeOutExpo",
+                        round: 10,
+                        update: () => {
+                            el.textContent = `${obj.val.toLocaleString("vi-VN", { maximumFractionDigits: 1 })}%`;
+                        }
+                    });
+                }
+            });
+        }
+    });
+}
+
+function burstConfetti() {
+    const colors = ["#2667ff", "#37d37f", "#ffd166", "#ff6f91", "#7a5cff", "#ff8a5b"];
+    const container = sparkField;
+
+    for (let i = 0; i < 50; i++) {
+        const particle = document.createElement("span");
+        particle.className = "confetti-particle";
+        particle.style.background = colors[Math.floor(Math.random() * colors.length)];
+        particle.style.left = `${40 + Math.random() * 20}%`;
+        particle.style.top = `${30 + Math.random() * 20}%`;
+        particle.style.width = `${4 + Math.random() * 6}px`;
+        particle.style.height = `${6 + Math.random() * 10}px`;
+        particle.style.borderRadius = Math.random() > 0.5 ? "50%" : "2px";
+        container.appendChild(particle);
+
+        anime({
+            targets: particle,
+            translateX: () => anime.random(-200, 200),
+            translateY: () => anime.random(-250, 80),
+            rotate: () => anime.random(-360, 360),
+            scale: [1, anime.random(5, 12) / 10],
+            opacity: [1, 0],
+            duration: anime.random(800, 1400),
+            easing: "easeOutCubic",
+            complete: () => particle.remove()
+        });
     }
-    
-    requestAnimationFrame(animate);
 }
 
 function updateChart(progress) {
@@ -2094,22 +2303,49 @@ function updateChart(progress) {
     });
     centerValue.textContent = `${Math.round(58.8 * progress / 100)}%`;
     centerLabel.textContent = progress < 100 ? "Đang quét dữ liệu" : "Hằng ngày";
-    if (progress >= 100 && !state.chartComplete) {
-        state.chartComplete = true;
-        document.querySelectorAll(".legend-pct").forEach(el => {
-            el.textContent = el.dataset.pct;
-            el.style.visibility = "visible";
-        });
-        burstSparks();
-        selectChartSegment(0);
-    }
 }
 
 function selectChartSegment(index) {
     const item = chartData[index];
     if (!item) return;
-    document.querySelectorAll(".donut-segment").forEach((el) => el.classList.toggle("is-active", Number(el.dataset.chartIndex) === index));
-    document.querySelectorAll(".legend-button").forEach((el) => el.classList.toggle("is-active", Number(el.dataset.chartIndex) === index));
+
+    const segments = document.querySelectorAll(".donut-segment");
+    const buttons = document.querySelectorAll(".legend-button");
+
+    segments.forEach((el) => el.classList.toggle("is-active", Number(el.dataset.chartIndex) === index));
+    buttons.forEach((el) => el.classList.toggle("is-active", Number(el.dataset.chartIndex) === index));
+
+    // Animate the active segment: pulse stroke-width
+    anime.remove(segments);
+    segments.forEach((seg, i) => {
+        anime({
+            targets: seg,
+            strokeWidth: i === index ? [18, 24, 22] : [parseFloat(seg.style.strokeWidth) || 18, 18],
+            duration: i === index ? 500 : 300,
+            easing: i === index ? "easeOutElastic(1, .5)" : "easeOutQuad"
+        });
+    });
+
+    // Animate active legend button scale
+    buttons.forEach((btn, i) => {
+        anime({
+            targets: btn,
+            scale: i === index ? [1, 1.05, 1.02] : 1,
+            duration: 400,
+            easing: "easeOutBack"
+        });
+    });
+
+    // Animate center value with counting effect
+    const centerDiv = document.querySelector(".donut-center div");
+    anime({
+        targets: centerDiv,
+        scale: [0.85, 1],
+        opacity: [0.4, 1],
+        duration: 400,
+        easing: "easeOutBack"
+    });
+
     centerValue.textContent = `${item.value.toLocaleString("vi-VN")}%`;
     centerLabel.textContent = item.label;
     const copy = $(".chart-copy p");
@@ -2117,15 +2353,26 @@ function selectChartSegment(index) {
 }
 
 function burstSparks() {
-    for (let i = 0; i < 34; i++) {
+    const colors = ["#ffd166", "#ff6f91", "#37d37f", "#2667ff", "#7a5cff"];
+    for (let i = 0; i < 40; i++) {
         const spark = document.createElement("span");
         spark.className = "spark";
         spark.style.left = `${45 + Math.random() * 20}%`;
         spark.style.top = `${34 + Math.random() * 22}%`;
-        spark.style.setProperty("--dx", `${-160 + Math.random() * 320}px`);
-        spark.style.setProperty("--dy", `${-140 + Math.random() * 260}px`);
+        spark.style.background = colors[Math.floor(Math.random() * colors.length)];
         sparkField.appendChild(spark);
-        setTimeout(() => spark.remove(), 900);
+
+        anime({
+            targets: spark,
+            translateX: anime.random(-220, 220),
+            translateY: anime.random(-200, 180),
+            scale: [{ value: 1.5, duration: 100 }, { value: 0, duration: 700 }],
+            rotate: anime.random(-270, 270),
+            opacity: [1, 0],
+            duration: anime.random(700, 1100),
+            easing: "easeOutExpo",
+            complete: () => spark.remove()
+        });
     }
 }
 
