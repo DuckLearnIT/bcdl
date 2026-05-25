@@ -931,6 +931,21 @@ button {
     opacity: 0.85;
 }
 
+.chart-next {
+    margin-top: clamp(14px, 3vw, 24px);
+    text-align: center;
+    opacity: 0;
+    transform: translateY(12px);
+    transition: opacity 0.5s ease, transform 0.5s ease;
+    pointer-events: none;
+}
+
+.chart-next.is-visible {
+    opacity: 1;
+    transform: translateY(0);
+    pointer-events: auto;
+}
+
 .chart-card {
     position: relative;
     border: 4px solid #17213d;
@@ -1373,6 +1388,9 @@ button {
             <div class="legend" id="legend"></div>
         </article>
     </div>
+    <div class="chart-next" id="chart-next-wrap">
+        <button class="pixel-button" id="chart-next-btn" type="button">Tiếp theo →</button>
+    </div>
 </section>
 
 <div class="guide-panel" id="guide-panel" role="dialog" aria-modal="true" aria-labelledby="guide-title">
@@ -1554,7 +1572,8 @@ const state = {
     auto: false,
     autoTimer: null,
     chartProgress: 0,
-    chartComplete: false
+    chartComplete: false,
+    chartNextTimer: null
 };
 
 const $ = (selector) => document.querySelector(selector);
@@ -1593,6 +1612,8 @@ const centerValue = $("#center-value");
 const centerLabel = $("#center-label");
 const legendEl = $("#legend");
 const sparkField = $("#spark-field");
+const chartNextWrap = $("#chart-next-wrap");
+const chartNextBtn = $("#chart-next-btn");
 const dialogueHistory = [];
 
 function canUseAnime() {
@@ -2286,7 +2307,28 @@ function updateChart(progress, options = {}) {
         state.chartComplete = true;
         completeChartReveal();
         selectChartSegment(0);
+        startChartNextTimer();
     }
+}
+
+function startChartNextTimer() {
+    if (state.chartNextTimer !== null) return;
+    showChartNextButton();
+    state.chartNextTimer = setTimeout(() => {
+        goToNextChapter();
+    }, 300000); // 5 phút
+}
+
+function showChartNextButton() {
+    if (chartNextWrap) chartNextWrap.classList.add("is-visible");
+}
+
+function goToNextChapter() {
+    if (state.chartNextTimer) {
+        clearTimeout(state.chartNextTimer);
+        state.chartNextTimer = null;
+    }
+    window.location.href = "chapter-5.html";
 }
 
 function completeChartReveal() {
@@ -2497,8 +2539,7 @@ function bindControls() {
     recordAnswer.addEventListener("click", recordStudentAnswer);
     interactButton.addEventListener("click", tryInteract);
     dataLever.addEventListener("click", pullLever);
-
-
+    if (chartNextBtn) chartNextBtn.addEventListener("click", goToNextChapter);
 
     window.addEventListener("keydown", (event) => {
         const key = event.key.length === 1 ? event.key.toLowerCase() : event.key;
