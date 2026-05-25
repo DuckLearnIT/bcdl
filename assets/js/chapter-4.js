@@ -147,6 +147,47 @@ const dialogueSets = {
             pose: PIXEL + "thinking.webp",
             anim: "nod"
         }
+    ],
+    pre_minigame: [
+        {
+            id: "4.1",
+            name: "Amy",
+            text: "Tuy nhiên... câu hỏi đặt ra bây giờ không phải là các cậu có dùng AI hay không nữa. Mà là các cậu đang... 'giao phó' bao nhiêu phần trăm chất xám của mình cho cỗ máy này?",
+            pose: PIXEL + "thinking.webp",
+            anim: "nod"
+        },
+        {
+            id: "4.2",
+            name: "Amy",
+            text: "Giả sử bây giờ giảng viên giao cho cậu một đề tài hoàn toàn mới đi. Cậu sẽ làm thế nào?",
+            pose: PIXEL + "pointout.webp",
+            anim: "hop"
+        }
+    ],
+    ai_first_special: [
+        {
+            id: "4.2.1",
+            name: "Amy",
+            text: "Úi! Cậu giao ngay vạch xuất phát cho mình luôn á?",
+            pose: PIXEL + "surprise.webp",
+            anim: "hop"
+        },
+        {
+            id: "4.2.2",
+            name: "Amy",
+            text: "Nhưng đừng ngại, cậu không hề cô đơn đâu. Dữ liệu cho thấy có tới 76,5% sinh viên chọn dùng AI để khởi tạo ý tưởng. Sau đó, 62,2% tiếp tục nhờ mình dựng khung cấu trúc bài viết luôn.",
+            pose: PIXEL + "smile.webp",
+            anim: "nod"
+        }
+    ],
+    post_minigame: [
+        {
+            id: "4.3",
+            name: "Amy",
+            text: "Cậu có thấy nguy hiểm không? Lên ý tưởng và xác định hướng tiếp cận chính là cốt lõi của tư duy học thuật. Nếu cậu mượn não của mình ngay từ điểm xuất phát... thì hành trình phía sau, ai mới là người đang thực sự làm chủ đây?",
+            pose: PIXEL + "serious.webp",
+            anim: "nod"
+        }
     ]
 };
 
@@ -175,6 +216,31 @@ const chartData = [
     { label: "Ít hơn/khác", value: 13.1, color: "#ffd166", note: "Nhóm dùng thưa hơn hoặc chưa hình thành thói quen ổn định." },
     { label: "Chưa từng dùng", value: 0.4, color: "#ff6f91", note: "Một tỷ lệ rất nhỏ cho biết chưa từng dùng AI." }
 ];
+
+const minigameQuestions = [
+    {
+        task: "Tìm kiếm ý tưởng khởi đầu",
+        aiPct: 76.5,
+        prompt: "Giảng viên giao đề tài: 'Phân tích xu hướng truyền thông số tại Việt Nam'. Hãy đề xuất 3–5 hướng tiếp cận và ý tưởng khởi đầu cho bài nghiên cứu của bạn."
+    },
+    {
+        task: "Lập cấu trúc bài viết (dàn ý)",
+        aiPct: 62.2,
+        prompt: "Với đề tài đã có, hãy lập dàn ý chi tiết cho bài luận 2.000 từ, gồm mở bài, thân bài (ít nhất 3 luận điểm chính) và kết luận."
+    },
+    {
+        task: "Tóm tắt tài liệu chuyên ngành",
+        aiPct: 56.3,
+        prompt: "Đọc một bài báo học thuật 20 trang về ảnh hưởng của mạng xã hội đến hành vi người dùng. Tóm tắt các luận điểm chính, phương pháp nghiên cứu và kết quả quan trọng."
+    },
+    {
+        task: "Thiết lập hệ thống ôn tập",
+        aiPct: 51.3,
+        prompt: "Thiết kế kế hoạch ôn tập 2 tuần trước khi thi môn Truyền thông đa phương tiện, bao gồm lịch phân chia thời gian và phương pháp ghi nhớ hiệu quả từng chủ đề."
+    }
+];
+
+const mgState = { q: 0, choices: [], firstAIHandled: false };
 
 const world = { width: 960, height: 620 };
 const state = {
@@ -252,6 +318,8 @@ const appstoreScreen = $("#appstore-screen");
 const fireworkScreen = $("#firework-screen");
 const fireworkCanvas = $("#firework-canvas");
 const vipCard = $("#vip-card");
+const minigameScreen = $("#minigame-screen");
+const areaChartScreen = $("#area-chart-screen");
 const dialogueHistory = [];
 
 function canUseAnime() {
@@ -278,6 +346,8 @@ function showScreen(screenName) {
     globeScreen.classList.toggle("is-active", screenName === "globe");
     appstoreScreen.classList.toggle("is-active", screenName === "appstore");
     fireworkScreen.classList.toggle("is-active", screenName === "firework");
+    minigameScreen.classList.toggle("is-active", screenName === "minigame");
+    areaChartScreen.classList.toggle("is-active", screenName === "area-chart");
 }
 
 function setDialogueVisible(visible) {
@@ -1718,13 +1788,288 @@ function onBuyClicked() {
         setAmyVisible(true);
         amyWrap.classList.remove("is-chart");
         runDialogue(dialogueSets.finale, () => {
-            // After 3.9, 3.10, 3.11 → go to actual next chapter
+            // After 3.9, 3.10, 3.11 → go to minigame sequence
             cleanupFireworks();
-            setTimeout(() => {
-                window.location.href = "chapter-5.html";
-            }, 1500);
+            setTimeout(() => startPreMinigame(), 800);
         });
     }, 3500);
+}
+
+/* ═══════════════════════════════════════════
+   MINIGAME — WOULD YOU RATHER
+   ═══════════════════════════════════════════ */
+
+function startPreMinigame() {
+    setDialogueVisible(true);
+    setAmyVisible(true);
+    amyWrap.classList.remove("is-chart");
+    runDialogue(dialogueSets.pre_minigame, () => {
+        setDialogueVisible(false);
+        setAmyVisible(false);
+        showMinigame();
+    });
+}
+
+function showMinigame() {
+    mgState.q = 0;
+    mgState.choices = [];
+    mgState.firstAIHandled = false;
+    showScreen("minigame");
+    bindMinigame();
+    loadMGQuestion(0);
+}
+
+function loadMGQuestion(index) {
+    const q = minigameQuestions[index];
+    document.getElementById("question-text").textContent = q.prompt;
+    document.getElementById("question-progress").textContent = `Câu ${index + 1}/${minigameQuestions.length} — ${q.task}`;
+    // Reset UI
+    document.getElementById("minigame-choices").style.display = "grid";
+    document.getElementById("minigame-input").classList.remove("active");
+    document.getElementById("manual-answer").value = "";
+    document.getElementById("input-feedback").textContent = "";
+    document.getElementById("minigame-result").classList.remove("active");
+}
+
+function bindMinigame() {
+    document.getElementById("choice-manual").onclick = onChooseManual;
+    document.getElementById("choice-ai").onclick = onChooseAI;
+    document.getElementById("submit-answer").onclick = onSubmitManual;
+    document.getElementById("minigame-next").onclick = onNextMGQuestion;
+}
+
+function onChooseManual() {
+    document.getElementById("minigame-choices").style.display = "none";
+    document.getElementById("minigame-input").classList.add("active");
+    document.getElementById("manual-answer").focus();
+}
+
+function onChooseAI() {
+    document.getElementById("minigame-choices").style.display = "none";
+    mgState.choices.push("ai");
+
+    if (mgState.q === 0 && !mgState.firstAIHandled) {
+        mgState.firstAIHandled = true;
+        setDialogueVisible(true);
+        setAmyVisible(true);
+        amyWrap.classList.remove("is-chart");
+        runDialogue(dialogueSets.ai_first_special, () => {
+            setDialogueVisible(false);
+            setAmyVisible(false);
+            showMGResult("ai");
+        });
+    } else {
+        showMGResult("ai");
+    }
+}
+
+function onSubmitManual() {
+    const text = document.getElementById("manual-answer").value.trim();
+    if (text.length < 100) {
+        const hints = [
+            "Bài làm còn khá sơ sài, hãy triển khai chi tiết hơn nhé!",
+            "Ý tưởng còn đơn giản quá, thêm vào nội dung cụ thể hơn!",
+            "Câu trả lời chưa đủ đầy, hãy bổ sung thêm một chút nữa!"
+        ];
+        document.getElementById("input-feedback").textContent = hints[Math.floor(Math.random() * hints.length)];
+        return;
+    }
+    document.getElementById("input-feedback").textContent = "";
+    document.getElementById("minigame-input").classList.remove("active");
+    mgState.choices.push("manual");
+    showMGResult("manual");
+}
+
+function showMGResult(choice) {
+    const q = minigameQuestions[mgState.q];
+    const aiPct = q.aiPct;
+    const selfPct = (100 - aiPct).toFixed(1);
+
+    const statEl = document.getElementById("result-stat");
+    statEl.textContent = choice === "ai"
+        ? `${aiPct}% sinh viên cũng chọn dùng AI cho tác vụ này`
+        : `Tốt lắm! ${aiPct}% sinh viên khác đã chọn dùng AI thay thế`;
+
+    document.getElementById("result-ai-pct").textContent = `AI: ${aiPct}%`;
+    document.getElementById("result-manual-pct").textContent = `Tự làm: ${selfPct}%`;
+
+    const aiBar = document.getElementById("result-ai-bar");
+    const manualBar = document.getElementById("result-manual-bar");
+    aiBar.style.width = "0%";
+    manualBar.style.width = "0%";
+
+    document.getElementById("minigame-result").classList.add("active");
+
+    // Animate bars after paint
+    requestAnimationFrame(() => {
+        setTimeout(() => {
+            aiBar.style.width = `${aiPct}%`;
+            manualBar.style.width = `${selfPct}%`;
+        }, 60);
+    });
+}
+
+function onNextMGQuestion() {
+    mgState.q++;
+    if (mgState.q >= minigameQuestions.length) {
+        finishMinigame();
+    } else {
+        loadMGQuestion(mgState.q);
+    }
+}
+
+function finishMinigame() {
+    showScreen("area-chart");
+    setTimeout(() => drawAreaChart(), 120);
+
+    // Show 4.3 dialogue after chart animates in
+    setTimeout(() => {
+        setDialogueVisible(true);
+        setAmyVisible(true);
+        amyWrap.classList.remove("is-chart");
+        runDialogue(dialogueSets.post_minigame, () => {
+            setDialogueVisible(false);
+            setAmyVisible(false);
+            const nextBtn = document.getElementById("area-chart-next");
+            nextBtn.classList.add("is-visible");
+            nextBtn.onclick = () => { window.location.href = "chapter-5.html"; };
+        });
+    }, 2800);
+}
+
+/* ═══════════════════════════════════════════
+   AREA CHART CANVAS
+   ═══════════════════════════════════════════ */
+function drawAreaChart() {
+    const canvas = document.getElementById("area-chart-canvas");
+    const parent = canvas.parentElement;
+    const W = parent.clientWidth || 700;
+    const H = parent.clientHeight || 360;
+    const dpr = window.devicePixelRatio || 1;
+    canvas.width = W * dpr;
+    canvas.height = H * dpr;
+    const ctx = canvas.getContext("2d");
+    ctx.scale(dpr, dpr);
+
+    const padL = 58, padR = 24, padT = 32, padB = 80;
+    const cW = W - padL - padR;
+    const cH = H - padT - padB;
+    const n = minigameQuestions.length;
+    const xs = minigameQuestions.map((_, i) => padL + cW * i / (n - 1));
+    const aiPcts = minigameQuestions.map(q => q.aiPct);
+    const aiYs = aiPcts.map(p => padT + cH * (1 - p / 100));
+    const topY = padT;
+    const botY = padT + cH;
+
+    let rev = 0; // reveal progress 0→1
+
+    function frame() {
+        ctx.clearRect(0, 0, W, H);
+
+        // Grid & Y labels (always fully drawn)
+        ctx.strokeStyle = "rgba(27,35,64,0.1)";
+        ctx.lineWidth = 1;
+        ctx.fillStyle = "#6a7a9a";
+        ctx.font = "12px sans-serif";
+        ctx.textAlign = "right";
+        [0, 20, 40, 60, 80, 100].forEach(pct => {
+            const y = padT + cH * (1 - pct / 100);
+            ctx.beginPath(); ctx.moveTo(padL, y); ctx.lineTo(padL + cW, y); ctx.stroke();
+            ctx.fillText(pct + "%", padL - 8, y + 4);
+        });
+
+        // X axis task labels (always)
+        ctx.fillStyle = "#1b2340";
+        ctx.font = "11px sans-serif";
+        ctx.textAlign = "center";
+        minigameQuestions.forEach((q, i) => {
+            const words = q.task.split(" ");
+            const mid = Math.ceil(words.length / 2);
+            ctx.fillText(words.slice(0, mid).join(" "), xs[i], botY + 20);
+            if (words.length > mid) ctx.fillText(words.slice(mid).join(" "), xs[i], botY + 36);
+        });
+
+        // Axes
+        ctx.strokeStyle = "rgba(27,35,64,0.35)";
+        ctx.lineWidth = 2;
+        ctx.beginPath();
+        ctx.moveTo(padL, padT); ctx.lineTo(padL, botY); ctx.lineTo(padL + cW, botY);
+        ctx.stroke();
+
+        // Progressive reveal clip
+        const revealX = padL + cW * rev;
+        ctx.save();
+        ctx.beginPath();
+        ctx.rect(padL, 0, revealX - padL + 2, H);
+        ctx.clip();
+
+        // AI area (bottom: 0 → aiPct)
+        ctx.beginPath();
+        ctx.moveTo(xs[0], botY);
+        ctx.lineTo(xs[0], aiYs[0]);
+        for (let i = 1; i < n; i++) {
+            const mx = (xs[i - 1] + xs[i]) / 2;
+            ctx.bezierCurveTo(mx, aiYs[i - 1], mx, aiYs[i], xs[i], aiYs[i]);
+        }
+        ctx.lineTo(xs[n - 1], botY);
+        ctx.closePath();
+        ctx.fillStyle = "rgba(122,92,255,0.58)";
+        ctx.fill();
+
+        // Manual area (top: aiPct → 100%)
+        ctx.beginPath();
+        ctx.moveTo(xs[0], topY);
+        ctx.lineTo(xs[n - 1], topY);
+        ctx.lineTo(xs[n - 1], aiYs[n - 1]);
+        for (let i = n - 2; i >= 0; i--) {
+            const mx = (xs[i] + xs[i + 1]) / 2;
+            ctx.bezierCurveTo(mx, aiYs[i + 1], mx, aiYs[i], xs[i], aiYs[i]);
+        }
+        ctx.closePath();
+        ctx.fillStyle = "rgba(63,185,111,0.52)";
+        ctx.fill();
+
+        // AI stroke line
+        ctx.beginPath();
+        ctx.moveTo(xs[0], aiYs[0]);
+        for (let i = 1; i < n; i++) {
+            const mx = (xs[i - 1] + xs[i]) / 2;
+            ctx.bezierCurveTo(mx, aiYs[i - 1], mx, aiYs[i], xs[i], aiYs[i]);
+        }
+        ctx.strokeStyle = "#7a5cff";
+        ctx.lineWidth = 3;
+        ctx.stroke();
+
+        // Data dots & labels (reveal one by one)
+        for (let i = 0; i < n; i++) {
+            if (xs[i] > revealX + 4) break;
+            const x = xs[i], y = aiYs[i];
+
+            // Dot
+            ctx.beginPath(); ctx.arc(x, y, 6, 0, Math.PI * 2);
+            ctx.fillStyle = "#7a5cff"; ctx.fill();
+            ctx.strokeStyle = "#fff"; ctx.lineWidth = 2.5; ctx.stroke();
+
+            // AI % label (above dot)
+            ctx.fillStyle = "#3a2a8a";
+            ctx.font = "bold 13px sans-serif";
+            ctx.textAlign = "center";
+            ctx.fillText(aiPcts[i] + "%", x, y - 14);
+
+            // Self % label (in green area midpoint)
+            const selfMidY = padT + (y - padT) / 2;
+            ctx.fillStyle = "#1a6a35";
+            ctx.font = "bold 12px sans-serif";
+            ctx.fillText((100 - aiPcts[i]).toFixed(1) + "%", x, selfMidY + 5);
+        }
+
+        ctx.restore();
+
+        rev = Math.min(1, rev + 0.018);
+        if (rev < 1) requestAnimationFrame(frame);
+    }
+
+    requestAnimationFrame(frame);
 }
 
 function init() {

@@ -157,6 +157,79 @@
     </div>
 </section>
 
+<section class="screen minigame-screen" id="minigame-screen" aria-label="Would You Rather">
+    <div class="minigame-container">
+        <div class="minigame-header">
+            <h2>Would You Rather</h2>
+            <p class="minigame-subtitle">Bạn sẽ chọn cách nào?</p>
+        </div>
+        <div class="minigame-question" id="minigame-question">
+            <div class="question-text" id="question-text"></div>
+            <div class="question-progress" id="question-progress">Câu 1/4</div>
+        </div>
+        <div class="minigame-choices">
+            <button class="choice-btn choice-manual" id="choice-manual" type="button">
+                <div class="choice-icon">📝</div>
+                <div class="choice-label">Tự làm</div>
+                <div class="choice-desc">Tự tư duy và trả lời</div>
+            </button>
+            <button class="choice-btn choice-ai" id="choice-ai" type="button">
+                <div class="choice-icon">🤖</div>
+                <div class="choice-label">Dùng AI</div>
+                <div class="choice-desc">Để AI giúp đỡ</div>
+            </button>
+        </div>
+        <div class="minigame-input" id="minigame-input">
+            <textarea id="manual-answer" placeholder="Nhập câu trả lời của bạn..." rows="4"></textarea>
+            <div class="input-feedback" id="input-feedback"></div>
+            <button class="pixel-button" id="submit-answer" type="button">Gửi</button>
+        </div>
+        <div class="minigame-result" id="minigame-result">
+            <div class="result-stat" id="result-stat"></div>
+            <div class="result-bars">
+                <div class="result-bar-row">
+                    <span class="result-bar-label" id="result-ai-pct">AI: ?%</span>
+                    <div class="result-bar-track">
+                        <div class="result-bar ai-bar" id="result-ai-bar"></div>
+                    </div>
+                </div>
+                <div class="result-bar-row">
+                    <span class="result-bar-label" id="result-manual-pct">Tự làm: ?%</span>
+                    <div class="result-bar-track">
+                        <div class="result-bar manual-bar" id="result-manual-bar"></div>
+                    </div>
+                </div>
+            </div>
+            <button class="pixel-button" id="minigame-next" type="button">Tiếp theo →</button>
+        </div>
+    </div>
+</section>
+
+<section class="screen area-chart-screen" id="area-chart-screen" aria-label="Biểu đồ miền so sánh">
+    <div class="area-chart-container">
+        <div class="area-chart-header">
+            <h2>So sánh: AI vs Tự tư duy</h2>
+            <p class="area-chart-subtitle">Phân bổ sử dụng AI theo các tác vụ học tập</p>
+        </div>
+        <div class="area-chart-wrapper">
+            <canvas id="area-chart-canvas"></canvas>
+        </div>
+        <div class="area-chart-legend">
+            <div class="legend-item">
+                <div class="legend-color ai-color"></div>
+                <span>Sử dụng AI</span>
+            </div>
+            <div class="legend-item">
+                <div class="legend-color manual-color"></div>
+                <span>Tự tư duy</span>
+            </div>
+        </div>
+        <div class="area-chart-next">
+            <button class="pixel-button" id="area-chart-next" type="button">Tiếp theo</button>
+        </div>
+    </div>
+</section>
+
 <div class="guide-panel" id="guide-panel" role="dialog" aria-modal="true" aria-labelledby="guide-title">
     <div class="guide-card">
         <h2 id="guide-title">Hướng dẫn khảo sát</h2>
