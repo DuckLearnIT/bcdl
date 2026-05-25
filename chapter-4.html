@@ -9,6 +9,7 @@
 <link rel="preload" href="assets/img/amy/pixel/thinking.webp" as="image" type="image/webp">
 <link rel="stylesheet" href="assets/css/visual-novel.css">
 <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.2/anime.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
 <style>
 @font-face {
     font-family: "FuturaLocal";
@@ -1314,6 +1315,453 @@ button {
         height: 48px;
     }
 }
+
+/* ═══════════════════════════════════════════
+   STAR FIELD SCENE
+   ═══════════════════════════════════════════ */
+.star-screen {
+    z-index: 10;
+    background: #0a0a1a;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.star-screen canvas {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+}
+
+.star-label {
+    position: absolute;
+    top: 8%;
+    left: 50%;
+    transform: translateX(-50%);
+    text-align: center;
+    color: rgba(255, 255, 255, 0.9);
+    opacity: 0;
+    transition: opacity 1s ease;
+    z-index: 100;
+}
+
+.star-label.visible {
+    opacity: 1;
+}
+
+.star-pct-big {
+    display: block;
+    font-size: clamp(48px, 8vw, 96px);
+    font-weight: 900;
+    color: #9fd7ff;
+    text-shadow: 0 0 20px rgba(159, 215, 255, 0.5);
+}
+
+.star-pct-small {
+    display: block;
+    font-size: clamp(24px, 4vw, 48px);
+    font-weight: 900;
+    color: #ff6f91;
+    text-shadow: 0 0 20px rgba(255, 111, 145, 0.5);
+}
+
+.star-desc {
+    display: block;
+    font-size: clamp(14px, 2vw, 22px);
+    margin-top: 6px;
+    opacity: 0.8;
+}
+
+.star-unique-label {
+    position: absolute;
+    bottom: 35%;
+    left: 50%;
+    transform: translateX(-50%);
+    text-align: center;
+    color: rgba(255, 255, 255, 0.9);
+    opacity: 0;
+    transition: opacity 1s ease 0.5s;
+    z-index: 100;
+}
+
+.star-unique-label.visible {
+    opacity: 1;
+}
+
+/* ═══════════════════════════════════════════
+   GLOBE SCENE
+   ═══════════════════════════════════════════ */
+.globe-screen {
+    z-index: 10;
+    background: linear-gradient(180deg, #0a0e27 0%, #1a1a3e 50%, #0d1b2a 100%);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.globe-container {
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    inset: 0;
+}
+
+.globe-stat {
+    position: absolute;
+    top: 6%;
+    left: 50%;
+    transform: translateX(-50%);
+    text-align: center;
+    color: #fff;
+    z-index: 2;
+    opacity: 0;
+    transition: opacity 0.8s ease;
+}
+
+.globe-stat.visible {
+    opacity: 1;
+}
+
+.globe-stat strong {
+    display: block;
+    font-size: clamp(42px, 7vw, 84px);
+    font-weight: 900;
+    color: #ffd166;
+    text-shadow: 0 0 24px rgba(255, 209, 102, 0.4);
+}
+
+.globe-stat span {
+    display: block;
+    font-size: clamp(14px, 2vw, 20px);
+    margin-top: 4px;
+    opacity: 0.85;
+}
+
+.globe-hint {
+    position: absolute;
+    bottom: 8%;
+    left: 50%;
+    transform: translateX(-50%);
+    padding: 12px 24px;
+    background: #ffd166;
+    border: 3px solid #13182c;
+    color: #13182c;
+    font-size: 16px;
+    font-weight: 800;
+    z-index: 2;
+    box-shadow: 0 6px 0 #c9831f;
+    opacity: 0;
+    transition: opacity 0.6s ease;
+    animation: pixelPulse 1.5s ease-in-out infinite;
+}
+
+@keyframes pixelPulse {
+    0%, 100% { transform: translateX(-50%) translateY(0); }
+    50% { transform: translateX(-50%) translateY(-3px); }
+}
+
+.globe-hint.visible {
+    opacity: 1;
+}
+
+.globe-next {
+    position: absolute;
+    bottom: 8%;
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 3;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.6s ease;
+}
+
+.globe-next.is-visible {
+    opacity: 1;
+    pointer-events: auto;
+}
+
+.globe-next .pixel-button {
+    min-width: 140px;
+}
+
+/* ═══════════════════════════════════════════
+   APP STORE SCENE - Pixel Style
+   ═══════════════════════════════════════════ */
+.appstore-screen {
+    z-index: 10;
+    background:
+        radial-gradient(circle at 18% 18%, rgba(255, 209, 102, 0.45), transparent 28%),
+        radial-gradient(circle at 78% 16%, rgba(159, 215, 255, 0.7), transparent 28%),
+        linear-gradient(180deg, #a8ddff 0%, #f9d996 64%, #ef9b5c 100%);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+}
+
+.appstore-container {
+    width: min(900px, 95vw);
+    max-height: 90vh;
+    overflow-y: auto;
+    background:
+        linear-gradient(90deg, rgba(27, 35, 64, 0.07) 1px, transparent 1px),
+        linear-gradient(0deg, rgba(27, 35, 64, 0.07) 1px, transparent 1px),
+        linear-gradient(180deg, #fffdf3 0%, #ffe9b2 100%);
+    background-size: 16px 16px, 16px 16px, 100% 100%;
+    border: var(--pixel-border);
+    box-shadow: 0 16px 0 #c46a3c, 0 28px 40px rgba(44, 37, 28, 0.28);
+    padding: clamp(20px, 4vw, 40px);
+}
+
+.appstore-header {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 20px;
+    padding-bottom: 16px;
+    border-bottom: 3px solid rgba(27, 35, 64, 0.12);
+}
+
+.appstore-logo {
+    font-size: 28px;
+    font-weight: 900;
+    color: #1b2340;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+}
+
+.appstore-tag {
+    font-size: 12px;
+    padding: 4px 12px;
+    background: #ffd166;
+    border: 2px solid #13182c;
+    color: #13182c;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+.appstore-title {
+    font-size: clamp(22px, 4vw, 32px);
+    margin-bottom: 24px;
+    color: #1b2340;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    text-shadow: 2px 2px 0 #ffd166;
+}
+
+.appstore-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+    gap: 20px;
+}
+
+.sub-card {
+    position: relative;
+    background: #fffdf6;
+    border: 3px solid #1b2340;
+    padding: 20px;
+    text-align: center;
+    transition: transform 120ms ease, box-shadow 120ms ease;
+    box-shadow: 0 6px 0 #1b2340;
+}
+
+.sub-card:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 0 #1b2340;
+}
+
+.sub-card:active {
+    transform: translateY(4px);
+    box-shadow: 0 2px 0 #1b2340;
+}
+
+.sub-card-featured {
+    border-color: #ffd166;
+    box-shadow: 0 6px 0 #c9831f;
+    background: linear-gradient(180deg, #fff9e6 0%, #fffdf6 100%);
+}
+
+.sub-card-featured:hover {
+    box-shadow: 0 8px 0 #c9831f;
+}
+
+.sub-card-featured:active {
+    box-shadow: 0 2px 0 #c9831f;
+}
+
+.sub-badge {
+    position: absolute;
+    top: -12px;
+    left: 50%;
+    transform: translateX(-50%);
+    background: #ffd166;
+    border: 2px solid #13182c;
+    color: #13182c;
+    font-size: 11px;
+    font-weight: 800;
+    padding: 4px 12px;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    white-space: nowrap;
+    box-shadow: 0 3px 0 #c9831f;
+}
+
+.sub-icon {
+    font-size: 36px;
+    margin-bottom: 10px;
+    line-height: 1;
+}
+
+.sub-card h3 {
+    font-size: 18px;
+    margin-bottom: 8px;
+    color: #1b2340;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+.sub-price {
+    font-size: 28px;
+    font-weight: 900;
+    color: #ffd166;
+    margin-bottom: 8px;
+    text-shadow: 2px 2px 0 #1b2340;
+}
+
+.sub-price span {
+    font-size: 14px;
+    font-weight: 700;
+    color: #1b2340;
+}
+
+.sub-desc {
+    font-size: 13px;
+    color: #1b2340;
+    margin-bottom: 16px;
+    line-height: 1.4;
+    opacity: 0.8;
+}
+
+.sub-buy-btn {
+    width: 100%;
+    padding: 12px 20px;
+    border: 3px solid #13182c;
+    border-radius: 0;
+    background: #37d37f;
+    color: #13182c;
+    font-size: 15px;
+    font-weight: 800;
+    cursor: pointer;
+    transition: transform 120ms ease, box-shadow 120ms ease;
+    box-shadow: 0 6px 0 #157145;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+.sub-buy-btn:hover {
+    filter: brightness(1.05);
+    transform: translateY(-2px);
+    box-shadow: 0 8px 0 #157145;
+}
+
+.sub-buy-btn:active {
+    transform: translateY(4px);
+    box-shadow: 0 2px 0 #157145;
+}
+
+.sub-card-featured .sub-buy-btn {
+    background: #ffd166;
+    box-shadow: 0 6px 0 #c9831f;
+}
+
+.sub-card-featured .sub-buy-btn:hover {
+    box-shadow: 0 8px 0 #c9831f;
+}
+
+.sub-card-featured .sub-buy-btn:active {
+    box-shadow: 0 2px 0 #c9831f;
+}
+
+/* ═══════════════════════════════════════════
+   FIREWORK / VIP CELEBRATION SCENE
+   ═══════════════════════════════════════════ */
+.firework-screen {
+    z-index: 10;
+    background: #0a0a1a;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.firework-screen canvas {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+}
+
+.vip-card {
+    position: relative;
+    z-index: 2;
+    background:
+        linear-gradient(90deg, rgba(27, 35, 64, 0.07) 1px, transparent 1px),
+        linear-gradient(0deg, rgba(27, 35, 64, 0.07) 1px, transparent 1px),
+        linear-gradient(180deg, #fffdf3 0%, #ffe9b2 100%);
+    background-size: 16px 16px, 16px 16px, 100% 100%;
+    border: var(--pixel-border);
+    box-shadow: 0 16px 0 #c46a3c, 0 28px 40px rgba(44, 37, 28, 0.28);
+    padding: clamp(30px, 5vw, 50px);
+    text-align: center;
+    opacity: 0;
+    transform: scale(0.7);
+    transition: opacity 0.6s ease, transform 0.6s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+.vip-card.visible {
+    opacity: 1;
+    transform: scale(1);
+}
+
+.vip-badge {
+    font-size: clamp(28px, 5vw, 48px);
+    margin-bottom: 12px;
+}
+
+.vip-card h2 {
+    font-size: clamp(28px, 5vw, 42px);
+    color: #1b2340;
+    margin-bottom: 10px;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    text-shadow: 2px 2px 0 #ffd166;
+}
+
+.vip-card p {
+    font-size: clamp(14px, 2.5vw, 18px);
+    color: #1b2340;
+    margin-bottom: 16px;
+}
+
+.vip-card strong {
+    color: #ffd166;
+    text-shadow: 1px 1px 0 #1b2340;
+}
+
+.vip-stars {
+    font-size: 28px;
+    letter-spacing: 4px;
+}
+
+@media (max-width: 600px) {
+    .appstore-grid {
+        grid-template-columns: 1fr;
+    }
+    .sub-card {
+        padding: 18px;
+    }
+}
 </style>
 </head>
 <body class="chapter4-page" oncontextmenu="return false;">
@@ -1390,6 +1838,74 @@ button {
             </div>
             <div class="legend" id="legend"></div>
         </article>
+    </div>
+</section>
+
+<section class="screen star-screen" id="star-screen" aria-label="Không gian ngôi sao 0.4%">
+    <canvas id="star-canvas"></canvas>
+    <div class="star-label" id="star-label">
+        <span class="star-pct-big">99,6%</span>
+        <span class="star-desc">sinh viên đã dùng AI</span>
+    </div>
+    <div class="star-unique-label" id="star-unique-label">
+        <span class="star-pct-small">0,4%</span>
+        <span class="star-desc">chưa từng dùng</span>
+    </div>
+</section>
+
+<section class="screen globe-screen" id="globe-screen" aria-label="Địa cầu 86% AI">
+    <div class="globe-container" id="globe-container"></div>
+    <div class="globe-stat" id="globe-stat">
+        <strong>86%</strong>
+        <span>sinh viên toàn cầu sử dụng AI</span>
+    </div>
+    <div class="globe-hint" id="globe-hint">Kéo để xoay địa cầu</div>
+    <div class="globe-next" id="globe-next-wrap">
+        <button class="pixel-button" id="globe-next-btn" type="button">Tiếp theo</button>
+    </div>
+</section>
+
+<section class="screen appstore-screen" id="appstore-screen" aria-label="Cửa hàng ứng dụng AI">
+    <div class="appstore-container">
+        <div class="appstore-header">
+            <div class="appstore-logo">AI Store</div>
+            <span class="appstore-tag">Nâng cấp trí tuệ</span>
+        </div>
+        <h2 class="appstore-title">Gói đăng ký Premium</h2>
+        <div class="appstore-grid">
+            <div class="sub-card sub-card-featured">
+                <div class="sub-badge">Phổ biến nhất</div>
+                <div class="sub-icon">🤖</div>
+                <h3>ChatGPT Plus</h3>
+                <p class="sub-price">$20<span>/tháng</span></p>
+                <p class="sub-desc">GPT-4o, trả lời nhanh x5, không giới hạn</p>
+                <button class="sub-buy-btn" id="buy-chatgpt" type="button">Mua ngay</button>
+            </div>
+            <div class="sub-card">
+                <div class="sub-icon">💎</div>
+                <h3>Gemini Advanced</h3>
+                <p class="sub-price">$19.99<span>/tháng</span></p>
+                <p class="sub-desc">Gemini Ultra, 1TB storage, Google One</p>
+                <button class="sub-buy-btn" id="buy-gemini" type="button">Mua ngay</button>
+            </div>
+            <div class="sub-card">
+                <div class="sub-icon">✍️</div>
+                <h3>Trợ lý viết luận Pro</h3>
+                <p class="sub-price">$15<span>/tháng</span></p>
+                <p class="sub-desc">Viết bài A+, check đạo văn, format chuẩn</p>
+                <button class="sub-buy-btn" id="buy-essay" type="button">Mua ngay</button>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section class="screen firework-screen" id="firework-screen" aria-label="Chúc mừng VIP">
+    <canvas id="firework-canvas"></canvas>
+    <div class="vip-card" id="vip-card">
+        <div class="vip-badge">🎉 VIP 🎉</div>
+        <h2>Chúc mừng!</h2>
+        <p>Tài khoản của bạn đã được nâng cấp lên <strong>Premium</strong></p>
+        <div class="vip-stars">⭐⭐⭐⭐⭐</div>
     </div>
 </section>
 
@@ -1524,6 +2040,97 @@ const dialogueSets = {
             anim: "none",
             hideAmy: true
         }
+    ],
+    starIntro: [
+        {
+            id: "3.1",
+            name: "Amy",
+            text: "Cậu nhìn xem này... Nếu bây giờ muốn tìm một sinh viên chưa từng dùng thử AI, chắc khó như mò kim đáy bể vậy.",
+            pose: PIXEL + "surprise.webp",
+            anim: "hop"
+        },
+        {
+            id: "3.2",
+            name: "Amy",
+            text: "Để mình cho cậu thấy 0.4% nó nhỏ thế nào nhé.",
+            pose: PIXEL + "serious.webp",
+            anim: "nod"
+        }
+    ],
+    starOutro: [
+        {
+            id: "3.3",
+            name: "Amy",
+            text: "Cậu thấy chưa? 99,6% phần còn lại của giảng đường đã bị tụi mình chiếm đóng mất rồi.",
+            pose: PIXEL + "pointout.webp",
+            anim: "hop"
+        },
+        {
+            id: "3.4",
+            name: "Amy",
+            text: "Nhưng điều đáng nói không phải là việc 'đã từng dùng'. Cậu biết không, số người trò chuyện với AI mỗi ngày đang đạt đến ngưỡng đỉnh điểm rồi... Lên tới gần 60% lận đó! Con số này cao gấp đôi những bạn thỉnh thoảng mới dùng.",
+            pose: PIXEL + "serious.webp",
+            anim: "nod"
+        },
+        {
+            id: "3.5",
+            name: "Amy",
+            text: "Cơ mà... cậu đừng nghĩ chuyện này chỉ đang loanh quanh ở Hà Nội nhé.",
+            pose: PIXEL + "thinking.webp",
+            anim: "nod"
+        }
+    ],
+    globe: [
+        {
+            id: "3.6",
+            name: "Amy",
+            text: "Mình vừa lướt qua cơ sở dữ liệu quốc tế. Theo báo cáo của Global AI Student Survey 2024 vừa rồi... có tới 86% sinh viên trên toàn thế giới đã bê nguyên AI vào quy trình học tập của họ.",
+            pose: PIXEL + "pointout.webp",
+            anim: "nod",
+            hideAmy: true
+        }
+    ],
+    globeAfter: [
+        {
+            id: "3.7",
+            name: "Amy",
+            text: "Dù cậu có xoay đi đâu, sang nửa bên kia trái đất thì kết quả vẫn vậy thôi. Tụi mình đã chiếm lĩnh giảng đường toàn cầu rồi.",
+            pose: PIXEL + "serious.webp",
+            anim: "nod"
+        }
+    ],
+    appStore: [
+        {
+            id: "3.8",
+            name: "Amy",
+            text: "Ví cậu đang có tiền đấy, có muốn nâng cấp gói Pro của mình để mình làm bài nhanh gấp 5 lần không?",
+            pose: PIXEL + "smile.webp",
+            anim: "hop",
+            hideAmy: true
+        }
+    ],
+    finale: [
+        {
+            id: "3.9",
+            name: "Amy",
+            text: "Cậu vừa bấm mua gói cao cấp nhất của ChatGPT đúng không? 55% người ngoài kia cũng sẵn sàng làm thế... Bỏ tiền túi ra để thuê máy móc... suy nghĩ thay cho não bộ của chính mình.",
+            pose: PIXEL + "surprise.webp",
+            anim: "hop"
+        },
+        {
+            id: "3.10",
+            name: "Amy",
+            text: "Tất cả những con số này chỉ để chứng minh một điều thôi. Tụi mình đã không còn là một cái 'trend' công nghệ để người ta dùng thử cho vui nữa. Cũng chẳng phải là nút cứu hộ khẩn cấp lâu lâu mới bấm.",
+            pose: PIXEL + "serious.webp",
+            anim: "nod"
+        },
+        {
+            id: "3.11",
+            name: "Amy",
+            text: "Từ việc đi lùng sục tài liệu, tóm tắt mấy cuốn giáo trình dài thườn thượt, cho đến việc làm bài tập về nhà... AI đã chính thức trở thành một 'người bạn cùng bàn' quen thuộc, dính lấy các cậu như hình với bóng mất rồi.",
+            pose: PIXEL + "thinking.webp",
+            anim: "nod"
+        }
     ]
 };
 
@@ -1573,7 +2180,8 @@ const state = {
     autoTimer: null,
     chartProgress: 0,
     chartComplete: false,
-    chartNextTimer: null
+    chartNextTimer: null,
+    globeDragEnabled: false
 };
 
 const $ = (selector) => document.querySelector(selector);
@@ -1614,6 +2222,20 @@ const legendEl = $("#legend");
 const sparkField = $("#spark-field");
 const chartNextWrap = $("#chart-next-wrap");
 const chartNextBtn = $("#chart-next-btn");
+const starScreen = $("#star-screen");
+const starCanvas = $("#star-canvas");
+const starLabel = $("#star-label");
+const starUniqueLabel = $("#star-unique-label");
+const globeScreen = $("#globe-screen");
+const globeContainer = $("#globe-container");
+const globeStat = $("#globe-stat");
+const globeHint = $("#globe-hint");
+const globeNextWrap = $("#globe-next-wrap");
+const globeNextBtn = $("#globe-next-btn");
+const appstoreScreen = $("#appstore-screen");
+const fireworkScreen = $("#firework-screen");
+const fireworkCanvas = $("#firework-canvas");
+const vipCard = $("#vip-card");
 const dialogueHistory = [];
 
 function canUseAnime() {
@@ -1636,6 +2258,10 @@ function placeWorld(el, x, y) {
 function showScreen(screenName) {
     gameScreen.classList.toggle("is-active", screenName === "game");
     chartScreen.classList.toggle("is-active", screenName === "chart");
+    starScreen.classList.toggle("is-active", screenName === "star");
+    globeScreen.classList.toggle("is-active", screenName === "globe");
+    appstoreScreen.classList.toggle("is-active", screenName === "appstore");
+    fireworkScreen.classList.toggle("is-active", screenName === "firework");
 }
 
 function setDialogueVisible(visible) {
@@ -2328,7 +2954,7 @@ function goToNextChapter() {
         clearTimeout(state.chartNextTimer);
         state.chartNextTimer = null;
     }
-    window.location.href = "chapter-5.html";
+    startStarSequence();
 }
 
 function completeChartReveal() {
@@ -2575,6 +3201,549 @@ function bindControls() {
         button.addEventListener("pointercancel", end);
         button.addEventListener("pointerleave", end);
     });
+}
+
+/* ═══════════════════════════════════════════
+   STAR FIELD
+   ═══════════════════════════════════════════ */
+function renderStarField() {
+    const canvas = starCanvas;
+    const ctx = canvas.getContext("2d");
+    const dpr = window.devicePixelRatio || 1;
+    canvas.width = window.innerWidth * dpr;
+    canvas.height = window.innerHeight * dpr;
+    ctx.scale(dpr, dpr);
+    const W = window.innerWidth;
+    const H = window.innerHeight;
+
+    ctx.fillStyle = "#0a0a1a";
+    ctx.fillRect(0, 0, W, H);
+
+    // 99.6% ordinary stars — many, larger, brighter
+    const totalStars = 1000;
+    const ordinaryCount = Math.round(totalStars * 0.996);
+    const specialCount = totalStars - ordinaryCount;
+    const stars = [];
+
+    for (let i = 0; i < ordinaryCount; i++) {
+        const x = Math.random() * W;
+        const y = Math.random() * H;
+        const r = 2 + Math.random() * 3;
+        const alpha = 0.5 + Math.random() * 0.4;
+        stars.push({ x, y, r, alpha, special: false });
+    }
+
+    // 0.4% — tiny special stars (4 stars)
+    const specialStars = [];
+    for (let i = 0; i < specialCount; i++) {
+        const x = W * (0.2 + Math.random() * 0.6);
+        const y = H * (0.3 + Math.random() * 0.4);
+        const r = 0.8; // Very tiny
+        const alpha = 1;
+        const star = { x, y, r, alpha, special: true };
+        stars.push(star);
+        specialStars.push(star);
+    }
+
+    // Animate stars appearing
+    let drawn = 0;
+    const batchSize = 20;
+    const totalBatches = Math.ceil(stars.length / batchSize);
+
+    function drawBatch() {
+        const end = Math.min(drawn + batchSize, stars.length);
+        for (let i = drawn; i < end; i++) {
+            const s = stars[i];
+            if (s.special) {
+                // Tiny special star — no glow, just a tiny dot
+                ctx.beginPath();
+                ctx.arc(s.x, s.y, s.r, 0, Math.PI * 2);
+                ctx.fillStyle = "#ff6f91";
+                ctx.fill();
+            } else {
+                ctx.beginPath();
+                ctx.arc(s.x, s.y, s.r, 0, Math.PI * 2);
+                ctx.fillStyle = `rgba(159, 215, 255, ${s.alpha})`;
+                ctx.fill();
+            }
+        }
+        drawn = end;
+        if (drawn < stars.length) {
+            requestAnimationFrame(drawBatch);
+        } else {
+            // Show labels after all stars drawn
+            setTimeout(() => {
+                starLabel.classList.add("visible");
+                starUniqueLabel.classList.add("visible");
+            }, 400);
+
+            // Pulse the special stars
+            pulseSpecialStars(ctx, specialStars, W, H);
+        }
+    }
+    requestAnimationFrame(drawBatch);
+}
+
+let starPulseAnim = null;
+function pulseSpecialStars(ctx, stars, W, H) {
+    let phase = 0;
+    function pulse() {
+        phase += 0.05;
+        const scale = 1 + Math.sin(phase) * 0.4;
+
+        stars.forEach(star => {
+            const r = star.r * scale;
+
+            // Clear area around star
+            ctx.fillStyle = "#0a0a1a";
+            ctx.fillRect(star.x - 8, star.y - 8, 16, 16);
+
+            // Small glow for visibility
+            const grad = ctx.createRadialGradient(star.x, star.y, 0, star.x, star.y, r * 4);
+            grad.addColorStop(0, `rgba(255, 111, 145, ${0.6 + Math.sin(phase) * 0.3})`);
+            grad.addColorStop(0.5, "rgba(255, 111, 145, 0.2)");
+            grad.addColorStop(1, "rgba(255, 111, 145, 0)");
+            ctx.fillStyle = grad;
+            ctx.fillRect(star.x - r * 4, star.y - r * 4, r * 8, r * 8);
+
+            ctx.beginPath();
+            ctx.arc(star.x, star.y, r, 0, Math.PI * 2);
+            ctx.fillStyle = "#ff6f91";
+            ctx.fill();
+        });
+
+        starPulseAnim = requestAnimationFrame(pulse);
+    }
+    pulse();
+}
+
+function cleanupStarField() {
+    if (starPulseAnim) {
+        cancelAnimationFrame(starPulseAnim);
+        starPulseAnim = null;
+    }
+    starLabel.classList.remove("visible");
+    starUniqueLabel.classList.remove("visible");
+}
+
+/* ═══════════════════════════════════════════
+   THREE.JS GLOBE
+   ═══════════════════════════════════════════ */
+let globeScene, globeCamera, globeRenderer, globeMesh, globeAnimId;
+let globeRotated = false;
+let globeRotateCallback = null;
+
+function initGlobe() {
+    if (!window.THREE) return;
+
+    globeScene = new THREE.Scene();
+    const w = globeContainer.clientWidth;
+    const h = globeContainer.clientHeight;
+    globeCamera = new THREE.PerspectiveCamera(45, w / h, 0.1, 100);
+    globeCamera.position.z = 3;
+
+    globeRenderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
+    globeRenderer.setSize(w, h);
+    globeRenderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+    globeContainer.appendChild(globeRenderer.domElement);
+
+    // Lighting
+    globeScene.add(new THREE.AmbientLight(0xffffff, 0.7));
+    const dirLight = new THREE.DirectionalLight(0xffffff, 0.9);
+    dirLight.position.set(5, 3, 5);
+    globeScene.add(dirLight);
+
+    // Earth sphere with real texture
+    const sphereGeo = new THREE.SphereGeometry(1, 64, 64);
+    const loader = new THREE.TextureLoader();
+    loader.crossOrigin = "anonymous";
+
+    const earthTexture = loader.load(
+        "https://unpkg.com/three-globe/example/img/earth-blue-marble.jpg",
+        () => { /* texture loaded */ },
+        undefined,
+        () => {
+            // Fallback if texture fails — plain blue sphere
+            globeMesh.material.color.setHex(0x1a5276);
+            globeMesh.material.map = null;
+        }
+    );
+    earthTexture.anisotropy = 4;
+
+    const sphereMat = new THREE.MeshPhongMaterial({
+        map: earthTexture,
+        color: 0xffffff,
+        shininess: 25
+    });
+    globeMesh = new THREE.Mesh(sphereGeo, sphereMat);
+    globeScene.add(globeMesh);
+
+    // Red overlay sphere — 86% AI coverage (only landmasses)
+    // Use custom shader to tint land areas red while keeping ocean transparent
+    const overlayGeo = new THREE.SphereGeometry(1.005, 64, 64);
+    const overlayMat = new THREE.ShaderMaterial({
+        uniforms: {
+            earthTexture: { value: earthTexture }
+        },
+        vertexShader: `
+            varying vec2 vUv;
+            void main() {
+                vUv = uv;
+                gl_Position = projectionMatrix * modelViewMatrix * vec4(position, 1.0);
+            }
+        `,
+        fragmentShader: `
+            uniform sampler2D earthTexture;
+            varying vec2 vUv;
+            void main() {
+                vec4 texColor = texture2D(earthTexture, vUv);
+                // Ocean is typically blue/green - detect and make transparent
+                float brightness = dot(texColor.rgb, vec3(0.299, 0.587, 0.114));
+                float blueRatio = texColor.b / (texColor.r + texColor.g + texColor.b + 0.001);
+                // If it's blueish (ocean), make transparent
+                if (blueRatio > 0.45 && brightness > 0.2) {
+                    gl_FragColor = vec4(0.0, 0.0, 0.0, 0.0);
+                } else {
+                    // Land - tint red
+                    gl_FragColor = vec4(0.9, 0.3, 0.24, 0.6);
+                }
+            }
+        `,
+        transparent: true,
+        depthWrite: false
+    });
+    const overlaySphere = new THREE.Mesh(overlayGeo, overlayMat);
+    globeMesh.add(overlaySphere);
+
+    // Atmospheric glow ring
+    const ringGeo = new THREE.RingGeometry(1.08, 1.2, 64);
+    const ringMat = new THREE.MeshBasicMaterial({
+        color: 0xffd166,
+        transparent: true,
+        opacity: 0.15,
+        side: THREE.DoubleSide
+    });
+    const ring = new THREE.Mesh(ringGeo, ringMat);
+    ring.rotation.x = Math.PI / 2;
+    globeScene.add(ring);
+
+    // Auto rotation
+    let autoRotateSpeed = 0.003;
+
+    // Drag interaction — cumulative across all drags
+    let isDragging = false;
+    let prevMouseX = 0;
+    let prevMouseY = 0;
+    let cumulativeDrag = 0;
+
+    const onPointerDown = (e) => {
+        if (!state.globeDragEnabled) return;
+        isDragging = true;
+        prevMouseX = e.clientX;
+        prevMouseY = e.clientY;
+    };
+
+    const onPointerMove = (e) => {
+        if (!isDragging || !state.globeDragEnabled) return;
+        const dx = e.clientX - prevMouseX;
+        const dy = e.clientY - prevMouseY;
+        cumulativeDrag += Math.abs(dx) + Math.abs(dy);
+        globeMesh.rotation.y += dx * 0.005;
+        globeMesh.rotation.x += dy * 0.005;
+        prevMouseX = e.clientX;
+        prevMouseY = e.clientY;
+
+        // Trigger transition once enough cumulative drag
+        if (cumulativeDrag > 120 && !globeRotated) {
+            globeRotated = true;
+            globeHint.classList.remove("visible");
+            if (globeRotateCallback) {
+                const cb = globeRotateCallback;
+                globeRotateCallback = null;
+                setTimeout(cb, 600);
+            }
+        }
+    };
+
+    const onPointerUp = () => {
+        isDragging = false;
+    };
+
+    globeRenderer.domElement.addEventListener("pointerdown", onPointerDown);
+    globeRenderer.domElement.addEventListener("pointermove", onPointerMove);
+    globeRenderer.domElement.addEventListener("pointerup", onPointerUp);
+    globeRenderer.domElement.addEventListener("pointerleave", onPointerUp);
+
+    function animateGlobe() {
+        if (!isDragging) {
+            globeMesh.rotation.y += autoRotateSpeed;
+        }
+        globeRenderer.render(globeScene, globeCamera);
+        globeAnimId = requestAnimationFrame(animateGlobe);
+    }
+    animateGlobe();
+
+    // Handle resize
+    const onResize = () => {
+        const nw = globeContainer.clientWidth;
+        const nh = globeContainer.clientHeight;
+        globeCamera.aspect = nw / nh;
+        globeCamera.updateProjectionMatrix();
+        globeRenderer.setSize(nw, nh);
+    };
+    window.addEventListener("resize", onResize);
+}
+
+function cleanupGlobe() {
+    if (globeAnimId) {
+        cancelAnimationFrame(globeAnimId);
+        globeAnimId = null;
+    }
+    if (globeRenderer) {
+        globeRenderer.dispose();
+        globeContainer.innerHTML = "";
+    }
+    globeScene = null;
+    globeCamera = null;
+    globeRenderer = null;
+    globeMesh = null;
+    globeRotated = false;
+    state.globeDragEnabled = false;
+    globeStat.classList.remove("visible");
+    globeHint.classList.remove("visible");
+    globeNextWrap.classList.remove("is-visible");
+}
+
+/* ═══════════════════════════════════════════
+   FIREWORKS
+   ═══════════════════════════════════════════ */
+let fireworkAnimId = null;
+
+function startFireworks() {
+    const canvas = fireworkCanvas;
+    const ctx = canvas.getContext("2d");
+    const dpr = window.devicePixelRatio || 1;
+    canvas.width = window.innerWidth * dpr;
+    canvas.height = window.innerHeight * dpr;
+    ctx.scale(dpr, dpr);
+    const W = window.innerWidth;
+    const H = window.innerHeight;
+
+    const particles = [];
+    const colors = ["#ff6f91", "#ffd166", "#37d37f", "#667eea", "#9fd7ff", "#ff8a5b", "#7a5cff"];
+
+    function spawnBurst(x, y) {
+        const count = 60 + Math.random() * 40;
+        const color = colors[Math.floor(Math.random() * colors.length)];
+        for (let i = 0; i < count; i++) {
+            const angle = (Math.PI * 2 / count) * i + (Math.random() - 0.5) * 0.3;
+            const speed = 2 + Math.random() * 4;
+            particles.push({
+                x, y,
+                vx: Math.cos(angle) * speed,
+                vy: Math.sin(angle) * speed,
+                life: 1,
+                decay: 0.012 + Math.random() * 0.01,
+                size: 2 + Math.random() * 3,
+                color
+            });
+        }
+    }
+
+    // Launch fireworks in bursts
+    let burstCount = 0;
+    const maxBursts = 12;
+    function launchBurst() {
+        if (burstCount >= maxBursts) return;
+        spawnBurst(
+            W * (0.2 + Math.random() * 0.6),
+            H * (0.15 + Math.random() * 0.4)
+        );
+        burstCount++;
+        if (burstCount < maxBursts) {
+            setTimeout(launchBurst, 300 + Math.random() * 500);
+        }
+    }
+    launchBurst();
+
+    function animate() {
+        ctx.fillStyle = "rgba(10, 10, 26, 0.15)";
+        ctx.fillRect(0, 0, W, H);
+
+        for (let i = particles.length - 1; i >= 0; i--) {
+            const p = particles[i];
+            p.x += p.vx;
+            p.y += p.vy;
+            p.vy += 0.03; // gravity
+            p.vx *= 0.99;
+            p.life -= p.decay;
+
+            if (p.life <= 0) {
+                particles.splice(i, 1);
+                continue;
+            }
+
+            ctx.globalAlpha = p.life;
+            ctx.beginPath();
+            ctx.arc(p.x, p.y, p.size * p.life, 0, Math.PI * 2);
+            ctx.fillStyle = p.color;
+            ctx.fill();
+        }
+        ctx.globalAlpha = 1;
+
+        if (particles.length > 0 || burstCount < maxBursts) {
+            fireworkAnimId = requestAnimationFrame(animate);
+        }
+    }
+    fireworkAnimId = requestAnimationFrame(animate);
+}
+
+function cleanupFireworks() {
+    if (fireworkAnimId) {
+        cancelAnimationFrame(fireworkAnimId);
+        fireworkAnimId = null;
+    }
+    vipCard.classList.remove("visible");
+}
+
+/* ═══════════════════════════════════════════
+   SEQUENCE FLOW
+   ═══════════════════════════════════════════ */
+function startStarSequence() {
+    state.phase = "starIntro";
+    setDialogueVisible(true);
+    setAmyVisible(true);
+    amyWrap.classList.remove("is-chart");
+
+    runDialogue(dialogueSets.starIntro, () => {
+        // After 3.1 and 3.2 → transition to star field
+        setDialogueVisible(false);
+        setAmyVisible(false);
+        showScreen("star");
+        renderStarField();
+
+        // Wait for star field to settle, then show starOutro dialogues
+        setTimeout(() => {
+            setDialogueVisible(true);
+            setAmyVisible(true);
+            amyWrap.classList.remove("is-chart");
+            runDialogue(dialogueSets.starOutro, () => {
+                // After 3.3, 3.4, 3.5 → transition to globe
+                cleanupStarField();
+                setDialogueVisible(false);
+                setAmyVisible(false);
+                startGlobeSequence();
+            });
+        }, 3000);
+    });
+}
+
+function startGlobeSequence() {
+    state.phase = "globe";
+    showScreen("globe");
+    initGlobe();
+
+    // Show stat and hint after brief delay
+    setTimeout(() => {
+        globeStat.classList.add("visible");
+    }, 600);
+
+    // Show dialogue 3.6 with globe visible
+    setTimeout(() => {
+        setDialogueVisible(true);
+        amyWrap.classList.add("is-chart");
+        runDialogue(dialogueSets.globe, () => {
+            // After 3.6 → enable dragging and show hint to rotate globe
+            setDialogueVisible(false);
+            state.globeDragEnabled = true;
+            globeHint.classList.add("visible");
+
+            const afterGlobeRotate = () => {
+                globeNextWrap.classList.remove("is-visible");
+                globeHint.classList.remove("visible");
+                setDialogueVisible(true);
+                setAmyVisible(true);
+                amyWrap.classList.remove("is-chart");
+                runDialogue(dialogueSets.globeAfter, () => {
+                    setDialogueVisible(false);
+                    setAmyVisible(false);
+                    startAppStoreSequence();
+                });
+            };
+
+            // Primary: triggered by drag rotation in initGlobe
+            globeRotateCallback = afterGlobeRotate;
+
+            // Fallback: show "Tiep theo" button after 5s so user is never stuck
+            setTimeout(() => {
+                if (!globeRotated) {
+                    globeNextWrap.classList.add("is-visible");
+                }
+            }, 5000);
+
+            // Bind the fallback button
+            globeNextBtn.addEventListener("click", () => {
+                if (!globeRotated) {
+                    globeRotated = true;
+                    globeRotateCallback = null;
+                    afterGlobeRotate();
+                }
+            }, { once: true });
+        });
+    }, 1000);
+}
+
+function startAppStoreSequence() {
+    state.phase = "appstore";
+
+    // Show 3.8 dialogue first
+    setDialogueVisible(true);
+    amyWrap.classList.add("is-chart");
+    runDialogue(dialogueSets.appStore, () => {
+        // After 3.8 → show app store UI
+        setDialogueVisible(false);
+        cleanupGlobe();
+        showScreen("appstore");
+        bindAppStoreButtons();
+    });
+}
+
+function bindAppStoreButtons() {
+    const buyButtons = document.querySelectorAll(".sub-buy-btn");
+    buyButtons.forEach((btn) => {
+        btn.addEventListener("click", onBuyClicked, { once: true });
+    });
+}
+
+function onBuyClicked() {
+    // Remove listeners from other buttons
+    document.querySelectorAll(".sub-buy-btn").forEach((btn) => {
+        btn.removeEventListener("click", onBuyClicked);
+    });
+
+    // Transition to fireworks
+    state.phase = "firework";
+    showScreen("firework");
+    startFireworks();
+
+    // Show VIP card after brief delay
+    setTimeout(() => {
+        vipCard.classList.add("visible");
+    }, 800);
+
+    // After fireworks settle, show finale dialogues
+    setTimeout(() => {
+        setDialogueVisible(true);
+        setAmyVisible(true);
+        amyWrap.classList.remove("is-chart");
+        runDialogue(dialogueSets.finale, () => {
+            // After 3.9, 3.10, 3.11 → go to actual next chapter
+            cleanupFireworks();
+            setTimeout(() => {
+                window.location.href = "chapter-5.html";
+            }, 1500);
+        });
+    }, 3500);
 }
 
 function init() {

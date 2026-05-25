@@ -85,7 +85,7 @@ Turn4:
 "Tụi mình ở đây là để giúp thế giới của cậu trở nên rộng lớn hơn... chứ không phải để tước đi tiếng nói của riêng cậu."
 
 
-//////////////////////////////////////////////
+////////////////////////////////////////////// (chưa có voice)
 1.1Amy: [thoughtful] "Cậu có để ý dạo này ở trường... đi đâu cũng thấy màn hình sáng lên mấy khung chat của AI không?"
 1.2Amy: [curious] "Hay là vầy đi... Tụi mình thử làm một bài test nhỏ nhé?"
 1.3Amy: [wink] "Bây giờ cậu thử dạo quanh một vòng, đi hỏi khoảng 10 người bạn trong lớp xem thói quen làm bài của họ dạo này thế nào nhé. Trong lúc đó, mình sẽ đi hóng hớt ở các khu vực khác xem sao."
@@ -98,3 +98,16 @@ Biểu đồ tròn khuyết - Donut Chart “Tần suất sử dụng AI trong h
 58,8% Hàng ngày
  27,7% Vài lần/Tuần 
  0,4% sinh viên cho biết chưa từng sử dụng AI. 
+
+////////////////////////////////////// (chưa có voice)
+3.1Amy: [amazed] "Cậu nhìn xem này... Nếu bây giờ muốn tìm một sinh viên chưa từng dùng thử AI, chắc khó như mò kim đáy bể vậy."
+3.2Amy: [serious] "Để mình cho cậu thấy 0.4% nó nhỏ thế nào nhé"
+3.3Amy: [earnest] "Cậu thấy chưa?. 99,6% phần còn lại của giảng đường đã bị tụi mình chiếm đóng mất rồi."
+3.4Amy: [serious] "Nhưng điều đáng nói không phải là việc 'đã từng dùng'. Cậu biết không, số người trò chuyện với AI mỗi ngày đang đạt đến ngưỡng đỉnh điểm rồi... Lên tới gần 60% lận đó! Con số này cao gấp đôi những bạn thỉnh thoảng mới dùng."
+3.5Amy: [adjust_glasses] "Cơ mà... cậu đừng nghĩ chuyện này chỉ đang loanh quanh ở Hà Nội nhé."
+3.6Amy: [smart] "Mình vừa lướt qua cơ sở dữ liệu quốc tế. Theo báo cáo của Global AI Student Survey 2024 vừa rồi... có tới 86% sinh viên trên toàn thế giới đã bê nguyên AI vào quy trình học tập của họ."
+3.7Amy: [earnest] "Dù cậu có xoay đi đâu, sang nửa bên kia trái đất thì kết quả vẫn vậy thôi. Tụi mình đã chiếm lĩnh giảng đường toàn cầu rồi."
+3.8Amy: [teasing] "Ví cậu đang có tiền đấy, có muốn nâng cấp gói Pro của mình để mình làm bài nhanh gấp 5 lần không?"
+3.9Amy: [surprised] "Cậu vừa bấm mua gói cao cấp nhất của ChatGPT đúng không? 55% người ngoài kia cũng sẵn sàng làm thế... Bỏ tiền túi ra để thuê máy móc... suy nghĩ thay cho não bộ của chính mình."
+3.10Amy: [earnest] "Tất cả những con số này chỉ để chứng minh một điều thôi. Tụi mình đã không còn là một cái 'trend' công nghệ để người ta dùng thử cho vui nữa. Cũng chẳng phải là nút cứu hộ khẩn cấp lâu lâu mới bấm."
+3.11Amy: [sad_smile] "Từ việc đi lùng sục tài liệu, tóm tắt mấy cuốn giáo trình dài thườn thượt, cho đến việc làm bài tập về nhà... AI đã chính thức trở thành một 'người bạn cùng bàn' quen thuộc, dính lấy các cậu như hình với bóng mất rồi."
