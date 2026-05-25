@@ -1823,6 +1823,20 @@ function loadMGQuestion(index) {
     const q = minigameQuestions[index];
     document.getElementById("question-text").textContent = q.prompt;
     document.getElementById("question-progress").textContent = `Câu ${index + 1}/${minigameQuestions.length} — ${q.task}`;
+    
+    // Set unique decor emoji and theme class
+    const decors = ["💡", "📋", "📖", "🎯"];
+    const decorEl = document.getElementById("question-decor");
+    if (decorEl) {
+        decorEl.textContent = decors[index] || "💡";
+    }
+    
+    const container = document.getElementById("minigame-container");
+    if (container) {
+        container.className = "minigame-container";
+        container.classList.add(`q-theme-${index}`);
+    }
+
     // Reset UI
     document.getElementById("minigame-choices").style.display = "grid";
     document.getElementById("minigame-input").classList.remove("active");

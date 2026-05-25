@@ -1779,6 +1779,87 @@ button {
     background-size: 16px 16px, 16px 16px, 100% 100%;
     box-shadow: 0 16px 0 #c46a3c, 0 28px 40px rgba(44, 37, 28, 0.28);
     text-align: center;
+    transition: background 420ms ease, box-shadow 420ms ease, border-color 420ms ease;
+}
+
+/* --- Theme 0 (Idea - Gold) --- */
+.minigame-container.q-theme-0 {
+    background:
+        linear-gradient(90deg, rgba(27, 35, 64, 0.06) 1px, transparent 1px),
+        linear-gradient(0deg, rgba(27, 35, 64, 0.06) 1px, transparent 1px),
+        linear-gradient(180deg, #fffdf3 0%, #ffe9b2 100%);
+    background-size: 16px 16px, 16px 16px, 100% 100%;
+    box-shadow: 0 16px 0 #c46a3c, 0 28px 40px rgba(44, 37, 28, 0.28);
+}
+.minigame-container.q-theme-0 .minigame-header h2 {
+    text-shadow: 2px 2px 0 #ffd166;
+}
+.minigame-container.q-theme-0 .minigame-question {
+    border-color: rgba(255, 209, 102, 0.45);
+    background: rgba(255, 253, 246, 0.8);
+}
+
+/* --- Theme 1 (Outline - Blue) --- */
+.minigame-container.q-theme-1 {
+    background:
+        linear-gradient(90deg, rgba(27, 35, 64, 0.06) 1px, transparent 1px),
+        linear-gradient(0deg, rgba(27, 35, 64, 0.06) 1px, transparent 1px),
+        linear-gradient(180deg, #f0f7ff 0%, #cde2f5 100%);
+    background-size: 16px 16px, 16px 16px, 100% 100%;
+    box-shadow: 0 16px 0 #2b5d8f, 0 28px 40px rgba(28, 37, 44, 0.28);
+}
+.minigame-container.q-theme-1 .minigame-header h2 {
+    text-shadow: 2px 2px 0 #9fd7ff;
+}
+.minigame-container.q-theme-1 .minigame-question {
+    border-color: rgba(159, 215, 255, 0.6);
+    background: rgba(246, 250, 255, 0.85);
+}
+
+/* --- Theme 2 (Docs - Green) --- */
+.minigame-container.q-theme-2 {
+    background:
+        linear-gradient(90deg, rgba(27, 35, 64, 0.06) 1px, transparent 1px),
+        linear-gradient(0deg, rgba(27, 35, 64, 0.06) 1px, transparent 1px),
+        linear-gradient(180deg, #f1faf5 0%, #cbeedf 100%);
+    background-size: 16px 16px, 16px 16px, 100% 100%;
+    box-shadow: 0 16px 0 #2c7a4d, 0 28px 40px rgba(28, 44, 34, 0.28);
+}
+.minigame-container.q-theme-2 .minigame-header h2 {
+    text-shadow: 2px 2px 0 #a3e2c9;
+}
+.minigame-container.q-theme-2 .minigame-question {
+    border-color: rgba(163, 226, 201, 0.6);
+    background: rgba(246, 253, 250, 0.85);
+}
+
+/* --- Theme 3 (Revision - Purple) --- */
+.minigame-container.q-theme-3 {
+    background:
+        linear-gradient(90deg, rgba(27, 35, 64, 0.06) 1px, transparent 1px),
+        linear-gradient(0deg, rgba(27, 35, 64, 0.06) 1px, transparent 1px),
+        linear-gradient(180deg, #faf5ff 0%, #e6d7ff 100%);
+    background-size: 16px 16px, 16px 16px, 100% 100%;
+    box-shadow: 0 16px 0 #5c3fa3, 0 28px 40px rgba(36, 28, 44, 0.28);
+}
+.minigame-container.q-theme-3 .minigame-header h2 {
+    text-shadow: 2px 2px 0 #d3bdf0;
+}
+.minigame-container.q-theme-3 .minigame-question {
+    border-color: rgba(211, 189, 240, 0.6);
+    background: rgba(253, 248, 255, 0.85);
+}
+
+.question-decor {
+    font-size: 42px;
+    margin-bottom: 12px;
+    display: inline-block;
+    animation: bounceDecor 2.4s ease-in-out infinite;
+}
+
+@keyframes bounceDecor {
+    0%, 100% { transform: translateY(0) scale(1); }
+    50% { transform: translateY(-8px) scale(1.06); }
 }
 
 .minigame-header h2 {
