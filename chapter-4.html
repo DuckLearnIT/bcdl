@@ -2003,9 +2003,22 @@ function playChartIntro() {
     anime.remove(".chart-copy");
     anime.remove(".chart-card");
     anime.remove(".donut-bg");
+    anime.remove(".lever-panel");
     anime.set(".chart-copy, .chart-card", { opacity: 0, translateY: 28 });
     anime.set(".donut-bg", { strokeDasharray: "100", strokeDashoffset: 100 });
 
+    // Lever panel bounces in first - draws attention
+    anime({
+        targets: ".lever-panel",
+        opacity: [0, 1],
+        translateY: [20, 0],
+        scale: [0.92, 1],
+        duration: 680,
+        easing: "easeOutBack",
+        delay: 80
+    });
+
+    // Chart copy slides up smoothly
     anime({
         targets: ".chart-copy",
         opacity: [0, 1],
@@ -2015,6 +2028,7 @@ function playChartIntro() {
         delay: 120
     });
 
+    // Chart card follows with stagger
     anime({
         targets: ".chart-card",
         opacity: [0, 1],
@@ -2024,6 +2038,7 @@ function playChartIntro() {
         delay: 260
     });
 
+    // Donut background ring draws itself
     anime({
         targets: ".donut-bg",
         strokeDashoffset: [100, 0],
@@ -2126,7 +2141,6 @@ function pullLever() {
 
     const progress = { value: state.chartProgress };
     const segments = [...document.querySelectorAll(".donut-segment")];
-
     const arm = document.getElementById("lever-arm");
 
     anime.remove(dataLever);
@@ -2136,7 +2150,7 @@ function pullLever() {
     anime.remove(segments);
     anime.remove(".chart-card");
 
-    // Lever gạt với elastic rotation
+    // Lever arm: elastic rotation like a real slot machine
     anime({
         targets: arm,
         rotate: ["-25deg", "25deg"],
@@ -2144,18 +2158,23 @@ function pullLever() {
         easing: "easeOutElastic(1, .6)"
     });
 
+    // Lever button press feedback
     anime({
         targets: dataLever,
         scale: [1, 0.94, 1],
         duration: 420,
         easing: "easeOutBack"
     });
+
+    // Donut SVG "scanning" wobble - machine processing feel
     anime({
         targets: ".donut-wrap svg",
         rotate: [-90, -86, -90],
         duration: 2600,
         easing: "easeInOutSine"
     });
+
+    // Center text pulses during scanning
     anime({
         targets: ".donut-center div",
         scale: [0.94, 1],
@@ -2163,7 +2182,7 @@ function pullLever() {
         easing: "easeOutBack"
     });
 
-    // Card rung nhẹ kiểu máy đang hoạt động
+    // Card vibrates like a machine working
     anime({
         targets: ".chart-card",
         translateX: [0, 2, -2, 1, -1, 0],
@@ -2172,6 +2191,22 @@ function pullLever() {
         loop: 3
     });
 
+    // Segments glow sequentially during scan - "reading" effect
+    segments.forEach((seg, i) => {
+        anime({
+            targets: seg,
+            filter: [
+                "drop-shadow(0 0 0px transparent)",
+                "drop-shadow(0 0 8px " + chartData[i].color + ")",
+                "drop-shadow(0 0 0px transparent)"
+            ],
+            duration: 600,
+            delay: 400 + i * 350,
+            easing: "easeInOutSine"
+        });
+    });
+
+    // Main progress animation
     anime({
         targets: progress,
         value: 100,
@@ -2182,7 +2217,7 @@ function pullLever() {
             if (!state.chartComplete) {
                 updateChart(100);
             }
-            // Reset lever arm về vị trí ban đầu mượt mà
+            // Reset lever arm smoothly
             anime({
                 targets: arm,
                 rotate: "-25deg",
@@ -2262,7 +2297,7 @@ function completeChartReveal() {
 
     if (!canUseAnime()) return;
 
-    // Center div pop-in mạnh hơn với elastic
+    // Center div elastic pop-in
     anime({
         targets: ".donut-center div",
         scale: [0.6, 1.1, 1],
@@ -2271,7 +2306,7 @@ function completeChartReveal() {
         easing: "easeOutElastic(1, .65)"
     });
 
-    // Segments lần lượt "bật" ra với elastic overshoot + glow
+    // Segments "domino reveal" - sequential glow burst per color
     segments.forEach((circle, i) => {
         anime({
             targets: circle,
@@ -2292,7 +2327,7 @@ function completeChartReveal() {
         });
     });
 
-    // Card nảy nhẹ rồi float
+    // Card bounce
     anime({
         targets: ".chart-card",
         translateY: [0, -10, 0],
@@ -2300,7 +2335,7 @@ function completeChartReveal() {
         easing: "easeOutBack"
     });
 
-    // Donut wrap phát sáng pulse
+    // Donut wrap pulse
     anime({
         targets: ".donut-wrap",
         scale: [1, 1.03, 1],
@@ -2324,6 +2359,8 @@ function revealLegendItems() {
 
     buttons.forEach((button) => button.classList.add("is-revealed"));
     anime.set(buttons, { opacity: 0, translateX: -18 });
+
+    // Legend items cascade in from the left
     anime({
         targets: buttons,
         opacity: [0, 1],
@@ -2339,6 +2376,7 @@ function revealLegendItems() {
         }
     });
 
+    // Percentage counters - odometer count-up effect
     pctEls.forEach((el, index) => {
         const target = Number(el.dataset.pct.replace("%", "").replace(",", "."));
         const counter = { value: 0 };
@@ -2379,7 +2417,7 @@ function selectChartSegment(index) {
         anime.remove(".donut-center strong");
         anime.remove(".donut-center span");
 
-        // Center text swap: scale down nhanh rồi scale up elastic với giá trị mới
+        // Center text swap with elastic bounce
         anime({
             targets: ".donut-center div",
             scale: [1, 0.85, 1.08, 1],
@@ -2400,7 +2438,7 @@ function selectChartSegment(index) {
             easing: "easeInOutQuad"
         });
 
-        // Elastic bounce cho segment được chọn + glow pulse
+        // Selected segment elastic bounce + glow
         const targetSegment = document.querySelector(`.donut-segment[data-chart-index="${index}"]`);
         if (targetSegment) {
             anime({
@@ -2424,7 +2462,7 @@ function selectChartSegment(index) {
             });
         }
 
-        // Các segment khác thu nhỏ về bình thường
+        // Other segments shrink back to normal
         document.querySelectorAll(`.donut-segment:not([data-chart-index="${index}"])`).forEach((seg) => {
             anime({
                 targets: seg,
@@ -2441,39 +2479,15 @@ function selectChartSegment(index) {
 }
 
 function burstSparks() {
-    const colors = ["#ffd166", "#ff6f91", "#37d37f", "#2667ff", "#7a5cff", "#fff"];
-    const count = 40;
-    for (let i = 0; i < count; i++) {
+    for (let i = 0; i < 34; i++) {
         const spark = document.createElement("span");
         spark.className = "spark";
-        const color = colors[i % colors.length];
-        spark.style.background = color;
-        spark.style.borderColor = "#17213d";
-        const left = 45 + Math.random() * 20;
-        const top = 34 + Math.random() * 22;
-        spark.style.left = `${left}%`;
-        spark.style.top = `${top}%`;
-        const size = 4 + Math.random() * 8;
-        spark.style.width = `${size}px`;
-        spark.style.height = `${size}px`;
+        spark.style.left = `${45 + Math.random() * 20}%`;
+        spark.style.top = `${34 + Math.random() * 22}%`;
+        spark.style.setProperty("--dx", `${-160 + Math.random() * 320}px`);
+        spark.style.setProperty("--dy", `${-140 + Math.random() * 260}px`);
         sparkField.appendChild(spark);
-
-        const angle = Math.random() * Math.PI * 2;
-        const distance = 80 + Math.random() * 240;
-        const dx = Math.cos(angle) * distance;
-        const dy = Math.sin(angle) * distance - 40;
-
-        anime({
-            targets: spark,
-            translateX: dx,
-            translateY: dy,
-            scale: [1, 0.1],
-            rotate: Math.random() * 720 - 360,
-            opacity: [1, 0],
-            duration: 700 + Math.random() * 600,
-            easing: "easeOutExpo",
-            complete: () => spark.remove()
-        });
+        setTimeout(() => spark.remove(), 900);
     }
 }
 
