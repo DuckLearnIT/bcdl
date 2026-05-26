@@ -1977,7 +1977,7 @@ function drawAreaChart() {
     const ctx = canvas.getContext("2d");
     ctx.scale(dpr, dpr);
 
-    const padL = 90, padR = 50, padT = 40, padB = 120;
+    const padL = 75, padR = 75, padT = 40, padB = 120;
     const cW = W - padL - padR;
     const cH = H - padT - padB;
     const n = minigameQuestions.length;
@@ -2025,7 +2025,7 @@ function drawAreaChart() {
     function frame() {
         ctx.clearRect(0, 0, W, H);
 
-        // Grid & Y labels
+        // 1. Grid & Y labels
         ctx.strokeStyle = "rgba(27,35,64,0.1)";
         ctx.lineWidth = 1;
         ctx.fillStyle = "#6a7a9a";
@@ -2038,55 +2038,14 @@ function drawAreaChart() {
             ctx.fillText(pct + "%", padL - 10, y);
         });
 
-        // X axis task labels
-        ctx.fillStyle = "#1b2340";
-        ctx.font = "9px 'HoiThoai', 'FuturaLocal', sans-serif";
-        ctx.textAlign = "center";
-        ctx.textBaseline = "alphabetic";
-        const maxLabelW = cW / (n + 1);
-        minigameQuestions.forEach((q, i) => {
-            const lines = fitLines(ctx, q.task, maxLabelW);
-            const lineH = 11;
-            lines.forEach((ln, row) => {
-                ctx.fillText(ln, xs[i], botY + 14 + row * lineH);
-            });
-        });
-
-        // Legend box (top-right)
-        const legX = padL + cW - 110;
-        const legY = padT - 28;
-        ctx.fillStyle = "rgba(255,255,255,0.85)";
-        ctx.strokeStyle = "rgba(27,35,64,0.2)";
-        ctx.lineWidth = 1.5;
-        drawRoundRect(ctx, legX, legY, 104, 38, 4);
-        ctx.fill();
-        ctx.stroke();
-
-        ctx.fillStyle = "rgba(122,92,255,0.85)";
-        drawRoundRect(ctx, legX + 6, legY + 9, 14, 8, 2);
-        ctx.fill();
-
-        ctx.fillStyle = "#1b2340";
-        ctx.font = "10px 'HoiThoai', 'FuturaLocal', sans-serif";
-        ctx.textAlign = "left";
-        ctx.textBaseline = "middle";
-        ctx.fillText("Sử dụng AI", legX + 24, legY + 13);
-
-        ctx.fillStyle = "rgba(63,185,111,0.85)";
-        drawRoundRect(ctx, legX + 6, legY + 22, 14, 8, 2);
-        ctx.fill();
-
-        ctx.fillStyle = "#1b2340";
-        ctx.fillText("Tự tư duy", legX + 24, legY + 26);
-
-        // Axes
+        // 2. Axes Lines
         ctx.strokeStyle = "rgba(27,35,64,0.35)";
         ctx.lineWidth = 2;
         ctx.beginPath();
         ctx.moveTo(padL, padT); ctx.lineTo(padL, botY); ctx.lineTo(padL + cW, botY);
         ctx.stroke();
 
-        // Progressive reveal clip
+        // 3. Progressive reveal clip for areas & curves
         const revealX = padL + cW * rev;
         ctx.save();
         ctx.beginPath();
@@ -2155,6 +2114,49 @@ function drawAreaChart() {
         }
 
         ctx.restore();
+
+        // 4. X axis task labels (drawn on top of fills)
+        ctx.fillStyle = "#1b2340";
+        ctx.font = "9px 'HoiThoai', 'FuturaLocal', sans-serif";
+        ctx.textAlign = "center";
+        ctx.textBaseline = "alphabetic";
+        const maxLabelW = cW / (n - 0.5); // more generous label width to prevent overflow
+        minigameQuestions.forEach((q, i) => {
+            const lines = fitLines(ctx, q.task, maxLabelW);
+            const lineH = 11;
+            lines.forEach((ln, row) => {
+                ctx.fillText(ln, xs[i], botY + 14 + row * lineH);
+            });
+        });
+
+        // 5. Legend box (drawn on very top)
+        const legW = 104;
+        const legH = 38;
+        const legX = padL + cW - legW - 10;
+        const legY = padT + 10; // place inside the grid top-right
+        ctx.fillStyle = "rgba(255,255,255,0.92)";
+        ctx.strokeStyle = "rgba(27,35,64,0.25)";
+        ctx.lineWidth = 1.5;
+        drawRoundRect(ctx, legX, legY, legW, legH, 4);
+        ctx.fill();
+        ctx.stroke();
+
+        ctx.fillStyle = "rgba(122,92,255,0.85)";
+        drawRoundRect(ctx, legX + 6, legY + 8, 14, 8, 2);
+        ctx.fill();
+
+        ctx.fillStyle = "#1b2340";
+        ctx.font = "10px 'HoiThoai', 'FuturaLocal', sans-serif";
+        ctx.textAlign = "left";
+        ctx.textBaseline = "middle";
+        ctx.fillText("Sử dụng AI", legX + 24, legY + 12);
+
+        ctx.fillStyle = "rgba(63,185,111,0.85)";
+        drawRoundRect(ctx, legX + 6, legY + 22, 14, 8, 2);
+        ctx.fill();
+
+        ctx.fillStyle = "#1b2340";
+        ctx.fillText("Tự tư duy", legX + 24, legY + 26);
 
         rev = Math.min(1, rev + 0.018);
         if (rev < 1) requestAnimationFrame(frame);
