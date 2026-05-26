@@ -1977,7 +1977,7 @@ function drawAreaChart() {
     const ctx = canvas.getContext("2d");
     ctx.scale(dpr, dpr);
 
-    const padL = 90, padR = 50, padT = 36, padB = 68;
+    const padL = 90, padR = 50, padT = 40, padB = 88;
     const cW = W - padL - padR;
     const cH = H - padT - padB;
     const n = minigameQuestions.length;
@@ -2014,7 +2014,7 @@ function drawAreaChart() {
         ctx.strokeStyle = "rgba(27,35,64,0.1)";
         ctx.lineWidth = 1;
         ctx.fillStyle = "#6a7a9a";
-        ctx.font = "12px sans-serif";
+        ctx.font = "12px 'HoiThoai', 'FuturaLocal', sans-serif";
         ctx.textAlign = "right";
         ctx.textBaseline = "middle";
         [0, 20, 40, 60, 80, 100].forEach(pct => {
@@ -2023,19 +2023,46 @@ function drawAreaChart() {
             ctx.fillText(pct + "%", padL - 10, y);
         });
 
-        // X axis task labels (small, wrapped, never overflow)
+        // X axis task labels
         ctx.fillStyle = "#1b2340";
-        ctx.font = "10px sans-serif";
+        ctx.font = "9px 'HoiThoai', 'FuturaLocal', sans-serif";
         ctx.textAlign = "center";
         ctx.textBaseline = "alphabetic";
         const maxLabelW = cW / (n + 1);
         minigameQuestions.forEach((q, i) => {
             const lines = fitLines(ctx, q.task, maxLabelW);
-            const lineH = 13;
+            const lineH = 12;
             lines.forEach((ln, row) => {
-                ctx.fillText(ln, xs[i], botY + 18 + row * lineH);
+                ctx.fillText(ln, xs[i], botY + 16 + row * lineH);
             });
         });
+
+        // Legend box (top-right)
+        const legX = padL + cW - 110;
+        const legY = padT - 28;
+        ctx.fillStyle = "rgba(255,255,255,0.85)";
+        ctx.strokeStyle = "rgba(27,35,64,0.2)";
+        ctx.lineWidth = 1.5;
+        roundRect(ctx, legX, legY, 104, 38, 4);
+        ctx.fill();
+        ctx.stroke();
+
+        ctx.fillStyle = "rgba(122,92,255,0.85)";
+        roundRect(ctx, legX + 6, legY + 9, 14, 8, 2);
+        ctx.fill();
+
+        ctx.fillStyle = "#1b2340";
+        ctx.font = "10px 'HoiThoai', 'FuturaLocal', sans-serif";
+        ctx.textAlign = "left";
+        ctx.textBaseline = "middle";
+        ctx.fillText("Sử dụng AI", legX + 24, legY + 13);
+
+        ctx.fillStyle = "rgba(63,185,111,0.85)";
+        roundRect(ctx, legX + 6, legY + 22, 14, 8, 2);
+        ctx.fill();
+
+        ctx.fillStyle = "#1b2340";
+        ctx.fillText("Tự tư duy", legX + 24, legY + 26);
 
         // Axes
         ctx.strokeStyle = "rgba(27,35,64,0.35)";
@@ -2099,7 +2126,7 @@ function drawAreaChart() {
 
             // AI % label
             ctx.fillStyle = "#3a2a8a";
-            ctx.font = "bold 13px sans-serif";
+            ctx.font = "bold 13px 'HoiThoai', 'FuturaLocal', sans-serif";
             ctx.textAlign = "center";
             ctx.textBaseline = "bottom";
             ctx.fillText(aiPcts[i] + "%", x, y - 10);
@@ -2107,7 +2134,7 @@ function drawAreaChart() {
             // Self % label (in green area)
             const selfMidY = padT + (y - padT) / 2;
             ctx.fillStyle = "#1a6a35";
-            ctx.font = "bold 12px sans-serif";
+            ctx.font = "bold 12px 'HoiThoai', 'FuturaLocal', sans-serif";
             ctx.textBaseline = "middle";
             ctx.fillText((100 - aiPcts[i]).toFixed(1) + "%", x, selfMidY);
         }

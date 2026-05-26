@@ -1738,8 +1738,16 @@ button {
 }
 
 .vip-stars {
-    font-size: 28px;
-    letter-spacing: 4px;
+    display: flex;
+    justify-content: center;
+    gap: 6px;
+}
+
+.vip-stars img {
+    width: 28px;
+    height: 28px;
+    object-fit: contain;
+    filter: drop-shadow(0 2px 2px rgba(0,0,0,0.2));
 }
 
 @media (max-width: 600px) {
