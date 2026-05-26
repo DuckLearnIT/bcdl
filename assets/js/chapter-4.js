@@ -1855,7 +1855,11 @@ function bindMinigame() {
 function onChooseManual() {
     document.getElementById("minigame-choices").style.display = "none";
     document.getElementById("minigame-input").classList.add("active");
-    document.getElementById("manual-answer").focus();
+    requestAnimationFrame(() => {
+        const ta = document.getElementById("manual-answer");
+        ta.focus();
+        ta.setSelectionRange(ta.value.length, ta.value.length);
+    });
 }
 
 function onChooseAI() {
@@ -1959,13 +1963,15 @@ function drawAreaChart() {
     const parent = canvas.parentElement;
     const W = parent.clientWidth || 700;
     const H = parent.clientHeight || 360;
-    const dpr = window.devicePixelRatio || 1;
+    const dpr = Math.min(window.devicePixelRatio || 1, 2);
     canvas.width = W * dpr;
     canvas.height = H * dpr;
+    canvas.style.width = W + "px";
+    canvas.style.height = H + "px";
     const ctx = canvas.getContext("2d");
     ctx.scale(dpr, dpr);
 
-    const padL = 58, padR = 24, padT = 32, padB = 80;
+    const padL = 90, padR = 50, padT = 36, padB = 68;
     const cW = W - padL - padR;
     const cH = H - padT - padB;
     const n = minigameQuestions.length;
@@ -1975,32 +1981,54 @@ function drawAreaChart() {
     const topY = padT;
     const botY = padT + cH;
 
-    let rev = 0; // reveal progress 0→1
+    let rev = 0;
+
+    // Helper: wrap text into lines that fit maxWidth
+    function fitLines(ctx, text, maxWidth) {
+        const words = text.split(" ");
+        const lines = [];
+        let line = words[0] || "";
+        for (let i = 1; i < words.length; i++) {
+            const test = line + " " + words[i];
+            if (ctx.measureText(test).width > maxWidth && line) {
+                lines.push(line);
+                line = words[i];
+            } else {
+                line = test;
+            }
+        }
+        if (line) lines.push(line);
+        return lines.length ? lines : [text];
+    }
 
     function frame() {
         ctx.clearRect(0, 0, W, H);
 
-        // Grid & Y labels (always fully drawn)
+        // Grid & Y labels
         ctx.strokeStyle = "rgba(27,35,64,0.1)";
         ctx.lineWidth = 1;
         ctx.fillStyle = "#6a7a9a";
         ctx.font = "12px sans-serif";
         ctx.textAlign = "right";
+        ctx.textBaseline = "middle";
         [0, 20, 40, 60, 80, 100].forEach(pct => {
             const y = padT + cH * (1 - pct / 100);
             ctx.beginPath(); ctx.moveTo(padL, y); ctx.lineTo(padL + cW, y); ctx.stroke();
-            ctx.fillText(pct + "%", padL - 8, y + 4);
+            ctx.fillText(pct + "%", padL - 10, y);
         });
 
-        // X axis task labels (always)
+        // X axis task labels (small, wrapped, never overflow)
         ctx.fillStyle = "#1b2340";
-        ctx.font = "11px sans-serif";
+        ctx.font = "10px sans-serif";
         ctx.textAlign = "center";
+        ctx.textBaseline = "alphabetic";
+        const maxLabelW = cW / (n + 1);
         minigameQuestions.forEach((q, i) => {
-            const words = q.task.split(" ");
-            const mid = Math.ceil(words.length / 2);
-            ctx.fillText(words.slice(0, mid).join(" "), xs[i], botY + 20);
-            if (words.length > mid) ctx.fillText(words.slice(mid).join(" "), xs[i], botY + 36);
+            const lines = fitLines(ctx, q.task, maxLabelW);
+            const lineH = 13;
+            lines.forEach((ln, row) => {
+                ctx.fillText(ln, xs[i], botY + 18 + row * lineH);
+            });
         });
 
         // Axes
@@ -2017,7 +2045,7 @@ function drawAreaChart() {
         ctx.rect(padL, 0, revealX - padL + 2, H);
         ctx.clip();
 
-        // AI area (bottom: 0 → aiPct)
+        // AI area (bottom)
         ctx.beginPath();
         ctx.moveTo(xs[0], botY);
         ctx.lineTo(xs[0], aiYs[0]);
@@ -2027,10 +2055,10 @@ function drawAreaChart() {
         }
         ctx.lineTo(xs[n - 1], botY);
         ctx.closePath();
-        ctx.fillStyle = "rgba(122,92,255,0.58)";
+        ctx.fillStyle = "rgba(122,92,255,0.78)";
         ctx.fill();
 
-        // Manual area (top: aiPct → 100%)
+        // Manual area (top)
         ctx.beginPath();
         ctx.moveTo(xs[0], topY);
         ctx.lineTo(xs[n - 1], topY);
@@ -2040,7 +2068,7 @@ function drawAreaChart() {
             ctx.bezierCurveTo(mx, aiYs[i + 1], mx, aiYs[i], xs[i], aiYs[i]);
         }
         ctx.closePath();
-        ctx.fillStyle = "rgba(63,185,111,0.52)";
+        ctx.fillStyle = "rgba(63,185,111,0.72)";
         ctx.fill();
 
         // AI stroke line
@@ -2054,27 +2082,28 @@ function drawAreaChart() {
         ctx.lineWidth = 3;
         ctx.stroke();
 
-        // Data dots & labels (reveal one by one)
+        // Data dots & labels
         for (let i = 0; i < n; i++) {
             if (xs[i] > revealX + 4) break;
             const x = xs[i], y = aiYs[i];
 
-            // Dot
             ctx.beginPath(); ctx.arc(x, y, 6, 0, Math.PI * 2);
             ctx.fillStyle = "#7a5cff"; ctx.fill();
             ctx.strokeStyle = "#fff"; ctx.lineWidth = 2.5; ctx.stroke();
 
-            // AI % label (above dot)
+            // AI % label
             ctx.fillStyle = "#3a2a8a";
             ctx.font = "bold 13px sans-serif";
             ctx.textAlign = "center";
-            ctx.fillText(aiPcts[i] + "%", x, y - 14);
+            ctx.textBaseline = "bottom";
+            ctx.fillText(aiPcts[i] + "%", x, y - 10);
 
-            // Self % label (in green area midpoint)
+            // Self % label (in green area)
             const selfMidY = padT + (y - padT) / 2;
             ctx.fillStyle = "#1a6a35";
             ctx.font = "bold 12px sans-serif";
-            ctx.fillText((100 - aiPcts[i]).toFixed(1) + "%", x, selfMidY + 5);
+            ctx.textBaseline = "middle";
+            ctx.fillText((100 - aiPcts[i]).toFixed(1) + "%", x, selfMidY);
         }
 
         ctx.restore();
