@@ -1254,6 +1254,9 @@ function bindControls() {
     if (chartNextBtn) chartNextBtn.addEventListener("click", goToNextChapter);
 
     window.addEventListener("keydown", (event) => {
+        const tag = event.target.tagName;
+        if (tag === "TEXTAREA" || tag === "INPUT" || event.target.isContentEditable) return;
+
         const key = event.key.length === 1 ? event.key.toLowerCase() : event.key;
         if (["ArrowLeft", "ArrowRight", "ArrowUp", "ArrowDown", "w", "a", "s", "d"].includes(key)) {
             state.keys.add(key);
@@ -1268,6 +1271,9 @@ function bindControls() {
     });
 
     window.addEventListener("keyup", (event) => {
+        const tag = event.target.tagName;
+        if (tag === "TEXTAREA" || tag === "INPUT" || event.target.isContentEditable) return;
+
         const key = event.key.length === 1 ? event.key.toLowerCase() : event.key;
         state.keys.delete(key);
     });
