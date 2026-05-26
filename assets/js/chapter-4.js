@@ -2049,7 +2049,7 @@ function drawAreaChart() {
         const revealX = padL + cW * rev;
         ctx.save();
         ctx.beginPath();
-        ctx.rect(padL, 0, revealX - padL + 2, H);
+        ctx.rect(padL - 40, 0, (revealX - padL) + 80, H);
         ctx.clip();
 
         // AI area (bottom)
@@ -2158,8 +2158,10 @@ function drawAreaChart() {
         ctx.fillStyle = "#1b2340";
         ctx.fillText("Tự tư duy", legX + 24, legY + 26);
 
-        rev = Math.min(1, rev + 0.018);
-        if (rev < 1) requestAnimationFrame(frame);
+        if (rev < 1) {
+            rev = Math.min(1, rev + 0.018);
+            requestAnimationFrame(frame);
+        }
     }
 
     requestAnimationFrame(frame);
