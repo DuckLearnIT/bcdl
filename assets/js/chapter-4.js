@@ -1977,7 +1977,7 @@ function drawAreaChart() {
     const ctx = canvas.getContext("2d");
     ctx.scale(dpr, dpr);
 
-    const padL = 90, padR = 50, padT = 40, padB = 88;
+    const padL = 90, padR = 50, padT = 40, padB = 120;
     const cW = W - padL - padR;
     const cH = H - padT - padB;
     const n = minigameQuestions.length;
@@ -1988,6 +1988,21 @@ function drawAreaChart() {
     const botY = padT + cH;
 
     let rev = 0;
+
+    // Helper: draw rounded rectangle (cross-browser safe)
+    function drawRoundRect(ctx, x, y, w, h, r) {
+        ctx.beginPath();
+        ctx.moveTo(x + r, y);
+        ctx.lineTo(x + w - r, y);
+        ctx.quadraticCurveTo(x + w, y, x + w, y + r);
+        ctx.lineTo(x + w, y + h - r);
+        ctx.quadraticCurveTo(x + w, y + h, x + w - r, y + h);
+        ctx.lineTo(x + r, y + h);
+        ctx.quadraticCurveTo(x, y + h, x, y + h - r);
+        ctx.lineTo(x, y + r);
+        ctx.quadraticCurveTo(x, y, x + r, y);
+        ctx.closePath();
+    }
 
     // Helper: wrap text into lines that fit maxWidth
     function fitLines(ctx, text, maxWidth) {
@@ -2031,9 +2046,9 @@ function drawAreaChart() {
         const maxLabelW = cW / (n + 1);
         minigameQuestions.forEach((q, i) => {
             const lines = fitLines(ctx, q.task, maxLabelW);
-            const lineH = 12;
+            const lineH = 11;
             lines.forEach((ln, row) => {
-                ctx.fillText(ln, xs[i], botY + 16 + row * lineH);
+                ctx.fillText(ln, xs[i], botY + 14 + row * lineH);
             });
         });
 
@@ -2043,12 +2058,12 @@ function drawAreaChart() {
         ctx.fillStyle = "rgba(255,255,255,0.85)";
         ctx.strokeStyle = "rgba(27,35,64,0.2)";
         ctx.lineWidth = 1.5;
-        roundRect(ctx, legX, legY, 104, 38, 4);
+        drawRoundRect(ctx, legX, legY, 104, 38, 4);
         ctx.fill();
         ctx.stroke();
 
         ctx.fillStyle = "rgba(122,92,255,0.85)";
-        roundRect(ctx, legX + 6, legY + 9, 14, 8, 2);
+        drawRoundRect(ctx, legX + 6, legY + 9, 14, 8, 2);
         ctx.fill();
 
         ctx.fillStyle = "#1b2340";
@@ -2058,7 +2073,7 @@ function drawAreaChart() {
         ctx.fillText("Sử dụng AI", legX + 24, legY + 13);
 
         ctx.fillStyle = "rgba(63,185,111,0.85)";
-        roundRect(ctx, legX + 6, legY + 22, 14, 8, 2);
+        drawRoundRect(ctx, legX + 6, legY + 22, 14, 8, 2);
         ctx.fill();
 
         ctx.fillStyle = "#1b2340";
@@ -2146,6 +2161,17 @@ function drawAreaChart() {
     }
 
     requestAnimationFrame(frame);
+
+    // Caption below chart (HTML, not canvas — safer for long text)
+    let captionEl = document.getElementById("area-chart-caption");
+    if (!captionEl) {
+        captionEl = document.createElement("p");
+        captionEl.id = "area-chart-caption";
+        captionEl.className = "area-chart-caption";
+        const container = document.querySelector(".area-chart-container");
+        if (container) container.insertBefore(captionEl, container.querySelector(".area-chart-legend"));
+    }
+    captionEl.textContent = "Mức độ ứng dụng AI trong học tập cho thấy sinh viên sử dụng công nghệ nhiều nhất ở các khâu hình thành ý tưởng và lập dàn ý.";
 }
 
 function init() {
