@@ -3005,6 +3005,22 @@ function startExamSequence() {
 }
 
 function startMagnifier() {
+    const staticMag = document.getElementById("static-magnifier");
+    if (staticMag) {
+        staticMag.classList.add("active");
+        
+        // When clicked, grab the magnifier
+        staticMag.onclick = () => {
+            staticMag.classList.remove("active");
+            activateMagnifierCursor();
+        };
+    } else {
+        // Fallback just in case
+        activateMagnifierCursor();
+    }
+}
+
+function activateMagnifierCursor() {
     magState.active = true;
 
     const magCursor = document.getElementById("magnifier-cursor");

@@ -613,7 +613,7 @@
                     <li><strong>Multimodal Foundation Models:</strong> GPT-4V, Gemini Pro Vision, Claude 3V - xử lý đồng thời text, image, audio, video trong một architecture duy nhất.</li>
                     <li><strong>Agentic AI:</strong> AI agents tự động lập kế hoạch, sử dụng tools, và tương tác với môi trường (AutoGPT, BabyAGI, Devin).</li>
                     <li><strong>Neuromorphic Computing:</strong> chip thiết kế theo kiến trúc não bộ (Intel Loihi, IBM TrueNorth) giảm tiêu thụ năng lượng AI xuống 1000x.</li>
-                    <li><strong>Quantum ML:</strong> variational quantum circuits (VQC) cho optimization và generative modeling ở quy mô lớn (hy vọng NISQ-era).</li>
+                    <li><strong>Quantum ML:</strong> variational quantum circuits (VQC) cho optimization và generative modeling ở quy mộ lớn (hy vọng NISQ-era).</li>
                     <li><strong>Brain-Computer Interfaces:</strong> Neuralink, Synchron - giao tiếp trực tiếp não-máy tính, mở ra khả năng truyền thông "telepathic".</li>
                 </ul>
                 <p><strong>7.2 Khuyến nghị chính sách</strong></p>
@@ -756,6 +756,18 @@
             </div>
         </div>
 
+        <!-- Evaluation — Điểm & Nhận xét (Moved to top) -->
+        <div class="exam-evaluation">
+            <div class="exam-grade-area">
+                <div class="exam-grade" id="exam-grade">A+</div>
+                <div class="exam-grade-label">Điểm</div>
+            </div>
+            <div class="exam-comment-area">
+                <div class="exam-comment-label">Nhận xét của giảng viên:</div>
+                <div class="exam-comment" id="exam-comment">Bài viết có tư duy, cập nhật xu hướng rất nhạy bén. Lập luận chặt chẽ, dẫn chứng phong phú. Tiếp tục phát huy!</div>
+            </div>
+        </div>
+
         <!-- Body bài luận — 2 lớp chồng lên nhau -->
         <div class="exam-body" id="exam-body">
             <!-- Mỗi line có 2 lớp: text bài luận (trên) + prompt AI (dưới) -->
@@ -784,20 +796,13 @@
                 <div class="exam-prompt-line"><span class="prompt-cursor">❯</span> Viết kết luận chốt lại bài luận, kêu gọi hành động, dùng giọng điệu tự tin và chuyên nghiệp</div>
             </div>
         </div>
-
-        <!-- Footer — Điểm & Nhận xét -->
-        <div class="exam-footer">
-            <div class="exam-grade-area">
-                <div class="exam-grade" id="exam-grade">A+</div>
-                <div class="exam-grade-label">Điểm</div>
-            </div>
-            <div class="exam-comment-area">
-                <div class="exam-comment-label">Nhận xét của giảng viên:</div>
-                <div class="exam-comment" id="exam-comment">Bài viết có tư duy, cập nhật xu hướng rất nhạy bén. Lập luận chặt chẽ, dẫn chứng phong phú. Tiếp tục phát huy!</div>
-            </div>
-        </div>
     </div>
 
+    <!-- Static Magnifier Tool (Right side) -->
+    <div class="static-magnifier" id="static-magnifier" title="Nhấn để cầm kính lúp">
+        <img src="assets/img/chapter%204/kinh.webp" alt="Kính lúp">
+        <span>Cầm kính lúp</span>
+    </div>
     <!-- Kính lúp (ẩn, follow cursor khi active) -->
     <div class="magnifier-cursor" id="magnifier-cursor">
         <img src="assets/img/chapter%204/kinh.webp" alt="Kính lúp" draggable="false">

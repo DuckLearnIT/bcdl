@@ -3733,14 +3733,14 @@ button {
     50% { opacity: 0; }
 }
 
-/* Footer — Grade & Comment */
-.exam-footer {
+/* Evaluation — Điểm & Nhận xét (Moved to top) */
+.exam-evaluation {
     display: flex;
     align-items: flex-start;
     gap: 20px;
-    padding-top: 16px;
-    margin-top: 12px;
-    border-top: 2px dashed #c0a078;
+    padding-bottom: 16px;
+    margin-bottom: 16px;
+    border-bottom: 2px dashed #c0a078;
 }
 
 .exam-grade-area {
@@ -3806,6 +3806,55 @@ button {
 
 .exam-comment.fading {
     opacity: 0;
+}
+
+/* -- Static Magnifier -- */
+.static-magnifier {
+    position: absolute;
+    right: -140px;
+    top: 50%;
+    transform: translateY(-50%);
+    display: none;
+    flex-direction: column;
+    align-items: center;
+    gap: 8px;
+    cursor: pointer;
+    transition: transform 0.2s ease, filter 0.2s ease;
+    animation: magFloat 3s ease-in-out infinite;
+}
+
+.static-magnifier.active {
+    display: flex;
+}
+
+.static-magnifier:hover {
+    filter: brightness(1.1);
+}
+
+.static-magnifier:active {
+    transform: translateY(-50%) scale(0.95);
+}
+
+.static-magnifier img {
+    width: 100px;
+    height: 100px;
+    object-fit: contain;
+    filter: drop-shadow(4px 4px 0 rgba(0,0,0,0.2));
+}
+
+.static-magnifier span {
+    font-size: 14px;
+    font-weight: 800;
+    color: #1b2340;
+    background: #ffd166;
+    padding: 6px 12px;
+    border: 3px solid #1b2340;
+    box-shadow: 0 4px 0 rgba(27, 35, 64, 0.14);
+}
+
+@keyframes magFloat {
+    0%, 100% { margin-top: 0; }
+    50% { margin-top: -10px; }
 }
 
 /* -- Magnifier Cursor -- */
