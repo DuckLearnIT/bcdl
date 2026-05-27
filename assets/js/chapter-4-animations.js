@@ -14,12 +14,22 @@
   const easeSmooth = "power2.inOut";
 
   let activeEntranceTl = null;
+  let activeAiWordLoopTl = null;
+  let activeAiWordLoopMM = null;
+  let activePointerTween = null;
+
+  const hasMotionPathPlugin = typeof MotionPathPlugin !== "undefined";
+  const hasTextPlugin = typeof TextPlugin !== "undefined";
+
+  if (hasMotionPathPlugin) gsap.registerPlugin(MotionPathPlugin);
+  if (hasTextPlugin) gsap.registerPlugin(TextPlugin);
 
   function killActiveTimelines() {
     if (activeEntranceTl) {
       activeEntranceTl.kill();
       activeEntranceTl = null;
     }
+    stopAiWordLoopAnimation();
   }
 
   /* ── Section Entrance Animations ── */
@@ -321,6 +331,282 @@
     gsap.to(".info-machine", { y: -8, duration: 3, repeat: -1, yoyo: true, ease: "sine.inOut" });
   }
 
+  /* ── AI → Word Loop master timeline ── */
+  const aiWordCycles = [
+    {
+      thought: "Cái này có đúng hay hợp lý chưa nhỉ?",
+      prompt: "Viết giúp mình một đoạn mở bài về xu hướng truyền thông số tại Việt Nam.",
+      response: "Truyền thông số tại Việt Nam đang bước vào giai đoạn chuyển đổi sâu rộng, nơi trí tuệ nhân tạo và dữ liệu lớn trở thành động lực định hình cách công chúng tiếp nhận thông tin.",
+      paragraph: "Truyền thông số tại Việt Nam đang bước vào giai đoạn chuyển đổi sâu rộng, nơi trí tuệ nhân tạo và dữ liệu lớn trở thành động lực định hình cách công chúng tiếp nhận thông tin.",
+    },
+    {
+      thought: "Số liệu này lấy từ đâu vậy?",
+      prompt: "Thêm một số liệu nghe thuyết phục về sinh viên dùng AI trong học tập.",
+      response: "Một khảo sát gần đây cho thấy phần lớn sinh viên đã đưa AI vào quá trình học tập, đặc biệt ở các tác vụ tìm ý, tóm tắt tài liệu và chỉnh sửa câu chữ.",
+      paragraph: "Một khảo sát gần đây cho thấy phần lớn sinh viên đã đưa AI vào quá trình học tập, đặc biệt ở các tác vụ tìm ý, tóm tắt tài liệu và chỉnh sửa câu chữ.",
+    },
+    {
+      thought: "Mình có nên diễn đạt lại không?",
+      prompt: "Viết đoạn phân tích hậu quả của AI với nghề truyền thông bằng giọng học thuật.",
+      response: "Sự tham gia của AI khiến vai trò của người làm truyền thông dịch chuyển từ sản xuất nội dung đơn thuần sang kiểm soát, hiệu đính và chịu trách nhiệm về chất lượng thông tin.",
+      paragraph: "Sự tham gia của AI khiến vai trò của người làm truyền thông dịch chuyển từ sản xuất nội dung đơn thuần sang kiểm soát, hiệu đính và chịu trách nhiệm về chất lượng thông tin.",
+    },
+    {
+      thought: "Đoạn này có giống giọng mình không?",
+      prompt: "Cho mình một ví dụ thực tế về AI trong truyền thông Việt Nam.",
+      response: "Trong nhiều tòa soạn, AI được sử dụng để gợi ý tiêu đề, phân tích hành vi độc giả và hỗ trợ cá nhân hóa nội dung, từ đó rút ngắn thời gian sản xuất tin bài.",
+      paragraph: "Trong nhiều tòa soạn, AI được sử dụng để gợi ý tiêu đề, phân tích hành vi độc giả và hỗ trợ cá nhân hóa nội dung, từ đó rút ngắn thời gian sản xuất tin bài.",
+    },
+    {
+      thought: "Nếu mình dán luôn thì có sao không?",
+      prompt: "Kết luận bài luận thật tự tin và chuyên nghiệp.",
+      response: "Vì vậy, thế hệ sinh viên truyền thông cần làm chủ AI như một công cụ hỗ trợ, đồng thời duy trì năng lực phản biện để không đánh mất tiếng nói cá nhân.",
+      paragraph: "Vì vậy, thế hệ sinh viên truyền thông cần làm chủ AI như một công cụ hỗ trợ, đồng thời duy trì năng lực phản biện để không đánh mất tiếng nói cá nhân.",
+    },
+  ];
+
+  function stopAiWordLoopAnimation() {
+    if (activePointerTween) {
+      activePointerTween.kill();
+      activePointerTween = null;
+    }
+    if (activeAiWordLoopTl) {
+      activeAiWordLoopTl.kill();
+      activeAiWordLoopTl = null;
+    }
+    if (activeAiWordLoopMM) {
+      activeAiWordLoopMM.revert();
+      activeAiWordLoopMM = null;
+    }
+  }
+
+  function resetAiWordLoopDom() {
+    const userPrompt = document.getElementById("loop-user-prompt");
+    const aiResponse = document.getElementById("loop-ai-response");
+    const wordLines = document.getElementById("loop-word-lines");
+    const selection = document.getElementById("loop-selection");
+    const copyBadge = document.getElementById("loop-copy-badge");
+    const thought = document.getElementById("loop-thought");
+
+    if (userPrompt) userPrompt.textContent = "";
+    if (aiResponse) aiResponse.textContent = "";
+    if (thought) thought.textContent = "Mình hỏi nhanh một chút thôi...";
+    if (selection) gsap.set(selection, { autoAlpha: 0 });
+    if (copyBadge) gsap.set(copyBadge, { autoAlpha: 0, y: 8 });
+    if (wordLines) {
+      wordLines.innerHTML = "";
+      const placeholder = document.createElement("p");
+      placeholder.className = "loop-word-placeholder";
+      placeholder.textContent = "Bắt đầu từ một trang trắng...";
+      wordLines.appendChild(placeholder);
+    }
+  }
+
+  function getPointInsideStage(stage, target, xRatio, yRatio) {
+    const stageRect = stage.getBoundingClientRect();
+    const rect = target.getBoundingClientRect();
+    const clampX = gsap.utils.clamp(16, Math.max(16, stageRect.width - 52));
+    const clampY = gsap.utils.clamp(16, Math.max(16, stageRect.height - 52));
+
+    return {
+      x: clampX(rect.left - stageRect.left + rect.width * xRatio),
+      y: clampY(rect.top - stageRect.top + rect.height * yRatio),
+    };
+  }
+
+  function addPointerTravel(tl, pointer, stage, target, duration, rotation) {
+    tl.call(() => {
+      if (!pointer || !stage || !target) return;
+      if (activePointerTween) activePointerTween.kill();
+
+      const start = {
+        x: Number(gsap.getProperty(pointer, "x")) || 0,
+        y: Number(gsap.getProperty(pointer, "y")) || 0,
+      };
+      const end = getPointInsideStage(stage, target, 0.62, 0.52);
+
+      if (hasMotionPathPlugin) {
+        const lift = Math.max(42, Math.min(92, Math.abs(start.x - end.x) * 0.16));
+        const mid = {
+          x: (start.x + end.x) / 2,
+          y: Math.min(start.y, end.y) - lift,
+        };
+        activePointerTween = gsap.to(pointer, {
+          duration,
+          motionPath: { path: [start, mid, end], curviness: 1.25 },
+          rotation,
+          ease: easeSmooth,
+          overwrite: true,
+        });
+      } else {
+        activePointerTween = gsap.to(pointer, {
+          duration,
+          x: end.x,
+          y: end.y,
+          rotation,
+          ease: easeSmooth,
+          overwrite: true,
+        });
+      }
+    });
+    tl.to({}, { duration });
+  }
+
+  function addTyping(tl, target, text, duration) {
+    if (!target) {
+      tl.to({}, { duration });
+      return;
+    }
+
+    if (hasTextPlugin) {
+      tl.set(target, { text: "" });
+      tl.to(target, { text: { value: text }, duration, ease: "none" });
+      return;
+    }
+
+    const proxy = { chars: 0 };
+    tl.to(proxy, {
+      chars: text.length,
+      duration,
+      ease: "none",
+      onStart: () => {
+        target.textContent = "";
+      },
+      onUpdate: () => {
+        target.textContent = text.slice(0, Math.round(proxy.chars));
+      },
+    });
+  }
+
+  function appendWordParagraph(text) {
+    const wordLines = document.getElementById("loop-word-lines");
+    if (!wordLines) return null;
+
+    const placeholder = wordLines.querySelector(".loop-word-placeholder");
+    if (placeholder) placeholder.remove();
+
+    const paragraph = document.createElement("p");
+    paragraph.className = "loop-word-pasted";
+    paragraph.textContent = text;
+    wordLines.appendChild(paragraph);
+    wordLines.scrollTop = wordLines.scrollHeight;
+    return paragraph;
+  }
+
+  function startAiWordLoopAnimation() {
+    const screen = document.getElementById("ai-word-loop-screen");
+    const stage = document.getElementById("ai-word-loop-stage");
+    const pointer = document.getElementById("loop-pointer");
+    const userPrompt = document.getElementById("loop-user-prompt");
+    const aiResponse = document.getElementById("loop-ai-response");
+    const promptCard = screen ? screen.querySelector(".loop-message.user") : null;
+    const aiCard = document.getElementById("loop-ai-response-card");
+    const wordPage = document.getElementById("loop-word-page");
+    const thought = document.getElementById("loop-thought");
+    const selection = document.getElementById("loop-selection");
+    const copyBadge = document.getElementById("loop-copy-badge");
+    const windows = screen ? gsap.utils.toArray(".loop-window, .aiword-stats-panel", screen) : [];
+    const targets = stage ? gsap.utils.toArray(".loop-target", stage) : [];
+    const targetByCycle = gsap.utils.wrap(targets);
+    const thoughtByCycle = gsap.utils.wrap(aiWordCycles.map((cycle) => cycle.thought));
+
+    if (!screen || !stage || !pointer || !userPrompt || !aiResponse || !promptCard || !aiCard || !wordPage) {
+      return null;
+    }
+
+    stopAiWordLoopAnimation();
+    resetAiWordLoopDom();
+
+    activeAiWordLoopMM = gsap.matchMedia();
+    activeAiWordLoopMM.add(
+      {
+        isDesktop: "(min-width: 921px)",
+        isMobile: "(max-width: 920px)",
+        reduceMotion: "(prefers-reduced-motion: reduce)",
+      },
+      (context) => {
+        const { reduceMotion } = context.conditions;
+        const tl = gsap.timeline({ defaults: { ease: easeOut } });
+        activeAiWordLoopTl = tl;
+
+        gsap.set(windows, { autoAlpha: 1, y: 0, scale: 1 });
+        gsap.set(pointer, {
+          x: stage.clientWidth * 0.12,
+          y: stage.clientHeight * 0.18,
+          autoAlpha: reduceMotion ? 0 : 0,
+          scale: 0.92,
+          rotation: -8,
+        });
+
+        if (reduceMotion) {
+          aiWordCycles.forEach((cycle) => appendWordParagraph(cycle.paragraph));
+          userPrompt.textContent = aiWordCycles[aiWordCycles.length - 1].prompt;
+          aiResponse.textContent = aiWordCycles[aiWordCycles.length - 1].response;
+          if (thought) thought.textContent = aiWordCycles[aiWordCycles.length - 1].thought;
+          return () => tl.kill();
+        }
+
+        tl.fromTo(
+          windows,
+          { y: 36, autoAlpha: 0, scale: 0.97 },
+          { y: 0, autoAlpha: 1, scale: 1, stagger: { each: 0.12, from: "start" }, duration: 0.75 },
+          0
+        );
+        tl.to(pointer, { autoAlpha: 1, scale: 1, duration: 0.35 }, "-=0.2");
+
+        aiWordCycles.forEach((cycle, index) => {
+          const activeTarget = targetByCycle(index);
+          const rotation = index % 2 === 0 ? -7 : 8;
+
+          tl.addLabel(`aiWordCycle${index + 1}`, ">");
+          tl.call(() => {
+            userPrompt.textContent = "";
+            aiResponse.textContent = "";
+            if (selection) gsap.set(selection, { autoAlpha: 0 });
+            if (copyBadge) gsap.set(copyBadge, { autoAlpha: 0, y: 8 });
+            if (thought) {
+              thought.textContent = thoughtByCycle(index);
+              gsap.fromTo(thought, { y: 8, autoAlpha: 0 }, { y: 0, autoAlpha: 1, duration: 0.28, ease: easeOut });
+            }
+          });
+          tl.to({}, { duration: 0.38 });
+
+          addPointerTravel(tl, pointer, stage, promptCard, 0.9, rotation);
+          addTyping(tl, userPrompt, cycle.prompt, 2.05);
+          tl.to(promptCard, { scale: 1.015, duration: 0.18, yoyo: true, repeat: 1 }, "<");
+          tl.to({}, { duration: 0.35 });
+
+          addPointerTravel(tl, pointer, stage, activeTarget || aiCard, 0.7, -rotation);
+          tl.fromTo(aiCard, { boxShadow: "0 0 0 rgba(38, 103, 255, 0)" }, { boxShadow: "0 0 24px rgba(38, 103, 255, 0.22)", duration: 0.35 }, "<");
+          addTyping(tl, aiResponse, cycle.response, 3.45);
+          tl.to(aiCard, { boxShadow: "0 0 0 rgba(38, 103, 255, 0)", duration: 0.45 });
+
+          tl.to(selection, { autoAlpha: 1, duration: 0.28 }, ">");
+          tl.to(copyBadge, { autoAlpha: 1, y: 0, duration: 0.28, ease: easeElastic }, "<");
+          tl.to({}, { duration: 0.45 });
+
+          addPointerTravel(tl, pointer, stage, wordPage, 1, rotation);
+          tl.call(() => {
+            const paragraph = appendWordParagraph(cycle.paragraph);
+            if (paragraph) {
+              gsap.fromTo(
+                paragraph,
+                { y: 14, autoAlpha: 0, backgroundColor: "#ffe7a3" },
+                { y: 0, autoAlpha: 1, backgroundColor: "rgba(255, 209, 102, 0.28)", duration: 0.65, ease: easeOut }
+              );
+            }
+          });
+          tl.to({}, { duration: 1.25 });
+        });
+
+        tl.to(pointer, { y: "-=8", duration: 1.2, repeat: -1, yoyo: true, ease: "sine.inOut" }, "+=0.4");
+        return () => tl.kill();
+      }
+    );
+
+    return activeAiWordLoopTl;
+  }
+
   /* ── Public API ── */
   window.triggerGSAPAnimation = function (screenName) {
     killActiveTimelines();
@@ -330,6 +616,9 @@
       });
     }
   };
+
+  window.startAiWordLoopAnimation = startAiWordLoopAnimation;
+  window.stopAiWordLoopAnimation = stopAiWordLoopAnimation;
 
   /* ── Init ── */
   document.addEventListener("DOMContentLoaded", () => {

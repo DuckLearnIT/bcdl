@@ -116,11 +116,15 @@ document.addEventListener("DOMContentLoaded", () => {
     
     document.getElementById("start-btn").addEventListener("click", function() {
         if (this.classList.contains("burst")) return;
-        this.classList.add("burst");
+        this.classList.add("splash");
         setTimeout(() => {
-            this.style.display = "none";
-            startGame();
-        }, 700);
+            this.classList.remove("splash");
+            this.classList.add("burst");
+            setTimeout(() => {
+                this.style.display = "none";
+                startGame();
+            }, 500);
+        }, 400);
     });
     
     document.body.addEventListener("click", (e) => {

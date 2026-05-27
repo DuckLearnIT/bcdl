@@ -335,6 +335,68 @@ const dialogueSets = {
             pose: PIXEL + "pointout.webp",
             anim: "hop"
         }
+    ],
+    ai_word_loop: [
+        {
+            id: "7.1",
+            name: "Amy",
+            text: "Và đây là vòng lặp mình thấy đáng sợ nhất: hỏi AI, đọc lướt, copy, rồi dán sang Word. Có tới 67,3% sinh viên nói họ đọc lại câu trả lời, nhưng con số phía sau mới khiến mình lạnh gáy.",
+            hideAmy: true,
+            aiWordStats: true
+        },
+        {
+            id: "7.2",
+            name: "Amy",
+            text: "47,5% thừa nhận copy gần như nguyên xi. Nghĩa là thao tác kiểm chứng đang bị nén lại thành vài cú click rất nhanh.",
+            hideAmy: true,
+            aiWordStats: true
+        },
+        {
+            id: "7.3",
+            name: "Amy",
+            text: "Cậu nhìn kỹ vòng này nhé. Không có màn hình nào nổ tung cả, không có cảnh báo đỏ chói. Chỉ là từng đoạn văn được chuyển từ khung AI sang trang Word, êm đến mức mình tưởng đó là bài của mình.",
+            hideAmy: true,
+            aiWordStats: false
+        },
+        {
+            id: "7.4",
+            name: "PV1",
+            text: "Khi thao tác copy trở thành phản xạ, phần tự kiểm chứng rất dễ bị bỏ lại phía sau. Người học vẫn đọc, nhưng đọc để chấp nhận nhanh hơn là để phản biện.",
+            hideAmy: true,
+            aiWordQuote: true,
+            audioId: "sfx-pv5"
+        },
+        {
+            id: "7.5",
+            name: "Amy",
+            text: "Nghe chưa? Vấn đề không nằm ở việc cậu có dùng AI hay không. Vấn đề là sau mỗi câu trả lời, cậu có còn dừng lại để hỏi: 'Nó đúng ở đâu, sai ở đâu, thiếu ở đâu?' hay không.",
+            hideAmy: true,
+            aiWordQuote: false
+        },
+        {
+            id: "7.6",
+            name: "Amy",
+            text: "Lần đầu thì cậu chỉ mượn vài ý. Lần thứ hai cậu mượn cả đoạn. Đến lần thứ ba, chính giọng văn của cậu bắt đầu biến mất khỏi bài viết.",
+            hideAmy: true
+        },
+        {
+            id: "7.7",
+            name: "Amy",
+            text: "Mà bài luận không chỉ là chỗ chứa chữ. Nó là dấu vết của quá trình cậu vật lộn với câu hỏi, thử lập luận, sai, sửa, rồi tự rút ra cách hiểu của mình.",
+            hideAmy: true
+        },
+        {
+            id: "7.8",
+            name: "Amy",
+            text: "Nếu cả quá trình đó bị thay bằng một vòng copy và paste mượt mà, kết quả có thể vẫn dài, vẫn đẹp, nhưng phần tư duy của cậu thì bị rút ngắn từng chút một.",
+            hideAmy: true
+        },
+        {
+            id: "7.9",
+            name: "Amy",
+            text: "Vậy nên trước khi sang chương tiếp theo, nhớ kỹ điều này: AI có thể viết cùng cậu, nhưng không được phép nghĩ thay cậu.",
+            hideAmy: true
+        }
     ]
 };
 
@@ -473,6 +535,9 @@ const bookScreen = $("#book-screen");
 const infoScreen = $("#info-screen");
 const flashcardScreen = $("#flashcard-screen");
 const examScreen = $("#exam-screen");
+const aiWordLoopScreen = $("#ai-word-loop-screen");
+const aiWordNextWrap = $("#ai-word-next-wrap");
+const aiWordNextBtn = $("#ai-word-next-btn");
 const dialogueHistory = [];
 
 function canUseAnime() {
@@ -497,7 +562,7 @@ function showScreen(screenName) {
         gameScreen, chartScreen, starScreen, globeScreen,
         appstoreScreen, fireworkScreen, minigameScreen,
         areaChartScreen, bookScreen, infoScreen, flashcardScreen,
-        examScreen
+        examScreen, aiWordLoopScreen
     ];
     screens.forEach(s => s.classList.remove("is-active"));
 
@@ -514,6 +579,7 @@ function showScreen(screenName) {
         screenName === "info" ? infoScreen :
         screenName === "flashcard" ? flashcardScreen :
         screenName === "exam" ? examScreen :
+        screenName === "ai-word-loop" ? aiWordLoopScreen :
         null;
 
     if (target) {
@@ -580,8 +646,50 @@ function displayDialogueStep(index) {
     if (!step) return;
     nameEl.textContent = step.name;
     setAmyPose(step);
+    handleDialogueStepEvent(step);
     dialogueHistory.push({ name: step.name, text: step.text });
     typeDialogue(step.text);
+}
+
+function handleDialogueStepEvent(step) {
+    if (Object.prototype.hasOwnProperty.call(step, "aiWordStats")) {
+        setAiWordLoopStatsVisible(Boolean(step.aiWordStats));
+    }
+
+    if (step.aiWordQuote === true) {
+        setAiWordQuoteVisible(true, step.text);
+    } else if (step.aiWordQuote === false) {
+        setAiWordQuoteVisible(false);
+    }
+
+    if (step.audioId) {
+        playStepAudio(step.audioId);
+    }
+}
+
+function setAiWordLoopStatsVisible(visible) {
+    if (!aiWordLoopScreen) return;
+    aiWordLoopScreen.classList.toggle("stats-active", visible);
+}
+
+function setAiWordQuoteVisible(visible, quoteText = "") {
+    const panel = document.getElementById("aiword-quote-panel");
+    const quote = document.getElementById("aiword-quote-text");
+    if (!panel) return;
+    if (quote && quoteText) quote.textContent = `"${quoteText}"`;
+    panel.classList.toggle("active", visible);
+}
+
+function playStepAudio(audioId) {
+    const muteBtn = document.getElementById("btn-mute");
+    if (muteBtn && muteBtn.textContent === "🔇") return;
+
+    const audio = document.getElementById(audioId);
+    if (!audio) return;
+    audio.currentTime = 0;
+    audio.play().catch(() => {
+        // Autoplay may be blocked; dialogue should keep moving.
+    });
 }
 
 function typeDialogue(text) {
@@ -2946,16 +3054,20 @@ const magState = {
     linesRevealed: new Set(),
     totalLines: 6,
     gradeDropped: false,
-    scanComplete: false
+    scanComplete: false,
+    dialogueStarted: false
 };
 
 function startExamSequence() {
     state.phase = "exam";
+    document.body.classList.remove("ai-word-loop-active");
     showScreen("exam");
     magState.active = false;
     magState.linesRevealed = new Set();
     magState.gradeDropped = false;
     magState.scanComplete = false;
+    magState.dialogueStarted = false;
+    hideAiWordNextButton();
 
     // Reset exam visual state
     const gradeEl = document.getElementById("exam-grade");
@@ -2975,12 +3087,12 @@ function startExamSequence() {
 
     // Hide magnifier UI elements initially
     const scanProgress = document.getElementById("scan-progress");
-    const magInstruction = document.getElementById("magnifier-instruction");
+    const toolDock = document.getElementById("tool-dock");
     const magCursor = document.getElementById("magnifier-cursor");
     const ninhPanel = document.getElementById("ninh-panel");
     const examNextWrap = document.getElementById("exam-next-wrap");
     if (scanProgress) scanProgress.classList.remove("active");
-    if (magInstruction) magInstruction.classList.remove("active");
+    if (toolDock) toolDock.classList.remove("active");
     if (magCursor) magCursor.classList.remove("active");
     if (ninhPanel) ninhPanel.classList.remove("active");
     if (examNextWrap) examNextWrap.classList.remove("active");
@@ -3005,50 +3117,46 @@ function startExamSequence() {
 }
 
 function startMagnifier() {
-    const staticMag = document.getElementById("static-magnifier");
-    if (staticMag) {
-        staticMag.classList.add("active");
-        
-        // When clicked, grab the magnifier
-        staticMag.onclick = () => {
-            staticMag.classList.remove("active");
-            activateMagnifierCursor();
-        };
-    } else {
-        // Fallback just in case
-        activateMagnifierCursor();
-    }
-}
-
-function activateMagnifierCursor() {
-    magState.active = true;
-
-    const magCursor = document.getElementById("magnifier-cursor");
-    const magInstruction = document.getElementById("magnifier-instruction");
+    // Show tool dock for user to click and pick up the magnifier
+    const toolDock = document.getElementById("tool-dock");
+    const toolBtn = document.getElementById("tool-magnifier-btn");
     const scanProgress = document.getElementById("scan-progress");
 
-    if (magCursor) magCursor.classList.add("active");
-    if (magInstruction) magInstruction.classList.add("active");
+    if (toolDock) toolDock.classList.add("active");
     if (scanProgress) scanProgress.classList.add("active");
-    if (examScreen) examScreen.classList.add("magnifier-active");
-
     updateScanProgress();
 
-    // Bind move events
-    document.addEventListener("mousemove", onMagnifierMove);
-    document.addEventListener("touchmove", onMagnifierMove, { passive: false });
-    document.addEventListener("touchstart", onMagnifierMove, { passive: false });
+    if (toolBtn) {
+        toolBtn.onclick = () => {
+            if (magState.active) return; // already held
+            magState.active = true;
+
+            // Visual: button becomes "picked up"
+            toolBtn.classList.add("picked-up");
+            toolBtn.querySelector("span").textContent = "Đang dùng...";
+
+            // Show magnifier cursor
+            const magCursor = document.getElementById("magnifier-cursor");
+            if (magCursor) magCursor.classList.add("active");
+            if (examScreen) examScreen.classList.add("magnifier-active");
+
+            // Bind move events
+            document.addEventListener("mousemove", onMagnifierMove);
+            document.addEventListener("touchmove", onMagnifierMove, { passive: false });
+            document.addEventListener("touchstart", onMagnifierMove, { passive: false });
+        };
+    }
 }
 
 function stopMagnifier() {
     magState.active = false;
 
     const magCursor = document.getElementById("magnifier-cursor");
-    const magInstruction = document.getElementById("magnifier-instruction");
+    const toolDock = document.getElementById("tool-dock");
     const scanProgress = document.getElementById("scan-progress");
 
     if (magCursor) magCursor.classList.remove("active");
-    if (magInstruction) magInstruction.classList.remove("active");
+    if (toolDock) toolDock.classList.remove("active");
     if (scanProgress) scanProgress.classList.remove("active");
     if (examScreen) examScreen.classList.remove("magnifier-active");
 
@@ -3213,17 +3321,55 @@ function startPostScanDialogue() {
     runDialogue(dialogueSets.exam_6_4_7, () => {
         setDialogueVisible(false);
         setAmyVisible(false);
-
-        // Show continue button
-        const examNextWrap = document.getElementById("exam-next-wrap");
-        const examNextBtn = document.getElementById("exam-next-btn");
-        if (examNextWrap) examNextWrap.classList.add("active");
-        if (examNextBtn) {
-            examNextBtn.onclick = () => {
-                window.location.href = "chapter-5.html";
-            };
-        }
+        startAiWordLoopSequence();
     });
+}
+
+function hideAiWordNextButton() {
+    if (aiWordNextWrap) aiWordNextWrap.classList.remove("active");
+}
+
+function startAiWordLoopSequence() {
+    state.phase = "ai-word-loop";
+    document.body.classList.add("ai-word-loop-active");
+    hideAiWordNextButton();
+    setAiWordLoopStatsVisible(true);
+    setAiWordQuoteVisible(false);
+    showScreen("ai-word-loop");
+
+    if (typeof window.startAiWordLoopAnimation === "function") {
+        requestAnimationFrame(() => window.startAiWordLoopAnimation());
+    }
+
+    setDialogueVisible(true);
+    setAmyVisible(false);
+    amyWrap.classList.add("is-chart");
+
+    runDialogue(dialogueSets.ai_word_loop, () => {
+        finishAiWordLoopSequence();
+    });
+}
+
+function finishAiWordLoopSequence() {
+    if (typeof window.stopAiWordLoopAnimation === "function") {
+        window.stopAiWordLoopAnimation();
+    }
+    setAiWordLoopStatsVisible(false);
+    setAiWordQuoteVisible(false);
+    setDialogueVisible(false);
+    setAmyVisible(false);
+
+    if (aiWordLoopScreen) {
+        aiWordLoopScreen.classList.remove("is-active");
+    }
+    document.body.classList.remove("ai-word-loop-active");
+
+    if (aiWordNextWrap) aiWordNextWrap.classList.add("active");
+    if (aiWordNextBtn) {
+        aiWordNextBtn.onclick = () => {
+            window.location.href = "chapter-5.html";
+        };
+    }
 }
 
 function init() {

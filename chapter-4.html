@@ -11,6 +11,8 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.2/anime.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/MotionPathPlugin.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/TextPlugin.min.js"></script>
 <link rel="stylesheet" href="assets/css/chapter-4.css">
 </head>
 <body class="chapter4-page" oncontextmenu="return false;">
@@ -736,10 +738,12 @@
         <span class="scan-progress-text" id="scan-progress-text">Quét: 0/6 dòng</span>
     </div>
 
-    <!-- Magnifier instruction -->
-    <div class="magnifier-instruction" id="magnifier-instruction">
-        <img src="assets/img/chapter%204/kinh.webp" alt="" class="mag-inst-icon">
-        <span>Kéo kính lúp qua bài luận để soi</span>
+    <!-- Tool dock bên phải: click để cầm kính lúp -->
+    <div class="tool-dock" id="tool-dock">
+        <button class="tool-btn" id="tool-magnifier-btn" type="button" title="Nhấn để cầm kính lúp">
+            <img src="assets/img/chapter%204/kinh.webp" alt="Kính lúp" draggable="false">
+            <span>Dùng kính lúp</span>
+        </button>
     </div>
 
     <div class="exam-paper" id="exam-paper">
@@ -798,11 +802,6 @@
         </div>
     </div>
 
-    <!-- Static Magnifier Tool (Right side) -->
-    <div class="static-magnifier" id="static-magnifier" title="Nhấn để cầm kính lúp">
-        <img src="assets/img/chapter%204/kinh.webp" alt="Kính lúp">
-        <span>Cầm kính lúp</span>
-    </div>
     <!-- Kính lúp (ẩn, follow cursor khi active) -->
     <div class="magnifier-cursor" id="magnifier-cursor">
         <img src="assets/img/chapter%204/kinh.webp" alt="Kính lúp" draggable="false">
@@ -829,6 +828,82 @@
         <button class="pixel-button" id="exam-next-btn" type="button">Tiếp tục →</button>
     </div>
 </section>
+
+<section class="screen ai-word-loop-screen" id="ai-word-loop-screen" aria-label="Vòng lặp AI và Word">
+    <div class="ai-word-loop-stage" id="ai-word-loop-stage">
+        <div class="ai-word-loop-grid" id="ai-word-loop-grid">
+            <article class="loop-window loop-ai-window">
+                <div class="loop-window-bar">
+                    <span class="window-dot red"></span>
+                    <span class="window-dot yellow"></span>
+                    <span class="window-dot green"></span>
+                    <strong>AI Chat</strong>
+                </div>
+                <div class="loop-thought" id="loop-thought">Mình hỏi nhanh một chút thôi...</div>
+                <div class="loop-chat-stream">
+                    <div class="loop-message user">
+                        <span class="loop-message-label">Bạn</span>
+                        <p id="loop-user-prompt"></p>
+                    </div>
+                    <div class="loop-message ai loop-target" id="loop-ai-response-card" data-target="ai-response">
+                        <span class="loop-message-label">AI</span>
+                        <p id="loop-ai-response"></p>
+                        <div class="loop-selection" id="loop-selection"></div>
+                    </div>
+                    <div class="loop-copy-badge" id="loop-copy-badge">Đã copy</div>
+                </div>
+            </article>
+
+            <article class="loop-window loop-word-window">
+                <div class="loop-window-bar">
+                    <span class="word-icon">W</span>
+                    <strong>Bài luận.docx</strong>
+                </div>
+                <div class="loop-word-toolbar">
+                    <span></span><span></span><span></span><span></span>
+                </div>
+                <div class="loop-word-page loop-target" id="loop-word-page" data-target="word-page">
+                    <h3>Xu hướng truyền thông số tại Việt Nam</h3>
+                    <div class="loop-word-lines" id="loop-word-lines">
+                        <p class="loop-word-placeholder">Bắt đầu từ một trang trắng...</p>
+                    </div>
+                    <span class="loop-word-caret" id="loop-word-caret"></span>
+                </div>
+            </article>
+
+            <aside class="aiword-stats-panel" id="aiword-stats-panel">
+                <div class="stats-panel-kicker">Khảo sát hành vi</div>
+                <h3>Sau khi AI trả lời</h3>
+                <div class="mini-donut" style="--percent: 67.3; --accent: #2667ff;">
+                    <div class="mini-donut-ring"></div>
+                    <div class="mini-donut-copy">
+                        <strong>67,3%</strong>
+                        <span>đọc lại</span>
+                    </div>
+                </div>
+                <div class="mini-donut" style="--percent: 47.5; --accent: #ff6f91;">
+                    <div class="mini-donut-ring"></div>
+                    <div class="mini-donut-copy">
+                        <strong>47,5%</strong>
+                        <span>copy nguyên xi</span>
+                    </div>
+                </div>
+            </aside>
+        </div>
+
+        <div class="aiword-quote-panel" id="aiword-quote-panel">
+            <div class="quote-source">PV1</div>
+            <p id="aiword-quote-text">"Khi thao tác copy trở thành phản xạ, phần tự kiểm chứng rất dễ bị bỏ lại phía sau."</p>
+            <div class="quote-wave"><span></span><span></span><span></span><span></span></div>
+        </div>
+
+        <img class="loop-pointer" id="loop-pointer" src="assets/img/chapter%204/pointer.png" alt="" aria-hidden="true" draggable="false">
+    </div>
+</section>
+
+<div class="ai-word-next-wrap" id="ai-word-next-wrap">
+    <button class="pixel-button" id="ai-word-next-btn" type="button">Tiếp tục →</button>
+</div>
 
 <div class="guide-panel" id="guide-panel" role="dialog" aria-modal="true" aria-labelledby="guide-title">
     <div class="guide-card">
@@ -902,6 +977,7 @@
 <audio id="vn-audio"></audio>
 <audio id="sfx-snap" src="assets/audio/SFX/fingersnap.mp3" preload="none"></audio>
 <audio id="sfx-record1" src="assets/audio/SFX/record1.wav" preload="none"></audio>
+<audio id="sfx-pv5" src="assets/audio/SFX/PV5.m4a" preload="none"></audio>
 
 <script src="assets/js/chapter-4-animations.js"></script>
 <script src="assets/js/chapter-4.js"></script>
