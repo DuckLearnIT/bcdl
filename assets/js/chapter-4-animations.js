@@ -411,6 +411,8 @@
   }
 
   function getPointInsideStage(stage, target, xRatio, yRatio) {
+    void stage.offsetHeight;
+    void target.offsetHeight;
     const stageRect = stage.getBoundingClientRect();
     const rect = target.getBoundingClientRect();
     const maxX = Math.max(52, stageRect.width - 52);
@@ -432,6 +434,7 @@
       // Force target visible before measuring so getBoundingClientRect is valid
       const targetWasHidden = target.style.display === "none" || getComputedStyle(target).display === "none";
       if (targetWasHidden) gsap.set(target, { display: "flex", opacity: 1 });
+      void target.offsetHeight;
 
       const start = {
         x: Number(gsap.getProperty(pointer, "x")) || 0,
@@ -636,14 +639,12 @@
           });
           tl.to({}, { duration: 0.38 });
 
-          // Show thought as pointer travels to prompt card
-          if (thought) tl.to(thought, { autoAlpha: 1, duration: 0.2 }, ">");
-          addPointerTravel(tl, pointer, stage, _promptCard, 0.9, rotation, thought);
+          addPointerTravel(tl, pointer, stage, _promptCard, 0.9, rotation, null);
           addTyping(tl, _userPrompt, _cycle.prompt, 2.05);
           tl.to(_promptCard, { scale: 1.015, duration: 0.18, yoyo: true, repeat: 1 }, "<");
           tl.to({}, { duration: 0.35 });
 
-          addPointerTravel(tl, pointer, stage, _aiCard, 0.7, -rotation, thought);
+          addPointerTravel(tl, pointer, stage, _aiCard, 0.7, -rotation, null);
           tl.fromTo(_aiCard, { boxShadow: "0 0 0 rgba(38, 103, 255, 0)" }, { boxShadow: "0 0 24px rgba(38, 103, 255, 0.22)", duration: 0.35 }, "<");
           addTyping(tl, _aiResponse, _cycle.response, 3.45);
           tl.to(_aiCard, { boxShadow: "0 0 0 rgba(38, 103, 255, 0)", duration: 0.45 });
@@ -658,6 +659,10 @@
 
           addPointerTravel(tl, pointer, stage, wordPage, 1, rotation, thought);
           tl.call(() => {
+            if (thought) {
+              thought.textContent = _thoughtText;
+              gsap.fromTo(thought, { autoAlpha: 0 }, { autoAlpha: 1, duration: 0.28, ease: easeOut });
+            }
             const paragraph = appendWordParagraph(_cycle.paragraph);
             if (paragraph) {
               gsap.fromTo(

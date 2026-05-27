@@ -4171,6 +4171,7 @@ button {
     border: 2px solid rgba(27, 35, 64, 0.24);
     border-radius: 8px;
     background: #fff;
+    flex-shrink: 0;
     animation: slideUpFade 300ms ease forwards;
 }
 
