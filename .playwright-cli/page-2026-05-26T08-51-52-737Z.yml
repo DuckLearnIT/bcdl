@@ -1,0 +1,31 @@
+- generic [active] [ref=e1]:
+  - region "Lớp học pixel" [ref=e2]:
+    - application "Dùng phím WASD hoặc nút cảm ứng để di chuyển" [ref=e4]:
+      - generic [ref=e8]:
+        - generic [ref=e9]: Hỏi đủ 10 bạn trong lớp
+        - text: AI Study Habits
+      - generic:
+        - button "An" [ref=e23] [cursor=pointer]: An
+        - button "Bảo" [ref=e29] [cursor=pointer]: Bảo
+        - button "Chi" [ref=e35] [cursor=pointer]: Chi
+        - button "Duy" [ref=e41] [cursor=pointer]: Duy
+        - button "Em" [ref=e47] [cursor=pointer]: Em
+        - button "Giang" [ref=e53] [cursor=pointer]: Giang
+        - button "Hân" [ref=e59] [cursor=pointer]: Hân
+        - button "Khoa" [ref=e65] [cursor=pointer]: Khoa
+        - button "Linh" [ref=e71] [cursor=pointer]: Linh
+        - button "Minh" [ref=e77] [cursor=pointer]: Minh
+      - generic "Người chơi" [ref=e83]
+  - generic:
+    - img "Amy"
+  - generic [ref=e90] [cursor=pointer]:
+    - generic [ref=e92]: Amy
+    - generic [ref=e93]:
+      - generic [ref=e94]: Cậu có để
+      - generic [ref=e95]:
+        - 'button "Giọng: VI" [ref=e96]'
+        - button "2D / Pixel" [ref=e97]
+        - button "🔊" [ref=e98]
+        - button "Auto" [ref=e99]
+        - button "Log" [ref=e100]
+      - generic [ref=e101]: ▼

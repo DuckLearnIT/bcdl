@@ -10,6 +10,7 @@
 <link rel="stylesheet" href="assets/css/visual-novel.css">
 <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.2/anime.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
 <link rel="stylesheet" href="assets/css/chapter-4.css">
 </head>
 <body class="chapter4-page" oncontextmenu="return false;">
@@ -108,9 +109,6 @@
         <span>sinh viên toàn cầu sử dụng AI</span>
     </div>
     <div class="globe-hint" id="globe-hint">Kéo để xoay địa cầu</div>
-    <div class="globe-next" id="globe-next-wrap">
-        <button class="pixel-button" id="globe-next-btn" type="button">Tiếp theo</button>
-    </div>
 </section>
 
 <section class="screen appstore-screen" id="appstore-screen" aria-label="Cửa hàng ứng dụng AI">
@@ -119,40 +117,88 @@
             <div class="appstore-logo">AI Store</div>
             <span class="appstore-tag">Nâng cấp trí tuệ</span>
         </div>
-        <h2 class="appstore-title">Gói đăng ký Premium</h2>
-        <div class="appstore-grid">
-            <div class="sub-card sub-card-featured">
-                <div class="sub-badge">Phổ biến nhất</div>
-                <div class="sub-icon">🤖</div>
-                <h3>ChatGPT Plus</h3>
-                <p class="sub-price">$20<span>/tháng</span></p>
-                <p class="sub-desc">GPT-4o, trả lời nhanh x5, không giới hạn</p>
-                <button class="sub-buy-btn" id="buy-chatgpt" type="button">Mua ngay</button>
-            </div>
-            <div class="sub-card">
-                <div class="sub-icon">💎</div>
-                <h3>Gemini Advanced</h3>
-                <p class="sub-price">$19.99<span>/tháng</span></p>
-                <p class="sub-desc">Gemini Ultra, 1TB storage, Google One</p>
-                <button class="sub-buy-btn" id="buy-gemini" type="button">Mua ngay</button>
-            </div>
-            <div class="sub-card">
-                <div class="sub-icon">✍️</div>
-                <h3>Trợ lý viết luận Pro</h3>
-                <p class="sub-price">$15<span>/tháng</span></p>
-                <p class="sub-desc">Viết bài A+, check đạo văn, format chuẩn</p>
-                <button class="sub-buy-btn" id="buy-essay" type="button">Mua ngay</button>
+        <h2 class="appstore-title">Cửa Hàng Vật Phẩm</h2>
+        <p class="appstore-subtitle">Bạn có $20. Chọn 1 trong 6 vật phẩm để nâng cấp bản thân! Mỗi món đều trong tầm tay...</p>
+
+        <div class="stall-scene">
+            <img class="stall-amy" src="assets/img/amy/skin/Amy_shop.webp" alt="Amy" loading="eager">
+            <img class="stall-image" src="assets/img/chapter%204/gianhang.webp" alt="Gian hàng" loading="eager">
+            <div class="stall-products">
+                <div class="stall-item" data-price="20">
+                    <img class="stall-item-icon" src="assets/img/chapter%204/chatgpt.webp" alt="ChatGPT">
+                    <div class="stall-item-card">
+                        <div class="sub-badge">Bán chạy</div>
+                        <h3>ChatGPT Plus</h3>
+                        <p class="stall-item-price">$20</p>
+                        <p class="stall-item-desc">GPT-4o trợ giúp học tập, tóm tắt tài liệu và lập dàn ý siêu tốc.</p>
+                        <button class="sub-buy-btn" id="buy-chatgpt" type="button" data-price="20">Mua</button>
+                    </div>
+                </div>
+                <div class="stall-item" data-price="15">
+                    <img class="stall-item-icon" src="https://cdn.simpleicons.org/youtube/FF0000" alt="YouTube">
+                    <div class="stall-item-card">
+                        <h3>YouTube Premium</h3>
+                        <p class="stall-item-price">$15</p>
+                        <p class="stall-item-desc">Xem video không quảng cáo, phát nền và tải offline cho tài liệu học.</p>
+                        <button class="sub-buy-btn" id="buy-youtube" type="button" data-price="15">Mua</button>
+                    </div>
+                </div>
+                <div class="stall-item" data-price="20">
+                    <img class="stall-item-icon" src="https://cdn.simpleicons.org/netflix/E50914" alt="Netflix">
+                    <div class="stall-item-card">
+                        <h3>Netflix</h3>
+                        <p class="stall-item-price">$20</p>
+                        <p class="stall-item-desc">Phim tài liệu, series giáo dục và nội dung học thuật chất lượng cao.</p>
+                        <button class="sub-buy-btn" id="buy-netflix" type="button" data-price="20">Mua</button>
+                    </div>
+                </div>
+                <div class="stall-item" data-price="10">
+                    <img class="stall-item-icon" src="https://cdn.simpleicons.org/spotify/1DB954" alt="Spotify">
+                    <div class="stall-item-card">
+                        <h3>Spotify Premium</h3>
+                        <p class="stall-item-price">$10</p>
+                        <p class="stall-item-desc">Nghe nhạc focus, podcast học thuật và audiobook không gián đoạn.</p>
+                        <button class="sub-buy-btn" id="buy-spotify" type="button" data-price="10">Mua</button>
+                    </div>
+                </div>
+                <div class="stall-item" data-price="13">
+                    <img class="stall-item-icon" src="https://cdn.jsdelivr.net/gh/simple-icons/simple-icons/icons/canva.svg" alt="Canva">
+                    <div class="stall-item-card">
+                        <h3>Canva Pro</h3>
+                        <p class="stall-item-price">$13</p>
+                        <p class="stall-item-desc">Thiết kế slide, infographic và poster cho bài thuyết trình đẹp mắt.</p>
+                        <button class="sub-buy-btn" id="buy-canva" type="button" data-price="13">Mua</button>
+                    </div>
+                </div>
+                <div class="stall-item" data-price="10">
+                    <img class="stall-item-icon" src="https://cdn.simpleicons.org/notion/000000" alt="Notion">
+                    <div class="stall-item-card">
+                        <h3>Notion AI</h3>
+                        <p class="stall-item-price">$10</p>
+                        <p class="stall-item-desc">Quản lý ghi chú, dự án nhóm và viết lách có hỗ trợ AI tích hợp.</p>
+                        <button class="sub-buy-btn" id="buy-notion" type="button" data-price="10">Mua</button>
+                    </div>
+                </div>
             </div>
         </div>
+
+        <div class="wallet-warning" id="wallet-warning" role="alert" aria-live="assertive"></div>
+    </div>
+
+    <div class="balance-display" id="balance-display" aria-live="polite">
+        <span class="balance-icon">💰</span>
+        <span class="balance-label">Số dư:</span>
+        <strong class="balance-amount" id="wallet-balance">$20</strong>
     </div>
 </section>
 
-<section class="screen firework-screen" id="firework-screen" aria-label="Chúc mừng VIP">
+<section class="screen firework-screen" id="firework-screen" aria-label="Chúc mừng">
     <canvas id="firework-canvas"></canvas>
     <div class="vip-card" id="vip-card">
-        <div class="vip-badge">🎉 VIP 🎉</div>
-        <h2>Chúc mừng!</h2>
-        <p>Tài khoản của bạn đã được nâng cấp lên <strong>Premium</strong></p>
+        <div class="purchase-icon" id="purchase-icon"></div>
+        <div class="vip-badge" id="vip-badge">🎉</div>
+        <h2 id="purchase-title">Chúc mừng!</h2>
+        <p id="purchase-message">Bạn đã mua thành công!</p>
         <div class="vip-stars">
             <img src="assets/img/chapter%204/star.webp" alt="">
             <img src="assets/img/chapter%204/star.webp" alt="">
@@ -163,25 +209,25 @@
     </div>
 </section>
 
-<section class="screen minigame-screen" id="minigame-screen" aria-label="Would You Rather">
+<section class="screen minigame-screen" id="minigame-screen" aria-label="Bạn sẽ làm cách nào">
     <div class="minigame-container" id="minigame-container">
         <div class="minigame-header">
-            <h2>Would You Rather</h2>
-            <p class="minigame-subtitle">Bạn sẽ chọn cách nào?</p>
+            <h2>Bạn sẽ làm cách nào?</h2>
+            <p class="minigame-subtitle">Chọn giữa tự xử lý từng bước hoặc giao tác vụ cho AI.</p>
         </div>
         <div class="minigame-question" id="minigame-question">
-            <div class="question-decor" id="question-decor">💡</div>
+            <div class="question-decor" id="question-decor"><img src="assets/img/chapter%204/info%203.webp" alt="Question"></div>
             <div class="question-text" id="question-text"></div>
             <div class="question-progress" id="question-progress">Câu 1/4</div>
         </div>
         <div class="minigame-choices" id="minigame-choices">
             <button class="choice-btn choice-manual" id="choice-manual" type="button">
-                <div class="choice-icon">📝</div>
+                <div class="choice-icon"><img src="assets/img/chapter%204/write.webp" alt="Tự làm"></div>
                 <div class="choice-label">Tự làm</div>
                 <div class="choice-desc">Tự tư duy và trả lời</div>
             </button>
             <button class="choice-btn choice-ai" id="choice-ai" type="button">
-                <div class="choice-icon">🤖</div>
+                <div class="choice-icon"><img src="assets/img/chapter%204/chatgpt.webp" alt="Dùng AI"></div>
                 <div class="choice-label">Dùng AI</div>
                 <div class="choice-desc">Để AI giúp đỡ</div>
             </button>
@@ -214,10 +260,6 @@
 
 <section class="screen area-chart-screen" id="area-chart-screen" aria-label="Biểu đồ miền so sánh">
     <div class="area-chart-container">
-        <div class="area-chart-header">
-            <h2>So sánh: AI vs Tự tư duy</h2>
-            <p class="area-chart-subtitle">Phân bổ sử dụng AI theo các tác vụ học tập</p>
-        </div>
         <div class="area-chart-wrapper">
             <canvas id="area-chart-canvas"></canvas>
         </div>
@@ -234,6 +276,552 @@
         <div class="area-chart-next">
             <button class="pixel-button" id="area-chart-next" type="button">Tiếp theo</button>
         </div>
+    </div>
+</section>
+
+<section class="screen book-screen" id="book-screen" aria-label="Tài liệu học thuật">
+    <div class="book-watermark">GIÁO TRÌNH</div>
+    
+    <!-- Book viewer (hiển thị ban đầu) -->
+    <div class="book-container" id="book-container">
+        <div class="book-header">
+            <h2>Giáo trình: Truyền thông đa phương tiện &amp; AI</h2>
+            <p class="book-meta">Tác giả: Đỗ Minh Khôi &bull; NXB Đại học Quốc gia &bull; 2024 &bull; 500 trang</p>
+        </div>
+        <div class="book-viewer" id="book-viewer">
+            <div class="book-page active" data-page="1">
+                <div class="page-number">Trang 1 / 500</div>
+                <h3>Chương 1: Tổng quan về Truyền thông đa phương tiện</h3>
+                <p>Truyền thông đa phương tiện (Multimedia Communication) là lĩnh vực nghiên cứu sự tương tác giữa con người và các phương tiện truyền thông thông qua nhiều hình thức: văn bản, hình ảnh, âm thanh, video và các yếu tố tương tác.</p>
+                <p>Trong bối cảnh chuyển đổi số toàn cầu, khái niệm này đã mở rộng để bao gồm cả các nền tảng truyền thông xã hội, nội dung do người dùng tạo ra (UGC) và các hệ thống trí tuệ nhân tạo hỗ trợ sản xuất nội dung.</p>
+                <p>Giáo trình này cung cấp cái nhìn tổng quát về lý thuyết, phương pháp nghiên cứu và ứng dụng thực tiễn của truyền thông đa phương tiện trong kỷ nguyên AI.</p>
+                <p><strong>Định nghĩa mở rộng:</strong> Theo Manovich (2001), truyền thông đa phương tiện không chỉ là sự kết hợp của nhiều phương tiện mà còn là tính chất "mới" của các phương tiện kỹ thuật số: tính số học, tính mô đun, tính tự động hóa, tính đa dạng và tính chuyển mã.</p>
+                <p><strong>Bối cảnh Việt Nam:</strong> Theo báo cáo của Bộ Thông tin và Truyền thông (2023), tỷ lệ người dùng Internet tại Việt Nam đạt 78,5%, trong đó 95% sử dụng mạng xã hội. TikTok, YouTube và Facebook là ba nền tảng phổ biến nhất cho nội dung đa phương tiện.</p>
+                <ul style="margin:0 0 10px 18px;font-size:13px;line-height:1.5;color:#333;">
+                    <li><strong>Thành phần cốt lõi:</strong> Text, Audio, Video, Graphics, Animation, Interactivity.</li>
+                    <li><strong>Công nghệ nền tảng:</strong> HTML5, CSS3, JavaScript, WebRTC, WebGL, WebAssembly.</li>
+                    <li><strong>Thiết bị đầu cuối:</strong> Smartphone, Tablet, Desktop, Smart TV, VR/AR devices.</li>
+                    <li><strong>Giao thức truyền tải:</strong> HTTP/2, HTTPS, WebSocket, WebRTC, HLS, DASH.</li>
+                </ul>
+                <p style="font-size:12px;color:#666;"><em>Đọc thêm:</em> Manovich, L. (2001). <em>The Language of New Media</em>. MIT Press. &bull; Jenkins, H. (2006). <em>Convergence Culture</em>. NYU Press.</p>
+                <div class="page-footer">&copy; 2024 NXB ĐHQG</div>
+            </div>
+            <div class="book-page" data-page="2">
+                <div class="page-number">Trang 2 / 500</div>
+                <h3>1.1 Lịch sử phát triển</h3>
+                <p>Từ những tờ báo in đầu tiên vào thế kỷ XVII đến các nền tảng số ngày nay, truyền thông đã trải qua nhiều giai đoạn chuyển đổi quan trọng. Bước ngoặt lớn nhất diễn ra vào cuối thế kỷ XX với sự ra đời của Internet và sau đó là Web 2.0.</p>
+                <p>Theo nghiên cứu của Jenkins (2006), văn hóa tham gia (participatory culture) đã thay đổi cách thức sản xuất và tiêu thụ nội dung. Người dùng không còn đóng vai trò thụ động mà trở thành những nhà sáng tạo nội dung tích cực.</p>
+                <p>Tại Việt Nam, quá trình chuyển đổi số trong lĩnh vực truyền thông bắt đầu mạnh mẽ từ năm 2010 với sự phổ biến của các mạng xã hội như Facebook, Zalo và sau này là TikTok.</p>
+                <p><strong>Các giai đoạn chính:</strong></p>
+                <ul style="margin:0 0 10px 18px;font-size:13px;line-height:1.5;color:#333;">
+                    <li><strong>Giai đoạn 1 (1600-1900):</strong> Báo in, tạp chí, phát thanh radio sơ khai. Phương tiện một chiều, latency cao.</li>
+                    <li><strong>Giai đoạn 2 (1900-1990):</strong> TV, radio, điện thoại. Bắt đầu có tương tác hai chiều hạn chế.</li>
+                    <li><strong>Giai đoạn 3 (1990-2010):</strong> Internet, Web 1.0, email, diễn đàn. Hyperlink thay đổi cách tiếp cận thông tin.</li>
+                    <li><strong>Giai đoạn 4 (2010-nay):</strong> Web 2.0, Social Media, Mobile, Streaming. UGC, real-time, algorithmic curation.</li>
+                    <li><strong>Giai đoạn 5 (2020+):</strong> Web 3.0, AI-generated content, Metaverse, Decentralized media.</li>
+                </ul>
+                <p><strong>Thống kê Việt Nam (2023):</strong> 78 triệu người dùng Internet, trung bình 6h 47p/ngày online. 43% người dùng tạo nội dung thường xuyên (creators), 57% là consumers (Statista, 2023).</p>
+                <p style="font-size:12px;color:#555;border-left:3px solid #ccc;padding-left:10px;margin:8px 0;">"Internet không chỉ là công nghệ, mà là môi trường sinh thái nơi văn hóa, kinh tế và chính trị giao thoa." — Castells, M. (2010).</p>
+                <div class="page-footer">&copy; 2024 NXB ĐHQG</div>
+            </div>
+            <div class="book-page" data-page="3">
+                <div class="page-number">Trang 3 / 500</div>
+                <h3>1.2 Các lý thuyết nền tảng</h3>
+                <p><strong>Lý thuyết truyền thông đại chúng:</strong> Được xây dựng bởi các học giả như Harold Lasswell, Paul Lazarsfeld và Marshall McLuhan. Trong đó, mô hình 5W của Lasswell (Who says What in Which channel to Whom with What effect) vẫn còn giá trị ứng dụng đến ngày nay.</p>
+                <p><strong>Lý thuyết sử dụng và hài lòng:</strong> Katz, Blumler và Gurevitch (1974) đề xuất rằng người tiêu dùng truyền thông chủ động lựa chọn phương tiện để thỏa mãn nhu cầu cụ thể: giải trí, thông tin, cá nhân hóa và tương tác xã hội.</p>
+                <p><strong>Lý thuyết mạng xã hội:</strong> Granovetter (1973) với khái niệm "sức mạnh của các mối quan hệ yếu" đã mở ra cách hiểu mới về cách thông tin lan tỏa trong môi trường kỹ thuật số.</p>
+                <p><strong>Mô hình 5W mở rộng (Lasswell, 1948):</strong></p>
+                <ul style="margin:0 0 10px 18px;font-size:13px;line-height:1.5;color:#333;">
+                    <li><strong>Who (Người gửi):</strong> Nhà báo, tổ chức truyền thông, AI, người dùng UGC.</li>
+                    <li><strong>Says What (Nội dung):</strong> Text, video, audio, multimodal, AI-generated.</li>
+                    <li><strong>In Which Channel (Kênh):</strong> Social media, streaming, messaging apps, AR/VR.</li>
+                    <li><strong>To Whom (Người nhận):</strong> Segmented audiences, algorithmic targeting, echo chambers.</li>
+                    <li><strong>With What Effect (Tác động):</strong> Behavioral change, polarization, misinformation spread.</li>
+                </ul>
+                <p><strong>Uses & Gratifications (Katz et al., 1974):</strong> Nhu cầu cơ bản: Cognitive (thông tin), Affective (cảm xúc), Personal integrative (cá nhân), Social integrative (xã hội), Tension release (giải tỏa). Trong kỷ nguyên AI, nhu cầu "personalized curation" trở nên dominant.</p>
+                <p><strong>Weak Ties (Granovetter, 1973):</strong> Mối quan hệ yếu (weak ties) quan trọng hơn trong lan tỏa thông tin mới vì chúng kết nối các cluster xã hội khác nhau. Social media amplifies weak ties through algorithmic recommendation.</p>
+                <div class="page-footer">&copy; 2024 NXB ĐHQG</div>
+            </div>
+            <div class="book-page" data-page="4">
+                <div class="page-number">Trang 4 / 500</div>
+                <h3>1.3 Phương pháp nghiên cứu trong truyền thông</h3>
+                <p>Các nhà nghiên cứu truyền thông hiện đại sử dụng kết hợp định tính và định lượng để phân tích hiện tượng phức tạp. Phân tích nội dung (Content Analysis), phỏng vấn sâu (In-depth Interview), và khảo sát (Survey) là ba phương pháp phổ biến nhất.</p>
+                <p>Gần đây, phân tích dữ liệu lớn (Big Data Analytics) và học máy (Machine Learning) đã được áp dụng để phân tích xu hướng truyền thông, phát hiện thông tin sai lệch (fake news detection) và dự đoán hành vi người dùng.</p>
+                <p>Tuy nhiên, việc sử dụng AI trong nghiên cứu truyền thông cũng đặt ra nhiều câu hỏi về đạo đức, tính khách quan và trách nhiệm giải trình của nhà nghiên cứu.</p>
+                <p><strong>Phương pháp định tính:</strong></p>
+                <ul style="margin:0 0 10px 18px;font-size:13px;line-height:1.5;color:#333;">
+                    <li><strong>Phỏng vấn sâu (In-depth Interview):</strong> 1-1 hoặc nhóm, 30-90 phút, ghi âm, transcribe, thematic analysis (Braun & Clarke, 2006).</li>
+                    <li><strong>Nhóm tập trung (Focus Group):</strong> 6-10 người, moderator, thảo luận chủ đề, reveal group dynamics.</li>
+                    <li><strong>Quan sát tham gia (Participant Observation):</strong> Ethnography, immersion, field notes, reflexivity.</li>
+                    <li><strong>Phân tích diễn ngôn (Discourse Analysis):</strong> Foucault, Fairclough, critical discourse studies.</li>
+                </ul>
+                <p><strong>Phương pháp định lượng:</strong></p>
+                <ul style="margin:0 0 10px 18px;font-size:13px;line-height:1.5;color:#333;">
+                    <li><strong>Khảo sát (Survey):</strong> Online (Google Forms, Typeform), offline, probability vs non-probability sampling.</li>
+                    <li><strong>Thí nghiệm (Experiment):</strong> A/B testing, randomized controlled trials, causal inference.</li>
+                    <li><strong>Phân tích nội dung (Content Analysis):</strong> Manual coding, inter-coder reliability (Krippendorff's α = 0.8+), automated sentiment analysis.</li>
+                    <li><strong>Network Analysis:</strong> Social network analysis (SNA), centrality measures, community detection.</li>
+                </ul>
+                <p><strong>AI & Big Data:</strong> NLP (BERT, GPT) cho text analysis, Computer Vision cho image recognition, Predictive modeling cho user behavior. Thách thức: bias, interpretability, privacy.</p>
+                <div class="page-footer">&copy; 2024 NXB ĐHQG</div>
+            </div>
+            <div class="book-page" data-page="5">
+                <div class="page-number">Trang 5 / 500</div>
+                <h3>Chương 2: Trí tuệ nhân tạo trong sản xuất nội dung</h3>
+                <p>Chương này khảo sát vai trò của các mô hình ngôn ngữ lớn (LLMs) như GPT-4, Gemini và Claude trong việc hỗ trợ và thay thế quy trình sáng tạo nội dung truyền thông.</p>
+                <p>Theo báo cáo của Reuters Institute (2024), hơn 45% các tổ chức truyền thông toàn cầu đã thử nghiệm AI trong việc viết tin bài, biên tập hình ảnh và sản xuất video ngắn.</p>
+                <p>Các công cụ như Midjourney, DALL-E và Stable Diffusion đang thay đổi cách thức thiết kế đồ họa, trong khi các công cụ tổng hợp giọng nói như ElevenLabs tạo ra những thách thức mới về quyền sở hữu âm thanh.</p>
+                <p><strong>LLMs (Large Language Models):</strong></p>
+                <ul style="margin:0 0 10px 18px;font-size:13px;line-height:1.5;color:#333;">
+                    <li><strong>GPT-4 (OpenAI, 2023):</strong> 1.76T parameters, multimodal (text, image), 128K context window. Ứng dụng: viết tin, tóm tắt, translation.</li>
+                    <li><strong>Gemini Ultra (Google, 2024):</strong> Natively multimodal, 1M context window, reasoning能力强. Ứng dụng: phân tích video, cross-modal search.</li>
+                    <li><strong>Claude 3 (Anthropic, 2024):</strong> Constitutional AI, 200K context, safety-focused. Ứng dụng: content moderation, ethical AI.</li>
+                    <li><strong>Llama 3 (Meta, 2024):</strong> Open-source, 8B/70B parameters, local deployment. Ứng dụng: on-device AI, privacy-preserving.</li>
+                </ul>
+                <p><strong>Image Generation:</strong> Diffusion models (Stable Diffusion XL, DALL-E 3, Midjourney v6). Text-to-image quality đạt photorealism, nhưng vấn đề copyright và deepfake vẫn tranh cãi.</p>
+                <p><strong>Audio & Video:</strong> ElevenLabs (voice cloning), Runway (video generation), Sora (OpenAI, text-to-video). Thách thức: deepfake detection, voice rights, synthetic media regulation.</p>
+                <div class="page-footer">&copy; 2024 NXB ĐHQG</div>
+            </div>
+            <div class="book-page" data-page="6">
+                <div class="page-number">Trang 6 / 500</div>
+                <h3>2.1 Tự động hóa viết lách và biên tập</h3>
+                <p>Các mô hình AI hiện nay có khả năng tạo ra văn bản với chất lượng ngày càng cao. Tuy nhiên, vấn đề "hallucination" (ảo giác thông tin) vẫn là rào cản lớn trong việc áp dụng AI vào báo chí chính thống.</p>
+                <p>Nghiên cứu của Pennycook &amp; Rand (2021) chỉ ra rằng con người có xu hướng tin tưởng quá mức vào nội dung do AI tạo ra, đặc biệt khi thông tin được trình bày một cách tự tin và có cấu trúc logic.</p>
+                <p>Do đó, vai trò của biên tập viên con người không bị thay thế hoàn toàn mà chuyển đổi thành "kiểm soát viên chất lượng AI" - người chịu trách nhiệm xác minh, bổ sung ngữ cảnh và đảm bảo tính chính xác của nội dung.</p>
+                <p><strong>Automated Writing Pipeline:</strong></p>
+                <ul style="margin:0 0 10px 18px;font-size:13px;line-height:1.5;color:#333;">
+                    <li><strong>Data Ingestion:</strong> RSS feeds, API calls, web scraping, social media monitoring.</li>
+                    <li><strong>Fact Extraction:</strong> Named Entity Recognition (NER), relation extraction, event detection.</li>
+                    <li><strong>Draft Generation:</strong> Template-based, LLM-assisted, style transfer (formal, casual, academic).</li>
+                    <li><strong>Human Review:</strong> Fact-checking, tone adjustment, legal compliance, editorial judgment.</li>
+                    <li><strong>Publication:</strong> CMS integration, SEO optimization, multi-platform distribution.</li>
+                </ul>
+                <p><strong>Hallucination Mitigation:</strong> RAG (Retrieval-Augmented Generation), citation grounding, confidence scoring, human-in-the-loop verification. Tools: Perplexity AI, Elicit, Consensus.</p>
+                <p><strong>Case Studies:</strong> Bloomberg AI (Cyborg), Washington Post (Heliograf), Forbes (Bertie). Kết quả: 300% increase in earnings reports coverage, 40% reduction in reporter time on routine stories.</p>
+                <div class="page-footer">&copy; 2024 NXB ĐHQG</div>
+            </div>
+            <div class="book-page" data-page="7">
+                <div class="page-number">Trang 7 / 500</div>
+                <h3>2.2 Đạo đức và trách nhiệm xã hội</h3>
+                <p>Khi AI ngày càng tham gia sâu vào quy trình truyền thông, các vấn đề đạo đức nổi lên như: thiên lệch thuật toán (algorithmic bias), quyền riêng tư dữ liệu, và trách nhiệm pháp lý khi AI tạo ra nội dung có hại.</p>
+                <p>Liên minh Châu Âu đã ban hành Đạo luật AI (AI Act) vào năm 2024, phân loại các hệ thống AI theo mức độ rủi ro và áp đặt các yêu cầu minh bạch đối với nội dung do AI tạo ra.</p>
+                <p>Tại Việt Nam, Bộ Thông tin và Truyền thông đang xây dựng khung quản lý cho nội dung số tạo bởi AI, đặc biệt tập trung vào việc ngăn chặn thông tin sai lệch và bảo vệ quyền sở hữu trí tuệ.</p>
+                <p><strong>Algorithmic Bias:</strong></p>
+                <ul style="margin:0 0 10px 18px;font-size:13px;line-height:1.5;color:#333;">
+                    <li><strong>Gender Bias:</strong> Image generation models over-represent men in professional roles (DALL-E 2 study, 2023).</li>
+                    <li><strong>Racial Bias:</strong> Facial recognition systems have higher error rates for darker skin tones (Buolamwini & Gebru, 2018).</li>
+                    <li><strong>Linguistic Bias:</strong> LLMs trained on English-dominant corpora perform poorly on low-resource languages.</li>
+                    <li><strong>Cultural Bias:</strong> Western-centric training data leads to ethnocentric outputs in global applications.</li>
+                </ul>
+                <p><strong>AI Act 2024 (EU):</strong> 4 risk categories: Unacceptable (social scoring, real-time biometric ID in public spaces), High (critical infrastructure, employment, education), Limited (chatbots, deepfake disclosure), Minimal (spam filters). Fines up to 7% of global turnover.</p>
+                <p><strong>Copyright & IP:</strong> US Copyright Office (2023): AI-generated content không thể đăng ký copyright. Tòa án Anh (Getty Images v. Stability AI, 2024): training on copyrighted images vi phạm IP. Giải pháp: licensing, opt-out mechanisms, fair use defense.</p>
+                <div class="page-footer">&copy; 2024 NXB ĐHQG</div>
+            </div>
+            <div class="book-page" data-page="8">
+                <div class="page-number">Trang 8 / 500</div>
+                <h3>2.3 Tương lai của ngành</h3>
+                <p>Dự báo đến năm 2030, thị trường AI trong truyền thông toàn cầu sẽ đạt giá trị 45 tỷ USD. Các xu hướng chính bao gồm: cá nhân hóa nội dung theo thời gian thực, tương tác đa phương tiện thông qua AI đàm thoại, và sự hội tụ giữa thực tế ảo (VR) và AI tạo sinh.</p>
+                <p>Tuy nhiên, giáo sư Noam Chomsky cảnh báo rằng việc phụ thuộc quá mức vào AI có thể làm suy giảm khả năng phản biện và sáng tạo của con người - những phẩm chất cốt lõi của ngành truyền thông.</p>
+                <p>Vì vậy, thách thức lớn nhất không phải là công nghệ, mà là việc đào tạo thế hệ nhà truyền thông mới có thể làm chủ công nghệ thay vì bị công nghệ làm chủ.</p>
+                <p><strong>Xu hướng 2030:</strong></p>
+                <ul style="margin:0 0 10px 18px;font-size:13px;line-height:1.5;color:#333;">
+                    <li><strong>Real-time Personalization:</strong> Dynamic content adaptation based on user behavior, emotion recognition, context awareness. CTR tăng 35-50% (McKinsey, 2024).</li>
+                    <li><strong>Conversational AI:</strong> Voice assistants, chatbots, AI agents thay thế traditional UI. GPT-4o latency &lt;300ms, gần real-time conversation.</li>
+                    <li><strong>AI + VR/AR:</strong> Spatial computing, immersive storytelling, virtual newsrooms. Apple Vision Pro, Meta Quest 3, HoloLens 2.</li>
+                    <li><strong>Generative Video:</strong> Sora, Runway Gen-3, Pika Labs. Text-to-video quality đạt broadcast standard (1080p, 60fps).</li>
+                    <li><strong>Neuromorphic Computing:</strong> Brain-inspired AI chips cho edge processing, low-latency mobile AI applications.</li>
+                </ul>
+                <p><strong>Nhân lực tương lai:</strong> "AI-literate journalists" cần skills: prompt engineering, data journalism, fact-checking AI outputs, ethical AI deployment. Curriculum redesign: traditional journalism + computer science + ethics.</p>
+                <p style="font-size:12px;color:#555;border-left:3px solid #ccc;padding-left:10px;margin:8px 0;">"AI sẽ không thay thế nhà báo, nhưng nhà báo sử dụng AI sẽ thay thế những người không sử dụng." — Loreto, A. (2023).</p>
+                <div class="page-footer">&copy; 2024 NXB ĐHQG</div>
+            </div>
+            <div class="book-page" data-page="9">
+                <div class="page-number">Trang 9 / 500</div>
+                <h3>Chương 3: AI và hành vi người dùng</h3>
+                <p><strong>3.1 Thuật toán gợi ý (Recommendation Algorithms)</strong></p>
+                <p>Các nền tảng truyền thông sử dụng machine learning để phân tích hành vi người dùng: lịch sử tìm kiếm, thời gian xem, tương tác (like, share, comment), và mối quan hệ xã hội. Dữ liệu này được xử lý qua các mô hình collaborative filtering, content-based filtering, và hybrid approaches.</p>
+                <ul style="margin:0 0 10px 18px;font-size:13px;line-height:1.5;color:#333;">
+                    <li><strong>Collaborative Filtering:</strong> User-based (k-nearest neighbors), Item-based (item-item similarity), Matrix Factorization (SVD, ALS). Vấn đề: cold-start, sparsity, scalability.</li>
+                    <li><strong>Content-Based:</strong> TF-IDF, Word2Vec, BERT embeddings cho text; CNN, ResNet cho visual features. Vấn đề: serendipity thấp, over-specialization.</li>
+                    <li><strong>Hybrid:</strong> Weighted hybrid, switching hybrid, cascade hybrid. Giảm cold-start, tăng diversity. Netflix Prize 2009: ensemble hybrid đạt RMSE 0.8567.</li>
+                    <li><strong>Deep Learning:</strong> Neural Collaborative Filtering (NCF), Wide & Deep (Google), DeepFM. Kết hợp low-order và high-order feature interactions.</li>
+                    <li><strong>Reinforcement Learning:</strong> Bandit algorithms (ε-greedy, UCB, Thompson sampling) cho exploration-exploitation trade-off. Ứng dụng: news recommendation (Microsoft News).</li>
+                </ul>
+                <p><strong>Metrics:</strong> Precision@K, Recall@K, NDCG, MAP, AUC, Serendipity, Diversity, Coverage. Business metrics: CTR, conversion rate, retention, time spent.</p>
+                <p style="font-size:12px;color:#666;"><em>Đọc thêm:</em> Ricci, F. et al. (2011). <em>Recommender Systems Handbook</em>. Springer. &bull; He, X. et al. (2017). Neural Collaborative Filtering. <em>WWW</em>.</p>
+                <div class="page-footer">&copy; 2024 NXB ĐHQG</div>
+            </div>
+            <div class="book-page" data-page="10">
+                <div class="page-number">Trang 10 / 500</div>
+                <h3>3.2 Bong bóng lọc (Filter Bubble) & Hiệu ứng nhà trắng (Echo Chamber)</h3>
+                <p>Thuật toán cá nhân hóa tạo ra "bong bóng lọc" (Parisier, 2011) - hiện tượng người dùng chỉ tiếp cận thông tin phù hợp với quan điểm cá nhân. Điều này dẫn đến phân cực xã hội và suy giảm đa dạng thông tin.</p>
+                <p><strong>Các nghiên cứu thực nghiệm:</strong></p>
+                <ul style="margin:0 0 10px 18px;font-size:13px;line-height:1.5;color:#333;">
+                    <li><strong>Bakshy et al. (2015) trên Facebook:</strong> 10% bạn bè có quan điểm chính trị đối lập, nhưng thuật toán News Feed giảm 5.4% khả năng tiếp cận nội dung đa chiều. Sample: 10.1M users, 1.3B links.</li>
+                    <li><strong>Huszár et al. (2022):</strong> thuật toán recommendation làm tăng engagement nhưng giảm sự đa dạng nội dung ở mức ý nghĩa thống kê (p &lt; 0.01). Dataset: 50M YouTube interactions.</li>
+                    <li><strong>Nguyễn Văn B (2023):</strong> khảo sát 1.200 sinh viên Việt Nam cho thấy 68% không chủ động tìm kiếm thông tin trái chiều. Phương pháp: survey + digital trace analysis.</li>
+                    <li><strong>Garimella et al. (2018):</strong> Twitter echo chambers mạnh hơn ở các chủ đề chính trị so với chủ đề giải trí. Metric: retweet network clustering coefficient.</li>
+                    <li><strong>Barberá et al. (2015):</strong> Political homophily on Twitter: users follow ideologically similar accounts 2.5x more than cross-ideological.</li>
+                </ul>
+                <p><strong>Giải pháp kỹ thuật:</strong> Diversity-aware recommendation (Serendipity maximization), exposure to counter-attitudinal content (random injection), transparency features (explainable AI), user control (filter toggles). Platforms: YouTube "Disagree" button, Twitter "For You" vs "Following" tabs.</p>
+                <p style="font-size:12px;color:#555;border-left:3px solid #ccc;padding-left:10px;margin:8px 0;">"Chúng ta không còn lướt web nữa. Web đang lướt chúng ta." — Eli Parisier, TED Talk 2011.</p>
+                <div class="page-footer">&copy; 2024 NXB ĐHQG</div>
+            </div>
+            <div class="book-page" data-page="11">
+                <div class="page-number">Trang 11 / 500</div>
+                <h3>3.3 Tâm lý học hành vi & Gamification</h3>
+                <p>AI kết hợp với tâm lý học hành vi (Behavioral Psychology) tạo ra các hệ thống gamification cực kỳ hiệu quả. Các yếu tố như variable-ratio reinforcement schedule (tương tự máy đánh bạc) được áp dụng trong thông báo đẩy (push notifications), scroll vô hạn (infinite scroll), và streaks.</p>
+                <p><strong>Lý thuyết nền tảng:</strong></p>
+                <ul style="margin:0 0 10px 18px;font-size:13px;line-height:1.5;color:#333;">
+                    <li><strong>Operant Conditioning (Skinner, 1938):</strong> Reinforcement schedules: fixed-ratio, variable-ratio (most addictive), fixed-interval, variable-interval. Social media uses variable-ratio: unpredictable rewards create highest engagement.</li>
+                    <li><strong>Fogg Behavior Model (2009):</strong> B = MAT (Behavior = Motivation × Ability × Trigger). AI optimizes all three: personalized content (motivation), frictionless UI (ability), push notifications (trigger).</li>
+                    <li><strong>Hook Model (Eyal, 2014):</strong> Trigger → Action → Variable Reward → Investment. Each cycle increases habit strength. TikTok: infinite scroll = variable reward, likes/comments = investment.</li>
+                    <li><strong>Dopamine Loop:</strong> Nucleus accumbens activation during variable rewards. fMRI studies show social media likes activate same brain regions as cocaine (Meshi et al., 2013).</li>
+                </ul>
+                <p><strong>Bảng 3.1: Phân loại kích thích tâm lý trong nền tảng số</strong></p>
+                <table style="width:100%;border-collapse:collapse;font-size:12px;margin:8px 0;color:#333;">
+                    <tr style="background:#f0f0f0;"><th style="border:1px solid #bbb;padding:4px 6px;text-align:left;">Yếu tố</th><th style="border:1px solid #bbb;padding:4px 6px;text-align:left;">Cơ chế tâm lý</th><th style="border:1px solid #bbb;padding:4px 6px;text-align:left;">Ví dụ</th></tr>
+                    <tr><td style="border:1px solid #bbb;padding:4px 6px;">Thông báo đẩy</td><td style="border:1px solid #bbb;padding:4px 6px;">FOMO, curiosity gap</td><td style="border:1px solid #bbb;padding:4px 6px;">Instagram, TikTok</td></tr>
+                    <tr><td style="border:1px solid #bbb;padding:4px 6px;">Like/Heart</td><td style="border:1px solid #bbb;padding:4px 6px;">Social validation</td><td style="border:1px solid #bbb;padding:4px 6px;">Facebook, LinkedIn</td></tr>
+                    <tr><td style="border:1px solid #bbb;padding:4px 6px;">Streaks</td><td style="border:1px solid #bbb;padding:4px 6px;">Loss aversion</td><td style="border:1px solid #bbb;padding:4px 6px;">Snapchat, Duolingo</td></tr>
+                    <tr><td style="border:1px solid #bbb;padding:4px 6px;">Infinite scroll</td><td style="border:1px solid #bbb;padding:4px 6px;">Variable reward</td><td style="border:1px solid #bbb;padding:4px 6px;">TikTok, Twitter/X</td></tr>
+                    <tr><td style="border:1px solid #bbb;padding:4px 6px;">Auto-play</td><td style="border:1px solid #bbb;padding:4px 6px;">Default bias</td><td style="border:1px solid #bbb;padding:4px 6px;">YouTube, Netflix</td></tr>
+                </table>
+                <p style="font-size:11px;color:#777;margin-top:6px;">Nguồn: Tổng hợp từ nghiên cứu của Eyal (2014), Williams (2018), và Montag et al. (2019).</p>
+                <div class="page-footer">&copy; 2024 NXB ĐHQG</div>
+            </div>
+            <div class="book-page" data-page="12">
+                <div class="page-number">Trang 12 / 500</div>
+                <h3>3.4 Nghiện công nghệ & Sức khỏe tâm thần</h3>
+                <p>WHO đã công nhận "Gaming Disorder" trong ICD-11 (2019). Tương tự, các nhà nghiên cứu đề xuất khái niệm "Social Media Addiction" và "Smartphone Addiction Scale" (SAS-SV) của Kwon et al. (2013).</p>
+                <p><strong>Các chỉ số đánh giá (Griffiths, 2005):</strong></p>
+                <ul style="margin:0 0 10px 18px;font-size:13px;line-height:1.5;color:#333;">
+                    <li><strong>Salience:</strong> suy nghĩ liên tục về nền tảng số ngay cả khi không sử dụng. Cognitive preoccupation, intrusive thoughts.</li>
+                    <li><strong>Tolerance:</strong> cần thời gian/ngày càng nhiều để đạt cùng mức thỏa mãn. Escalation of use patterns.</li>
+                    <li><strong>Mood modification:</strong> sử dụng để giải tỏa căng thẳng, trốn tránh thực tại. Coping mechanism, emotional regulation.</li>
+                    <li><strong>Withdrawal:</strong> lo âu, cáu kỉnh khi không được sử dụng thiết bị. Physical: tremors, sweating; Psychological: irritability, depression.</li>
+                    <li><strong>Conflict:</strong> mâu thuẫn với gia đình, công việc, học tập. Interpersonal conflicts, performance decline.</li>
+                    <li><strong>Relapse:</strong> quay lại hành vi cũ ngay cả sau nhiều lần cố gắng giảm. High relapse rates (60-80% after 6 months).</li>
+                </ul>
+                <p><strong>Công cụ đo lường:</strong> SAS-SV (Smartphone Addiction Scale - Short Version, 10 items, α = 0.91), SMAS (Social Media Addiction Scale, 17 items), Bergen Social Media Addiction Scale (BSMAS, 6 items). Cutoff scores: nghiện nếu ≥ 4/6 items ở mức "thường xuyên" hoặc "rất thường xuyên".</p>
+                <p><strong>Hiệu quả sinh học:</strong> fMRI studies: reduced gray matter volume in prefrontal cortex (impulse control), altered dopamine receptor density (D2 downregulation). EEG: increased beta waves during withdrawal (hyperarousal).</p>
+                <p style="font-size:12px;color:#555;border-left:3px solid #ccc;padding-left:10px;margin:8px 0;">Tại Việt Nam, Bộ Y tế ghi nhận tỷ lệ rối loạn tâm lý liên quan internet ở thanh thiếu niên tăng 23% giai đoạn 2019-2023 (Báo cáo Y tế công cộng, 2023).</p>
+                <div class="page-footer">&copy; 2024 NXB ĐHQG</div>
+            </div>
+            <div class="book-page" data-page="13">
+                <div class="page-number">Trang 13 / 500</div>
+                <h3>Chương 4: AI tạo sinh (Generative AI) & Truyền thông</h3>
+                <p><strong>4.1 Các mô hình ngôn ngữ lớn (LLMs)</strong></p>
+                <p>Transformer architecture (Vaswani et al., 2017) đã tạo ra cuộc cách mạng trong xử lý ngôn ngữ tự nhiên. Các mô hình như GPT-4 (OpenAI, 2023), Gemini Ultra (Google, 2024), và Claude 3 (Anthropic, 2024) đạt được hiệu suất gần người trong nhiều benchmark:</p>
+                <ul style="margin:0 0 10px 18px;font-size:13px;line-height:1.5;color:#333;">
+                    <li>GPT-4: 89th percentile trên SAT Math, 93rd percentile trên SAT Evidence-Based Reading & Writing.</li>
+                    <li>Gemini Ultra: 90.0% trên MMLU (Massive Multitask Language Understanding).</li>
+                    <li>Claude 3 Opus: vượt trội trong reasoning tasks và code generation (HumanEval: 84.9%).</li>
+                </ul>
+                <p><strong>Kiến trúc cơ bản:</strong></p>
+                <p style="font-size:13px;line-height:1.5;color:#333;margin:6px 0;">Self-attention mechanism cho phép mô hình xử lý song song toàn bộ sequence, giải quyết vấn đề vanishing gradient của RNN/LSTM. Multi-head attention chia không gian embedding thành nhiều sub-spaces, học các mối quan hệ ngữ nghĩa ở nhiều mức độ trừu tượng. Feed-forward networks với activation GELU hoặc SwiGLU cung cấp khả năng biểu diễn phi tuyến.</p>
+                <div class="page-footer">&copy; 2024 NXB ĐHQG</div>
+            </div>
+            <div class="book-page" data-page="14">
+                <div class="page-number">Trang 14 / 500</div>
+                <h3>4.2 Diffusion Models trong sản xuất hình ảnh</h3>
+                <p>Diffusion models (Ho et al., 2020; Song et al., 2021) hiện là state-of-the-art trong image generation. Cơ chế: thêm dần noise vào ảnh gốc (forward diffusion), sau đó học neural network để đảo ngược quá trình (reverse diffusion).</p>
+                <p><strong>Các biến thể chính:</strong></p>
+                <ul style="margin:0 0 10px 18px;font-size:13px;line-height:1.5;color:#333;">
+                    <li>DDPM (Denoising Diffusion Probabilistic Models): cơ sở lý thuyết vững chắc, sampling chậm.</li>
+                    <li>DDIM (Denoising Diffusion Implicit Models): giảm số bước sampling từ 1000 xuống 50-100.</li>
+                    <li>Latent Diffusion (Rombach et al., 2022): thực hiện diffusion trong latent space của VQ-VAE, giảm tính toán đáng kể (Stable Diffusion).</li>
+                    <li>Flow Matching (Lipman et al., 2023): thay thế diffusion bằng optimal transport, training ổn định hơn (SD3, Flux).</li>
+                </ul>
+                <p style="font-size:12px;color:#555;border-left:3px solid #ccc;padding-left:10px;margin:8px 0;">Thách thức pháp lý: vụ kiện Andersen v. Stability AI (2023) đặt câu hỏi về fair use trong việc training trên copyrighted images. Getty Images v. Stability AI (2023) yêu cầu bồi thường £1.8 tỷ.</p>
+                <div class="page-footer">&copy; 2024 NXB ĐHQG</div>
+            </div>
+            <div class="book-page" data-page="15">
+                <div class="page-number">Trang 15 / 500</div>
+                <h3>4.3 Video generation & Multimodal AI</h3>
+                <p>Sora (OpenAI, 2024) đánh dấu bước nhảy vọt trong text-to-video generation: tạo video 60 giây, 1080p, với consistency về vật lý và không gian. Kiến trúc dựa trên diffusion transformer kết hợp với spatio-temporal patches.</p>
+                <p><strong>Ứng dụng trong truyền thông:</strong></p>
+                <ul style="margin:0 0 10px 18px;font-size:13px;line-height:1.5;color:#333;">
+                    <li>Quảng cáo cá nhân hóa: tạo hàng nghìn biến thể video quảng cáo dựa trên demographics của người xem.</li>
+                    <li>Virtual influencers: Lil Miquela (2.5M followers Instagram) hoàn toàn do AI tạo ra.</li>
+                    <li>News synthesis: tự động tạo video news từ text articles (hiện còn nhiều tranh cãi về tính chính xác).</li>
+                    <li>Dubbing & lip-sync: HeyGen, Rask AI cho phép dịch video sang 40+ ngôn ngữ với giọng điệu tự nhiên.</li>
+                </ul>
+                <p style="font-size:12px;color:#666;margin-top:8px;"><em>Đọc thêm:</em> Brooks, T., Peebles, B., & Efros, A. A. (2024). Video generation models as world simulators. <em>OpenAI Research</em>.</p>
+                <div class="page-footer">&copy; 2024 NXB ĐHQG</div>
+            </div>
+            <div class="book-page" data-page="16">
+                <div class="page-number">Trang 16 / 500</div>
+                <h3>Chương 5: Deepfake & Thông tin sai lệch</h3>
+                <p><strong>5.1 Công nghệ Deepfake</strong></p>
+                <p>Deepfake kết hợp autoencoders và GANs để hoán đổi khuôn mặt, tổng hợp giọng nói, hoặc tạo video hoàn toàn giả mạo. Các công cụ như DeepFaceLab, FaceSwap, và RTVC (Real-Time Voice Cloning) đã làm giảm rào cản kỹ thuật xuống mức người dùng phổ thông.</p>
+                <p><strong>Bảng 5.1: Phân loại deepfake theo độ phức tạp</strong></p>
+                <table style="width:100%;border-collapse:collapse;font-size:12px;margin:8px 0;color:#333;">
+                    <tr style="background:#f0f0f0;"><th style="border:1px solid #bbb;padding:4px 6px;text-align:left;">Loại</th><th style="border:1px solid #bbb;padding:4px 6px;text-align:left;">Công nghệ</th><th style="border:1px solid #bbb;padding:4px 6px;text-align:left;">Độ khó phát hiện</th></tr>
+                    <tr><td style="border:1px solid #bbb;padding:4px 6px;">Face swap</td><td style="border:1px solid #bbb;padding:4px 6px;">Autoencoder + GAN</td><td style="border:1px solid #bbb;padding:4px 6px;">Trung bình</td></tr>
+                    <tr><td style="border:1px solid #bbb;padding:4px 6px;">Lip sync</td><td style="border:1px solid #bbb;padding:4px 6px;">Wav2Lip, VideoReTalking</td><td style="border:1px solid #bbb;padding:4px 6px;">Cao</td></tr>
+                    <tr><td style="border:1px solid #bbb;padding:4px 6px;">Voice clone</td><td style="border:1px solid #bbb;padding:4px 6px;">Tacotron + Vocoder</td><td style="border:1px solid #bbb;padding:4px 6px;">Rất cao</td></tr>
+                    <tr><td style="border:1px solid #bbb;padding:4px 6px;">Full body puppet</td><td style="border:1px solid #bbb;padding:4px 6px;">Neural Radiance Fields</td><td style="border:1px solid #bbb;padding:4px 6px;">Rất cao</td></tr>
+                    <tr><td style="border:1px solid #bbb;padding:4px 6px;">Text-to-video</td><td style="border:1px solid #bbb;padding:4px 6px;">Diffusion + Transformer</td><td style="border:1px solid #bbb;padding:4px 6px;">Cao</td></tr>
+                </table>
+                <p style="font-size:11px;color:#777;margin-top:6px;">Nguồn: Tổng hợp từ Deepfake Detection Challenge (Facebook, 2020) và Sensity AI (2023).</p>
+                <div class="page-footer">&copy; 2024 NXB ĐHQG</div>
+            </div>
+            <div class="book-page" data-page="17">
+                <div class="page-number">Trang 17 / 500</div>
+                <h3>5.2 Phát hiện & Phòng chống</h3>
+                <p>Các phương pháp phát hiện deepfake được chia thành:</p>
+                <ul style="margin:0 0 10px 18px;font-size:13px;line-height:1.5;color:#333;">
+                    <li><strong>Signal-level:</strong> phân tích artifacts trong频域 (Fourier analysis), inconsistency về ánh sáng/shadow, hoặc pulse signal (rPPG) không tự nhiên trên khuôn mặt giả.</li>
+                    <li><strong>Semantic-level:</strong> phát hiện bất thường về sinh lý (nhịp tim, chớp mắt), vật lý (không khớp reflection), hoặc ngữ cảnh (facts không nhất quán).</li>
+                    <li><strong>AI-based detectors:</strong> CNNs (XceptionNet), Vision Transformers (ViT), và ensemble methods. Tuy nhiên, hiệu suất giảm nhanh khi deepfake generator được cập nhật (arms race).</li>
+                </ul>
+                <p><strong>Giải pháp kỹ thuật:</strong></p>
+                <p style="font-size:13px;line-height:1.5;color:#333;margin:6px 0;">Content Authenticity Initiative (CAI) của Adobe sử dụng cryptographic signing để xác minh nguồn gốc nội dung. C2PA (Coalition for Content Provenance and Authenticity) đang trở thành tiêu chuẩn ngành. Blockchain-based provenance tracking được thử nghiệm tại Reuters và BBC.</p>
+                <p style="font-size:12px;color:#555;border-left:3px solid #ccc;padding-left:10px;margin:8px 0;">Tại Việt Nam, Nghị định 13/2023/NĐ-CP quy định xử phạt vi phạm hành chính về thông tin giả mạo, với mức phạt từ 10-20 triệu đồng đối với cá nhân tạo và phát tán deepfake gây ảnh hưởng xấu.</p>
+                <div class="page-footer">&copy; 2024 NXB ĐHQG</div>
+            </div>
+            <div class="book-page" data-page="18">
+                <div class="page-number">Trang 18 / 500</div>
+                <h3>Chương 6: Quyền riêng tư & Bảo mật dữ liệu</h3>
+                <p><strong>6.1 GDPR, CCPA & khung pháp lý khu vực</strong></p>
+                <p>GDPR (2018) đặt ra các nguyên tắc: lawfulness/fairness/transparency, purpose limitation, data minimization, accuracy, storage limitation, integrity/confidentiality, và accountability. Mức phạt tối đa: 4% doanh thu toàn cầu hoặc €20 triệu.</p>
+                <p>CCPA (2020) và CPRA (2023) của California mở rộng quyền: right to know, right to delete, right to opt-out, right to non-discrimination, và right to correct.</p>
+                <p><strong>Bảng 6.1: So sánh khung pháp lý dữ liệu</strong></p>
+                <table style="width:100%;border-collapse:collapse;font-size:12px;margin:8px 0;color:#333;">
+                    <tr style="background:#f0f0f0;"><th style="border:1px solid #bbb;padding:4px 6px;text-align:left;">Tiêu chí</th><th style="border:1px solid #bbb;padding:4px 6px;text-align:left;">GDPR (EU)</th><th style="border:1px solid #bbb;padding:4px 6px;text-align:left;">CCPA (Mỹ)</th><th style="border:1px solid #bbb;padding:4px 6px;text-align:left;">PDPA (Singapore)</th></tr>
+                    <tr><td style="border:1px solid #bbb;padding:4px 6px;">Cơ sở pháp lý</td><td style="border:1px solid #bbb;padding:4px 6px;">6 cơ sở (consent, contract...)</td><td style="border:1px solid #bbb;padding:4px 6px;">Opt-out mặc định</td><td style="border:1px solid #bbb;padding:4px 6px;">Consent + legitimate purpose</td></tr>
+                    <tr><td style="border:1px solid #bbb;padding:4px 6px;">DPO bắt buộc</td><td style="border:1px solid #bbb;padding:4px 6px;">Có (public/core)</td><td style="border:1px solid #bbb;padding:4px 6px;">Không</td><td style="border:1px solid #bbb;padding:4px 6px;">Có (tổ chức lớn)</td></tr>
+                    <tr><td style="border:1px solid #bbb;padding:4px 6px;">Phạt tối đa</td><td style="border:1px solid #bbb;padding:4px 6px;">€20M / 4% doanh thu</td><td style="border:1px solid #bbb;padding:4px 6px;">$7,500/vi phạm</td><td style="border:1px solid #bbb;padding:4px 6px;">S$1M</td></tr>
+                </table>
+                <div class="page-footer">&copy; 2024 NXB ĐHQG</div>
+            </div>
+            <div class="book-page" data-page="19">
+                <div class="page-number">Trang 19 / 500</div>
+                <h3>6.2 Federated Learning & Differential Privacy</h3>
+                <p>Federated Learning (McMahan et al., 2017) cho phép training model trên dữ liệu phân tán mà không cần tập trung hóa. Các thuật toán: FedAvg, FedProx, SCAFFOLD. Thách thức: communication cost, statistical heterogeneity (non-IID data), và Byzantine attacks.</p>
+                <p><strong>Differential Privacy:</strong> thêm noise có kiểm soát vào kết quả truy vấn hoặc gradient để bảo vệ thông tin cá nhân. (ε, δ)-differential privacy với ε → 0 cho mức bảo vệ cao nhất. Google sử dụng DP trong Chrome (RAPPOR) và Census (2020).</p>
+                <p><strong>Homomorphic Encryption:</strong> tính toán trên dữ liệu đã mã hóa. HE đầy đủ (Gentry, 2009) chậm, nhưng partially HE (Paillier, BFV/CKKS) đã có ứng dụng thực tế trong healthcare và finance.</p>
+                <p style="font-size:12px;color:#555;border-left:3px solid #ccc;padding-left:10px;margin:8px 0;">"Dữ liệu là dầu mỏ của thế kỷ 21, nhưng dầu mỏ phải được tinh chế - và quan trọng hơn, phải được bảo vệ." — Đỗ Minh Khôi, Hội nghị Truyền thông Số 2023.</p>
+                <div class="page-footer">&copy; 2024 NXB ĐHQG</div>
+            </div>
+            <div class="book-page" data-page="20">
+                <div class="page-number">Trang 20 / 500</div>
+                <h3>Chương 7: Tương lai & Khuyến nghị</h3>
+                <p><strong>7.1 Xu hướng công nghệ 2025-2035</strong></p>
+                <ul style="margin:0 0 10px 18px;font-size:13px;line-height:1.5;color:#333;">
+                    <li><strong>Multimodal Foundation Models:</strong> GPT-4V, Gemini Pro Vision, Claude 3V - xử lý đồng thời text, image, audio, video trong một architecture duy nhất.</li>
+                    <li><strong>Agentic AI:</strong> AI agents tự động lập kế hoạch, sử dụng tools, và tương tác với môi trường (AutoGPT, BabyAGI, Devin).</li>
+                    <li><strong>Neuromorphic Computing:</strong> chip thiết kế theo kiến trúc não bộ (Intel Loihi, IBM TrueNorth) giảm tiêu thụ năng lượng AI xuống 1000x.</li>
+                    <li><strong>Quantum ML:</strong> variational quantum circuits (VQC) cho optimization và generative modeling ở quy mô lớn (hy vọng NISQ-era).</li>
+                    <li><strong>Brain-Computer Interfaces:</strong> Neuralink, Synchron - giao tiếp trực tiếp não-máy tính, mở ra khả năng truyền thông "telepathic".</li>
+                </ul>
+                <p><strong>7.2 Khuyến nghị chính sách</strong></p>
+                <p style="font-size:13px;line-height:1.5;color:#333;margin:6px 0;">Chính phủ cần xây dựng sandbox regulatory để thử nghiệm AI mới mà không làm tê liệt đổi mới. Cần thiết lập quỹ bồi thường cho nạn nhân của lỗi AI (AI Liability Directive của EU). Giáo dục đại học phải tích hợp AI literacy vào chương trình đào tạo bắt buộc cho mọi ngành, không chỉ CNTT. Và quan trọng nhất, cần duy trì vòng lặp phản biện: công nghệ → tác động → điều chỉnh → công nghệ mới.</p>
+                <p style="font-size:12px;color:#777;margin-top:8px;"><em>Kết thúc phần trích dẫn. Tài liệu đầy đủ 500 trang có sẵn tại thư viện ĐHQG.</em></p>
+                <div class="page-footer">&copy; 2024 NXB ĐHQG</div>
+            </div>
+        </div>
+        <div class="book-controls">
+            <button class="pixel-button" id="book-prev" type="button">← Trang trước</button>
+            <span class="book-counter" id="book-counter">Trang 1 / 500</span>
+            <button class="pixel-button" id="book-next" type="button">Trang sau →</button>
+        </div>
+    </div>
+</section>
+
+<section class="screen info-screen" id="info-screen" aria-label="Máy rút gọn tài liệu">
+    <div class="info-container">
+        <div class="info-header">
+            <h2>Máy rút gọn tài liệu thông minh</h2>
+            <p>Đưa tài liệu vào để AI tóm tắt thành flashcard</p>
+        </div>
+        <div class="info-workspace" id="info-workspace">
+            <div class="info-machine-wrap">
+                <img src="assets/img/chapter%204/info%202.1.webp" alt="Máy rút gọn" class="info-machine" id="info-machine">
+                <div class="info-slot-zone" id="info-slot-zone">
+                    <span class="info-slot-label">Thả sách vào đây</span>
+                </div>
+            </div>
+            <div class="info-book-drag" id="info-book-drag">
+                <img src="assets/img/chapter%204/book.webp" alt="Giáo trình" class="info-book-img" draggable="false">
+            </div>
+        </div>
+        <div class="info-progress" id="info-progress">
+            <div class="info-progress-bar" id="info-progress-bar"></div>
+            <span class="info-progress-text">Đang xử lý...</span>
+        </div>
+    </div>
+</section>
+
+<section class="screen flashcard-screen" id="flashcard-screen" aria-label="Flashcard tóm tắt">
+    <div class="flashcard-container">
+        <div class="flashcard-header">
+            <h2>Tài liệu đã rút gọn</h2>
+            <p>500 trang → 5 flashcard nắm chắc kiến thức cốt lõi</p>
+        </div>
+        <div class="flashcard-deck" id="flashcard-deck">
+            <div class="flashcard" data-index="0">
+                <div class="flashcard-inner">
+                    <div class="flashcard-front">
+                        <span class="fc-tag">Khái niệm</span>
+                        <p>Truyền thông đa phương tiện là gì?</p>
+                        <span class="fc-hint">Nhấn để lật</span>
+                    </div>
+                    <div class="flashcard-back">
+                        <p>Lĩnh vực nghiên cứu sự tương tác giữa con người và phương tiện truyền thông qua văn bản, hình ảnh, âm thanh, video và yếu tố tương tác.</p>
+                    </div>
+                </div>
+            </div>
+            <div class="flashcard" data-index="1">
+                <div class="flashcard-inner">
+                    <div class="flashcard-front">
+                        <span class="fc-tag">Lý thuyết</span>
+                        <p>Mô hình 5W của Lasswell?</p>
+                        <span class="fc-hint">Nhấn để lật</span>
+                    </div>
+                    <div class="flashcard-back">
+                        <p>Who says What in Which channel to Whom with What effect. Mô hình cổ điển nhưng vẫn có giá trị ứng dụng trong phân tích truyền thông hiện đại.</p>
+                    </div>
+                </div>
+            </div>
+            <div class="flashcard" data-index="2">
+                <div class="flashcard-inner">
+                    <div class="flashcard-front">
+                        <span class="fc-tag">AI + Truyền thông</span>
+                        <p>AI đang thay đổi sản xuất nội dung như thế nào?</p>
+                        <span class="fc-hint">Nhấn để lật</span>
+                    </div>
+                    <div class="flashcard-back">
+                        <p>45% tổ chức truyền thông đã dùng AI cho viết tin, biên tập ảnh và video. Tuy nhiên, "hallucination" và thiên lệch thuật toán vẫn là thách thức lớn.</p>
+                    </div>
+                </div>
+            </div>
+            <div class="flashcard" data-index="3">
+                <div class="flashcard-inner">
+                    <div class="flashcard-front">
+                        <span class="fc-tag">Đạo đức</span>
+                        <p>Vấn đề nổi bật khi dùng AI trong truyền thông?</p>
+                        <span class="fc-hint">Nhấn để lật</span>
+                    </div>
+                    <div class="flashcard-back">
+                        <p>Thiên lệch thuật toán, quyền riêng tư dữ liệu, trách nhiệm pháp lý. EU đã ban hành AI Act 2024, Việt Nam đang xây dựng khung quản lý nội dung số.</p>
+                    </div>
+                </div>
+            </div>
+            <div class="flashcard" data-index="4">
+                <div class="flashcard-inner">
+                    <div class="flashcard-front">
+                        <span class="fc-tag">Tương lai</span>
+                        <p>Dự báo thị trường AI truyền thông đến 2030?</p>
+                        <span class="fc-hint">Nhấn để lật</span>
+                    </div>
+                    <div class="flashcard-back">
+                        <p>Đạt 45 tỷ USD toàn cầu. Xu hướng: cá nhân hóa thời gian thực, AI đàm thoại đa phương tiện, hội tụ VR và AI tạo sinh.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="flashcard-controls" id="flashcard-controls">
+            <button class="pixel-button secondary" id="flashcard-flip-btn" type="button">Lật card</button>
+            <button class="pixel-button" id="flashcard-next-btn" type="button">Card tiếp theo →</button>
+        </div>
+    </div>
+</section>
+
+<section class="screen exam-screen" id="exam-screen" aria-label="Bài kiểm tra AI">
+    <!-- Scan progress bar -->
+    <div class="scan-progress" id="scan-progress">
+        <div class="scan-progress-bar" id="scan-progress-bar"></div>
+        <span class="scan-progress-text" id="scan-progress-text">Quét: 0/6 dòng</span>
+    </div>
+
+    <!-- Magnifier instruction -->
+    <div class="magnifier-instruction" id="magnifier-instruction">
+        <img src="assets/img/chapter%204/kinh.webp" alt="" class="mag-inst-icon">
+        <span>Kéo kính lúp qua bài luận để soi</span>
+    </div>
+
+    <div class="exam-paper" id="exam-paper">
+        <!-- Header bài thi -->
+        <div class="exam-header">
+            <div class="exam-school">HỌC VIỆN CÔNG NGHỆ BƯU CHÍNH VIỄN THÔNG</div>
+            <div class="exam-dept">Khoa Truyền thông Đa phương tiện</div>
+            <div class="exam-divider"></div>
+            <div class="exam-title">BÀI LUẬN CUỐI KỲ</div>
+            <div class="exam-topic">Đề tài: Xu hướng truyền thông số tại Việt Nam</div>
+            <div class="exam-meta">
+                <span>Sinh viên: <strong>Nguyễn Văn A</strong></span>
+                <span>Mã SV: 2024TT001</span>
+            </div>
+        </div>
+
+        <!-- Body bài luận — 2 lớp chồng lên nhau -->
+        <div class="exam-body" id="exam-body">
+            <!-- Mỗi line có 2 lớp: text bài luận (trên) + prompt AI (dưới) -->
+            <div class="exam-line-group" data-line="0">
+                <div class="exam-text-line">Truyền thông số đang trải qua giai đoạn chuyển đổi mạnh mẽ nhất trong lịch sử, với sự hội tụ của trí tuệ nhân tạo, dữ liệu lớn và các nền tảng đa phương tiện.</div>
+                <div class="exam-prompt-line"><span class="prompt-cursor">❯</span> Viết mở bài 2-3 câu về xu hướng truyền thông số, dùng văn phong học thuật, đề cập AI và Big Data</div>
+            </div>
+            <div class="exam-line-group" data-line="1">
+                <div class="exam-text-line">Theo nghiên cứu của Reuters Institute (2024), hơn 45% tổ chức truyền thông toàn cầu đã tích hợp AI vào quy trình sản xuất nội dung, từ viết tin tự động đến phân tích dữ liệu độc giả.</div>
+                <div class="exam-prompt-line"><span class="prompt-cursor">❯</span> Bổ sung số liệu thống kê quốc tế mới nhất về AI trong truyền thông, trích nguồn Reuters Institute</div>
+            </div>
+            <div class="exam-line-group" data-line="2">
+                <div class="exam-text-line">Hệ quả tất yếu từ việc dịch chuyển cấu trúc vĩ mô này là sự tái định nghĩa vai trò của nhà truyền thông — từ người sáng tạo nội dung sang người kiểm soát chất lượng AI.</div>
+                <div class="exam-prompt-line"><span class="prompt-cursor">❯</span> Phân tích hệ quả vĩ mô của AI đối với nghề truyền thông, sử dụng thuật ngữ chuyên ngành cao cấp</div>
+            </div>
+            <div class="exam-line-group" data-line="3">
+                <div class="exam-text-line">Tại Việt Nam, khảo sát trên 500 sinh viên ngành Truyền thông cho thấy 78% đã sử dụng AI trong quá trình làm bài tập, trong đó 62% thừa nhận copy nguyên kết quả AI mà không chỉnh sửa.</div>
+                <div class="exam-prompt-line"><span class="prompt-cursor">❯</span> Tạo số liệu khảo sát giả lập về tỷ lệ sinh viên VN dùng AI làm bài tập, nghe thật và thuyết phục</div>
+            </div>
+            <div class="exam-line-group" data-line="4">
+                <div class="exam-text-line">Mô hình đa tầng (multi-layer model) trong truyền thông hiện đại cho phép tối ưu hóa đồng thời cả kênh phân phối và nội dung, tạo ra trải nghiệm cá nhân hóa chưa từng có.</div>
+                <div class="exam-prompt-line"><span class="prompt-cursor">❯</span> Viết 1 đoạn về mô hình truyền thông hiện đại, dùng từ ngữ chuyên ngành phức tạp để nghe hàn lâm</div>
+            </div>
+            <div class="exam-line-group" data-line="5">
+                <div class="exam-text-line">Kết luận cho thấy, xu hướng không thể đảo ngược của chuyển đổi số đòi hỏi thế hệ nhà truyền thông tương lai phải nắm vững cả tư duy phản biện lẫn kỹ năng công nghệ.</div>
+                <div class="exam-prompt-line"><span class="prompt-cursor">❯</span> Viết kết luận chốt lại bài luận, kêu gọi hành động, dùng giọng điệu tự tin và chuyên nghiệp</div>
+            </div>
+        </div>
+
+        <!-- Footer — Điểm & Nhận xét -->
+        <div class="exam-footer">
+            <div class="exam-grade-area">
+                <div class="exam-grade" id="exam-grade">A+</div>
+                <div class="exam-grade-label">Điểm</div>
+            </div>
+            <div class="exam-comment-area">
+                <div class="exam-comment-label">Nhận xét của giảng viên:</div>
+                <div class="exam-comment" id="exam-comment">Bài viết có tư duy, cập nhật xu hướng rất nhạy bén. Lập luận chặt chẽ, dẫn chứng phong phú. Tiếp tục phát huy!</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Kính lúp (ẩn, follow cursor khi active) -->
+    <div class="magnifier-cursor" id="magnifier-cursor">
+        <img src="assets/img/chapter%204/kinh.webp" alt="Kính lúp" draggable="false">
+    </div>
+
+    <!-- Panel nhận xét ThS. Trần Ngọc Trang Ninh -->
+    <div class="ninh-panel" id="ninh-panel">
+        <div class="ninh-card">
+            <div class="ninh-avatar">
+                <div class="ninh-silhouette">👩‍🏫</div>
+            </div>
+            <div class="ninh-info">
+                <div class="ninh-name">ThS. Trần Ngọc Trang Ninh</div>
+                <div class="ninh-title">Giảng viên Khoa Truyền thông — PTIT</div>
+            </div>
+            <div class="ninh-audio-wave" id="ninh-audio-wave">
+                <span></span><span></span><span></span><span></span><span></span>
+            </div>
+        </div>
+    </div>
+
+    <!-- Nút tiếp tục sau khi hoàn tất -->
+    <div class="exam-next-wrap" id="exam-next-wrap">
+        <button class="pixel-button" id="exam-next-btn" type="button">Tiếp tục →</button>
     </div>
 </section>
 
@@ -308,7 +896,9 @@
 <!-- Audio elements -->
 <audio id="vn-audio"></audio>
 <audio id="sfx-snap" src="assets/audio/SFX/fingersnap.mp3" preload="none"></audio>
+<audio id="sfx-record1" src="assets/audio/SFX/record1.wav" preload="none"></audio>
 
+<script src="assets/js/chapter-4-animations.js"></script>
 <script src="assets/js/chapter-4.js"></script>
 </body>
 </html>

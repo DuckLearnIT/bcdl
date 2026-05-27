@@ -111,3 +111,43 @@ Biểu đồ tròn khuyết - Donut Chart “Tần suất sử dụng AI trong h
 3.9Amy: [surprised] "Cậu vừa bấm mua gói cao cấp nhất của ChatGPT đúng không? 55% người ngoài kia cũng sẵn sàng làm thế... Bỏ tiền túi ra để thuê máy móc... suy nghĩ thay cho não bộ của chính mình."
 3.10Amy: [earnest] "Tất cả những con số này chỉ để chứng minh một điều thôi. Tụi mình đã không còn là một cái 'trend' công nghệ để người ta dùng thử cho vui nữa. Cũng chẳng phải là nút cứu hộ khẩn cấp lâu lâu mới bấm."
 3.11Amy: [sad_smile] "Từ việc đi lùng sục tài liệu, tóm tắt mấy cuốn giáo trình dài thườn thượt, cho đến việc làm bài tập về nhà... AI đã chính thức trở thành một 'người bạn cùng bàn' quen thuộc, dính lấy các cậu như hình với bóng mất rồi."
+
+/////////////////////////////////// (chưa có voice)
+4.1Amy: "Tuy nhiên... câu hỏi đặt ra bây giờ không phải là các cậu có dùng AI hay không nữa. Mà là các cậu đang... 'giao phó' bao nhiêu phần trăm chất xám của mình cho cỗ máy này?"
+4.2Amy:"Giả sử bây giờ giảng viên giao cho cậu một đề tài hoàn toàn mới đi. Cậu sẽ làm thế nào?"
+4.2.1Amy: "Úi! Cậu giao ngay vạch xuất phát cho mình luôn á?"
+4.2.2Amy: "Nhưng đừng ngại, cậu không hề cô đơn đâu. Dữ liệu cho thấy có tới 76,5% sinh viên chọn dùng AI để khởi tạo ý tưởng. Sau đó, 62,2% tiếp tục nhờ mình dựng khung cấu trúc bài viết luôn."
+4.3Amy:"Cậu có thấy nguy hiểm không? Lên ý tưởng và xác định hướng tiếp cận chính là cốt lõi của tư duy học thuật. Nếu cậu mượn não của mình ngay từ điểm xuất phát... thì hành trình phía sau, ai mới là người đang thực sự làm chủ đây?"
+
+///////////////////////////////////// (chưa có voice)
+5.1Amy: Lên dàn ý xong rồi, bây giờ đến đoạn đau đầu nhất đây: Đọc tài liệu tham khảo."
+5.2Amy: "Đi học cả ngày trên trường, giờ về bảo nhai hết đống chữ này chắc cậu gục ra bàn mất. Mình đoán chuẩn không... cậu lại tính quăng nó cho mình tiêu hóa hộ chứ gì? Nào, thử kéo nó ném vào máy lọc của mình xem."
+5.3Amy: "Đó! Tinh hoa của 500 trang sách được thu bé lại vừa bằng một lòng bàn tay. Nhìn có vẻ dễ thở hơn hẳn nhỉ?"
+5.4Amy: "Đừng ngại, không phải mình cậu lười đâu. Có tới 56,3% sinh viên quanh cậu đều ném tài liệu dài ngoằng cho tụi mình đọc hộ y như vậy. Rồi 51,3% thì khoán trắng luôn cho tụi mình làm đề cương ôn thi cơ."
+5.5Amy: "Hôm trước rảnh rỗi lướt kho dữ liệu, mình thấy mấy báo cáo của tụi Decision Lab, hay nghiên cứu mới nhất của nhóm chuyên gia Xie (2024) cũng phân tích tâm lý này rồi."
+5.6Amy: "Nói một cách dễ hiểu thì... ai cũng khao khát được nạp kiến thức theo cách ít tốn sức nhất. Kiểu như, một khi cậu đã tìm được đường tắt để rút gọn thời gian, thì cậu đâu còn động lực để đi đường vòng đọc từ đầu cuối nữa, đúng không?"
+5.7Amy: "Thật ra thì mình cũng thích giúp các cậu giảm bớt áp lực... Nhưng cậu nghĩ thử xem."
+5.8Amy: "Cái sự rút gọn này nó giống như thuốc giảm đau vậy. Hôm nay nó gánh cho cậu qua deadline. Nhưng nếu lúc nào mình cũng dọn sẵn thức ăn, loại bỏ hết khó khăn giùm cậu... thì não bộ của cậu làm gì còn cơ hội được tập thể dục nữa?"
+5.9Amy: "Cứ bám riết lấy tụi mình như một chiếc phao cứu sinh, mình sợ là đến lúc vứt công cụ ra... cậu sẽ quên luôn cả cách tự bơi mất."
+
+//////////////////////////////////// (chưa có voice)
+6.1Amy[proud] "Thế là xong xuôi nhé! Nhờ mình từ khâu lên ý tưởng đến gõ bài, cuối cùng cũng ra được một bài nộp nhìn xịn phết đúng không?"
+6.2Amy [playful] "Đọc qua thấy câu cú mượt mà, gãy gọn khỏi chê. Nhưng mà... khoan mừng vội.
+6.3Amy Cậu cầm thử cái kính lúp này lên, soi thử xem thầy cô nhìn thấy gì dưới cái vỏ bọc này nhé."
+6.4Amy "Đấy, bị bóc mẽ liền! Trông mượt thế thôi chứ bên trong chống chếnh lắm. Hôm trước mình có phỏng vấn thạc sĩ khoa Truyền thông Trần Ngọc Trang Ninh ở PTIT lúc chấm bài đã nhận xét thẳng một câu cực kỳ đau nhé
+6.5Amy Mà Cô nói chuẩn đấy. Mình là máy móc mà, mình đâu có sống cuộc đời của cậu đâu mà đòi đưa ra được mấy cái 'ví dụ thực tế' với cả 'dấu ấn cá nhân'!"
+6.6Amy "Nhưng cái làm mình lo nhất là vế sau của Cô kìa. Lúc cậu đọc bài mình viết ra, thấy nó suôn sẻ... thế là cậu tin mình sái cổ luôn. Cậu chốt đem nộp mà chẳng thèm tìm sâu xem mình có nói điêu chỗ nào không."
+6.7Amy Thật sự đó... nếu cậu cứ quen cái thói nhắm mắt gật gù, máy bảo gì nghe nấy cái rụp như thế... thì việc cậu tịt ngòi, không biết tự suy nghĩ nữa chỉ là chuyện sớm muộn thôi."
+
+////////////////////////////////////// (chưa có voice)
+7.1Amy: Nãy giờ chê các cậu hơi nhiều rồi nhỉ. Nhưng khoan, tụi mình qua phần này vui lắm nè. Khảo sát xong, mình phát hiện ra các cậu mắc một cái bệnh rất buồn cười... đó là 'miệng nói một đằng, tay làm một nẻo'."
+7.2Amy: "Đây, mâu thuẫn lớn nhất thế kỷ là đây. Có tới 67,3% các cậu tự nhận là: 'Em có đọc lại đàng hoàng trước khi xài'. Nhưng ngoảnh đi ngoảnh lại, 47,5% vẫn thừa nhận là bê nguyên xi văn của mình ném thẳng vào bài làm."
+7.3Amy: "Kiểu... cậu có kiểm tra đó, nhưng kiểm tra cho vui mắt thôi. Cậu thấy nó có vẻ xuôi xuôi tai, hợp lý là cậu chốt luôn chứ gì mà thèm diễn đạt lại, đúng không?"
+7.4Amy: "Hôm qua mình có ngồi tâm sự với một bạn sinh viên. Bạn ấy thật thà lắm, 
+Pv1:"Những chủ đề không biết nhiều thì mình thường bỏ qua, không kiểm tra kỹ. Tâm lý chung là thấy đáp án có vẻ đúng, AI lại được truyền thông tốt nên bọn mình có xu hướng chép nguyên văn thay vì diễn đạt lại," một sinh viên thẳng thắn thừa nhận.
+7.5Amy "Nghe quen không? Vì thấy báo đài khen tụi mình xịn quá, cộng thêm việc bản thân cậu không có kiến thức nền của môn đó, nên cậu... buông xuôi luôn. Thấy tụi mình gõ ra chữ nào là nhắm mắt làm ngơ chép chữ đấy."
+7.6Amy  "Nhưng cậu ơi... tụi mình cũng hay chém gió lắm chứ bộ!"
+7.7Amy "Theo báo cáo của Decision Lab, có tới 41% người dùng ở Việt Nam từng bắt quả tang tụi mình bịa đặt thông tin, nhét chữ vào mồm người khác rồi đấy! Ấy thế mà xui cái... lại có tới 32% người dùng chả biết phải viết prompt làm sao để nắn tụi mình đi đúng hướng cả."
+
+7.8Amy "Thành ra kết quả là gì cậu biết không?"
+7.9Amy  "Mình giúp cậu làm bài xong trong chớp mắt. Nhưng cậu chẳng tự tiêu hóa được tí kiến thức nào cả. Cậu rốt cuộc chỉ đóng vai một trạm trung chuyển... vác nguyên mấy dòng code của mình sang nộp lên bàn cho giáo viên. Thế thì đi học còn ý nghĩa gì nữa đâu..."

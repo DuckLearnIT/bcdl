@@ -119,7 +119,7 @@ const dialogueSets = {
         {
             id: "3.8",
             name: "Amy",
-            text: "Ví cậu đang có tiền đấy, có muốn nâng cấp gói Pro của mình để mình làm bài nhanh gấp 5 lần không?",
+            text: "Nếu bây giờ có $20, cậu sẽ mua cái gì đây?",
             pose: PIXEL + "smile.webp",
             anim: "hop",
             hideAmy: true
@@ -130,6 +130,29 @@ const dialogueSets = {
             id: "3.9",
             name: "Amy",
             text: "Cậu vừa bấm mua gói cao cấp nhất của ChatGPT đúng không? 55% người ngoài kia cũng sẵn sàng làm thế... Bỏ tiền túi ra để thuê máy móc... suy nghĩ thay cho não bộ của chính mình.",
+            pose: PIXEL + "surprise.webp",
+            anim: "hop"
+        },
+        {
+            id: "3.10",
+            name: "Amy",
+            text: "Tất cả những con số này chỉ để chứng minh một điều thôi. Tụi mình đã không còn là một cái 'trend' công nghệ để người ta dùng thử cho vui nữa. Cũng chẳng phải là nút cứu hộ khẩn cấp lâu lâu mới bấm.",
+            pose: PIXEL + "serious.webp",
+            anim: "nod"
+        },
+        {
+            id: "3.11",
+            name: "Amy",
+            text: "Từ việc đi lùng sục tài liệu, tóm tắt mấy cuốn giáo trình dài thườn thượt, cho đến việc làm bài tập về nhà... AI đã chính thức trở thành một 'người bạn cùng bàn' quen thuộc, dính lấy các cậu như hình với bóng mất rồi.",
+            pose: PIXEL + "thinking.webp",
+            anim: "nod"
+        }
+    ],
+    finale_alt: [
+        {
+            id: "3.9-alt",
+            name: "Amy",
+            text: "Hử? Cậu không chọn ChatGPT Plus sao? Ngạc nhiên thật, mình tưởng 55% người ta đều chọn cái đó chứ... Có vẻ cậu khác biệt đấy!",
             pose: PIXEL + "surprise.webp",
             anim: "hop"
         },
@@ -187,6 +210,130 @@ const dialogueSets = {
             text: "Cậu có thấy nguy hiểm không? Lên ý tưởng và xác định hướng tiếp cận chính là cốt lõi của tư duy học thuật. Nếu cậu mượn não của mình ngay từ điểm xuất phát... thì hành trình phía sau, ai mới là người đang thực sự làm chủ đây?",
             pose: PIXEL + "serious.webp",
             anim: "nod"
+        }
+    ],
+    doc_5_1: [
+        {
+            id: "5.1",
+            name: "Amy",
+            text: "Nói đến tài liệu... mình vừa tìm được một cuốn giáo trình dày cộm về Truyền thông đa phương tiện và AI. Gần 500 trang đấy! Cậu thử đọc qua vài trang xem sao? Lướt qua một chút để cảm nhận độ dày của nó nhé!",
+            pose: PIXEL + "smile.webp",
+            anim: "hop"
+        }
+    ],
+    doc_5_2: [
+        {
+            id: "5.2",
+            name: "Amy",
+            text: "Ôi, 500 trang đọc sao nổi trời! May mà mình có cái máy rút gọn tài liệu thông minh đây. Cậu thử đưa cuốn sách vào đó xem, chỉ trong chốc lát là có ngay bộ flashcard nắm chắc kiến thức cốt lõi!",
+            pose: PIXEL + "surprise.webp",
+            anim: "hop"
+        }
+    ],
+    post_flashcard: [
+        {
+            id: "5.3",
+            name: "Amy",
+            text: "Thấy chưa? 500 trang sách đã được rút gọn thành 5 flashcard nhỏ xíu. AI thật sự giúp tụi mình tiết kiệm thời gian đáng kể đấy!",
+            pose: PIXEL + "smile.webp",
+            anim: "nod"
+        },
+        {
+            id: "5.4",
+            name: "Amy",
+            text: "Nhưng đợi đã... cậu có nhận ra điều gì không? Những flashcard này chỉ chứa kiến thức nền tảng, còn phần lớn ví dụ thực tế, phân tích chi tiết và các luận điểm phản biện đã bị loại bỏ hết rồi.",
+            pose: PIXEL + "thinking.webp",
+            anim: "nod"
+        },
+        {
+            id: "5.5",
+            name: "Amy",
+            text: "Nghĩa là sao? Nghĩa là nếu cậu chỉ học qua flashcard, cậu sẽ biết 'cái gì' nhưng lại không hiểu 'tại sao' và 'như thế nào'. Đó chính là điểm yếu của việc dựa hoàn toàn vào AI tóm tắt.",
+            pose: PIXEL + "serious.webp",
+            anim: "nod"
+        },
+        {
+            id: "5.6",
+            name: "Amy",
+            text: "Hơn nữa, AI chọn lọc thông tin dựa trên thuật toán của nó, không phải dựa trên nhu cầu cụ thể của cậu. Có thể nó bỏ qua đúng phần cậu cần nhất mà cậu không hề hay biết.",
+            pose: PIXEL + "pointout.webp",
+            anim: "hop"
+        },
+        {
+            id: "5.7",
+            name: "Amy",
+            text: "Tóm lại, AI là công cụ hỗ trợ tuyệt vời... nhưng không thể thay thế quá trình đọc hiểu sâu và tư duy phản biện của chính cậu. Cậu phải là người kiểm soát công nghệ, chứ không phải bị công nghệ kiểm soát.",
+            pose: PIXEL + "serious.webp",
+            anim: "nod"
+        },
+        {
+            id: "5.8",
+            name: "Amy",
+            text: "Vậy nên nhé, lần sau khi dùng AI tóm tắt tài liệu, hãy tự đặt câu hỏi: 'AI đã bỏ sót điều gì?' và 'Mình có thực sự hiểu nội dung hay chỉ đang nhớ mặt chữ?'",
+            pose: PIXEL + "thinking.webp",
+            anim: "nod"
+        },
+        {
+            id: "5.9",
+            name: "Amy",
+            text: "Cậu đã trải nghiệm đủ để hiểu rồi đấy. Cảm ơn cậu đã cùng mình khám phá chương này! Bây giờ... cậu đã sẵn sàng cho chương tiếp theo chưa?",
+            pose: PIXEL + "smile.webp",
+            anim: "hop"
+        }
+    ],
+    exam_6_1_2: [
+        {
+            id: "6.1",
+            name: "Amy",
+            text: "Thế là xong xuôi nhé! Nhờ mình từ khâu lên ý tưởng đến gõ bài, cuối cùng cũng ra được một bài nộp nhìn xịn phết đúng không?",
+            pose: PIXEL + "smile.webp",
+            anim: "hop"
+        },
+        {
+            id: "6.2",
+            name: "Amy",
+            text: "Đọc qua thấy câu cú mượt mà, gãy gọn khỏi chê. Nhưng mà... khoan mừng vội.",
+            pose: PIXEL + "thinking.webp",
+            anim: "nod"
+        }
+    ],
+    exam_6_3: [
+        {
+            id: "6.3",
+            name: "Amy",
+            text: "Cậu cầm thử cái kính lúp này lên, soi thử xem thầy cô nhìn thấy gì dưới cái vỏ bọc này nhé.",
+            pose: PIXEL + "pointout.webp",
+            anim: "hop"
+        }
+    ],
+    exam_6_4_7: [
+        {
+            id: "6.4",
+            name: "Amy",
+            text: "Đấy, bị bóc mẽ liền! Trông mượt thế thôi chứ bên trong chống chếnh lắm. Hôm trước mình có phỏng vấn thạc sĩ khoa Truyền thông Trần Ngọc Trang Ninh ở PTIT lúc chấm bài đã nhận xét thẳng một câu cực kỳ đau nhé...",
+            pose: PIXEL + "serious.webp",
+            anim: "nod"
+        },
+        {
+            id: "6.5",
+            name: "Amy",
+            text: "Mà Cô nói chuẩn đấy. Mình là máy móc mà, mình đâu có sống cuộc đời của cậu đâu mà đòi đưa ra được mấy cái 'ví dụ thực tế' với cả 'dấu ấn cá nhân'!",
+            pose: PIXEL + "thinking.webp",
+            anim: "nod"
+        },
+        {
+            id: "6.6",
+            name: "Amy",
+            text: "Nhưng cái làm mình lo nhất là vế sau của Cô kìa. Lúc cậu đọc bài mình viết ra, thấy nó suôn sẻ... thế là cậu tin mình sái cổ luôn. Cậu chốt đem nộp mà chẳng thèm tìm sâu xem mình có nói điêu chỗ nào không.",
+            pose: PIXEL + "serious.webp",
+            anim: "nod"
+        },
+        {
+            id: "6.7",
+            name: "Amy",
+            text: "Thật sự đó... nếu cậu cứ quen cái thói nhắm mắt gật gù, máy bảo gì nghe nấy cái rụp như thế... thì việc cậu tịt ngòi, không biết tự suy nghĩ nữa chỉ là chuyện sớm muộn thôi.",
+            pose: PIXEL + "pointout.webp",
+            anim: "hop"
         }
     ]
 };
@@ -262,8 +409,12 @@ const state = {
     autoTimer: null,
     chartProgress: 0,
     chartComplete: false,
+    walletBalance: 20,
     chartNextTimer: null,
-    globeDragEnabled: false
+    globeDragEnabled: false,
+    bookPagesRead: 0,
+    bookDialogueTriggered: false,
+    infoProcessed: false
 };
 
 const $ = (selector) => document.querySelector(selector);
@@ -312,14 +463,16 @@ const globeScreen = $("#globe-screen");
 const globeContainer = $("#globe-container");
 const globeStat = $("#globe-stat");
 const globeHint = $("#globe-hint");
-const globeNextWrap = $("#globe-next-wrap");
-const globeNextBtn = $("#globe-next-btn");
 const appstoreScreen = $("#appstore-screen");
 const fireworkScreen = $("#firework-screen");
 const fireworkCanvas = $("#firework-canvas");
 const vipCard = $("#vip-card");
 const minigameScreen = $("#minigame-screen");
 const areaChartScreen = $("#area-chart-screen");
+const bookScreen = $("#book-screen");
+const infoScreen = $("#info-screen");
+const flashcardScreen = $("#flashcard-screen");
+const examScreen = $("#exam-screen");
 const dialogueHistory = [];
 
 function canUseAnime() {
@@ -340,14 +493,36 @@ function placeWorld(el, x, y) {
 }
 
 function showScreen(screenName) {
-    gameScreen.classList.toggle("is-active", screenName === "game");
-    chartScreen.classList.toggle("is-active", screenName === "chart");
-    starScreen.classList.toggle("is-active", screenName === "star");
-    globeScreen.classList.toggle("is-active", screenName === "globe");
-    appstoreScreen.classList.toggle("is-active", screenName === "appstore");
-    fireworkScreen.classList.toggle("is-active", screenName === "firework");
-    minigameScreen.classList.toggle("is-active", screenName === "minigame");
-    areaChartScreen.classList.toggle("is-active", screenName === "area-chart");
+    const screens = [
+        gameScreen, chartScreen, starScreen, globeScreen,
+        appstoreScreen, fireworkScreen, minigameScreen,
+        areaChartScreen, bookScreen, infoScreen, flashcardScreen,
+        examScreen
+    ];
+    screens.forEach(s => s.classList.remove("is-active"));
+
+    const target =
+        screenName === "game" ? gameScreen :
+        screenName === "chart" ? chartScreen :
+        screenName === "star" ? starScreen :
+        screenName === "globe" ? globeScreen :
+        screenName === "appstore" ? appstoreScreen :
+        screenName === "firework" ? fireworkScreen :
+        screenName === "minigame" ? minigameScreen :
+        screenName === "area-chart" ? areaChartScreen :
+        screenName === "book" ? bookScreen :
+        screenName === "info" ? infoScreen :
+        screenName === "flashcard" ? flashcardScreen :
+        screenName === "exam" ? examScreen :
+        null;
+
+    if (target) {
+        target.classList.add("is-active");
+    }
+
+    if (typeof window.triggerGSAPAnimation === "function") {
+        window.triggerGSAPAnimation(screenName);
+    }
 }
 
 function setDialogueVisible(visible) {
@@ -716,6 +891,7 @@ function startChartScene() {
     gameHud.classList.remove("is-visible");
     surveyPanel.classList.remove("is-visible");
     guidePanel.classList.remove("is-visible");
+    if (chartNextWrap) chartNextWrap.classList.remove("is-visible");
     showScreen("chart");
     playChartIntro();
     setDialogueVisible(true);
@@ -1568,7 +1744,6 @@ function cleanupGlobe() {
     state.globeDragEnabled = false;
     globeStat.classList.remove("visible");
     globeHint.classList.remove("visible");
-    globeNextWrap.classList.remove("is-visible");
 }
 
 /* ═══════════════════════════════════════════
@@ -1655,6 +1830,16 @@ function startFireworks() {
     fireworkAnimId = requestAnimationFrame(animate);
 }
 
+function playSfx(name) {
+    try {
+        const audio = new Audio(`audio/SFX/${name}`);
+        audio.volume = 0.5;
+        audio.play();
+    } catch (e) {
+        // SFX optional; silently fail if file missing
+    }
+}
+
 function cleanupFireworks() {
     if (fireworkAnimId) {
         cancelAnimationFrame(fireworkAnimId);
@@ -1716,7 +1901,6 @@ function startGlobeSequence() {
             globeHint.classList.add("visible");
 
             const afterGlobeRotate = () => {
-                globeNextWrap.classList.remove("is-visible");
                 globeHint.classList.remove("visible");
                 setDialogueVisible(true);
                 setAmyVisible(true);
@@ -1730,22 +1914,6 @@ function startGlobeSequence() {
 
             // Primary: triggered by drag rotation in initGlobe
             globeRotateCallback = afterGlobeRotate;
-
-            // Fallback: show "Tiep theo" button after 5s so user is never stuck
-            setTimeout(() => {
-                if (!globeRotated) {
-                    globeNextWrap.classList.add("is-visible");
-                }
-            }, 5000);
-
-            // Bind the fallback button
-            globeNextBtn.addEventListener("click", () => {
-                if (!globeRotated) {
-                    globeRotated = true;
-                    globeRotateCallback = null;
-                    afterGlobeRotate();
-                }
-            }, { once: true });
         });
     }, 1000);
 }
@@ -1768,15 +1936,95 @@ function startAppStoreSequence() {
 function bindAppStoreButtons() {
     const buyButtons = document.querySelectorAll(".sub-buy-btn");
     buyButtons.forEach((btn) => {
-        btn.addEventListener("click", onBuyClicked, { once: true });
+        btn.addEventListener("click", onBuyClicked);
     });
 }
 
-function onBuyClicked() {
+function updatePurchaseCard(productId) {
+    const productData = {
+        "buy-chatgpt": {
+            icon: "assets/img/chapter%204/chatgpt.webp",
+            badge: "🎉 AI POWER 🎉",
+            title: "Chúc mừng!",
+            message: "Bạn đã sở hữu <strong>ChatGPT Plus</strong> - Trợ lý AI thông minh nhất!"
+        },
+        "buy-youtube": {
+            icon: "https://cdn.simpleicons.org/youtube/FF0000",
+            badge: "🎬 NO ADS 🎬",
+            title: "Tuyệt vời!",
+            message: "Bạn đã nâng cấp <strong>YouTube Premium</strong> - Xem video không giới hạn!"
+        },
+        "buy-netflix": {
+            icon: "https://cdn.simpleicons.org/netflix/E50914",
+            badge: "🍿 PREMIUM 🍿",
+            title: "Hoàn hảo!",
+            message: "Bạn đã mở khóa <strong>Netflix</strong> - Kho phim khổng lồ đang chờ bạn!"
+        },
+        "buy-spotify": {
+            icon: "https://cdn.simpleicons.org/spotify/1DB954",
+            badge: "🎵 MUSIC 🎵",
+            title: "Tuyệt đỉnh!",
+            message: "Bạn đã sở hữu <strong>Spotify Premium</strong> - Âm nhạc không giới hạn!"
+        },
+        "buy-canva": {
+            icon: "https://cdn.jsdelivr.net/gh/simple-icons/simple-icons/icons/canva.svg",
+            badge: "🎨 DESIGN 🎨",
+            title: "Sáng tạo!",
+            message: "Bạn đã nâng cấp <strong>Canva Pro</strong> - Thiết kế chuyên nghiệp!"
+        },
+        "buy-notion": {
+            icon: "https://cdn.simpleicons.org/notion/000000",
+            badge: "📝 PRODUCTIVITY 📝",
+            title: "Thông minh!",
+            message: "Bạn đã mở khóa <strong>Notion AI</strong> - Quản lý mọi thứ dễ dàng!"
+        }
+    };
+
+    const data = productData[productId] || productData["buy-chatgpt"];
+    
+    const iconEl = document.getElementById("purchase-icon");
+    const badgeEl = document.getElementById("vip-badge");
+    const titleEl = document.getElementById("purchase-title");
+    const messageEl = document.getElementById("purchase-message");
+
+    if (iconEl) iconEl.innerHTML = `<img src="${data.icon}" alt="Product">`;
+    if (badgeEl) badgeEl.textContent = data.badge;
+    if (titleEl) titleEl.textContent = data.title;
+    if (messageEl) messageEl.innerHTML = data.message;
+}
+
+function onBuyClicked(event) {
+    const selectedButton = event.currentTarget;
+    const selectedPrice = Number(selectedButton.dataset.price || 0);
+    const warning = document.getElementById("wallet-warning");
+    const walletBalance = state.walletBalance;
+
+    if (selectedPrice > walletBalance) {
+        if (warning) {
+            warning.textContent = `Số dư không đủ: ví chỉ có $${walletBalance}, gói này cần $${selectedPrice}.`;
+            warning.classList.remove("is-visible");
+            void warning.offsetWidth;
+            warning.classList.add("is-visible");
+        }
+        return;
+    }
+
+    // Deduct from wallet and update UI
+    state.walletBalance -= selectedPrice;
+    const walletEl = document.getElementById("wallet-balance");
+    if (walletEl) walletEl.textContent = `$${state.walletBalance}`;
+
+    // Track which product was bought for dialogue branching
+    state.purchasedProduct = selectedButton.id;
+
     // Remove listeners from other buttons
     document.querySelectorAll(".sub-buy-btn").forEach((btn) => {
         btn.removeEventListener("click", onBuyClicked);
+        btn.disabled = true;
     });
+
+    // Update purchase card UI based on product
+    updatePurchaseCard(selectedButton.id);
 
     // Transition to fireworks
     state.phase = "firework";
@@ -1793,8 +2041,12 @@ function onBuyClicked() {
         setDialogueVisible(true);
         setAmyVisible(true);
         amyWrap.classList.remove("is-chart");
-        runDialogue(dialogueSets.finale, () => {
-            // After 3.9, 3.10, 3.11 → go to minigame sequence
+
+        const isChatGPT = state.purchasedProduct === "buy-chatgpt";
+        const chosenDialogue = isChatGPT ? dialogueSets.finale : dialogueSets.finale_alt;
+
+        runDialogue(chosenDialogue, () => {
+            // After finale → go to minigame sequence
             cleanupFireworks();
             setTimeout(() => startPreMinigame(), 800);
         });
@@ -1956,7 +2208,7 @@ function finishMinigame() {
             setAmyVisible(false);
             const nextBtn = document.getElementById("area-chart-next");
             nextBtn.classList.add("is-visible");
-            nextBtn.onclick = () => { window.location.href = "chapter-5.html"; };
+            nextBtn.onclick = () => { startBookSequence(); };
         });
     }, 2800);
 }
@@ -1964,11 +2216,12 @@ function finishMinigame() {
 /* ═══════════════════════════════════════════
    AREA CHART CANVAS
    ═══════════════════════════════════════════ */
-function drawAreaChart() {
+function drawAreaChart(highlightArea = null) {
     const canvas = document.getElementById("area-chart-canvas");
     const parent = canvas.parentElement;
     const W = parent.clientWidth || 700;
-    const H = parent.clientHeight || 360;
+    const H = parent.clientHeight || 460;
+
     const dpr = Math.min(window.devicePixelRatio || 1, 2);
     canvas.width = W * dpr;
     canvas.height = H * dpr;
@@ -1988,6 +2241,44 @@ function drawAreaChart() {
     const botY = padT + cH;
 
     let rev = 0;
+
+    // Helper: interpolate AI Y at arbitrary X (linear between nearest points)
+    function getAiYAt(x) {
+        if (x <= xs[0]) return aiYs[0];
+        if (x >= xs[n - 1]) return aiYs[n - 1];
+        for (let i = 0; i < n - 1; i++) {
+            if (x >= xs[i] && x <= xs[i + 1]) {
+                const t = (x - xs[i]) / (xs[i + 1] - xs[i]);
+                return aiYs[i] + (aiYs[i + 1] - aiYs[i]) * t;
+            }
+        }
+        return aiYs[n - 1];
+    }
+
+    // Attach hover listeners once
+    if (!canvas._areaChartListeners) {
+        canvas._areaChartListeners = true;
+        canvas.addEventListener("mousemove", (e) => {
+            const rect = canvas.getBoundingClientRect();
+            const mx = (e.clientX - rect.left) * (W / rect.width);
+            const my = (e.clientY - rect.top) * (H / rect.height);
+            const aiY = getAiYAt(mx);
+            let newHighlight = null;
+            if (mx >= padL && mx <= padL + cW && my >= padT && my <= botY) {
+                newHighlight = my > aiY ? "ai" : "manual";
+            }
+            if (canvas._lastHighlight !== newHighlight) {
+                canvas._lastHighlight = newHighlight;
+                if (rev >= 1) requestAnimationFrame(() => frame(newHighlight));
+            }
+        });
+        canvas.addEventListener("mouseleave", () => {
+            if (canvas._lastHighlight !== null) {
+                canvas._lastHighlight = null;
+                if (rev >= 1) requestAnimationFrame(() => frame(null));
+            }
+        });
+    }
 
     // Helper: draw rounded rectangle (cross-browser safe)
     function drawRoundRect(ctx, x, y, w, h, r) {
@@ -2022,7 +2313,7 @@ function drawAreaChart() {
         return lines.length ? lines : [text];
     }
 
-    function frame() {
+    function frame(highlight = null) {
         ctx.clearRect(0, 0, W, H);
 
         // 1. Grid & Y labels
@@ -2062,8 +2353,14 @@ function drawAreaChart() {
         }
         ctx.lineTo(xs[n - 1], botY);
         ctx.closePath();
-        ctx.fillStyle = "rgba(122,92,255,0.78)";
+        const aiBase = highlight === "ai" ? "rgba(122,92,255,0.95)" : (highlight === "manual" ? "rgba(122,92,255,0.35)" : "rgba(122,92,255,0.78)");
+        ctx.fillStyle = aiBase;
         ctx.fill();
+        if (highlight === "ai") {
+            ctx.strokeStyle = "rgba(255,255,255,0.6)";
+            ctx.lineWidth = 2;
+            ctx.stroke();
+        }
 
         // Manual area (top)
         ctx.beginPath();
@@ -2075,8 +2372,14 @@ function drawAreaChart() {
             ctx.bezierCurveTo(mx, aiYs[i + 1], mx, aiYs[i], xs[i], aiYs[i]);
         }
         ctx.closePath();
-        ctx.fillStyle = "rgba(63,185,111,0.72)";
+        const manualBase = highlight === "manual" ? "rgba(63,185,111,0.92)" : (highlight === "ai" ? "rgba(63,185,111,0.35)" : "rgba(63,185,111,0.72)");
+        ctx.fillStyle = manualBase;
         ctx.fill();
+        if (highlight === "manual") {
+            ctx.strokeStyle = "rgba(255,255,255,0.6)";
+            ctx.lineWidth = 2;
+            ctx.stroke();
+        }
 
         // AI stroke line
         ctx.beginPath();
@@ -2086,7 +2389,7 @@ function drawAreaChart() {
             ctx.bezierCurveTo(mx, aiYs[i - 1], mx, aiYs[i], xs[i], aiYs[i]);
         }
         ctx.strokeStyle = "#7a5cff";
-        ctx.lineWidth = 3;
+        ctx.lineWidth = highlight === "ai" ? 4 : 3;
         ctx.stroke();
 
         // Data dots & labels
@@ -2094,21 +2397,21 @@ function drawAreaChart() {
             if (xs[i] > revealX + 4) break;
             const x = xs[i], y = aiYs[i];
 
-            ctx.beginPath(); ctx.arc(x, y, 6, 0, Math.PI * 2);
+            ctx.beginPath(); ctx.arc(x, y, highlight === "ai" ? 7 : 6, 0, Math.PI * 2);
             ctx.fillStyle = "#7a5cff"; ctx.fill();
             ctx.strokeStyle = "#fff"; ctx.lineWidth = 2.5; ctx.stroke();
 
             // AI % label
-            ctx.fillStyle = "#3a2a8a";
-            ctx.font = "bold 13px 'HoiThoai', 'FuturaLocal', sans-serif";
+            ctx.fillStyle = highlight === "ai" ? "#5a3aff" : "#3a2a8a";
+            ctx.font = (highlight === "ai" ? "bold 14px" : "bold 13px") + " 'HoiThoai', 'FuturaLocal', sans-serif";
             ctx.textAlign = "center";
             ctx.textBaseline = "bottom";
             ctx.fillText(aiPcts[i] + "%", x, y - 10);
 
             // Self % label (in green area)
             const selfMidY = padT + (y - padT) / 2;
-            ctx.fillStyle = "#1a6a35";
-            ctx.font = "bold 12px 'HoiThoai', 'FuturaLocal', sans-serif";
+            ctx.fillStyle = highlight === "manual" ? "#0d5a2a" : "#1a6a35";
+            ctx.font = (highlight === "manual" ? "bold 13px" : "bold 12px") + " 'HoiThoai', 'FuturaLocal', sans-serif";
             ctx.textBaseline = "middle";
             ctx.fillText((100 - aiPcts[i]).toFixed(1) + "%", x, selfMidY);
         }
@@ -2160,11 +2463,11 @@ function drawAreaChart() {
 
         if (rev < 1) {
             rev = Math.min(1, rev + 0.018);
-            requestAnimationFrame(frame);
+            requestAnimationFrame(() => frame(canvas._lastHighlight || null));
         }
     }
 
-    requestAnimationFrame(frame);
+    requestAnimationFrame(() => frame(highlightArea));
 
     // Caption below chart (HTML, not canvas — safer for long text)
     let captionEl = document.getElementById("area-chart-caption");
@@ -2176,6 +2479,735 @@ function drawAreaChart() {
         if (container) container.insertBefore(captionEl, container.querySelector(".area-chart-legend"));
     }
     captionEl.textContent = "Mức độ ứng dụng AI trong học tập cho thấy sinh viên sử dụng công nghệ nhiều nhất ở các khâu hình thành ý tưởng và lập dàn ý.";
+}
+
+/* ═══════════════════════════════════════════
+   BOOK / DOCUMENT SEQUENCE
+   ═══════════════════════════════════════════ */
+function startBookSequence() {
+    state.phase = "book";
+    showScreen("book");
+    setDialogueVisible(true);
+    setAmyVisible(true);
+    amyWrap.classList.remove("is-chart");
+    runDialogue(dialogueSets.doc_5_1, () => {
+        setDialogueVisible(false);
+        setAmyVisible(false);
+        initBookViewer();
+    });
+}
+
+let currentBookPage = 1;
+const totalBookPages = 20; // real rendered pages (viewer shows 1/500)
+
+function initBookViewer() {
+    currentBookPage = 1;
+    state.bookPagesRead = 0;
+    state.bookDialogueTriggered = false;
+    updateBookPage();
+
+    const prevBtn = document.getElementById("book-prev");
+    const nextBtn = document.getElementById("book-next");
+
+    prevBtn.onclick = () => {
+        if (currentBookPage > 1) {
+            currentBookPage--;
+            updateBookPage();
+        }
+    };
+
+    nextBtn.onclick = () => {
+        if (currentBookPage < totalBookPages) {
+            currentBookPage++;
+            updateBookPage();
+            checkBookReadProgress();
+        }
+    };
+}
+
+function updateBookPage() {
+    document.querySelectorAll(".book-page").forEach((page) => page.classList.remove("active"));
+    const active = document.querySelector(`.book-page[data-page="${currentBookPage}"]`);
+    if (active) active.classList.add("active");
+
+    const counter = document.getElementById("book-counter");
+    if (counter) counter.textContent = `Trang ${currentBookPage} / 500`;
+
+    const prevBtn = document.getElementById("book-prev");
+    const nextBtn = document.getElementById("book-next");
+    if (prevBtn) prevBtn.disabled = currentBookPage === 1;
+    if (nextBtn) nextBtn.disabled = currentBookPage === totalBookPages;
+}
+
+function checkBookReadProgress() {
+    if (currentBookPage >= 5 && !state.bookDialogueTriggered) {
+        state.bookDialogueTriggered = true;
+        
+        // Trigger dialogue 5.2 after a short delay
+        setTimeout(() => {
+            setDialogueVisible(true);
+            setAmyVisible(true);
+            amyWrap.classList.remove("is-chart");
+            runDialogue(dialogueSets.doc_5_2, () => {
+                setDialogueVisible(false);
+                setAmyVisible(false);
+                startInfoSequence();
+            });
+        }, 600);
+    }
+}
+
+/* ═══════════════════════════════════════════
+   INFO MACHINE SEQUENCE
+   ═══════════════════════════════════════════ */
+function startInfoSequence() {
+    state.phase = "info";
+    showScreen("info");
+    state.infoProcessed = false;
+
+    const bookDrag = document.getElementById("info-book-drag");
+    const slotZone = document.getElementById("info-slot-zone");
+    const machine = document.getElementById("info-machine");
+    const progress = document.getElementById("info-progress");
+
+    if (bookDrag) {
+        bookDrag.classList.remove("hidden");
+        bookDrag.style.opacity = "1";
+        bookDrag.style.transform = "none";
+        bookDrag.style.position = "relative";
+        bookDrag.style.left = "auto";
+        bookDrag.style.top = "auto";
+        bookDrag.style.touchAction = "none";
+    }
+    if (slotZone) {
+        slotZone.classList.remove("active");
+    }
+    if (progress) progress.classList.remove("active");
+    if (machine) machine.src = "assets/img/chapter%204/info%202.1.webp";
+
+    if (bookDrag && slotZone) {
+        bindInfoBookPhysics(bookDrag, slotZone);
+    }
+}
+
+let infoBookPhysicsCleanup = null;
+
+function bindInfoBookPhysics(bookDrag, slotZone) {
+    if (infoBookPhysicsCleanup) infoBookPhysicsCleanup();
+
+    const workspace = document.getElementById("info-workspace") || bookDrag.parentElement;
+    let dragging = false;
+    let currentX = 0;
+    let currentY = 0;
+    let velocityX = 0;
+    let velocityY = 0;
+    let startX = 0;
+    let startY = 0;
+    let pointerStartX = 0;
+    let pointerStartY = 0;
+    let lastPointerX = 0;
+    let lastPointerY = 0;
+    let lastTime = 0;
+    let inertiaFrame = null;
+
+    const setTransform = () => {
+        bookDrag.style.transform = `translate3d(${currentX}px, ${currentY}px, 0)`;
+    };
+
+    const getSlotCenter = () => {
+        const rect = slotZone.getBoundingClientRect();
+        return {
+            x: rect.left + rect.width / 2,
+            y: rect.top + rect.height / 2
+        };
+    };
+
+    const isOverSlot = () => {
+        const bookRect = bookDrag.getBoundingClientRect();
+        const centerX = bookRect.left + bookRect.width / 2;
+        const centerY = bookRect.top + bookRect.height / 2;
+        const slotRect = slotZone.getBoundingClientRect();
+        return centerX >= slotRect.left && centerX <= slotRect.right && centerY >= slotRect.top && centerY <= slotRect.bottom;
+    };
+
+    const clampToWorkspace = () => {
+        const workspaceRect = workspace.getBoundingClientRect();
+        const bookRect = bookDrag.getBoundingClientRect();
+        const maxX = workspaceRect.width - bookRect.width;
+        const maxY = workspaceRect.height - bookRect.height;
+        currentX = Math.max(-bookRect.width * 0.25, Math.min(currentX, maxX + bookRect.width * 0.25));
+        currentY = Math.max(-bookRect.height * 0.25, Math.min(currentY, maxY + bookRect.height * 0.25));
+    };
+
+    const stopInertia = () => {
+        if (inertiaFrame) {
+            cancelAnimationFrame(inertiaFrame);
+            inertiaFrame = null;
+        }
+    };
+
+    const animateToSlot = () => {
+        stopInertia();
+        const bookRect = bookDrag.getBoundingClientRect();
+        const slotCenter = getSlotCenter();
+        currentX += slotCenter.x - (bookRect.left + bookRect.width / 2);
+        currentY += slotCenter.y - (bookRect.top + bookRect.height / 2);
+        bookDrag.style.transition = "transform 420ms cubic-bezier(0.34,1.56,0.64,1), opacity 300ms ease";
+        setTransform();
+        setTimeout(insertBookIntoMachine, 420);
+    };
+
+    const runInertia = () => {
+        if (state.infoProcessed) return;
+
+        velocityX *= 0.94;
+        velocityY *= 0.94;
+        currentX += velocityX;
+        currentY += velocityY;
+        clampToWorkspace();
+        setTransform();
+
+        if (isOverSlot()) {
+            slotZone.classList.add("active");
+            animateToSlot();
+            return;
+        }
+
+        slotZone.classList.remove("active");
+
+        if (Math.abs(velocityX) > 0.12 || Math.abs(velocityY) > 0.12) {
+            inertiaFrame = requestAnimationFrame(runInertia);
+        }
+    };
+
+    const onPointerDown = (event) => {
+        if (state.infoProcessed) return;
+        stopInertia();
+        dragging = true;
+        bookDrag.classList.add("is-dragging");
+        bookDrag.style.transition = "none";
+        pointerStartX = event.clientX;
+        pointerStartY = event.clientY;
+        startX = currentX;
+        startY = currentY;
+        lastPointerX = event.clientX;
+        lastPointerY = event.clientY;
+        lastTime = performance.now();
+        bookDrag.setPointerCapture?.(event.pointerId);
+    };
+
+    const onPointerMove = (event) => {
+        if (!dragging || state.infoProcessed) return;
+        event.preventDefault();
+        const now = performance.now();
+        const dt = Math.max(1, now - lastTime);
+        currentX = startX + event.clientX - pointerStartX;
+        currentY = startY + event.clientY - pointerStartY;
+        velocityX = ((event.clientX - lastPointerX) / dt) * 16;
+        velocityY = ((event.clientY - lastPointerY) / dt) * 16;
+        lastPointerX = event.clientX;
+        lastPointerY = event.clientY;
+        lastTime = now;
+        setTransform();
+
+        if (isOverSlot()) {
+            slotZone.classList.add("active");
+        } else {
+            slotZone.classList.remove("active");
+        }
+    };
+
+    const onPointerUp = (event) => {
+        if (!dragging) return;
+        dragging = false;
+        bookDrag.classList.remove("is-dragging");
+        bookDrag.releasePointerCapture?.(event.pointerId);
+
+        if (isOverSlot()) {
+            animateToSlot();
+            return;
+        }
+
+        runInertia();
+    };
+
+    bookDrag.addEventListener("pointerdown", onPointerDown);
+    window.addEventListener("pointermove", onPointerMove, { passive: false });
+    window.addEventListener("pointerup", onPointerUp);
+    window.addEventListener("pointercancel", onPointerUp);
+
+    infoBookPhysicsCleanup = () => {
+        stopInertia();
+        bookDrag.removeEventListener("pointerdown", onPointerDown);
+        window.removeEventListener("pointermove", onPointerMove);
+        window.removeEventListener("pointerup", onPointerUp);
+        window.removeEventListener("pointercancel", onPointerUp);
+        infoBookPhysicsCleanup = null;
+    };
+}
+
+function insertBookIntoMachine() {
+    if (state.infoProcessed) return;
+    state.infoProcessed = true;
+
+    const bookDrag = document.getElementById("info-book-drag");
+    const slotZone = document.getElementById("info-slot-zone");
+    const machine = document.getElementById("info-machine");
+    const progress = document.getElementById("info-progress");
+
+    if (bookDrag) bookDrag.classList.add("hidden");
+    if (slotZone) slotZone.classList.add("active");
+    if (progress) progress.classList.add("active");
+
+    // Animate machine processing: change image after ~2.5s, then go to flashcards
+    setTimeout(() => {
+        if (machine) {
+            machine.style.opacity = "0";
+            setTimeout(() => {
+                machine.src = "assets/img/chapter%204/infor%202.2.webp";
+                machine.style.opacity = "1";
+            }, 300);
+        }
+    }, 2400);
+
+    setTimeout(() => {
+        startFlashcardSequence();
+    }, 4200);
+}
+
+/* ═══════════════════════════════════════════
+   FLASHCARD SEQUENCE — STACK DECK
+   ═══════════════════════════════════════════ */
+const fcState = { current: 0, total: 0, animating: false };
+
+function startFlashcardSequence() {
+    state.phase = "flashcard";
+    showScreen("flashcard");
+    initFlashcardStack();
+
+    setTimeout(() => {
+        setDialogueVisible(true);
+        setAmyVisible(true);
+        amyWrap.classList.remove("is-chart");
+        runDialogue(dialogueSets.post_flashcard, () => {
+            setDialogueVisible(false);
+            setAmyVisible(false);
+            showFlashcardControls();
+        });
+    }, 800);
+}
+
+function initFlashcardStack() {
+    const cards = [...document.querySelectorAll(".flashcard")];
+    fcState.current = 0;
+    fcState.total = cards.length;
+    fcState.animating = false;
+
+    // Reset all cards to hidden initial state
+    cards.forEach((card) => {
+        card.className = "flashcard";
+        card.classList.remove("flipped");
+        card.style.opacity = "0";
+        card.style.transform = "translateY(160px) scale(0.5) rotateZ(12deg)";
+        card.style.pointerEvents = "none";
+    });
+
+    // Deal-in animation: cards fly up one by one like dealing cards
+    cards.forEach((card, idx) => {
+        setTimeout(() => {
+            card.style.transition = "transform 550ms cubic-bezier(0.34, 1.56, 0.64, 1), opacity 400ms ease";
+            card.style.opacity = "1";
+            card.style.transform = "translateY(0) scale(1) rotateZ(0deg)";
+            card.style.pointerEvents = "auto";
+        }, idx * 160);
+    });
+
+    // After all cards dealt, apply stack classes and enable clicks
+    setTimeout(() => {
+        cards.forEach((card) => {
+            card.style.transition = "";
+            card.style.transform = "";
+            card.style.opacity = "";
+            card.style.pointerEvents = "";
+        });
+        updateStackClasses();
+
+        // Click on top card to flip
+        cards.forEach((card, idx) => {
+            card.onclick = () => {
+                if (idx === fcState.current && !fcState.animating) {
+                    card.classList.toggle("flipped");
+                }
+            };
+        });
+    }, cards.length * 160 + 600);
+}
+
+function updateStackClasses() {
+    const cards = [...document.querySelectorAll(".flashcard")];
+    const depthMap = ["fc-top", "fc-below", "fc-deep", "fc-deeper", "fc-hidden"];
+
+    cards.forEach((card, idx) => {
+        // Clear old depth classes
+        depthMap.forEach((cls) => card.classList.remove(cls));
+
+        const offset = idx - fcState.current;
+        if (offset >= 0 && offset < depthMap.length) {
+            card.classList.add(depthMap[offset]);
+        } else if (offset < 0) {
+            card.classList.add("fc-hidden");
+        } else {
+            card.classList.add("fc-hidden");
+        }
+    });
+}
+
+function showFlashcardControls() {
+    const flipBtn = document.getElementById("flashcard-flip-btn");
+    const nextBtn = document.getElementById("flashcard-next-btn");
+
+    if (flipBtn) {
+        flipBtn.classList.add("is-visible");
+        flipBtn.onclick = () => flipCurrentCard();
+    }
+    if (nextBtn) {
+        nextBtn.classList.add("is-visible");
+        nextBtn.textContent = "Card tiếp theo →";
+        nextBtn.onclick = () => advanceFlashcard();
+    }
+}
+
+function flipCurrentCard() {
+    const cards = [...document.querySelectorAll(".flashcard")];
+    const top = cards[fcState.current];
+    if (top && !fcState.animating) {
+        top.classList.toggle("flipped");
+    }
+}
+
+function advanceFlashcard() {
+    if (fcState.animating) return;
+    const cards = [...document.querySelectorAll(".flashcard")];
+    const top = cards[fcState.current];
+    if (!top) return;
+
+    fcState.animating = true;
+
+    // Unflip before throwing
+    top.classList.remove("flipped");
+
+    // Throw-away animation
+    top.classList.add("fc-throw-right");
+
+    setTimeout(() => {
+        // After throw, hide this card and advance index
+        top.classList.remove("fc-throw-right");
+        fcState.current++;
+
+        if (fcState.current >= fcState.total) {
+            // All cards done
+            hideFlashcardControls();
+            setTimeout(() => {
+                const nextBtn = document.getElementById("flashcard-next-btn");
+                if (nextBtn) {
+                    nextBtn.textContent = "Tiếp tục →";
+                    nextBtn.classList.add("is-visible");
+                    nextBtn.onclick = () => startExamSequence();
+                }
+            }, 300);
+            fcState.animating = false;
+            return;
+        }
+
+        // Restack remaining cards
+        updateStackClasses();
+
+        // Fly-in the new top card
+        const newTop = cards[fcState.current];
+        if (newTop) {
+            newTop.classList.add("fc-fly-in");
+            setTimeout(() => newTop.classList.remove("fc-fly-in"), 700);
+        }
+
+        fcState.animating = false;
+    }, 520);
+}
+
+function hideFlashcardControls() {
+    const flipBtn = document.getElementById("flashcard-flip-btn");
+    if (flipBtn) flipBtn.classList.remove("is-visible");
+}
+
+/* ═══════════════════════════════════════════
+   EXAM SEQUENCE — Bài kiểm tra & Kính lúp
+   ═══════════════════════════════════════════ */
+const magState = {
+    active: false,
+    linesRevealed: new Set(),
+    totalLines: 6,
+    gradeDropped: false,
+    scanComplete: false
+};
+
+function startExamSequence() {
+    state.phase = "exam";
+    showScreen("exam");
+    magState.active = false;
+    magState.linesRevealed = new Set();
+    magState.gradeDropped = false;
+    magState.scanComplete = false;
+
+    // Reset exam visual state
+    const gradeEl = document.getElementById("exam-grade");
+    const commentEl = document.getElementById("exam-comment");
+    if (gradeEl) {
+        gradeEl.textContent = "A+";
+        gradeEl.classList.remove("dropping");
+    }
+    if (commentEl) {
+        commentEl.textContent = "Bài viết có tư duy, cập nhật xu hướng rất nhạy bén. Lập luận chặt chẽ, dẫn chứng phong phú. Tiếp tục phát huy!";
+        commentEl.classList.remove("fading");
+    }
+
+    // Reset all lines
+    document.querySelectorAll(".exam-text-line").forEach(el => el.classList.remove("revealed"));
+    document.querySelectorAll(".exam-prompt-line").forEach(el => el.classList.remove("visible"));
+
+    // Hide magnifier UI elements initially
+    const scanProgress = document.getElementById("scan-progress");
+    const magInstruction = document.getElementById("magnifier-instruction");
+    const magCursor = document.getElementById("magnifier-cursor");
+    const ninhPanel = document.getElementById("ninh-panel");
+    const examNextWrap = document.getElementById("exam-next-wrap");
+    if (scanProgress) scanProgress.classList.remove("active");
+    if (magInstruction) magInstruction.classList.remove("active");
+    if (magCursor) magCursor.classList.remove("active");
+    if (ninhPanel) ninhPanel.classList.remove("active");
+    if (examNextWrap) examNextWrap.classList.remove("active");
+    if (examScreen) examScreen.classList.remove("magnifier-active");
+
+    // Start dialogue sequence after screen transition
+    setTimeout(() => {
+        setDialogueVisible(true);
+        setAmyVisible(true);
+        amyWrap.classList.remove("is-chart");
+
+        // Dialogue 6.1 & 6.2
+        runDialogue(dialogueSets.exam_6_1_2, () => {
+            // Dialogue 6.3 — introduce magnifier
+            runDialogue(dialogueSets.exam_6_3, () => {
+                setDialogueVisible(false);
+                setAmyVisible(false);
+                startMagnifier();
+            });
+        });
+    }, 800);
+}
+
+function startMagnifier() {
+    magState.active = true;
+
+    const magCursor = document.getElementById("magnifier-cursor");
+    const magInstruction = document.getElementById("magnifier-instruction");
+    const scanProgress = document.getElementById("scan-progress");
+
+    if (magCursor) magCursor.classList.add("active");
+    if (magInstruction) magInstruction.classList.add("active");
+    if (scanProgress) scanProgress.classList.add("active");
+    if (examScreen) examScreen.classList.add("magnifier-active");
+
+    updateScanProgress();
+
+    // Bind move events
+    document.addEventListener("mousemove", onMagnifierMove);
+    document.addEventListener("touchmove", onMagnifierMove, { passive: false });
+    document.addEventListener("touchstart", onMagnifierMove, { passive: false });
+}
+
+function stopMagnifier() {
+    magState.active = false;
+
+    const magCursor = document.getElementById("magnifier-cursor");
+    const magInstruction = document.getElementById("magnifier-instruction");
+    const scanProgress = document.getElementById("scan-progress");
+
+    if (magCursor) magCursor.classList.remove("active");
+    if (magInstruction) magInstruction.classList.remove("active");
+    if (scanProgress) scanProgress.classList.remove("active");
+    if (examScreen) examScreen.classList.remove("magnifier-active");
+
+    document.removeEventListener("mousemove", onMagnifierMove);
+    document.removeEventListener("touchmove", onMagnifierMove);
+    document.removeEventListener("touchstart", onMagnifierMove);
+}
+
+function onMagnifierMove(e) {
+    if (!magState.active || magState.scanComplete) return;
+
+    let clientX, clientY;
+    if (e.touches && e.touches.length > 0) {
+        clientX = e.touches[0].clientX;
+        clientY = e.touches[0].clientY;
+        e.preventDefault();
+    } else {
+        clientX = e.clientX;
+        clientY = e.clientY;
+    }
+
+    // Move magnifier cursor
+    const magCursor = document.getElementById("magnifier-cursor");
+    if (magCursor) {
+        magCursor.style.left = clientX + "px";
+        magCursor.style.top = clientY + "px";
+    }
+
+    // Hit test against exam lines
+    const lineGroups = document.querySelectorAll(".exam-line-group");
+    lineGroups.forEach(group => {
+        const lineIndex = parseInt(group.dataset.line);
+        if (magState.linesRevealed.has(lineIndex)) return;
+
+        const rect = group.getBoundingClientRect();
+        // Check if magnifier center is within the line's bounding box (with some padding)
+        const pad = 30;
+        if (
+            clientX >= rect.left - pad &&
+            clientX <= rect.right + pad &&
+            clientY >= rect.top - pad &&
+            clientY <= rect.bottom + pad
+        ) {
+            revealLine(lineIndex, group);
+        }
+    });
+}
+
+function revealLine(lineIndex, group) {
+    if (magState.linesRevealed.has(lineIndex)) return;
+    magState.linesRevealed.add(lineIndex);
+
+    // Animate text line away
+    const textLine = group.querySelector(".exam-text-line");
+    const promptLine = group.querySelector(".exam-prompt-line");
+    if (textLine) textLine.classList.add("revealed");
+    if (promptLine) {
+        setTimeout(() => promptLine.classList.add("visible"), 300);
+    }
+
+    updateScanProgress();
+
+    // Check if threshold reached (≥ 2 lines) → trigger grade drop
+    if (magState.linesRevealed.size >= 2 && !magState.gradeDropped) {
+        gradeDropAnimation();
+    }
+
+    // Check if all lines revealed → complete scan
+    if (magState.linesRevealed.size >= magState.totalLines) {
+        setTimeout(() => {
+            magState.scanComplete = true;
+            onScanComplete();
+        }, 800);
+    }
+}
+
+function updateScanProgress() {
+    const count = magState.linesRevealed.size;
+    const pct = (count / magState.totalLines * 100).toFixed(0);
+    const progressBar = document.getElementById("scan-progress-bar");
+    const progressText = document.getElementById("scan-progress-text");
+
+    if (progressBar) progressBar.style.setProperty("--scan-pct", pct + "%");
+    if (progressText) progressText.textContent = `Quét: ${count}/${magState.totalLines} dòng`;
+}
+
+function gradeDropAnimation() {
+    magState.gradeDropped = true;
+    const gradeEl = document.getElementById("exam-grade");
+    const commentEl = document.getElementById("exam-comment");
+
+    if (gradeEl) {
+        gradeEl.classList.add("dropping");
+        setTimeout(() => {
+            gradeEl.textContent = "F";
+        }, 400);
+    }
+
+    if (commentEl) {
+        commentEl.classList.add("fading");
+        setTimeout(() => {
+            commentEl.textContent = "Bài viết thiếu dấu ấn cá nhân, lập luận sáo rỗng, không có ví dụ thực tế. Nghi ngờ sử dụng AI toàn phần. Không đạt yêu cầu.";
+            commentEl.classList.remove("fading");
+        }, 350);
+    }
+}
+
+function onScanComplete() {
+    stopMagnifier();
+
+    // Hide instruction
+    const magInstruction = document.getElementById("magnifier-instruction");
+    if (magInstruction) magInstruction.classList.remove("active");
+
+    // Show Ninh panel + play audio
+    const ninhPanel = document.getElementById("ninh-panel");
+    const recordAudio = document.getElementById("sfx-record1");
+
+    if (ninhPanel) ninhPanel.classList.add("active");
+
+    if (recordAudio) {
+        recordAudio.currentTime = 0;
+        recordAudio.play().catch(() => {
+            // Autoplay blocked — continue anyway
+        });
+
+        // When audio ends, hide ninh panel and start dialogue
+        recordAudio.onended = () => {
+            if (ninhPanel) ninhPanel.classList.remove("active");
+            startPostScanDialogue();
+        };
+
+        // Fallback: if audio doesn't play or user skips
+        setTimeout(() => {
+            if (!magState.dialogueStarted) {
+                if (ninhPanel) ninhPanel.classList.remove("active");
+                if (recordAudio) {
+                    recordAudio.pause();
+                    recordAudio.currentTime = 0;
+                }
+                startPostScanDialogue();
+            }
+        }, 15000);
+    } else {
+        // No audio element → go straight to dialogue
+        setTimeout(() => {
+            if (ninhPanel) ninhPanel.classList.remove("active");
+            startPostScanDialogue();
+        }, 2000);
+    }
+}
+
+function startPostScanDialogue() {
+    if (magState.dialogueStarted) return;
+    magState.dialogueStarted = true;
+
+    setDialogueVisible(true);
+    setAmyVisible(true);
+    amyWrap.classList.remove("is-chart");
+
+    // Dialogue 6.4 → 6.7
+    runDialogue(dialogueSets.exam_6_4_7, () => {
+        setDialogueVisible(false);
+        setAmyVisible(false);
+
+        // Show continue button
+        const examNextWrap = document.getElementById("exam-next-wrap");
+        const examNextBtn = document.getElementById("exam-next-btn");
+        if (examNextWrap) examNextWrap.classList.add("active");
+        if (examNextBtn) {
+            examNextBtn.onclick = () => {
+                window.location.href = "chapter-5.html";
+            };
+        }
+    });
 }
 
 function init() {
