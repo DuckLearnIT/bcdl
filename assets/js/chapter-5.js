@@ -115,8 +115,12 @@ document.addEventListener("DOMContentLoaded", () => {
     const povContainer = document.getElementById("pov-container");
     
     document.getElementById("start-btn").addEventListener("click", function() {
-        this.style.display = "none";
-        startGame();
+        if (this.classList.contains("burst")) return;
+        this.classList.add("burst");
+        setTimeout(() => {
+            this.style.display = "none";
+            startGame();
+        }, 700);
     });
     
     document.body.addEventListener("click", (e) => {
