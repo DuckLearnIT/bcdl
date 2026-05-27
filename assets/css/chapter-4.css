@@ -70,6 +70,44 @@ button {
         linear-gradient(180deg, #a8ddff 0%, #f9d996 64%, #ef9b5c 100%);
 }
 
+.loop-pointer-wrap {
+    position: absolute;
+    top: 0;
+    left: 0;
+    z-index: 100;
+    pointer-events: none;
+    will-change: transform;
+}
+
+.loop-pointer {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 36px;
+    height: auto;
+    filter: drop-shadow(0 4px 8px rgba(0,0,0,0.15));
+}
+
+.loop-thought {
+    position: absolute;
+    top: 0;
+    left: 0;
+    background: #fff;
+    border: 2px solid #1b2340;
+    border-radius: 12px 12px 12px 0;
+    padding: 8px 12px;
+    font-size: 13px;
+    font-weight: 700;
+    color: #1b2340;
+    white-space: normal;
+    box-shadow: 0 4px 12px rgba(27, 35, 64, 0.1);
+    z-index: 102;
+    pointer-events: none;
+    max-width: 220px;
+    text-align: center;
+    transform-origin: bottom left;
+}
+
 .title-cloud {
     position: absolute;
     width: 190px;
@@ -2971,10 +3009,8 @@ button {
     display: flex;
     flex-direction: column;
     align-items: center;
-    gap: 24px;
-    margin-bottom: 20px;
+    gap: 0;
     width: min(720px, 100%);
-    min-height: min(560px, 70vh);
     touch-action: none;
 }
 
@@ -3068,8 +3104,9 @@ button {
     display: none;
     flex-direction: column;
     align-items: center;
-    gap: 12px;
-    margin-top: 12px;
+    gap: 16px;
+    margin-top: 16px;
+    margin-bottom: 24px;
     width: 100%;
     max-width: 100%;
     box-sizing: border-box;
@@ -3082,10 +3119,10 @@ button {
 
 .info-progress-bar {
     width: min(300px, 80vw);
-    height: 18px;
+    height: 22px;
     background: rgba(27, 35, 64, 0.1);
     border: 2px solid rgba(27, 35, 64, 0.2);
-    border-radius: 9px;
+    border-radius: 11px;
     overflow: hidden;
     position: relative;
 }
@@ -3098,7 +3135,7 @@ button {
     height: 100%;
     width: 0%;
     background: linear-gradient(90deg, #37d37f, #6bd98f);
-    border-radius: 9px;
+    border-radius: 11px;
     transition: width 2.4s cubic-bezier(0.25, 1, 0.5, 1);
 }
 
@@ -3107,9 +3144,10 @@ button {
 }
 
 .info-progress-text {
-    font-size: 14px;
+    font-size: 16px;
     font-weight: 700;
     color: #1b2340;
+    margin-top: 4px;
 }
 
 .info-book-drag.hidden {
@@ -3317,6 +3355,10 @@ button {
     opacity: 0;
     transform: translateY(40px) scale(0.75);
     pointer-events: none;
+}
+
+.flashcard.fc-discarded {
+    display: none !important;
 }
 
 /* Fly-in from below when entering deck */
@@ -3720,8 +3762,8 @@ button {
 .exam-text-line {
     position: relative;
     z-index: 2;
-    font-family: "Times New Roman", "Noto Serif", Georgia, serif;
-    font-size: clamp(14px, 2vw, 16px);
+    font-family: Arial, "Helvetica Neue", Helvetica, sans-serif;
+    font-size: clamp(16px, 2vw, 18px);
     line-height: 1.75;
     color: #1a1a1a;
     text-indent: 28px;
@@ -3872,10 +3914,10 @@ button {
 /* -- Ninh Panel -- */
 .ninh-panel {
     position: fixed;
-    bottom: 140px;
+    bottom: 220px;
     left: 50%;
     transform: translateX(-50%);
-    z-index: 55;
+    z-index: 200;
     display: none;
     width: min(480px, 90vw);
 }
@@ -4102,35 +4144,39 @@ button {
         rgba(255, 253, 246, 0.96);
 }
 
-.loop-thought {
-    align-self: flex-start;
-    margin: 14px 14px 2px;
-    max-width: 92%;
-    padding: 10px 13px;
-    border: 2px solid #1b2340;
-    background: #ffffff;
-    color: #394158;
-    font-size: clamp(13px, 1.5vw, 16px);
-    line-height: 1.35;
-    box-shadow: 4px 4px 0 rgba(27, 35, 64, 0.1);
-}
-
 .loop-chat-stream {
-    position: relative;
-    display: flex;
     flex: 1;
+    overflow-y: auto;
+    padding: 20px;
+    display: flex;
     flex-direction: column;
-    gap: 12px;
-    padding: 14px;
-    min-height: 0;
+    gap: 24px;
+    scrollbar-width: thin;
+    scrollbar-color: #cbd5e1 transparent;
+}
+.loop-chat-stream::-webkit-scrollbar {
+    width: 6px;
+}
+.loop-chat-stream::-webkit-scrollbar-thumb {
+    background: #cbd5e1;
+    border-radius: 4px;
 }
 
 .loop-message {
     position: relative;
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
     padding: 12px 14px;
     border: 2px solid rgba(27, 35, 64, 0.24);
+    border-radius: 8px;
     background: #fff;
-    min-height: 84px;
+    animation: slideUpFade 300ms ease forwards;
+}
+
+@keyframes slideUpFade {
+    from { opacity: 0; transform: translateY(10px); }
+    to { opacity: 1; transform: translateY(0); }
 }
 
 .loop-message.user {
@@ -4140,8 +4186,7 @@ button {
 }
 
 .loop-message.ai {
-    flex: 1;
-    min-height: 190px;
+    min-height: 100px;
     background:
         linear-gradient(90deg, rgba(55, 211, 127, 0.1), transparent),
         #fffdf6;

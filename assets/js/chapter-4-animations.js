@@ -390,7 +390,7 @@
 
     if (userPrompt) userPrompt.textContent = "";
     if (aiResponse) aiResponse.textContent = "";
-    if (thought) thought.textContent = "Mình hỏi nhanh một chút thôi...";
+    if (thought) { thought.textContent = "Mình hỏi nhanh một chút thôi..."; gsap.set(thought, { x: 0, y: 0, autoAlpha: 0 }); }
     if (selection) gsap.set(selection, { autoAlpha: 0 });
     if (copyBadge) gsap.set(copyBadge, { autoAlpha: 0, y: 8 });
     if (wordLines) {
@@ -400,13 +400,23 @@
       placeholder.textContent = "Bắt đầu từ một trang trắng...";
       wordLines.appendChild(placeholder);
     }
+
+    const chatStream = document.querySelector(".loop-chat-stream");
+    if (chatStream) {
+      const messages = chatStream.querySelectorAll(".loop-message");
+      messages.forEach((msg, index) => {
+        if (index >= 2) msg.remove();
+      });
+    }
   }
 
   function getPointInsideStage(stage, target, xRatio, yRatio) {
     const stageRect = stage.getBoundingClientRect();
     const rect = target.getBoundingClientRect();
-    const clampX = gsap.utils.clamp(16, Math.max(16, stageRect.width - 52));
-    const clampY = gsap.utils.clamp(16, Math.max(16, stageRect.height - 52));
+    const maxX = Math.max(52, stageRect.width - 52);
+    const maxY = Math.max(52, stageRect.height - 52);
+    const clampX = gsap.utils.clamp(16, maxX);
+    const clampY = gsap.utils.clamp(16, maxY);
 
     return {
       x: clampX(rect.left - stageRect.left + rect.width * xRatio),
@@ -414,19 +424,23 @@
     };
   }
 
-  function addPointerTravel(tl, pointer, stage, target, duration, rotation) {
+  function addPointerTravel(tl, pointer, stage, target, duration, rotation, thought) {
     tl.call(() => {
       if (!pointer || !stage || !target) return;
       if (activePointerTween) activePointerTween.kill();
+
+      // Force target visible before measuring so getBoundingClientRect is valid
+      const targetWasHidden = target.style.display === "none" || getComputedStyle(target).display === "none";
+      if (targetWasHidden) gsap.set(target, { display: "flex", opacity: 1 });
 
       const start = {
         x: Number(gsap.getProperty(pointer, "x")) || 0,
         y: Number(gsap.getProperty(pointer, "y")) || 0,
       };
-      const end = getPointInsideStage(stage, target, 0.62, 0.52);
+      const end = getPointInsideStage(stage, target, 0.5, 0.5);
 
       if (hasMotionPathPlugin) {
-        const lift = Math.max(42, Math.min(92, Math.abs(start.x - end.x) * 0.16));
+        const lift = Math.max(42, Math.min(120, Math.abs(start.x - end.x) * 0.22 + Math.abs(start.y - end.y) * 0.14));
         const mid = {
           x: (start.x + end.x) / 2,
           y: Math.min(start.y, end.y) - lift,
@@ -437,6 +451,11 @@
           rotation,
           ease: easeSmooth,
           overwrite: true,
+          onUpdate: thought ? function() {
+            const px = Number(gsap.getProperty(pointer, "x"));
+            const py = Number(gsap.getProperty(pointer, "y"));
+            gsap.set(thought, { x: px + 28, y: py - 10 });
+          } : undefined,
         });
       } else {
         activePointerTween = gsap.to(pointer, {
@@ -446,6 +465,11 @@
           rotation,
           ease: easeSmooth,
           overwrite: true,
+          onUpdate: thought ? function() {
+            const px = Number(gsap.getProperty(pointer, "x"));
+            const py = Number(gsap.getProperty(pointer, "y"));
+            gsap.set(thought, { x: px + 28, y: py - 10 });
+          } : undefined,
         });
       }
     });
@@ -455,12 +479,6 @@
   function addTyping(tl, target, text, duration) {
     if (!target) {
       tl.to({}, { duration });
-      return;
-    }
-
-    if (hasTextPlugin) {
-      tl.set(target, { text: "" });
-      tl.to(target, { text: { value: text }, duration, ease: "none" });
       return;
     }
 
@@ -530,13 +548,16 @@
         activeAiWordLoopTl = tl;
 
         gsap.set(windows, { autoAlpha: 1, y: 0, scale: 1 });
+        const initPx = stage.clientWidth * 0.12;
+        const initPy = stage.clientHeight * 0.18;
         gsap.set(pointer, {
-          x: stage.clientWidth * 0.12,
-          y: stage.clientHeight * 0.18,
+          x: initPx,
+          y: initPy,
           autoAlpha: reduceMotion ? 0 : 0,
           scale: 0.92,
           rotation: -8,
         });
+        if (thought) gsap.set(thought, { x: initPx + 28, y: initPy - 10, autoAlpha: 0 });
 
         if (reduceMotion) {
           aiWordCycles.forEach((cycle) => appendWordParagraph(cycle.paragraph));
@@ -554,40 +575,90 @@
         );
         tl.to(pointer, { autoAlpha: 1, scale: 1, duration: 0.35 }, "-=0.2");
 
+        let currentPromptCard = promptCard;
+        let currentAiCard = aiCard;
+        let currentUserPrompt = userPrompt;
+        let currentAiResponse = aiResponse;
+        let currentSelection = selection;
+
         aiWordCycles.forEach((cycle, index) => {
-          const activeTarget = targetByCycle(index);
           const rotation = index % 2 === 0 ? -7 : 8;
 
           tl.addLabel(`aiWordCycle${index + 1}`, ">");
+          
+          if (index > 0) {
+            currentPromptCard = promptCard.cloneNode(true);
+            currentAiCard = aiCard.cloneNode(true);
+            currentUserPrompt = currentPromptCard.querySelector("p");
+            currentAiResponse = currentAiCard.querySelector("p");
+            currentSelection = currentAiCard.querySelector(".loop-selection");
+
+            currentUserPrompt.textContent = "";
+            currentAiResponse.textContent = "";
+            if (currentSelection) gsap.set(currentSelection, { autoAlpha: 0 });
+            
+            const chatStream = document.querySelector(".loop-chat-stream");
+            if (chatStream && copyBadge) {
+              chatStream.insertBefore(currentPromptCard, copyBadge);
+              chatStream.insertBefore(currentAiCard, copyBadge);
+            }
+            
+            gsap.set(currentPromptCard, { display: "none", opacity: 0 });
+            gsap.set(currentAiCard, { display: "none", opacity: 0 });
+          }
+
+          // Capture loop vars into closure to avoid stale references
+          const _promptCard = currentPromptCard;
+          const _aiCard = currentAiCard;
+          const _userPrompt = currentUserPrompt;
+          const _aiResponse = currentAiResponse;
+          const _selection = currentSelection;
+          const _cycle = cycle;
+          const _thoughtText = thoughtByCycle(index);
+
           tl.call(() => {
-            userPrompt.textContent = "";
-            aiResponse.textContent = "";
-            if (selection) gsap.set(selection, { autoAlpha: 0 });
+            if (index > 0) {
+              gsap.set(_promptCard, { display: "flex", opacity: 1 });
+              gsap.set(_aiCard, { display: "flex", opacity: 1 });
+              const chatStream = document.querySelector(".loop-chat-stream");
+              if (chatStream) chatStream.scrollTop = chatStream.scrollHeight;
+            } else {
+              _userPrompt.textContent = "";
+              _aiResponse.textContent = "";
+              if (selection) gsap.set(selection, { autoAlpha: 0 });
+            }
             if (copyBadge) gsap.set(copyBadge, { autoAlpha: 0, y: 8 });
+            // Show thought bubble (hidden until pointer travels)
             if (thought) {
-              thought.textContent = thoughtByCycle(index);
-              gsap.fromTo(thought, { y: 8, autoAlpha: 0 }, { y: 0, autoAlpha: 1, duration: 0.28, ease: easeOut });
+              thought.textContent = _thoughtText;
+              gsap.set(thought, { autoAlpha: 0 });
             }
           });
           tl.to({}, { duration: 0.38 });
 
-          addPointerTravel(tl, pointer, stage, promptCard, 0.9, rotation);
-          addTyping(tl, userPrompt, cycle.prompt, 2.05);
-          tl.to(promptCard, { scale: 1.015, duration: 0.18, yoyo: true, repeat: 1 }, "<");
+          // Show thought as pointer travels to prompt card
+          if (thought) tl.to(thought, { autoAlpha: 1, duration: 0.2 }, ">");
+          addPointerTravel(tl, pointer, stage, _promptCard, 0.9, rotation, thought);
+          addTyping(tl, _userPrompt, _cycle.prompt, 2.05);
+          tl.to(_promptCard, { scale: 1.015, duration: 0.18, yoyo: true, repeat: 1 }, "<");
           tl.to({}, { duration: 0.35 });
 
-          addPointerTravel(tl, pointer, stage, activeTarget || aiCard, 0.7, -rotation);
-          tl.fromTo(aiCard, { boxShadow: "0 0 0 rgba(38, 103, 255, 0)" }, { boxShadow: "0 0 24px rgba(38, 103, 255, 0.22)", duration: 0.35 }, "<");
-          addTyping(tl, aiResponse, cycle.response, 3.45);
-          tl.to(aiCard, { boxShadow: "0 0 0 rgba(38, 103, 255, 0)", duration: 0.45 });
+          addPointerTravel(tl, pointer, stage, _aiCard, 0.7, -rotation, thought);
+          tl.fromTo(_aiCard, { boxShadow: "0 0 0 rgba(38, 103, 255, 0)" }, { boxShadow: "0 0 24px rgba(38, 103, 255, 0.22)", duration: 0.35 }, "<");
+          addTyping(tl, _aiResponse, _cycle.response, 3.45);
+          tl.to(_aiCard, { boxShadow: "0 0 0 rgba(38, 103, 255, 0)", duration: 0.45 });
 
-          tl.to(selection, { autoAlpha: 1, duration: 0.28 }, ">");
-          tl.to(copyBadge, { autoAlpha: 1, y: 0, duration: 0.28, ease: easeElastic }, "<");
+          if (_selection) {
+            tl.to(_selection, { autoAlpha: 1, duration: 0.28 }, ">");
+          }
+          if (copyBadge) {
+            tl.to(copyBadge, { autoAlpha: 1, y: 0, duration: 0.28, ease: easeElastic }, "<");
+          }
           tl.to({}, { duration: 0.45 });
 
-          addPointerTravel(tl, pointer, stage, wordPage, 1, rotation);
+          addPointerTravel(tl, pointer, stage, wordPage, 1, rotation, thought);
           tl.call(() => {
-            const paragraph = appendWordParagraph(cycle.paragraph);
+            const paragraph = appendWordParagraph(_cycle.paragraph);
             if (paragraph) {
               gsap.fromTo(
                 paragraph,
@@ -596,7 +667,12 @@
               );
             }
           });
+
           tl.to({}, { duration: 1.25 });
+
+          if (thought) {
+            tl.to(thought, { autoAlpha: 0, duration: 0.2 });
+          }
         });
 
         tl.to(pointer, { y: "-=8", duration: 1.2, repeat: -1, yoyo: true, ease: "sine.inOut" }, "+=0.4");
