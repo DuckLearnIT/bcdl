@@ -4511,9 +4511,8 @@ function startTeacherChoiceSequence() {
     function isOverMail() {
         if (!mailWindow) return false;
         const rect = mailWindow.getBoundingClientRect();
-        const pad = 10;
-        return lastMx >= rect.left - pad && lastMx <= rect.right + pad &&
-               lastMy >= rect.top - pad && lastMy <= rect.bottom + pad;
+        return lastMx > rect.left && lastMx < rect.right &&
+               lastMy > rect.top && lastMy < rect.bottom;
     }
 
     function updatePointer() {
