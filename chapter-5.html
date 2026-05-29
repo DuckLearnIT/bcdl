@@ -4,10 +4,10 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Ngọn lửa ấm từ những tàn tro vụng về</title>
-    <link rel="preload" href="assets/fonts/Futura.woff2" as="font" type="font/woff2" crossorigin>
     <link rel="preload" href="assets/fonts/momo.woff2" as="font" type="font/woff2" crossorigin>
-    <link rel="preconnect" href="https://code.jquery.com" crossorigin>
-    <link rel="preconnect" href="https://cdnjs.cloudflare.com" crossorigin>
+<link rel="preload" href="assets/video/handclose.mp4" as="video" type="video/mp4">
+<link rel="preload" href="assets/video/handopen.mp4" as="video" type="video/mp4">
+<link rel="preload" href="assets/video/holdopen.mp4" as="video" type="video/mp4">
     <link rel="stylesheet" href="assets/css/chapter-5.css">
 </head>
 <body>
@@ -18,8 +18,8 @@
     <!-- Lớp chứa nền Video POV (Đu đưa nhẹ nhàng) -->
     <div id="pov-container">
         <!-- Double Buffering Video System -->
-        <video id="video-1" class="video-layer" loop muted playsinline preload="none"></video>
-        <video id="video-2" class="video-layer" loop muted playsinline preload="none"></video>
+        <video id="video-1" class="video-layer" loop muted playsinline></video>
+        <video id="video-2" class="video-layer" loop muted playsinline></video>
     </div>
 
     <!-- Hệ thống Hiệu ứng Tầm nhìn (Visual FX) -->
@@ -65,8 +65,8 @@
         </div>
     </div>
 
-    <script defer src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-    <script defer src="https://cdnjs.cloudflare.com/ajax/libs/jquery.ripples/0.5.3/jquery.ripples.min.js"></script>
-    <script defer src="assets/js/chapter-5.js"></script>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.ripples/0.5.3/jquery.ripples.min.js"></script>
+    <script src="assets/js/chapter-5.js"></script>
 </body>
 </html>
