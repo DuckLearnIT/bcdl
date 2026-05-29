@@ -926,9 +926,120 @@
     </div>
 </section>
 
+<section class="screen teacher-choice-screen" id="teacher-choice-screen" aria-label="Ngại hỏi giảng viên">
+    <div class="teacher-choice-stage" id="teacher-choice-stage">
+        <article class="teacher-choice-window teacher-mail-window" id="teacher-mail-window" aria-label="Cửa sổ soạn mail cho giảng viên">
+            <div class="teacher-window-bar">
+                <span class="window-dot red"></span>
+                <span class="window-dot yellow"></span>
+                <span class="window-dot green"></span>
+                <strong>Mail sinh viên</strong>
+                <span class="teacher-mail-status" id="teacher-mail-status">Bản nháp chưa gửi</span>
+            </div>
+            <div class="teacher-mail-compose-wrap" id="teacher-mail-compose-wrap">
+                <form class="teacher-mail-compose" id="teacher-mail-form" autocomplete="off">
+                    <label>
+                        <span>Đến</span>
+                        <input type="email" value="thay.truyen-thong@ptit.edu.vn" readonly>
+                    </label>
+                    <label>
+                        <span>Tiêu đề</span>
+                        <input type="text" value="Em muốn hỏi thêm về bài học AI" readonly>
+                    </label>
+                    <label class="teacher-mail-body-label">
+                        <span>Nội dung</span>
+                        <textarea readonly>Em chào thầy,
+
+Em đang đọc phần tác động của AI tới tự học nhưng vẫn chưa hiểu rõ ý "mất phản xạ tự nghĩ trước khi hỏi". Thầy có thể gợi ý giúp em nên đọc lại đoạn nào hoặc tự kiểm chứng bằng ví dụ nào không ạ?
+
+Em cảm ơn thầy.</textarea>
+                    </label>
+                    <button class="teacher-mail-send" id="teacher-mail-send" type="submit" aria-disabled="true" tabindex="-1">Gửi mail</button>
+                </form>
+            </div>
+            <div class="teacher-mail-inbox" id="teacher-mail-inbox" aria-live="polite">
+                <div class="teacher-inbox-head">
+                    <span>Hộp thư đến</span>
+                    <strong id="teacher-mail-clock">Vừa gửi nháp trong đầu</strong>
+                </div>
+                <div class="teacher-mail-timeline" id="teacher-mail-timeline"></div>
+                <article class="teacher-mail-reply" id="teacher-mail-reply">
+                    <span>thay.truyen-thong@ptit.edu.vn</span>
+                    <strong>Re: Em muốn hỏi thêm về bài học AI</strong>
+                    <p>Em cứ thử viết ra cách em hiểu trước, kèm một ví dụ em tự tìm được. Buổi sau thầy sẽ gợi mở tiếp để em tự kiểm chứng lập luận của mình.</p>
+                </article>
+            </div>
+        </article>
+
+        <article class="teacher-choice-window teacher-chat-window" id="teacher-chat-window" aria-label="Cửa sổ Chat Gipiti">
+            <div class="teacher-window-bar chat">
+                <span class="chat-gipiti-mark">G</span>
+                <strong>Chat Gipiti</strong>
+                <span class="teacher-chat-status" id="teacher-chat-status">Sẵn sàng trả lời</span>
+            </div>
+            <div class="teacher-chat-messages" id="teacher-chat-messages" aria-live="polite"></div>
+            <div class="teacher-chat-composer">
+                <textarea id="teacher-chat-prompt" readonly>Em chưa hiểu vì sao bài học nói AI có thể làm yếu phản xạ tự học. Nếu muốn hỏi giảng viên, em nên bắt đầu từ đâu để không xin thẳng đáp án?</textarea>
+                <button class="teacher-chat-send" id="teacher-chat-send" type="button">Gửi</button>
+            </div>
+        </article>
+
+        <div class="teacher-concern-layer" id="teacher-concern-layer" aria-hidden="true"></div>
+        <img class="teacher-choice-pointer" id="teacher-choice-pointer" src="assets/img/chapter%204/pointer.png" alt="" aria-hidden="true" draggable="false">
+    </div>
+</section>
+
 <div class="ai-word-next-wrap" id="ai-word-next-wrap">
     <button class="pixel-button" id="ai-word-next-btn" type="button">Tiếp tục →</button>
 </div>
+
+<section class="screen finale-sequence-screen" id="finale-sequence-screen" aria-label="Phần cuối - Lên bục thuyết trình">
+    <div class="finale-chat-stage" id="finale-chat-stage">
+        <div class="finale-chat-window">
+            <div class="teacher-window-bar chat">
+                <span class="chat-gipiti-mark">G</span>
+                <strong>Chat Gipiti</strong>
+            </div>
+            <div class="finale-chat-content" id="finale-chat-content">
+                <!-- Nội dung chữ chạy liên tục ở đây -->
+                <p>Đang tạo bài luận...</p>
+                <p>...phân tích các dẫn chứng...</p>
+                <p>...hoàn thiện kết luận...</p>
+                <p>Hoàn thành 100%!</p>
+            </div>
+            <button class="pixel-button" id="btn-len-buc" style="display:none; margin: 20px auto;">Lên bục thuyết trình</button>
+        </div>
+    </div>
+
+    <div class="finale-dark-stage" id="finale-dark-stage" style="display:none;">
+        <div class="spotlight"></div>
+        <div class="micro-stand" id="micro-stand">🎤</div>
+        <div class="teacher-questions" id="teacher-questions">
+            <div class="t-question tq-1">Em giải thích rõ hơn về luận điểm này được không?</div>
+            <div class="t-question tq-2">Tại sao em lại chọn ví dụ này?</div>
+            <div class="t-question tq-3">Phần này có vẻ giống AI viết?</div>
+        </div>
+    </div>
+    
+    <div class="finale-ninh-panel" id="finale-ninh-panel">
+        <div class="ninh-card">
+            <div class="ninh-avatar">
+                <div class="ninh-silhouette">👩‍🏫</div>
+            </div>
+            <div class="ninh-info">
+                <div class="ninh-name">ThS. Trần Ngọc Trang Ninh</div>
+                <div class="ninh-title">Giảng viên Khoa Truyền thông — PTIT</div>
+            </div>
+            <div class="ninh-audio-wave">
+                <span></span><span></span><span></span><span></span><span></span>
+            </div>
+        </div>
+    </div>
+
+    <div class="finale-subtitle-stage" id="finale-subtitle-stage" style="display:none;">
+        <p class="subtitle-text" id="finale-subtitle-text"></p>
+    </div>
+</section>
 
 <div class="guide-panel" id="guide-panel" role="dialog" aria-modal="true" aria-labelledby="guide-title">
     <div class="guide-card">
@@ -1003,6 +1114,7 @@
 <audio id="sfx-snap" src="assets/audio/SFX/fingersnap.mp3" preload="none"></audio>
 <audio id="sfx-record1" src="assets/audio/SFX/record1.wav" preload="none"></audio>
 <audio id="sfx-pv5" src="assets/audio/SFX/PV5.m4a" preload="none"></audio>
+<audio id="sfx-pv2" src="assets/audio/SFX/PVnew.wav" preload="auto"></audio>
 
 <script src="assets/js/chapter-4-animations.js"></script>
 <script src="assets/js/chapter-4.js"></script>

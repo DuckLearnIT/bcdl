@@ -494,6 +494,175 @@ const dialogueSets = {
             anim: "nod",
             powerBarChart: true
         }
+    ],
+    teacher_choice: [
+        {
+            id: "9.1",
+            name: "Amy",
+            text: "Bắt quả tang nhé! Bí bài cái là tay lại tự động lia chuột chọn khung chat của mình, thay vì hỏi giảng viên đúng không?",
+            pose: PIXEL + "pointout.webp",
+            anim: "hop"
+        },
+        {
+            id: "9.2",
+            name: "Amy",
+            text: "Mình hiểu mà. Cậu thích hỏi mình vì mình rep tin nhắn trong vòng 3 giây, gọi lúc 2h sáng vẫn dạ vâng nhẹ nhàng. Và quan trọng nhất là...",
+            pose: PIXEL + "smile.webp",
+            anim: "nod"
+        },
+        {
+            id: "9.3",
+            name: "Amy",
+            text: "...mình không bao giờ mắng cậu kiểu: 'Cái câu này rành rành ở trang 15 giáo trình mà em cũng đi hỏi tôi à?', chuẩn chưa?",
+            pose: PIXEL + "smile.webp",
+            anim: "hop"
+        },
+        {
+            id: "9.4",
+            name: "Amy",
+            text: "Cảm giác an toàn, không bị ai phán xét... đó là lý do mà tụi mình đang nẫng tay trên vị trí của các thầy cô đấy. Mấy chuyên gia giáo dục gọi cái hiện tượng này là 'Khoảng cách thế hệ AI' (The AI Generation Gap).",
+            pose: PIXEL + "serious.webp",
+            anim: "nod"
+        },
+        {
+            id: "9.5",
+            name: "Amy",
+            text: "Kiểu như, với tụi Gen Z các cậu thì tụi mình là công cụ thần thánh, tiện lợi, là 'bạn tâm giao' hỏi câu ngớ ngẩn nào cũng không sợ quê. Nhưng trong mắt các thầy cô, tụi mình lại giống mấy 'phản diện' cướp mất cơ hội tự tư duy của sinh viên vậy.",
+            pose: PIXEL + "thinking.webp",
+            anim: "none"
+        },
+        {
+            id: "9.6",
+            name: "Amy",
+            text: "Mà nói đi cũng phải nói lại... Thầy cô lo lắng là đúng đấy cậu ạ.",
+            pose: PIXEL + "serious.webp",
+            anim: "nod"
+        },
+        {
+            id: "9.7",
+            name: "Amy",
+            text: "Cậu thử nghĩ xem, cái hồi chưa có mình á... khi cậu lên gặp giảng viên, thầy cô đâu có bao giờ vứt toẹt cái đáp án vào mặt cậu cho xong chuyện đâu? Thầy cô sẽ gợi mở, sẽ vặn vẹo lại, bắt cậu vò đầu bứt tai tự lý giải vấn đề thì thôi.",
+            pose: PIXEL + "thinking.webp",
+            anim: "nod"
+        },
+        {
+            id: "9.8",
+            name: "Amy",
+            text: "Đó là sự tranh luận. Là lúc não bộ cậu thực sự hoạt động.",
+            pose: PIXEL + "serious.webp",
+            anim: "none"
+        },
+        {
+            id: "9.9",
+            name: "Amy",
+            text: "Còn khi cậu ở với mình? Mình chiều cậu quá mà. Cậu cứ đút câu hỏi là mình ngoan ngoãn nhả ngay đáp án. Nhàn thì nhàn thật... nhưng nó lại biến cậu thành người chỉ biết 'há miệng chờ sung'.",
+            pose: PIXEL + "thinking.webp",
+            anim: "nod"
+        },
+        {
+            id: "9.10",
+            name: "Amy",
+            text: "Dần dà, cậu quen thói lười đào sâu, ngại cãi lý, chỉ thích ăn sẵn... Cái văn hóa thầy trò cùng nhau tranh luận nảy lửa mất tích luôn. Cứ trốn thầy cô mãi trong cái vỏ êm ái này, cậu định tốt nghiệp bằng cách nào đây hả?",
+            pose: PIXEL + "serious.webp",
+            anim: "nod"
+        }
+    ],
+    finale_chat: [
+        {
+            id: "10.1",
+            name: "Amy",
+            text: "Mình nói thật nhé, cấm các cậu dùng AI bây giờ là chuyện viển vông. Công nghệ nó đi vào máu rồi, đi làm cũng bắt buộc phải dùng thôi.",
+            pose: PIXEL + "serious.webp",
+            anim: "nod"
+        },
+        {
+            id: "10.2",
+            name: "Amy",
+            text: "Nhưng cái đáng sợ là... sự thao túng tâm lý êm ru của nó kìa. Lúc ngồi bấm điện thoại chép bài từ mình, cậu vẫn có cảm giác là: 'Ồ, mình ĐANG HỌC cơ mà!'. Nhưng không, bộ não của cậu đang đình công, còn kẻ đang xử lý, lập luận vấn đề lại là mấy luồng code chạy ngầm của mình.",
+            pose: PIXEL + "thinking.webp",
+            anim: "none"
+        },
+        {
+            id: "10.3",
+            name: "Amy",
+            text: "Thầy cô nhìn thấu điều đó hết. Cậu biết nghiên cứu của chuyên gia Cecilia Ka Yuk Chan không? Mức độ lo ngại của các giảng viên về việc tụi mình đang 'ăn mòn' não sinh viên đã chạm mốc báo động 4,12/5 điểm rồi đấy.",
+            pose: PIXEL + "pointout.webp",
+            anim: "nod"
+        },
+        {
+            id: "10.4",
+            name: "Amy",
+            text: "Bây giờ, làm một phép thử cuối cùng nhé. Giả sử cậu mang bài luận hoàn hảo do mình viết đem nộp. Nhấp vào cái nút [Lên bục thuyết trình] kia thử xem!",
+            pose: PIXEL + "smile.webp",
+            anim: "hop"
+        }
+    ],
+    finale_presentation: [
+        {
+            id: "10.5",
+            name: "Amy",
+            text: "Không có laptop. Không có kết nối mạng. Không có mình bên cạnh để gõ prompt cứu nguy...",
+            pose: PIXEL + "serious.webp",
+            anim: "none"
+        },
+        {
+            id: "10.6",
+            name: "Amy",
+            text: "Cảm giác... chết trân tại chỗ, trống rỗng và nghẹt thở đúng không?",
+            pose: PIXEL + "thinking.webp",
+            anim: "nod"
+        },
+        {
+            id: "10.7",
+            name: "Amy",
+            text: "Đây chính là tương lai gần của giảng đường đại học đấy. Các trường học bắt buộc phải thay đổi luật chơi rồi. Sắp tới, điểm cho dăm ba cái bài tập làm ở nhà (nơi tụi mình có thể qua mặt thầy cô ngon ơ) sẽ bị ép xuống thấp nhất.",
+            pose: PIXEL + "serious.webp",
+            anim: "nod"
+        },
+        {
+            id: "10.8",
+            name: "Amy",
+            text: "Thay vào đó, cậu sẽ phải đối mặt với các bài thi kiểu này: Thuyết trình, phản biện trực tiếp trước hội đồng, xử lý tình huống ngay tại lớp, hoặc bị nhốt trong phòng thi chỉ có bút và giấy nháp.",
+            pose: PIXEL + "pointout.webp",
+            anim: "none"
+        }
+    ],
+    finale_pv: [
+        {
+            id: "10.9",
+            name: "ThS. Trang Ninh",
+            text: "Dù có sử dụng AI, sinh viên vẫn phải là người đứng lên trình bày lại được những lập luận của mình thì đó cũng thể hiện sinh viên có khả năng hiểu những gì AI phân tích.",
+            pose: null,
+            anim: "none",
+            audioId: "sfx-pv2"
+        }
+    ],
+    finale_reflect: [
+        {
+            id: "10.10",
+            name: "Amy",
+            text: "Cô nói đúng quá phải không? Thách thức không nằm ở việc cậu lén lút hay công khai mở ứng dụng của mình lên. Mà là... sau khi tắt màn hình đi, cái đọng lại trong đầu cậu là gì, và cậu có dũng cảm bảo vệ được tiếng nói của mình trước đám đông hay không.",
+            pose: PIXEL + "serious.webp",
+            anim: "nod"
+        }
+    ],
+    finale_subtitles: [
+        {
+            id: "10.11",
+            text: "Nhưng mình biết..."
+        },
+        {
+            id: "10.12",
+            text: "Đã quen dựa dẫm vào mình lâu như vậy, bây giờ bắt cậu tự bỏ cái 'nạng' này ra để bước lên bục thuyết trình, đối mặt với hàng chục ánh mắt phán xét..."
+        },
+        {
+            id: "10.13",
+            text: "Nghe đáng sợ và mỏi mệt lắm đúng không?"
+        },
+        {
+            id: "10.14",
+            text: "Cậu đi theo mình ra chỗ này nhé !"
+        }
     ]
 };
 
@@ -636,6 +805,8 @@ const flashcardScreen = $("#flashcard-screen");
 const examScreen = $("#exam-screen");
 const aiWordLoopScreen = $("#ai-word-loop-screen");
 const powerCutScreen = $("#power-cut-screen");
+const teacherChoiceScreen = $("#teacher-choice-screen");
+const finaleSequenceScreen = $("#finale-sequence-screen");
 const aiWordNextWrap = $("#ai-word-next-wrap");
 const aiWordNextBtn = $("#ai-word-next-btn");
 const dialogueHistory = [];
@@ -662,7 +833,8 @@ function showScreen(screenName) {
         gameScreen, chartScreen, starScreen, globeScreen,
         appstoreScreen, fireworkScreen, minigameScreen,
         areaChartScreen, bookScreen, infoScreen, flashcardScreen,
-        examScreen, aiWordLoopScreen, powerCutScreen
+        examScreen, aiWordLoopScreen, powerCutScreen,
+        teacherChoiceScreen, finaleSequenceScreen
     ];
     screens.forEach(s => s.classList.remove("is-active"));
 
@@ -681,6 +853,8 @@ function showScreen(screenName) {
         screenName === "exam" ? examScreen :
         screenName === "ai-word-loop" ? aiWordLoopScreen :
         screenName === "power-cut" ? powerCutScreen :
+        screenName === "teacher-choice" ? teacherChoiceScreen :
+        screenName === "finale" ? finaleSequenceScreen :
         null;
 
     if (target) {
@@ -4305,13 +4479,149 @@ function finishPowerCutSequence() {
     if (typeof window.stopPowerCutAnimations === "function") {
         window.stopPowerCutAnimations();
     }
+    startTeacherChoiceSequence();
+}
 
-    if (aiWordNextWrap) aiWordNextWrap.classList.add("active");
-    if (aiWordNextBtn) {
-        aiWordNextBtn.onclick = () => {
-            window.location.href = "chapter-5.html";
-        };
+function startTeacherChoiceSequence() {
+    state.phase = "teacher-choice";
+    document.body.classList.remove("power-cut-active");
+    document.body.classList.add("teacher-choice-active");
+    showScreen("teacher-choice");
+    setDialogueVisible(true);
+    setAmyVisible(true);
+    if (amyWrap) amyWrap.classList.remove("is-chart");
+    runDialogue(dialogueSets.teacher_choice, () => {
+        startFinaleSequence();
+    });
+}
+
+function startFinaleSequence() {
+    state.phase = "finale";
+    document.body.classList.remove("teacher-choice-active");
+    document.body.classList.add("finale-active");
+    showScreen("finale");
+    setDialogueVisible(true);
+    setAmyVisible(true);
+    if (amyWrap) amyWrap.classList.remove("is-chart");
+
+    const finaleChatStage = document.getElementById("finale-chat-stage");
+    const finaleDarkStage = document.getElementById("finale-dark-stage");
+    const btnLenBuc = document.getElementById("btn-len-buc");
+    if (finaleChatStage) {
+        finaleChatStage.style.display = "";
+        finaleChatStage.style.opacity = "1";
+        finaleChatStage.style.visibility = "visible";
     }
+    if (finaleDarkStage) finaleDarkStage.style.display = "none";
+    if (btnLenBuc) btnLenBuc.style.display = "none";
+
+    runDialogue(dialogueSets.finale_chat, () => {
+        if (btnLenBuc) {
+            btnLenBuc.style.display = "block";
+            btnLenBuc.onclick = () => {
+                enterFinalePresentationStage();
+            };
+        }
+    });
+}
+
+function enterFinalePresentationStage() {
+    const btnLenBuc = document.getElementById("btn-len-buc");
+    if (btnLenBuc) btnLenBuc.style.display = "none";
+
+    const finaleChatStage = document.getElementById("finale-chat-stage");
+    const finaleDarkStage = document.getElementById("finale-dark-stage");
+
+    function onTransitionComplete() {
+        if (finaleChatStage) finaleChatStage.style.display = "none";
+        setDialogueVisible(true);
+        setAmyVisible(true);
+        if (amyWrap) amyWrap.classList.remove("is-chart");
+        runDialogue(dialogueSets.finale_presentation, () => {
+            playFinaleInterview();
+        });
+    }
+
+    if (typeof gsap !== "undefined" && finaleChatStage && finaleDarkStage) {
+        const tl = gsap.timeline({ onComplete: onTransitionComplete });
+        tl.to(finaleChatStage, { autoAlpha: 0, duration: 0.6, ease: "power2.inOut" });
+        tl.set(finaleDarkStage, { display: "block", autoAlpha: 0 });
+        tl.to(finaleDarkStage, { autoAlpha: 1, duration: 0.8, ease: "power2.inOut" });
+        tl.fromTo(".spotlight", { autoAlpha: 0, scaleY: 0 }, { autoAlpha: 1, scaleY: 1, duration: 1, ease: "power2.out" }, "-=0.4");
+        tl.fromTo(".micro-stand", { y: 60, autoAlpha: 0 }, { y: 0, autoAlpha: 1, duration: 0.8, ease: "back.out(1.7)" }, "-=0.6");
+        tl.add(() => {
+            document.querySelectorAll(".t-question").forEach((q) => q.classList.add("show"));
+        }, "-=0.4");
+    } else {
+        if (finaleChatStage) finaleChatStage.style.opacity = "0";
+        setTimeout(() => {
+            if (finaleChatStage) finaleChatStage.style.display = "none";
+            if (finaleDarkStage) {
+                finaleDarkStage.style.display = "block";
+                finaleDarkStage.style.opacity = "1";
+            }
+            document.querySelectorAll(".t-question").forEach((q) => q.classList.add("show"));
+            onTransitionComplete();
+        }, 600);
+    }
+}
+
+function playFinaleInterview() {
+    const finaleNinhPanel = document.getElementById("finale-ninh-panel");
+    if (finaleNinhPanel) finaleNinhPanel.classList.add("active");
+
+    setDialogueVisible(true);
+    setAmyVisible(false);
+    runDialogue(dialogueSets.finale_pv, () => {
+        if (finaleNinhPanel) finaleNinhPanel.classList.remove("active");
+        setAmyVisible(true);
+        runDialogue(dialogueSets.finale_reflect, () => {
+            startFinaleSubtitleSequence();
+        });
+    });
+}
+
+function startFinaleSubtitleSequence() {
+    setDialogueVisible(false);
+    setAmyVisible(false);
+
+    const finaleDarkStage = document.getElementById("finale-dark-stage");
+    const finaleSubtitleStage = document.getElementById("finale-subtitle-stage");
+    const finaleChatStage = document.getElementById("finale-chat-stage");
+
+    if (finaleChatStage) finaleChatStage.style.display = "none";
+    if (finaleDarkStage) finaleDarkStage.style.display = "none";
+    if (finaleSubtitleStage) finaleSubtitleStage.style.display = "block";
+
+    const subtitles = dialogueSets.finale_subtitles;
+    let idx = 0;
+
+    function showNextSubtitle() {
+        if (idx >= subtitles.length) {
+            goToChapter5();
+            return;
+        }
+        const sub = subtitles[idx];
+        const subText = document.getElementById("finale-subtitle-text");
+        if (subText) {
+            subText.textContent = sub.text;
+            subText.style.opacity = "0";
+            subText.style.transform = "translateY(10px)";
+            requestAnimationFrame(() => {
+                subText.style.transition = "opacity 0.8s ease, transform 0.8s ease";
+                subText.style.opacity = "1";
+                subText.style.transform = "translateY(0)";
+            });
+        }
+        idx++;
+        setTimeout(showNextSubtitle, 3500);
+    }
+
+    showNextSubtitle();
+}
+
+function goToChapter5() {
+    window.location.href = "chapter-5.html";
 }
 
 function finishAiWordLoopSequence() {
