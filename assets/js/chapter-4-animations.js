@@ -321,27 +321,6 @@
       return tl;
     },
 
-    finale: () => {
-      const tl = gsap.timeline({ defaults: { ease: easeOut } });
-      tl.fromTo(
-        ".finale-chat-window",
-        { y: 50, autoAlpha: 0, scale: 0.94 },
-        { y: 0, autoAlpha: 1, scale: 1, duration: 0.8, ease: easeSmooth }
-      );
-      tl.fromTo(
-        ".finale-chat-content p",
-        { y: 20, autoAlpha: 0 },
-        { y: 0, autoAlpha: 1, stagger: 0.12, duration: 0.5 },
-        "-=0.4"
-      );
-      tl.fromTo(
-        "#btn-len-buc",
-        { scale: 0.8, autoAlpha: 0 },
-        { scale: 1, autoAlpha: 1, duration: 0.6, ease: easeElastic },
-        "-=0.2"
-      );
-      return tl;
-    },
   };
 
   /* ── Global interactive micro-animations ── */

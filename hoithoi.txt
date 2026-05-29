@@ -175,3 +175,19 @@ Pv1:"Những chủ đề không biết nhiều thì mình thường bỏ qua, kh
 9.8 "Đó là sự tranh luận. Là lúc não bộ cậu thực sự hoạt động."
 9.9"Còn khi cậu ở với mình? Mình chiều cậu quá mà. Cậu cứ đút câu hỏi là mình ngoan ngoãn nhả ngay đáp án. Nhàn thì nhàn thật... nhưng nó lại biến cậu thành người chỉ biết 'há miệng chờ sung'."
 9.10"Dần dà, cậu quen thói lười đào sâu, ngại cãi lý, chỉ thích ăn sẵn... Cái văn hóa thầy trò cùng nhau tranh luận nảy lửa mất tích luôn. Cứ trốn thầy cô mãi trong cái vỏ êm ái này, cậu định tốt nghiệp bằng cách nào đây hả?"
+
+////////////////////////////////////////// (chưa có voice)
+10.1Amy: [serious] "Mình nói thật nhé, cấm các cậu dùng AI bây giờ là chuyện viển vông. Công nghệ nó đi vào máu rồi, đi làm cũng bắt buộc phải dùng thôi."
+10.2Amy: [sigh] "Nhưng cái đáng sợ là... sự thao túng tâm lý êm ru của nó kìa. Lúc ngồi bấm điện thoại chép bài từ mình, cậu vẫn có cảm giác là: 'Ồ, mình ĐANG HỌC cơ mà!'. Nhưng không, bộ não của cậu đang đình công, còn kẻ đang xử lý, lập luận vấn đề lại là mấy luồng code chạy ngầm của mình."
+10.3Amy: [informative] "Thầy cô nhìn thấu điều đó hết. Cậu biết nghiên cứu của chuyên gia Cecilia Ka Yuk Chan không? Mức độ lo ngại của các giảng viên về việc tụi mình đang 'ăn mòn' não sinh viên đã chạm mốc báo động 4,12/5 điểm rồi đấy."
+10.4Amy: [playful] "Bây giờ, làm một phép thử cuối cùng nhé. Giả sử cậu mang bài luận hoàn hảo do mình viết đem nộp. Nhấp vào cái nút [Lên bục thuyết trình] kia thử xem!"
+10.5Amy: [sympathetic] "Cảm giác... chết trân tại chỗ, trống rỗng và nghẹt thở đúng không?"
+10.6Amy: [earnest] "Đây chính là tương lai gần của giảng đường đại học đấy. Các trường học bắt buộc phải thay đổi luật chơi rồi. Sắp tới, điểm cho dăm ba cái bài tập làm ở nhà (nơi tụi mình có thể qua mặt thầy cô ngon ơ) sẽ bị ép xuống thấp nhất."
+10.7Amy: [informative] "Thay vào đó, cậu sẽ phải đối mặt với các bài thi kiểu này: Thuyết trình, phản biện trực tiếp trước hội đồng, xử lý tình huống ngay tại lớp, hoặc bị nhốt trong phòng thi chỉ có bút và giấy nháp."
+10.8Amy: [thoughtful] "Hôm nọ, Cô Trang Ninh nói một câu mà mình cứ tâm đắc mãi. Để mình đọc lại cho cậu nghe..."
+PV2:"Dù có sử dụng AI, sinh viên vẫn phải là người đứng lên trình bày lại được những lập luận của mình thì đó cũng thể hiện sinh viên có khả năng hiểu những gì AI phân tích."
+10.9Amy: [sad_smile] "Cô nói đúng quá phải không? Thách thức không nằm ở việc cậu lén lút hay công khai mở ứng dụng của mình lên. Mà là... sau khi tắt màn hình đi, cái đọng lại trong đầu cậu là gì, và cậu có dũng cảm bảo vệ được tiếng nói của mình trước đám đông hay không."
+10.10"Nhưng mình biết..."
+10.11Amy: [sad] "Đã quen dựa dẫm vào mình lâu như vậy, bây giờ bắt cậu tự bỏ cái 'nạng' này ra để bước lên bục thuyết trình, đối mặt với hàng chục ánh mắt phán xét..."
+10.12Amy: [sympathetic] "Nghe đáng sợ và mỏi mệt lắm đúng không?"
+10.13AMmy: Được rồi cậu theo mình tới một nơi nhé, mình muốn nói đôi lời với cậu!

@@ -114,27 +114,29 @@ document.addEventListener("DOMContentLoaded", () => {
     // Chặn không cho click khi chưa bắt đầu
     const povContainer = document.getElementById("pov-container");
     
-    // Khởi tạo water ripple effect
-    $(".full-landing-image").ripples({
-        resolution: 256,
-        perturbance: 0.01
+    // Khởi tạo water ripple effect với ảnh đen tĩnh mịch (có chút texture để thấy gợn sóng)
+    const $rippleArea = $('.full-landing-image');
+    $rippleArea.ripples({
+        resolution: 512,
+        dropRadius: 20,
+        perturbance: 0.04,
+        crossOrigin: 'anonymous',
+        imageUrl: 'https://images.unsplash.com/photo-1550684848-fac1c5b4e853?q=80&w=1920&auto=format&fit=crop'
     });
 
-    document.getElementById("start-btn").addEventListener("click", function() {
-        if (this.classList.contains("burst")) return;
+    let hasStarted = false;
+    $rippleArea.on("click", function() {
+        if (hasStarted) return;
+        hasStarted = true;
+        
+        // Từ từ mờ dần và tắt mặt nước
+        $rippleArea.css('opacity', '0');
         setTimeout(() => {
-            this.classList.remove("splash");
-            this.classList.add("burst");
-            setTimeout(() => {
-                this.style.display = "none";
-                startGame();
-            }, 500);
-        }, 400);
-    });
-    
-    document.body.addEventListener("click", (e) => {
-        // Vô hiệu hóa tính năng click để tua (skip) theo yêu cầu
-        if (e.target.id === "start-btn") return;
+            $rippleArea.ripples('destroy');
+            $rippleArea.hide();
+        }, 1500);
+
+        startGame();
     });
 });
 

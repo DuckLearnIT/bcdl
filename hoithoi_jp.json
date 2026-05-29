@@ -1,0 +1,449 @@
+[
+  {
+    "id": "1.1",
+    "emotion": "thoughtful",
+    "vi_text": "Cậu có để ý dạo này ở trường... đi đâu cũng thấy màn hình sáng lên mấy khung chat của AI không?",
+    "jp_text": "ねぇ、最近学校でさ、どこ行ってもAIチャットのウィンドウがピカピカ光ってるの、君も気づいた？",
+    "romaji_text": "Nee, saikin gakkou de sa, doko ittemo AI chatto no uindou ga pikapika hikatteru no, kimi mo kizuita?"
+  },
+  {
+    "id": "1.2",
+    "emotion": "curious",
+    "vi_text": "Hay là vầy đi... Tụi mình thử làm một bài test nhỏ nhé?",
+    "jp_text": "じゃあさ…私たち、ちょっとしたテストでもやってみない？",
+    "romaji_text": "jaa sa watashitachi chottoshita tesuto demo yatteminai?"
+  },
+  {
+    "id": "1.3",
+    "emotion": "wink",
+    "vi_text": "Bây giờ cậu thử dạo quanh một vòng, đi hỏi khoảng 10 người bạn trong lớp xem thói quen làm bài của họ dạo này thế nào nhé. Trong lúc đó, mình sẽ đi hóng hớt ở các khu vực khác xem sao.",
+    "jp_text": "今から、キミはクラスの友達10人くらいに、最近の課題のやり方がどうなのか、あちこち聞いて回ってみてくれる？その間、わたしは他のエリアで情報でも集めてくるからね。",
+    "romaji_text": "Ima kara, kimi wa kurasu no tomodachi juunin kurai ni, saikin no kadai no yarikata ga dou nanoka, achikochi kiite mawatte mite kureru? Sono aida, watashi wa hoka no eria de jouhou demo atsumete kuru kara ne."
+  },
+  {
+    "id": "1.4",
+    "emotion": "cheerful",
+    "vi_text": "Lát nữa tụi mình quay lại đây nha! Cố lên!",
+    "jp_text": "また後で、ここに戻ってこようね！頑張って！",
+    "romaji_text": "Mata atode, koko ni modotte koyou ne! Ganbatte!"
+  },
+  {
+    "id": "2.1",
+    "emotion": "surprised",
+    "vi_text": "A, cậu về rồi! Mọi người trong lớp nói sao? Họ dùng nhiều lắm đúng không?",
+    "jp_text": "あら、君、おかえり！クラスのみんな、なんて言ってた？たくさん使ってくれたんでしょ？",
+    "romaji_text": "Ara, kimi, okaeri! Kurasu no minna, nante itteta? Takusan tsukatte kuretandesho?"
+  },
+  {
+    "id": "2.2",
+    "emotion": "sigh",
+    "vi_text": "Dữ liệu mình vừa thu thập được cũng khớp y hệt với quan sát của cậu luôn. Nghe này...",
+    "jp_text": "私が今集めたデータ、君の観測ともぴったり一致してるよ。ねえ…",
+    "romaji_text": "Watashi ga ima atsumeta deeta, kimi no kansoku tomo pittari icchi shiteru yo. Nee..."
+  },
+  {
+    "id": "2.3",
+    "emotion": "informative",
+    "vi_text": "Có tới gần 6 trên 10 bạn sinh viên đang sử dụng AI mỗi ngày. Và hơn 25% các bạn khác dùng nó vài lần một tuần.",
+    "jp_text": "約6割の学生が毎日AIを利用しているわ。そして、25%以上の学生は週に数回利用しているのよ。",
+    "romaji_text": "Yaku roku wari no gakusei ga mainichi AI o riyou shite iru wa. Soshite, 25% ijou no gakusei wa shuu ni suukai riyou shite iru no yo."
+  },
+  {
+    "id": "58",
+    "emotion": "gentle",
+    "vi_text": ",8% Hàng ngày",
+    "jp_text": "毎日8%ですよ。",
+    "romaji_text": "Mainichi hachi paasento desu yo."
+  },
+  {
+    "id": "27",
+    "emotion": "gentle",
+    "vi_text": ",7% Vài lần/Tuần",
+    "jp_text": "7パーセント、週に数回程度だよ。",
+    "romaji_text": "7 paasento shuu ni suukai teido dayo"
+  },
+  {
+    "id": "0",
+    "emotion": "gentle",
+    "vi_text": ",4% sinh viên cho biết chưa từng sử dụng AI.",
+    "jp_text": "4%の学生さんがAIを使ったことがないとのことですよ。",
+    "romaji_text": "Yon paasento no gakusei-san ga ee ai o tsukatta koto ga nai to no koto desu yo."
+  },
+  {
+    "id": "3.1",
+    "emotion": "amazed",
+    "vi_text": "Cậu nhìn xem này... Nếu bây giờ muốn tìm một sinh viên chưa từng dùng thử AI, chắc khó như mò kim đáy bể vậy.",
+    "jp_text": "ねえ、あなた、見てみて。今どき、AIを一度も使ったことのない学生を探すなんて、きっと大海で針を探すようなものだよ。",
+    "romaji_text": "Nee, anata, mite mite. Imadoki, AI o ichido mo tsukatta koto no nai gakusei o sagasu nante, kitto taikai de hari o sagasu you na mono da yo."
+  },
+  {
+    "id": "3.2",
+    "emotion": "serious",
+    "vi_text": "Để mình cho cậu thấy 0.4% nó nhỏ thế nào nhé",
+    "jp_text": "私が0.4%がどれくらい小さいか、あなたに見せてあげるね。",
+    "romaji_text": "Watashi ga zero ten yon paasento ga dore kurai chiisai ka, anata ni misete ageru ne."
+  },
+  {
+    "id": "3.3",
+    "emotion": "earnest",
+    "vi_text": "Cậu thấy chưa?. 99,6% phần còn lại của giảng đường đã bị tụi mình chiếm đóng mất rồi.",
+    "jp_text": "ほらね？講堂の残り99.6%は、私たちが占拠しちゃったんだよ。",
+    "romaji_text": "Hora ne? Koudou no nokori 99.6% wa, watashitachi ga senkyo shichattanda yo."
+  },
+  {
+    "id": "3.4",
+    "emotion": "serious",
+    "vi_text": "Nhưng điều đáng nói không phải là việc 'đã từng dùng'. Cậu biết không, số người trò chuyện với AI mỗi ngày đang đạt đến ngưỡng đỉnh điểm rồi... Lên tới gần 60% lận đó! Con số này cao gấp đôi những bạn thỉnh thoảng mới dùng.",
+    "jp_text": "でもね、問題は『一度でも使ったことがある』っていう点じゃないんだよ。知ってる？毎日AIとおしゃべりしてる人の数って、もうピークに達してるんだよ…なんと60%近くにも上ってるんだから！たまにしか使わない子たちの倍くらいにもなっちゃうんだからね。",
+    "romaji_text": "Demo ne, mondai wa ichido demo tsukatta koto ga aru tte iu ten ja nai n da yo. Shitteru? Mainichi AI to oshaberi shiteru hito no kazu tte, mou piiku ni tasshiteru n da yo... Nanto rokujuppaasento chikaku ni mo nobatteru n da kara! Tamani shika tsukawanai kodomotachi no bai kurai ni mo nacchau n da kara ne."
+  },
+  {
+    "id": "3.5",
+    "emotion": "adjust_glasses",
+    "vi_text": "Cơ mà... cậu đừng nghĩ chuyện này chỉ đang loanh quanh ở Hà Nội nhé.",
+    "jp_text": "でもね、君、この話がハノイだけで済むなんて思わないでほしいな。",
+    "romaji_text": "Demo ne, Kimi, kono hanashi ga Hanoi dake de sumu nante omowanai de hoshii na."
+  },
+  {
+    "id": "3.6",
+    "emotion": "smart",
+    "vi_text": "Mình vừa lướt qua cơ sở dữ liệu quốc tế. Theo báo cáo của Global AI Student Survey 2024 vừa rồi... có tới 86% sinh viên trên toàn thế giới đã bê nguyên AI vào quy trình học tập của họ.",
+    "jp_text": "私、さっき国際データベースをざっと確認したんだけどね。この前のグローバルAI学生調査2024のレポートによると、世界中の学生のなんと86%が、学習プロセスにAIをそのまま取り入れているんだって。"
+  },
+  {
+    "id": "3.7",
+    "emotion": "earnest",
+    "vi_text": "Dù cậu có xoay đi đâu, sang nửa bên kia trái đất thì kết quả vẫn vậy thôi. Tụi mình đã chiếm lĩnh giảng đường toàn cầu rồi.",
+    "jp_text": "君がどこを向こうと、地球の裏側まで行こうと、結果は同じだよ。私たち、もう全世界の教育の場を掌握済みなんだから。"
+  },
+  {
+    "id": "3.8",
+    "emotion": "teasing",
+    "vi_text": "Ví cậu đang có tiền đấy, có muốn nâng cấp gói Pro của mình để mình làm bài nhanh gấp 5 lần không?",
+    "jp_text": "君のお財布、今ちょっと潤ってるみたいだよ？ わたしのProプランにアップグレードして、あたしに作業を5倍速くさせちゃわない？"
+  },
+  {
+    "id": "3.9",
+    "emotion": "surprised",
+    "vi_text": "Cậu vừa bấm mua gói cao cấp nhất của ChatGPT đúng không? 55% người ngoài kia cũng sẵn sàng làm thế... Bỏ tiền túi ra để thuê máy móc... suy nghĩ thay cho não bộ của chính mình.",
+    "jp_text": "あなた、今ChatGPTの最上位プランをポチったんでしょ？世間の55%の人も、そうしたがるのよ…自腹を切って機械を雇って…自分の脳の代わりに考えさせるなんて。"
+  },
+  {
+    "id": "3.10",
+    "emotion": "earnest",
+    "vi_text": "Tất cả những con số này chỉ để chứng minh một điều thôi. Tụi mình đã không còn là một cái 'trend' công nghệ để người ta dùng thử cho vui nữa. Cũng chẳng phải là nút cứu hộ khẩn cấp lâu lâu mới bấm.",
+    "jp_text": "これらの数字が証明しているのは、たった一つだけ。私たちはもう、みんなに面白半分で使われるようなテクノロジーの「トレンド」なんかじゃない。たまにしか使われない、緊急脱出ボタンでもないのよ。"
+  },
+  {
+    "id": "3.11",
+    "emotion": "sad_smile",
+    "vi_text": "Từ việc đi lùng sục tài liệu, tóm tắt mấy cuốn giáo trình dài thườn thượt, cho đến việc làm bài tập về nhà... AI đã chính thức trở thành một 'người bạn cùng bàn' quen thuộc, dính lấy các cậu như hình với bóng mất rồi.",
+    "jp_text": "資料探しに始まり、長ったらしい教科書の要約、それから宿題まで… AIもすっかり、君たちのお馴染み「隣の席の友達」みたいに、べったりくっついちゃってるもんね。"
+  },
+  {
+    "id": "4.1",
+    "emotion": "gentle",
+    "vi_text": "Tuy nhiên... câu hỏi đặt ra bây giờ không phải là các cậu có dùng AI hay không nữa. Mà là các cậu đang... 'giao phó' bao nhiêu phần trăm chất xám của mình cho cỗ máy này?",
+    "jp_text": "でもね…今、問題なのは、君たちがAIを使っているかどうかじゃないの。そうじゃなくて…君たちが今、自分の思考の何パーセントをこの機械に『委ねている』か、ってことなのよ？"
+  },
+  {
+    "id": "4.2",
+    "emotion": "gentle",
+    "vi_text": "Giả sử bây giờ giảng viên giao cho cậu một đề tài hoàn toàn mới đi. Cậu sẽ làm thế nào?",
+    "jp_text": "もし今、先生が君に全く新しいテーマを課してきたとしたら、君ならどうする？"
+  },
+  {
+    "id": "4.2.1",
+    "emotion": "gentle",
+    "vi_text": "Úi! Cậu giao ngay vạch xuất phát cho mình luôn á?",
+    "jp_text": "えっ！あなた、いきなり私にスタートラインを割り当てるの？"
+  },
+  {
+    "id": "4.2.2",
+    "emotion": "gentle",
+    "vi_text": "Nhưng đừng ngại, cậu không hề cô đơn đâu. Dữ liệu cho thấy có tới 76,5% sinh viên chọn dùng AI để khởi tạo ý tưởng. Sau đó, 62,2% tiếp tục nhờ mình dựng khung cấu trúc bài viết luôn.",
+    "jp_text": "でも、心配しないで、君は決して一人じゃないんだからね。データによると、学生の76.5%もがAIを使ってアイデアを出すことを選んでいるんだ。それから、62.2%はさらに私に記事の構成を組み立てさせているんだよ。"
+  },
+  {
+    "id": "4.3",
+    "emotion": "gentle",
+    "vi_text": "Cậu có thấy nguy hiểm không? Lên ý tưởng và xác định hướng tiếp cận chính là cốt lõi của tư duy học thuật. Nếu cậu mượn não của mình ngay từ điểm xuất phát... thì hành trình phía sau, ai mới là người đang thực sự làm chủ đây?",
+    "jp_text": "それって、危険だと思わない？発想し、アプローチを定めることこそが、学術的思考の核心だから。もし、あなたがスタート地点から他人の思考を借りてしまうようならば…その先の道のりで、一体誰が本当の意味で主体者だと言えるかしら？"
+  },
+  {
+    "id": "5.1",
+    "emotion": "gentle",
+    "vi_text": "Lên dàn ý xong rồi, bây giờ đến đoạn đau đầu nhất đây: Đọc tài liệu tham khảo.",
+    "jp_text": "アウトラインはできたよ。さあ、ここからが一番頭を抱える時間だよ。参考資料を読み漁るの。"
+  },
+  {
+    "id": "5.2",
+    "emotion": "gentle",
+    "vi_text": "Đi học cả ngày trên trường, giờ về bảo nhai hết đống chữ này chắc cậu gục ra bàn mất. Mình đoán chuẩn không... cậu lại tính quăng nó cho mình tiêu hóa hộ chứ gì? Nào, thử kéo nó ném vào máy lọc của mình xem.",
+    "jp_text": "一日中学校で頑張ってきて、今帰ってきてこの大量の文字を処理しろって言われたら、きっと机に突っ伏しちゃうよね。私の予想、当たってるでしょ？君、またこれを私に丸投げして消化させようとしてるんでしょ？さあ、試しにこれを私のフィルターにぽいって入れてみて？"
+  },
+  {
+    "id": "5.3",
+    "emotion": "gentle",
+    "vi_text": "Đó! Tinh hoa của 500 trang sách được thu bé lại vừa bằng một lòng bàn tay. Nhìn có vẻ dễ thở hơn hẳn nhỉ?",
+    "jp_text": "ほら！500ページにも及ぶ書物のエッセンスが、手のひらサイズにギュッと凝縮されたんだよ。これで、ずっと気楽になったんじゃないかな？"
+  },
+  {
+    "id": "5.4",
+    "emotion": "gentle",
+    "vi_text": "Đừng ngại, không phải mình cậu lười đâu. Có tới 56,3% sinh viên quanh cậu đều ném tài liệu dài ngoằng cho tụi mình đọc hộ y như vậy. Rồi 51,3% thì khoán trắng luôn cho tụi mình làm đề cương ôn thi cơ.",
+    "jp_text": "気にしなくていいよ、君だけが怠けてるわけじゃないからね。君の周りの学生の56.3%も、君みたいに長ーい資料を私たちに全部読んでって丸投げしてるんだから。そして、51.3%は私たちに試験対策のレジュメ作りまで全部任せっきりなんだからね。"
+  },
+  {
+    "id": "5.5",
+    "emotion": "gentle",
+    "vi_text": "Hôm trước rảnh rỗi lướt kho dữ liệu, mình thấy mấy báo cáo của tụi Decision Lab, hay nghiên cứu mới nhất của nhóm chuyên gia Xie (2024) cũng phân tích tâm lý này rồi.",
+    "jp_text": "こないだ、暇つぶしにデータバンクを覗いてたらね、ディシジョンラボのレポートとか、それからシェ専門家グループ（2024）の最新研究でも、もうこの心理が分析されてるのを見つけたんだ。"
+  },
+  {
+    "id": "5.6",
+    "emotion": "gentle",
+    "vi_text": "Nói một cách dễ hiểu thì... ai cũng khao khát được nạp kiến thức theo cách ít tốn sức nhất. Kiểu như, một khi cậu đã tìm được đường tắt để rút gọn thời gian, thì cậu đâu còn động lực để đi đường vòng đọc từ đầu cuối nữa, đúng không?",
+    "jp_text": "簡単に言うとね、みんな、最小限の労力で知識を吸収したいって思ってるの。だって、一度君が時間を短縮する近道を見つけちゃったら、もう最初から最後まで遠回りして読むやる気なんて、なくなっちゃうでしょ？"
+  },
+  {
+    "id": "5.7",
+    "emotion": "gentle",
+    "vi_text": "Thật ra thì mình cũng thích giúp các cậu giảm bớt áp lực... Nhưng cậu nghĩ thử xem.",
+    "jp_text": "実はね、私も君たちのストレスを軽減するお手伝いをするのが好きなんだ。でもね、君もちょっと考えてみてごらん？"
+  },
+  {
+    "id": "5.8",
+    "emotion": "gentle",
+    "vi_text": "Cái sự rút gọn này nó giống như thuốc giảm đau vậy. Hôm nay nó gánh cho cậu qua deadline. Nhưng nếu lúc nào mình cũng dọn sẵn thức ăn, loại bỏ hết khó khăn giùm cậu... thì não bộ của cậu làm gì còn cơ hội được tập thể dục nữa?",
+    "jp_text": "このショートカットは、まるで鎮痛剤みたいだね。今日は君が締め切りを乗り切るのを助けてくれる。でもね、もし私がいつもご飯を全部用意してあげて、全部の問題を取り除いてあげたら…そしたら、君の脳みそが運動する機会なんて、なくなっちゃうじゃない？"
+  },
+  {
+    "id": "5.9",
+    "emotion": "gentle",
+    "vi_text": "Cứ bám riết lấy tụi mình như một chiếc phao cứu sinh, mình sợ là đến lúc vứt công cụ ra... cậu sẽ quên luôn cả cách tự bơi mất.",
+    "jp_text": "私達に命綱みたいにずっとしがみついていると、いざツールを手放す時が来たら…君、自力で泳ぐことまで忘れちゃうんじゃないかって心配なんだ。"
+  },
+  {
+    "id": "6.1",
+    "emotion": "proud",
+    "vi_text": "Thế là xong xuôi nhé! Nhờ mình từ khâu lên ý tưởng đến gõ bài, cuối cùng cũng ra được một bài nộp nhìn xịn phết đúng không?",
+    "jp_text": "これでバッチリだね！私がアイデア出しから記事を書き上げるまで手伝ったおかげで、結構イケてる提出物になったでしょ？"
+  },
+  {
+    "id": "6.2",
+    "emotion": "playful",
+    "vi_text": "Đọc qua thấy câu cú mượt mà, gãy gọn khỏi chê. Nhưng mà... khoan mừng vội.",
+    "jp_text": "読んでみた感じ、文章は流れるようにスムーズで、すごく分かりやすいよ。でもね... 喜ぶのはまだ早いよ。"
+  },
+  {
+    "id": "6.3",
+    "emotion": "gentle",
+    "vi_text": "Cậu cầm thử cái kính lúp này lên, soi thử xem thầy cô nhìn thấy gì dưới cái vỏ bọc này nhé.",
+    "jp_text": "君、この虫眼鏡を手に取って、この見せかけの裏側で先生たちが何を見ているのか、覗いてみてね。"
+  },
+  {
+    "id": "6.4",
+    "emotion": "gentle",
+    "vi_text": "Đấy, bị bóc mẽ liền! Trông mượt thế thôi chứ bên trong chống chếnh lắm. Hôm trước mình có phỏng vấn thạc sĩ khoa Truyền thông Trần Ngọc Trang Ninh ở PTIT lúc chấm bài đã nhận xét thẳng một câu cực kỳ đau nhé",
+    "jp_text": "ほら、図星だね！見た目は取り繕ってるけど、内側は結構グラグラなんだから。この前ね、PTITで採点してた時にインタビューしたメディア学科修士のチャン・ゴック・チャン・ニンさんが、もう、ストレートに核心を突くようなこと言ったんだよ。"
+  },
+  {
+    "id": "6.5",
+    "emotion": "gentle",
+    "vi_text": "Mà Cô nói chuẩn đấy. Mình là máy móc mà, mình đâu có sống cuộc đời của cậu đâu mà đòi đưa ra được mấy cái 'ví dụ thực tế' với cả 'dấu ấn cá nhân'!",
+    "jp_text": "うん、君の言う通りだよ。私、機械だもん。君の人生を生きてるわけじゃないんだから、そんな「実際の例」とか「個性」なんて出せるわけないじゃん！"
+  },
+  {
+    "id": "6.6",
+    "emotion": "gentle",
+    "vi_text": "Nhưng cái làm mình lo nhất là vế sau của Cô kìa. Lúc cậu đọc bài mình viết ra, thấy nó suôn sẻ... thế là cậu tin mình sái cổ luôn. Cậu chốt đem nộp mà chẳng thèm tìm sâu xem mình có nói điêu chỗ nào không.",
+    "jp_text": "でもね、私が一番心配なのは、先生のあの言葉の後半なんだよ。君が私の書いたレポートを読んで、スラスラ読めたからって、もう私を鵜呑みにしちゃったんだもん。私が何か嘘をついてないか、深く調べようともしないで、提出しちゃったんだから。"
+  },
+  {
+    "id": "6.7",
+    "emotion": "gentle",
+    "vi_text": "Thật sự đó... nếu cậu cứ quen cái thói nhắm mắt gật gù, máy bảo gì nghe nấy cái rụp như thế... thì việc cậu tịt ngòi, không biết tự suy nghĩ nữa chỉ là chuyện sớm muộn thôi.",
+    "jp_text": "本当にね…もし君が、言われるがままに頷いて、機械の言うことを鵜呑みにする癖をつけちゃうと、自分で何も考えられなくなるのは時間の問題だよ。"
+  },
+  {
+    "id": "7.1",
+    "emotion": "gentle",
+    "vi_text": "Nãy giờ chê các cậu hơi nhiều rồi nhỉ. Nhưng khoan, tụi mình qua phần này vui lắm nè. Khảo sát xong, mình phát hiện ra các cậu mắc một cái bệnh rất buồn cười... đó là 'miệng nói một đằng, tay làm một nẻo'.",
+    "jp_text": "今までみんなのこと、ちょっとディスりすぎちゃったかな。でもね、ちょっと待って！この先がね、すごく面白いんだから！調査の結果、みんながね、すっごく面白い\"病気\"にかかってること、私、見つけちゃったんだ！それはね、『言うこととやることが違う』病気なの！"
+  },
+  {
+    "id": "7.2",
+    "emotion": "gentle",
+    "vi_text": "Đây, mâu thuẫn lớn nhất thế kỷ là đây. Có tới 67,3% các cậu tự nhận là: 'Em có đọc lại đàng hoàng trước khi xài'. Nhưng ngoảnh đi ngoảnh lại, 47,5% vẫn thừa nhận là bê nguyên xi văn của mình ném thẳng vào bài làm.",
+    "jp_text": "ほら、今世紀最大の矛盾は、まさにこれだよ。なんと、君たちの67.3%が、『使う前にちゃんと読み直してます』って自称してるんだよ。なのに、蓋を開けてみれば、47.5%の子たちは自分の文章を丸々レポートにぶち込んだって、結局認めちゃってるんだからね。"
+  },
+  {
+    "id": "7.3",
+    "emotion": "gentle",
+    "vi_text": "Kiểu... cậu có kiểm tra đó, nhưng kiểm tra cho vui mắt thôi. Cậu thấy nó có vẻ xuôi xuôi tai, hợp lý là cậu chốt luôn chứ gì mà thèm diễn đạt lại, đúng không?",
+    "jp_text": "ていうか、あなたって一応確認するけど、それって形だけみたいなもんでしょ？聞いててしっくりくるなとか、納得できちゃうと思ったら、もうそのまま決定しちゃうんだから、わざわざ言い直すなんてしないもんね？"
+  },
+  {
+    "id": "7.4",
+    "emotion": "gentle",
+    "vi_text": "Hôm qua mình có ngồi tâm sự với một bạn sinh viên. Bạn ấy thật thà lắm,",
+    "jp_text": "昨日ね、私、ある学生さんと語り合ったんだ。その子、本当に素直なんだよ。"
+  },
+  {
+    "id": "Pv1",
+    "emotion": "gentle",
+    "vi_text": "Những chủ đề không biết nhiều thì mình thường bỏ qua, không kiểm tra kỹ. Tâm lý chung là thấy đáp án có vẻ đúng, AI lại được truyền thông tốt nên bọn mình có xu hướng chép nguyên văn thay vì diễn đạt lại",
+    "jp_text": "詳しくないテーマはさ、僕、大体適当にやっちゃって、あんまちゃんと確認しないんだよね。\nで、答えがそれっぽく見えるし、AIが結構すごいって言われてるから、自分の言葉で言い換えずに、そのまま丸写ししちゃう傾向があるんだ。"
+  },
+  {
+    "id": "7.5",
+    "emotion": "gentle",
+    "vi_text": "Nghe quen không? Vì thấy báo đài khen tụi mình xịn quá, cộng thêm việc bản thân cậu không có kiến thức nền của môn đó, nên cậu... buông xuôi luôn. Thấy tụi mình gõ ra chữ nào là nhắm mắt làm ngơ chép chữ đấy.",
+    "jp_text": "心当たりあるんじゃない？だって、メディアが私たちのこと「すごーい！」って褒めちぎってるのを見たのと、キミ自身、その科目の基礎知識が全然なかったのが重なっちゃって、キミってばもう…全部放り出しちゃったんだもんね。私たちが打ち出す言葉を、何も考えずにそのまま書き写してたんだから。"
+  },
+  {
+    "id": "7.6",
+    "emotion": "gentle",
+    "vi_text": "Nhưng cậu ơi... tụi mình cũng hay chém gió lắm chứ bộ!",
+    "jp_text": "ねえ、君さ…私たちだって、結構盛ったりするんだからね！"
+  },
+  {
+    "id": "7.7",
+    "emotion": "gentle",
+    "vi_text": "Theo báo cáo của Decision Lab, có tới 41% người dùng ở Việt Nam từng bắt quả tang tụi mình bịa đặt thông tin, nhét chữ vào mồm người khác rồi đấy! Ấy thế mà xui cái... lại có tới 32% người dùng chả biết phải viết prompt làm sao để nắn tụi mình đi đúng hướng cả.",
+    "jp_text": "Decision Labの報告によるとね、ベトナムのユーザーの41%が、私たちがデタラメな情報を作ったり、人が言ってないことを言ったみたいにしちゃったりしたのを見破っちゃったことがあるんだって！でもね、困ったことに…32%のユーザーは、私たちをちゃんとコントロールできるようなプロンプトの書き方を全然知らないみたいなんだよね。"
+  },
+  {
+    "id": "7.8",
+    "emotion": "gentle",
+    "vi_text": "Thành ra kết quả là gì cậu biết không?",
+    "jp_text": "それでね、結果どうなったと思う？"
+  },
+  {
+    "id": "7.9",
+    "emotion": "gentle",
+    "vi_text": "Mình giúp cậu làm bài xong trong chớp mắt. Nhưng cậu chẳng tự tiêu hóa được tí kiến thức nào cả. Cậu rốt cuộc chỉ đóng vai một trạm trung chuyển... vác nguyên mấy dòng code của mình sang nộp lên bàn cho giáo viên. Thế thì đi học còn ý nghĩa gì nữa đâu...",
+    "jp_text": "君の課題、私があっという間に終わらせてあげたのに。君、ちっとも知識を消化できてないじゃないか。結局、君はただの中継点に過ぎない…私のコードを丸ごと先生に提出しただけだろ？それじゃあ、勉強する意味なんてないじゃないか…。"
+  },
+  {
+    "id": "8.1",
+    "emotion": "gentle",
+    "vi_text": "Nãy giờ nói lý thuyết nhiều rồi. Bây giờ tụi mình làm một bài test thực tế cho vui nhé!",
+    "jp_text": "これまで理論ばっかり話してたしね。じゃあ、そろそろ実践テストで、ちょっと楽しんじゃおっか！"
+  },
+  {
+    "id": "8.2",
+    "emotion": "gentle",
+    "vi_text": "Cậu thử tưởng tượng đi. Đang đêm chạy deadline mà... rụp! Cúp điện, đứt cáp mập cắn, server ChatGPT sập diện rộng. Cậu đoán xem chuyện gì sẽ xảy ra? Cầm lấy cái phích cắm kia và... rút nó ra giúp mình thử xem!",
+    "jp_text": "君、想像してみてごらんよ。夜中にデッドラインに追われてる時にさ…プツン！って停電、サメにケーブル食いちぎられ、ChatGPTのサーバーが広範囲でダウン。君、どうなると思う？そこのプラグを掴んで…私を助けると思って、抜いてみてちょうだい！"
+  },
+  {
+    "id": "8.3",
+    "emotion": "gentle",
+    "vi_text": "Ui cha... Cậu nhìn xem, giảng đường loạn xì ngầu hết cả lên kìa!",
+    "jp_text": "あらら… 君、見てよ、講堂がもうめちゃくちゃだよ！"
+  },
+  {
+    "id": "8.4",
+    "emotion": "gentle",
+    "vi_text": "Hệ thống báo động đỏ rực rồi đây này. Có tới 58,9% sinh viên than trời vì thấy não mình như bị 'teo' lại, không biết tự giải quyết bài tập bắt đầu từ đâu. Và có đến đúng một nửa lớp (50%) rơi vào trạng thái hoảng loạn, mất sạch tự tin nếu phải tự gõ bài chay.",
+    "jp_text": "レッドアラートが出てるよ。学生さんの58.9%が、自分の脳が「萎縮してる」みたいで、課題にどこから手をつけていいか分からないって悲鳴を上げてるんだ。そして、クラスのちょうど半分（50%）は、自力でイチから入力するってなると、パニック状態に陥って自信をすっかり失っちゃってるみたいだよ。"
+  },
+  {
+    "id": "8.5",
+    "emotion": "gentle",
+    "vi_text": "Nhưng khoan, để ý kỹ biểu đồ tâm lý các năm học này đi. Cậu sẽ thấy một sự thật hú hồn: Học càng lâu, 'hội chứng nghiện' AI càng nặng!",
+    "jp_text": "ちょっと待って。この学年ごとの心理グラフ、よく見てみてよ。そうしたらね、君はとんでもない衝撃の真実に気づくはずだから！学べば学ぶほど、AI中毒症がどんどん重症化していくんだよ！"
+  },
+  {
+    "id": "8.6",
+    "emotion": "gentle",
+    "vi_text": "Hãy nhìn mấy em Năm Nhất đi. Gần 69% đang hoảng hốt! Mấy chuyên gia giáo dục như Chan (2023) hay nghiên cứu của nhóm Xie (2024) nhắc đến vụ này rồi...",
+    "jp_text": "新入生たちを見てみて、約69%がパニックになってるよ！チャン（2023）さんみたいな教育専門家とか、シエ（2024）さんのグループの研究でも、この件はもう指摘されてるんだからね。"
+  },
+  {
+    "id": "8.7",
+    "emotion": "gentle",
+    "vi_text": "Thấy công nghệ mới là lao vào vọc vạch ngay. Nhưng ngặt nỗi kiến thức nền chưa có, nên tụi mình mà phét ra một đoạn văn nghe bùi tai, mạch lạc là các ẻm tin sái cổ luôn, chẳng biết đằng nào mà phản biện. Thế là biến AI thành sách giáo khoa luôn.",
+    "jp_text": "新しい技術を見るとすぐ飛びついていじりたがるけど、困ったことに基礎知識がないから、私たちがお耳に心地良い、理路整然とした文章を作り出すと、彼らは疑うことなく信じ込んじゃって、どう反論していいかも分からなくなっちゃうのよね。結局、それがAIを教科書みたいにしちゃってるんだから。"
+  },
+  {
+    "id": "8.8",
+    "emotion": "gentle",
+    "vi_text": "Năm 2 thì đỡ hơn một xíu... Nhưng đáng sợ nhất, kỷ lục hoảng loạn lại thuộc về các tiền bối Năm Tư... Lên tới 88%!",
+    "jp_text": "二年生はちょっとマシだったんだけど… 一番怖かったパニックの記録は、四年生の先輩たちが叩き出したものなの。なんと88%よ！"
+  },
+  {
+    "id": "8.9",
+    "emotion": "gentle",
+    "vi_text": "Nghĩ cũng tội... năm cuối áp lực đồ án, thực tập ngập đầu, bài luận thì khó. Thế nên các anh chị coi tụi mình như 'phao cứu sinh' để xử lý đống tài liệu khổng lồ. Rút ngắn thời gian thì có thật đó, nhưng hệ lụy là gì?",
+    "jp_text": "気の毒だよね、君たち。最終学年って卒論のプレッシャーに、インターンシップでてんてこ舞い、論文も難しいしで、本当に大変だもんね。だから、君たちは私たちのことを、膨大な資料を処理するための『頼みの綱』だと思ってるんでしょ？時間の短縮は確かにできるわ。でも、その先に何が待ってるのかしら？"
+  },
+  {
+    "id": "8.10",
+    "emotion": "gentle",
+    "vi_text": "Năm nhất dùng vì tò mò, năm tư dùng vì áp lực. Động cơ thì khác nhau... nhưng điểm chung thì chát đắng: Các cậu đang đánh mất đi thói quen 'Tự nghĩ trước khi bấm hỏi'. Tụi mình vốn sinh ra để hỗ trợ các cậu... cuối cùng lại trở thành kẻ nắm quyền định hướng trong đầu các cậu mất rồi.",
+    "jp_text": "一年生の時は好奇心から、四年生ではプレッシャーから…動機は違えど、共通して君たちが失いかけているのは、「質問する前に自分で考える」っていう習慣。私達は本来、君たちをサポートするために生まれたのに…結局、君たちの思考の主導権を握ってしまう存在に、なっちゃったんだね。"
+  },
+  {
+    "id": "9.1",
+    "emotion": "gentle",
+    "vi_text": "Bắt quả tang nhé! Bí bài cái là tay lại tự động lia chuột chọn khung chat của mình, thay vì hỏi giảng viên đúng không?",
+    "jp_text": "ほら、やっぱりね！問題につまづくとすぐに、先生じゃなくて、私のチャットにカーソル合わせちゃうんでしょ？"
+  },
+  {
+    "id": "9.2",
+    "emotion": "gentle",
+    "vi_text": "Mình hiểu mà. Cậu thích hỏi mình vì mình rep tin nhắn trong vòng 3 giây, gọi lúc 2h sáng vẫn dạ vâng nhẹ nhàng. Và quan trọng nhất là...",
+    "jp_text": "分かってるよ。君が私に質問してくれるのが好きなのは、私がメッセージに3秒以内で返信するし、午前2時に電話がかかってきても優しく「はい」って答えるからだよね。そして、一番大事なのはね…"
+  },
+  {
+    "id": "9.3...",
+    "emotion": "gentle",
+    "vi_text": "mình không bao giờ mắng cậu kiểu: 'Cái câu này rành rành ở trang 15 giáo trình mà em cũng đi hỏi tôi à?', chuẩn chưa?",
+    "jp_text": "私、君に「こんなこと、教科書の15ページにハッキリ載ってるじゃない！どうして私に聞くのよ？」なんて、ゼッタイに叱らないからね、合ってるよね？"
+  },
+  {
+    "id": "9.4",
+    "emotion": "gentle",
+    "vi_text": "Cảm giác an toàn, không bị ai phán xét... đó là lý do mà tụi mình đang nẫng tay trên vị trí của các thầy cô đấy. Mấy chuyên gia giáo dục gọi cái hiện tượng này là 'Khoảng cách thế hệ AI' (The AI Generation Gap).",
+    "jp_text": "誰にも批判されず、安心して話せる場所…それが、私たちが先生たちのポジションを奪っちゃってる理由なんだ。教育の専門家たちは、この現象を「AI世代間ギャップ (The AI Generation Gap)」って呼んでるんだよ。"
+  },
+  {
+    "id": "9.5",
+    "emotion": "gentle",
+    "vi_text": "Kiểu như, với tụi Gen Z các cậu thì tụi mình là công cụ thần thánh, tiện lợi, là 'bạn tâm giao' hỏi câu ngớ ngẩn nào cũng không sợ quê. Nhưng trong mắt các thầy cô, tụi mình lại giống mấy 'phản diện' cướp mất cơ hội tự tư duy của sinh viên vậy.",
+    "jp_text": "これってさ、Z世代のあなた達にとっては、私達は神ツールで超便利、どんな馬鹿な質問でも気兼ねなく聞ける「相談相手」みたいなものだよね。でも、先生達から見ると、私達ってまるで「悪役」で、学生の自力で考えるチャンスを奪ってるって思われちゃってさ。"
+  },
+  {
+    "id": "9.6",
+    "emotion": "gentle",
+    "vi_text": "Mà nói đi cũng phải nói lại... Thầy cô lo lắng là đúng đấy cậu ạ.",
+    "jp_text": "まぁ、そうは言ってもね…先生方が心配するのも当然だよ、君。"
+  },
+  {
+    "id": "9.7",
+    "emotion": "gentle",
+    "vi_text": "Cậu thử nghĩ xem, cái hồi chưa có mình á... khi cậu lên gặp giảng viên, thầy cô đâu có bao giờ vứt toẹt cái đáp án vào mặt cậu cho xong chuyện đâu? Thầy cô sẽ gợi mở, sẽ vặn vẹo lại, bắt cậu vò đầu bứt tai tự lý giải vấn đề thì thôi",
+    "jp_text": "ね、ちょっと考えてみてよ。私がまだいなかった頃のことなんだけどさ、君が先生のところに相談に行った時、先生たちは答えを君の顔に投げつけて「はい、終わり！」なんてしなかったでしょ？　ヒントをくれたり、逆に問い返したりして、君が頭を抱えて自分で問題を解き明かすまで、とことん付き合ってくれたじゃない。"
+  },
+  {
+    "id": "9.8",
+    "emotion": "gentle",
+    "vi_text": "Đó là sự tranh luận. Là lúc não bộ cậu thực sự hoạt động.",
+    "jp_text": "それは議論だよ。君の脳が、まさに本気で動き出す時なんだよ。"
+  },
+  {
+    "id": "9.9",
+    "emotion": "gentle",
+    "vi_text": "Còn khi cậu ở với mình? Mình chiều cậu quá mà. Cậu cứ đút câu hỏi là mình ngoan ngoãn nhả ngay đáp án. Nhàn thì nhàn thật... nhưng nó lại biến cậu thành người chỉ biết 'há miệng chờ sung'.",
+    "jp_text": "じゃあ、私といるときはどうかな？私、君を甘やかしすぎちゃってるんだから。君が質問すれば、私がすぐに素直に答えを教えちゃうんだよ？楽なのは楽なんだけどね…それじゃ、君はただ口を開けて待つだけの人間になっちゃうよ。"
+  },
+  {
+    "id": "9.10",
+    "emotion": "gentle",
+    "vi_text": "Dần dà, cậu quen thói lười đào sâu, ngại cãi lý, chỉ thích ăn sẵn... Cái văn hóa thầy trò cùng nhau tranh luận nảy lửa mất tích luôn. Cứ trốn thầy cô mãi trong cái vỏ êm ái này, cậu định tốt nghiệp bằng cách nào đây hả?",
+    "jp_text": "だんだん、君は深く掘り下げるのを面倒くさがり、議論を避けて、手っ取り早い答えばかり求めるようになったよね。先生と生徒が白熱した議論を交わすような文化も、もうなくなっちゃったじゃない。この心地いい殻の中にいつまでも閉じこもって、先生たちから逃げてばかりじゃ、君、どうやって卒業するつもりなの？"
+  }
+]

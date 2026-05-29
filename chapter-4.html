@@ -954,7 +954,7 @@ Em đang đọc phần tác động của AI tới tự học nhưng vẫn chưa
 
 Em cảm ơn thầy.</textarea>
                     </label>
-                    <button class="teacher-mail-send" id="teacher-mail-send" type="submit" aria-disabled="true" tabindex="-1">Gửi mail</button>
+                    <button class="teacher-mail-send" id="teacher-mail-send" type="button">Gửi mail</button>
                 </form>
             </div>
             <div class="teacher-mail-inbox" id="teacher-mail-inbox" aria-live="polite">
@@ -993,34 +993,33 @@ Em cảm ơn thầy.</textarea>
     <button class="pixel-button" id="ai-word-next-btn" type="button">Tiếp tục →</button>
 </div>
 
-<section class="screen finale-sequence-screen" id="finale-sequence-screen" aria-label="Phần cuối - Lên bục thuyết trình">
-    <div class="finale-chat-stage" id="finale-chat-stage">
-        <div class="finale-chat-window">
-            <div class="teacher-window-bar chat">
-                <span class="chat-gipiti-mark">G</span>
-                <strong>Chat Gipiti</strong>
+<section class="screen finale-sequence-screen" id="finale-sequence-screen" aria-label="Phần cuối">
+
+    <!-- Photo Stack Stage -->
+    <div class="photo-stack-stage" id="photo-stack-stage">
+        <div class="photo-stack" id="photo-stack">
+            <div class="photo-frame" data-idx="5">
+                <img src="assets/img/chapter 4/F6.png" alt="F6" draggable="false">
             </div>
-            <div class="finale-chat-content" id="finale-chat-content">
-                <!-- Nội dung chữ chạy liên tục ở đây -->
-                <p>Đang tạo bài luận...</p>
-                <p>...phân tích các dẫn chứng...</p>
-                <p>...hoàn thiện kết luận...</p>
-                <p>Hoàn thành 100%!</p>
+            <div class="photo-frame" data-idx="4">
+                <img src="assets/img/chapter 4/F5.png" alt="F5" draggable="false">
             </div>
-            <button class="pixel-button" id="btn-len-buc" style="display:none; margin: 20px auto;">Lên bục thuyết trình</button>
+            <div class="photo-frame" data-idx="3">
+                <img src="assets/img/chapter 4/F4.png" alt="F4" draggable="false">
+            </div>
+            <div class="photo-frame" data-idx="2">
+                <img src="assets/img/chapter 4/F3.jpg" alt="F3" draggable="false">
+            </div>
+            <div class="photo-frame" data-idx="1">
+                <img src="assets/img/chapter 4/F2.webp" alt="F2" draggable="false">
+            </div>
+            <div class="photo-frame" data-idx="0">
+                <img src="assets/img/chapter 4/F1.jpg" alt="F1" draggable="false">
+            </div>
         </div>
     </div>
 
-    <div class="finale-dark-stage" id="finale-dark-stage" style="display:none;">
-        <div class="spotlight"></div>
-        <div class="micro-stand" id="micro-stand">🎤</div>
-        <div class="teacher-questions" id="teacher-questions">
-            <div class="t-question tq-1">Em giải thích rõ hơn về luận điểm này được không?</div>
-            <div class="t-question tq-2">Tại sao em lại chọn ví dụ này?</div>
-            <div class="t-question tq-3">Phần này có vẻ giống AI viết?</div>
-        </div>
-    </div>
-    
+    <!-- Ninh interview panel -->
     <div class="finale-ninh-panel" id="finale-ninh-panel">
         <div class="ninh-card">
             <div class="ninh-avatar">
@@ -1036,10 +1035,15 @@ Em cảm ơn thầy.</textarea>
         </div>
     </div>
 
-    <div class="finale-subtitle-stage" id="finale-subtitle-stage" style="display:none;">
-        <p class="subtitle-text" id="finale-subtitle-text"></p>
+    <!-- Dark stage with subtitles -->
+    <div class="finale-dark-stage" id="finale-dark-stage" style="display:none;">
+        <div class="finale-subtitle-stage" id="finale-subtitle-stage">
+            <p class="subtitle-text" id="finale-subtitle-text"></p>
+        </div>
     </div>
+
 </section>
+
 
 <div class="guide-panel" id="guide-panel" role="dialog" aria-modal="true" aria-labelledby="guide-title">
     <div class="guide-card">

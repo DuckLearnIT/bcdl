@@ -567,7 +567,7 @@ const dialogueSets = {
             anim: "nod"
         }
     ],
-    finale_chat: [
+    finale_flipbook: [
         {
             id: "10.1",
             name: "Amy",
@@ -580,56 +580,59 @@ const dialogueSets = {
             name: "Amy",
             text: "Nhưng cái đáng sợ là... sự thao túng tâm lý êm ru của nó kìa. Lúc ngồi bấm điện thoại chép bài từ mình, cậu vẫn có cảm giác là: 'Ồ, mình ĐANG HỌC cơ mà!'. Nhưng không, bộ não của cậu đang đình công, còn kẻ đang xử lý, lập luận vấn đề lại là mấy luồng code chạy ngầm của mình.",
             pose: PIXEL + "thinking.webp",
-            anim: "none"
+            anim: "none",
+            flipPage: 1
         },
         {
             id: "10.3",
             name: "Amy",
             text: "Thầy cô nhìn thấu điều đó hết. Cậu biết nghiên cứu của chuyên gia Cecilia Ka Yuk Chan không? Mức độ lo ngại của các giảng viên về việc tụi mình đang 'ăn mòn' não sinh viên đã chạm mốc báo động 4,12/5 điểm rồi đấy.",
             pose: PIXEL + "pointout.webp",
-            anim: "nod"
+            anim: "nod",
+            flipPage: 2
         },
         {
             id: "10.4",
             name: "Amy",
-            text: "Bây giờ, làm một phép thử cuối cùng nhé. Giả sử cậu mang bài luận hoàn hảo do mình viết đem nộp. Nhấp vào cái nút [Lên bục thuyết trình] kia thử xem!",
+            text: "Cậu biết không, thầy cô bây giờ đã nhận ra: cho điểm bài tập về nhà kiểu cũ là vô nghĩa rồi. Vì nộp bài nào cũng đẹp long lanh, nhưng ai viết thì chưa chắc.",
             pose: PIXEL + "smile.webp",
-            anim: "hop"
-        }
-    ],
-    finale_presentation: [
+            anim: "hop",
+            flipPage: 3
+        },
         {
             id: "10.5",
             name: "Amy",
-            text: "Không có laptop. Không có kết nối mạng. Không có mình bên cạnh để gõ prompt cứu nguy...",
-            pose: PIXEL + "serious.webp",
-            anim: "none"
+            text: "Sắp tới, điểm cho dăm ba cái bài tập làm ở nhà sẽ bị ép xuống thấp nhất. Thay vào đó, cậu sẽ phải đối mặt với thuyết trình, phản biện trước hội đồng, xử lý tình huống tại lớp.",
+            pose: PIXEL + "thinking.webp",
+            anim: "nod",
+            flipPage: 4
         },
         {
             id: "10.6",
             name: "Amy",
-            text: "Cảm giác... chết trân tại chỗ, trống rỗng và nghẹt thở đúng không?",
-            pose: PIXEL + "thinking.webp",
-            anim: "nod"
+            text: "Không có laptop. Không có kết nối mạng. Không có mình bên cạnh để gõ prompt cứu nguy... Cảm giác chết trân tại chỗ, trống rỗng và nghẹt thở đúng không?",
+            pose: PIXEL + "serious.webp",
+            anim: "nod",
+            flipPage: 5
         },
         {
             id: "10.7",
             name: "Amy",
-            text: "Đây chính là tương lai gần của giảng đường đại học đấy. Các trường học bắt buộc phải thay đổi luật chơi rồi. Sắp tới, điểm cho dăm ba cái bài tập làm ở nhà (nơi tụi mình có thể qua mặt thầy cô ngon ơ) sẽ bị ép xuống thấp nhất.",
-            pose: PIXEL + "serious.webp",
-            anim: "nod"
+            text: "Đây chính là tương lai gần của giảng đường đại học đấy. Các trường học bắt buộc phải thay đổi luật chơi rồi.",
+            pose: PIXEL + "pointout.webp",
+            anim: "none"
         },
         {
             id: "10.8",
             name: "Amy",
-            text: "Thay vào đó, cậu sẽ phải đối mặt với các bài thi kiểu này: Thuyết trình, phản biện trực tiếp trước hội đồng, xử lý tình huống ngay tại lớp, hoặc bị nhốt trong phòng thi chỉ có bút và giấy nháp.",
-            pose: PIXEL + "pointout.webp",
-            anim: "none"
+            text: "Hôm nọ, Cô Trang Ninh nói một câu mà mình cứ tâm đắc mãi. Để mình đọc lại cho cậu nghe...",
+            pose: PIXEL + "thinking.webp",
+            anim: "nod"
         }
     ],
     finale_pv: [
         {
-            id: "10.9",
+            id: "PV2",
             name: "ThS. Trang Ninh",
             text: "Dù có sử dụng AI, sinh viên vẫn phải là người đứng lên trình bày lại được những lập luận của mình thì đó cũng thể hiện sinh viên có khả năng hiểu những gì AI phân tích.",
             pose: null,
@@ -639,7 +642,7 @@ const dialogueSets = {
     ],
     finale_reflect: [
         {
-            id: "10.10",
+            id: "10.9",
             name: "Amy",
             text: "Cô nói đúng quá phải không? Thách thức không nằm ở việc cậu lén lút hay công khai mở ứng dụng của mình lên. Mà là... sau khi tắt màn hình đi, cái đọng lại trong đầu cậu là gì, và cậu có dũng cảm bảo vệ được tiếng nói của mình trước đám đông hay không.",
             pose: PIXEL + "serious.webp",
@@ -648,20 +651,20 @@ const dialogueSets = {
     ],
     finale_subtitles: [
         {
-            id: "10.11",
+            id: "10.10",
             text: "Nhưng mình biết..."
         },
         {
-            id: "10.12",
+            id: "10.11",
             text: "Đã quen dựa dẫm vào mình lâu như vậy, bây giờ bắt cậu tự bỏ cái 'nạng' này ra để bước lên bục thuyết trình, đối mặt với hàng chục ánh mắt phán xét..."
         },
         {
-            id: "10.13",
+            id: "10.12",
             text: "Nghe đáng sợ và mỏi mệt lắm đúng không?"
         },
         {
-            id: "10.14",
-            text: "Cậu đi theo mình ra chỗ này nhé !"
+            id: "10.13",
+            text: "Được rồi cậu theo mình tới một nơi nhé, mình muốn nói đôi lời với cậu!"
         }
     ]
 };
@@ -806,6 +809,7 @@ const examScreen = $("#exam-screen");
 const aiWordLoopScreen = $("#ai-word-loop-screen");
 const powerCutScreen = $("#power-cut-screen");
 const teacherChoiceScreen = $("#teacher-choice-screen");
+const finaleSequenceScreen = $("#finale-sequence-screen");
 const aiWordNextWrap = $("#ai-word-next-wrap");
 const aiWordNextBtn = $("#ai-word-next-btn");
 const dialogueHistory = [];
@@ -833,7 +837,7 @@ function showScreen(screenName) {
         appstoreScreen, fireworkScreen, minigameScreen,
         areaChartScreen, bookScreen, infoScreen, flashcardScreen,
         examScreen, aiWordLoopScreen, powerCutScreen,
-        teacherChoiceScreen
+        teacherChoiceScreen, finaleSequenceScreen
     ];
     screens.forEach(s => s.classList.remove("is-active"));
 
@@ -853,6 +857,7 @@ function showScreen(screenName) {
         screenName === "ai-word-loop" ? aiWordLoopScreen :
         screenName === "power-cut" ? powerCutScreen :
         screenName === "teacher-choice" ? teacherChoiceScreen :
+        screenName === "finale-sequence" ? finaleSequenceScreen :
         null;
 
     if (target) {
@@ -967,6 +972,20 @@ function handleDialogueStepEvent(step) {
         playStepAudio(step.audioId);
     }
 
+    if (typeof step.flipPage === "number") {
+        flipToPage(step.flipPage);
+    }
+
+    // Hiển thị / ẩn finale ninh panel
+    const finaleNinhPanel = document.getElementById("finale-ninh-panel");
+    if (finaleNinhPanel) {
+        if (step.name === "ThS. Trang Ninh") {
+            finaleNinhPanel.classList.add("active");
+        } else {
+            finaleNinhPanel.classList.remove("active");
+        }
+    }
+
     // Hiển thị / ẩn panel giảng viên Trần Ngọc Trang Ninh
     const ninhPanel = document.getElementById("ninh-panel");
     if (ninhPanel) {
@@ -1064,7 +1083,7 @@ function renderPowerBarChart() {
                 /* nhãn ref nằm ngoài plot, bên trái */
                 '<div class="power-bar-ref-labels">' +
                     refLines.map((r) =>
-                        '<div class="power-bar-ref-label" style="bottom:' + r.pct + '%">' +
+                        '<div class="power-bar-ref-label" style="bottom:' + (r.visPct || r.pct) + '%">' +
                             '<span>' + r.label + '</span>' +
                         '</div>'
                     ).join("") +
@@ -1080,11 +1099,11 @@ function renderPowerBarChart() {
                     /* khu vực cột */
                     '<div class="power-bar-chart-plot">' +
                         refLines.map((r) =>
-                            '<div class="power-bar-ref" style="bottom:' + r.pct + '%"></div>'
+                            '<div class="power-bar-ref" style="bottom:' + (r.visPct || r.pct) + '%"></div>'
                         ).join("") +
                         powerYearData.map((y) =>
                             '<div class="power-bar-col" data-year="' + y.id + '">' +
-                                '<div class="power-bar-fill" style="height:' + y.percent + '%">' +
+                                '<div class="power-bar-fill" style="height:' + (y.visPercent || y.percent) + '%">' +
                                     '<span class="power-bar-val">' + y.percent + '%</span>' +
                                 '</div>' +
                                 '<span class="power-bar-label">' + y.label + '</span>' +
@@ -3793,7 +3812,7 @@ const POWER_YEAR_COLORS = {
 
 const powerYearData = [
     { id: "year1", label: "Năm 1", affected: 7, percent: 68.8, caption: "Năm 1 đang hoang mang khi mất điểm tựa AI." },
-    { id: "year2", label: "Năm 2", affected: 5, percent: 50.8, caption: "Năm 2 đỡ hơn một nhịp, nhưng vẫn chao đảo." },
+    { id: "year2", label: "Năm 2", affected: 5, percent: 50.8, visPercent: 53, caption: "Năm 2 đỡ hơn một nhịp, nhưng vẫn chao đảo." },
     { id: "year3", label: "Năm 3", affected: 7, percent: 70.2, caption: "Năm 3 bắt đầu thấy rõ khoảng trống tự xử lý." },
     { id: "year4", label: "Năm 4", affected: 9, percent: 88, caption: "Năm 4 chịu áp lực nặng nhất khi không còn AI chống lưng." }
 ];
@@ -4635,7 +4654,7 @@ function startTeacherChoiceSequence() {
                 setDialogueVisible(true);
                 setAmyVisible(true);
                 if (amyWrap) amyWrap.classList.remove("is-chart");
-                runDialogue(dialogueSets.teacher_choice, () => {});
+                runDialogue(dialogueSets.teacher_choice, startFinaleSequence);
             }, 1200);
         };
     }
@@ -4689,10 +4708,176 @@ function startTeacherChoiceSequence() {
                 setDialogueVisible(true);
                 setAmyVisible(true);
                 if (amyWrap) amyWrap.classList.remove("is-chart");
-                runDialogue(dialogueSets.teacher_choice, () => {});
+                runDialogue(dialogueSets.teacher_choice, startFinaleSequence);
             }, 600 + steps.length * 1400 + 600);
         };
     }
+}
+
+/* ============================================
+   FINALE SEQUENCE — Flipbook → Dialogues → Subtitles → Chapter 5
+   ============================================ */
+
+function flipToPage(pageIndex) {
+    const frame = document.querySelector(`.photo-frame[data-idx="${pageIndex - 1}"]`);
+    if (!frame) return;
+
+    // Fly out animation to the right and slightly up, with rotation
+    gsap.to(frame, { 
+        x: window.innerWidth * 1.2, 
+        y: -window.innerHeight * 0.3, 
+        rotation: gsap.utils.random(45, 120), 
+        autoAlpha: 0, 
+        duration: 0.8, 
+        ease: "power2.inOut" 
+    });
+}
+
+function startFinaleSequence() {
+    // 1. Clean up teacher-choice
+    setDialogueVisible(false);
+    setAmyVisible(false);
+    document.body.classList.remove("teacher-choice-active");
+
+    // 2. Show finale screen
+    showScreen("finale-sequence");
+
+    const stage = document.getElementById("photo-stack-stage");
+    const stack = document.getElementById("photo-stack");
+    const darkStage = document.getElementById("finale-dark-stage");
+
+    if (!stage || !stack) return;
+
+    stage.style.display = "flex";
+    stage.style.opacity = "1";
+    if (darkStage) darkStage.style.display = "none";
+
+    // Select all frames (from F6 down to F1 in DOM, so index 0 is F6)
+    const frames = Array.from(stack.querySelectorAll(".photo-frame"));
+
+    // Reset all frames
+    frames.forEach((f, i) => {
+        gsap.set(f, { x: 0, y: 0, scale: 0, rotation: 1080, z: -1500, autoAlpha: 0 });
+    });
+
+    // 3. Spiral entry animation
+    // Stagger in frames, starting from the last in the array (F1) to the first (F6)?
+    // Wait, DOM is F6, F5, F4, F3, F2, F1. 
+    // Array[0] = F6. Array[5] = F1.
+    // F6 should drop first. So we animate from index 0 to 5.
+    
+    gsap.fromTo(frames,
+        { scale: 0, rotation: 1080, z: -1000, autoAlpha: 0 },
+        {
+            scale: 1, 
+            rotation: () => gsap.utils.random(-15, 15), 
+            z: 0, 
+            autoAlpha: 1, 
+            duration: 1.4, 
+            stagger: 0.25, 
+            ease: "back.out(1.2)",
+            onComplete: () => {
+                setTimeout(startFlipbookDialoguePhase, 600);
+            }
+        }
+    );
+}
+
+function startFlipbookDialoguePhase() {
+    setDialogueVisible(true);
+    setAmyVisible(true);
+    if (amyWrap) amyWrap.classList.remove("is-chart");
+
+    // 10.1–10.8 with flipbook page flips
+    runDialogue(dialogueSets.finale_flipbook, () => {
+        // After 10.8 → Ninh interview
+        startNinhInterview();
+    });
+}
+
+function startNinhInterview() {
+    const ninhPanel = document.getElementById("finale-ninh-panel");
+    const pvAudio = document.getElementById("sfx-pv2");
+
+    // Show ninh panel
+    if (ninhPanel) ninhPanel.classList.add("active");
+
+    // Play PVnew.wav
+    if (pvAudio) {
+        pvAudio.currentTime = 0;
+        pvAudio.play().catch(() => {});
+    }
+
+    // Run PV dialogue (10.9 / ThS. Ninh)
+    runDialogue(dialogueSets.finale_pv, () => {
+        // Hide ninh panel, stop audio
+        if (ninhPanel) ninhPanel.classList.remove("active");
+        if (pvAudio) { pvAudio.pause(); pvAudio.currentTime = 0; }
+
+        // Run Amy's reflect (10.9 → Amy responds to Ninh)
+        runDialogue(dialogueSets.finale_reflect, () => {
+            // Transition to dark subtitles
+            startDarkSubtitles();
+        });
+    });
+}
+
+function startDarkSubtitles() {
+    // Hide Amy + dialogue bar
+    setDialogueVisible(false);
+    setAmyVisible(false);
+
+    const flipStage = document.getElementById("photo-stack-stage");
+    const darkStage = document.getElementById("finale-dark-stage");
+    const subtitleText = document.getElementById("finale-subtitle-text");
+
+    // Fade out photo stack
+    if (flipStage) {
+        gsap.to(flipStage, { autoAlpha: 0, duration: 0.8 });
+    }
+
+    // Show dark stage
+    if (darkStage) {
+        darkStage.style.display = "block";
+        gsap.fromTo(darkStage, { autoAlpha: 0 }, { autoAlpha: 1, duration: 1.2 });
+    }
+
+    // Show subtitles one by one with typewriter effect
+    const subs = dialogueSets.finale_subtitles;
+    let subIndex = 0;
+
+    function showNextSub() {
+        if (subIndex >= subs.length) {
+            // All subtitles done → navigate to chapter 5
+            setTimeout(() => {
+                gsap.to(subtitleText, {
+                    autoAlpha: 0, duration: 1.5,
+                    onComplete: () => {
+                        window.location.href = "chapter-5.html";
+                    }
+                });
+            }, 2500);
+            return;
+        }
+
+        const sub = subs[subIndex];
+        if (subtitleText) subtitleText.textContent = "";
+
+        // Typewriter
+        let charIdx = 0;
+        const typeInterval = setInterval(() => {
+            if (charIdx < sub.text.length) {
+                subtitleText.textContent += sub.text.charAt(charIdx);
+                charIdx++;
+            } else {
+                clearInterval(typeInterval);
+                subIndex++;
+                setTimeout(showNextSub, 3500);
+            }
+        }, 40);
+    }
+
+    setTimeout(showNextSub, 1200);
 }
 
 function finishAiWordLoopSequence() {

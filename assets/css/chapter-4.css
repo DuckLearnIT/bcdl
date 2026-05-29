@@ -1207,7 +1207,7 @@ button {
 }
 
 .chapter4-page .vn-character-wrap {
-    z-index: 80;
+    z-index: 104;
     left: 80%;
     bottom: 118px;
     height: calc(100vh - 118px);
@@ -1230,13 +1230,21 @@ button {
     pointer-events: none;
 }
 
+/* Amy visible đúng cách khi teacher-choice screen active */
+body.teacher-choice-active .vn-character-wrap {
+    z-index: 97;
+    bottom: 180px;
+    left: 74%;
+}
+
+
 .chapter4-page .vn-sprite {
     height: min(76vh, 780px);
     transform: translateY(7%);
 }
 
 .chapter4-page .vn-dialogue-bar {
-    z-index: 95;
+    z-index: 105;
     opacity: 0;
     pointer-events: none;
     transition: opacity 260ms ease;
@@ -4866,6 +4874,7 @@ button {
     height: min(360px, 52vh);
     min-height: 220px;
     align-self: flex-end;
+    margin-bottom: 28px;
 }
 
 .power-bar-ref-label {
@@ -4942,6 +4951,7 @@ button {
         repeating-linear-gradient(180deg, rgba(27, 35, 64, 0.07) 0 1px, transparent 1px 20%);
     background-color: #eef6ff;
     padding: 0 14px;
+    margin-bottom: 28px;
 }
 
 /* dashed reference lines (no span, label is in ref-labels) */
@@ -4956,21 +4966,21 @@ button {
 
 /* each bar column */
 .power-bar-col {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: flex-end;
-    gap: 6px;
+    position: relative;
     flex: 1 1 0;
     min-width: 0;
     height: 100%;
+    align-self: stretch;
     z-index: 1;
-    padding-bottom: 6px;
 }
 
 /* the actual bar */
 .power-bar-fill {
-    position: relative;
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    margin: 0 auto;
     width: min(56px, 55%);
     border: 3px solid #1b2340;
     border-bottom: 0;
@@ -5000,12 +5010,17 @@ button {
 .power-bar-col[data-year="year4"] .power-bar-val { color: #fff; }
 
 .power-bar-label {
+    position: absolute;
+    bottom: -28px;
+    left: 50%;
+    transform: translateX(-50%);
     font-size: clamp(10px, 1.2vw, 15px);
     font-weight: 900;
     color: #1b2340;
     text-transform: uppercase;
     letter-spacing: 0.5px;
     text-align: center;
+    white-space: nowrap;
 }
 
 .power-bar-percent {
@@ -5384,6 +5399,11 @@ button {
     line-height: 1.5;
 }
 
+.teacher-mail-window,
+.teacher-mail-window * {
+    cursor: none !important;
+}
+
 .teacher-choice-pointer {
     position: absolute;
     left: 0;
@@ -5397,9 +5417,14 @@ button {
     filter: drop-shadow(3px 5px 0 rgba(27, 35, 64, 0.18));
     pointer-events: none;
     will-change: transform, opacity;
+    transition: opacity 120ms ease;
 }
 
 .teacher-choice-pointer.is-visible {
+    opacity: 1;
+}
+
+.teacher-choice-pointer.is-tracking {
     opacity: 1;
 }
 
@@ -5724,124 +5749,60 @@ button {
     pointer-events: auto;
 }
 
-.finale-chat-stage {
+/* -- Photo Stack Stage -- */
+.photo-stack-stage {
     position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    width: 100%;
-    height: 100%;
-    background: rgba(255, 255, 255, 0.95);
+    inset: 0;
+    background: #fff;
     display: flex;
     align-items: center;
     justify-content: center;
-    flex-direction: column;
+    z-index: 5;
+    perspective: 2500px;
 }
 
-.finale-chat-window {
-    width: 600px;
-    max-width: 90vw;
-    background: #fff;
-    border: 2px solid #000;
-    border-radius: 8px;
-    box-shadow: 8px 8px 0px rgba(0,0,0,1);
-    overflow: hidden;
+.photo-stack {
+    position: relative;
+    width: min(450px, 80vw);
+    aspect-ratio: 3/4;
+    transform-style: preserve-3d;
 }
 
-.finale-chat-content {
-    padding: 24px;
-    font-family: 'Courier New', Courier, monospace;
-    font-size: 16px;
-    line-height: 1.6;
-    height: 300px;
-    overflow-y: auto;
-    background: #fdfdfd;
-}
-
-.finale-chat-content p {
-    margin: 0 0 12px 0;
-    color: #333;
-}
-
-.finale-dark-stage {
+.photo-frame {
     position: absolute;
-    top: 0;
-    left: 0;
+    inset: 0;
+    background: #fff;
+    padding: 16px 16px 80px 16px;
+    box-shadow: 0 10px 40px rgba(0,0,0,0.25), 0 2px 10px rgba(0,0,0,0.1);
+    border: 1px solid #eaeaea;
+    border-radius: 4px;
+    transform-origin: center center;
+    will-change: transform, opacity;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    /* initial state for entry animation */
+    visibility: hidden;
+}
+
+.photo-frame img {
     width: 100%;
     height: 100%;
+    object-fit: cover;
+    border-radius: 2px;
+}
+
+/* -- Dark Stage + Subtitles -- */
+.finale-dark-stage {
+    position: absolute;
+    inset: 0;
     background: #000;
     z-index: 110;
 }
 
-.spotlight {
-    position: absolute;
-    top: -50%;
-    left: 50%;
-    transform: translateX(-50%);
-    width: 300px;
-    height: 200%;
-    background: radial-gradient(ellipse at center, rgba(255,255,255,0.4) 0%, rgba(255,255,255,0) 70%);
-    clip-path: polygon(40% 0, 60% 0, 100% 100%, 0 100%);
-    pointer-events: none;
-}
-
-.micro-stand {
-    position: absolute;
-    bottom: 20%;
-    left: 50%;
-    transform: translateX(-50%);
-    font-size: 80px;
-    filter: drop-shadow(0 0 10px rgba(255,255,255,0.5));
-}
-
-@keyframes tremble {
-    0% { transform: translateX(-50%) rotate(0deg); }
-    25% { transform: translateX(-52%) rotate(-2deg); }
-    50% { transform: translateX(-50%) rotate(0deg); }
-    75% { transform: translateX(-48%) rotate(2deg); }
-    100% { transform: translateX(-50%) rotate(0deg); }
-}
-
-.micro-stand.tremble {
-    animation: tremble 0.1s infinite;
-}
-
-.teacher-questions {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    pointer-events: none;
-}
-
-.t-question {
-    position: absolute;
-    background: #fff;
-    color: #000;
-    padding: 12px 20px;
-    border: 2px solid #000;
-    border-radius: 20px;
-    font-weight: 700;
-    font-size: 16px;
-    opacity: 0;
-    transform: translateY(20px);
-    transition: opacity 0.5s ease, transform 0.5s ease;
-    box-shadow: 4px 4px 0 #000;
-}
-
-.t-question.show {
-    opacity: 1;
-    transform: translateY(0);
-}
-
-.t-question.tq-1 { top: 20%; left: 10%; }
-.t-question.tq-2 { top: 35%; right: 15%; }
-.t-question.tq-3 { top: 50%; left: 20%; }
-
 .finale-subtitle-stage {
     position: absolute;
-    bottom: 10%;
+    bottom: 12%;
     left: 0;
     width: 100%;
     text-align: center;
@@ -5851,12 +5812,34 @@ button {
 .subtitle-text {
     display: inline-block;
     color: #fff;
-    font-size: 24px;
+    font-size: clamp(18px, 3.5vw, 26px);
     font-weight: 500;
-    text-shadow: 2px 2px 4px rgba(0,0,0,0.8);
-    background: rgba(0,0,0,0.5);
-    padding: 10px 20px;
+    line-height: 1.7;
+    text-shadow: 0 2px 8px rgba(0,0,0,0.9);
+    background: rgba(0,0,0,0.55);
+    padding: 12px 28px;
     border-radius: 8px;
-    max-width: 80%;
+    max-width: 85%;
+    min-height: 1.5em;
+    backdrop-filter: blur(2px);
 }
+
+/* -- Responsive -- */
+@media (max-width: 600px) {
+    .flipbook-book {
+        width: 80vw;
+        height: 60vh;
+    }
+
+    .flipbook-book::before {
+        width: 8px;
+        left: -6px;
+    }
+
+    .subtitle-text {
+        padding: 10px 16px;
+        max-width: 92%;
+    }
+}
+
 
