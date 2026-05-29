@@ -806,7 +806,6 @@ const examScreen = $("#exam-screen");
 const aiWordLoopScreen = $("#ai-word-loop-screen");
 const powerCutScreen = $("#power-cut-screen");
 const teacherChoiceScreen = $("#teacher-choice-screen");
-const finaleSequenceScreen = $("#finale-sequence-screen");
 const aiWordNextWrap = $("#ai-word-next-wrap");
 const aiWordNextBtn = $("#ai-word-next-btn");
 const dialogueHistory = [];
@@ -834,7 +833,7 @@ function showScreen(screenName) {
         appstoreScreen, fireworkScreen, minigameScreen,
         areaChartScreen, bookScreen, infoScreen, flashcardScreen,
         examScreen, aiWordLoopScreen, powerCutScreen,
-        teacherChoiceScreen, finaleSequenceScreen
+        teacherChoiceScreen
     ];
     screens.forEach(s => s.classList.remove("is-active"));
 
@@ -854,7 +853,6 @@ function showScreen(screenName) {
         screenName === "ai-word-loop" ? aiWordLoopScreen :
         screenName === "power-cut" ? powerCutScreen :
         screenName === "teacher-choice" ? teacherChoiceScreen :
-        screenName === "finale" ? finaleSequenceScreen :
         null;
 
     if (target) {
@@ -4487,141 +4485,214 @@ function startTeacherChoiceSequence() {
     document.body.classList.remove("power-cut-active");
     document.body.classList.add("teacher-choice-active");
     showScreen("teacher-choice");
-    setDialogueVisible(true);
-    setAmyVisible(true);
-    if (amyWrap) amyWrap.classList.remove("is-chart");
-    runDialogue(dialogueSets.teacher_choice, () => {
-        startFinaleSequence();
-    });
-}
-
-function startFinaleSequence() {
-    state.phase = "finale";
-    document.body.classList.remove("teacher-choice-active");
-    document.body.classList.add("finale-active");
-    showScreen("finale");
-    setDialogueVisible(true);
-    setAmyVisible(true);
-    if (amyWrap) amyWrap.classList.remove("is-chart");
-
-    const finaleChatStage = document.getElementById("finale-chat-stage");
-    const finaleDarkStage = document.getElementById("finale-dark-stage");
-    const btnLenBuc = document.getElementById("btn-len-buc");
-    if (finaleChatStage) {
-        finaleChatStage.style.display = "";
-        finaleChatStage.style.opacity = "1";
-        finaleChatStage.style.visibility = "visible";
-    }
-    if (finaleDarkStage) finaleDarkStage.style.display = "none";
-    if (btnLenBuc) btnLenBuc.style.display = "none";
-
-    runDialogue(dialogueSets.finale_chat, () => {
-        if (btnLenBuc) {
-            btnLenBuc.style.display = "block";
-            btnLenBuc.onclick = () => {
-                enterFinalePresentationStage();
-            };
-        }
-    });
-}
-
-function enterFinalePresentationStage() {
-    const btnLenBuc = document.getElementById("btn-len-buc");
-    if (btnLenBuc) btnLenBuc.style.display = "none";
-
-    const finaleChatStage = document.getElementById("finale-chat-stage");
-    const finaleDarkStage = document.getElementById("finale-dark-stage");
-
-    function onTransitionComplete() {
-        if (finaleChatStage) finaleChatStage.style.display = "none";
-        setDialogueVisible(true);
-        setAmyVisible(true);
-        if (amyWrap) amyWrap.classList.remove("is-chart");
-        runDialogue(dialogueSets.finale_presentation, () => {
-            playFinaleInterview();
-        });
-    }
-
-    if (typeof gsap !== "undefined" && finaleChatStage && finaleDarkStage) {
-        const tl = gsap.timeline({ onComplete: onTransitionComplete });
-        tl.to(finaleChatStage, { autoAlpha: 0, duration: 0.6, ease: "power2.inOut" });
-        tl.set(finaleDarkStage, { display: "block", autoAlpha: 0 });
-        tl.to(finaleDarkStage, { autoAlpha: 1, duration: 0.8, ease: "power2.inOut" });
-        tl.fromTo(".spotlight", { autoAlpha: 0, scaleY: 0 }, { autoAlpha: 1, scaleY: 1, duration: 1, ease: "power2.out" }, "-=0.4");
-        tl.fromTo(".micro-stand", { y: 60, autoAlpha: 0 }, { y: 0, autoAlpha: 1, duration: 0.8, ease: "back.out(1.7)" }, "-=0.6");
-        tl.add(() => {
-            document.querySelectorAll(".t-question").forEach((q) => q.classList.add("show"));
-        }, "-=0.4");
-    } else {
-        if (finaleChatStage) finaleChatStage.style.opacity = "0";
-        setTimeout(() => {
-            if (finaleChatStage) finaleChatStage.style.display = "none";
-            if (finaleDarkStage) {
-                finaleDarkStage.style.display = "block";
-                finaleDarkStage.style.opacity = "1";
-            }
-            document.querySelectorAll(".t-question").forEach((q) => q.classList.add("show"));
-            onTransitionComplete();
-        }, 600);
-    }
-}
-
-function playFinaleInterview() {
-    const finaleNinhPanel = document.getElementById("finale-ninh-panel");
-    if (finaleNinhPanel) finaleNinhPanel.classList.add("active");
-
-    setDialogueVisible(true);
-    setAmyVisible(false);
-    runDialogue(dialogueSets.finale_pv, () => {
-        if (finaleNinhPanel) finaleNinhPanel.classList.remove("active");
-        setAmyVisible(true);
-        runDialogue(dialogueSets.finale_reflect, () => {
-            startFinaleSubtitleSequence();
-        });
-    });
-}
-
-function startFinaleSubtitleSequence() {
     setDialogueVisible(false);
     setAmyVisible(false);
 
-    const finaleDarkStage = document.getElementById("finale-dark-stage");
-    const finaleSubtitleStage = document.getElementById("finale-subtitle-stage");
-    const finaleChatStage = document.getElementById("finale-chat-stage");
+    const mailWindow = document.getElementById("teacher-mail-window");
+    const mailSendBtn = document.getElementById("teacher-mail-send");
+    const pointer = document.getElementById("teacher-choice-pointer");
+    const concernLayer = document.getElementById("teacher-concern-layer");
+    const chatSendBtn = document.getElementById("teacher-chat-send");
+    const chatMessages = document.getElementById("teacher-chat-messages");
+    const mailTimeline = document.getElementById("teacher-mail-timeline");
+    const mailReply = document.getElementById("teacher-mail-reply");
+    const mailStatus = document.getElementById("teacher-mail-status");
 
-    if (finaleChatStage) finaleChatStage.style.display = "none";
-    if (finaleDarkStage) finaleDarkStage.style.display = "none";
-    if (finaleSubtitleStage) finaleSubtitleStage.style.display = "block";
+    if (mailTimeline) mailTimeline.innerHTML = "";
 
-    const subtitles = dialogueSets.finale_subtitles;
-    let idx = 0;
+    /* ── Fake pointer: shake + dodge send button ── */
+    let pointerRaf = null;
+    let isPointerActive = false;
+    let lastMx = 0;
+    let lastMy = 0;
 
-    function showNextSubtitle() {
-        if (idx >= subtitles.length) {
-            goToChapter5();
-            return;
-        }
-        const sub = subtitles[idx];
-        const subText = document.getElementById("finale-subtitle-text");
-        if (subText) {
-            subText.textContent = sub.text;
-            subText.style.opacity = "0";
-            subText.style.transform = "translateY(10px)";
-            requestAnimationFrame(() => {
-                subText.style.transition = "opacity 0.8s ease, transform 0.8s ease";
-                subText.style.opacity = "1";
-                subText.style.transform = "translateY(0)";
-            });
-        }
-        idx++;
-        setTimeout(showNextSubtitle, 3500);
+    if (pointer) pointer.classList.add("is-visible");
+
+    function isOverMail() {
+        if (!mailWindow) return false;
+        const rect = mailWindow.getBoundingClientRect();
+        return lastMx >= rect.left && lastMx <= rect.right &&
+               lastMy >= rect.top && lastMy <= rect.bottom;
     }
 
-    showNextSubtitle();
-}
+    function updatePointer() {
+        if (!pointer || !isPointerActive) return;
+        const stage = document.getElementById("teacher-choice-stage");
+        if (!stage) return;
 
-function goToChapter5() {
-    window.location.href = "chapter-5.html";
+        const stageRect = stage.getBoundingClientRect();
+        const mx = lastMx - stageRect.left;
+        const my = lastMy - stageRect.top;
+
+        const t = performance.now();
+        let shakeX = 0;
+        let shakeY = 0;
+        if (isOverMail()) {
+            shakeX = Math.sin(t * 0.02) * 10 + Math.cos(t * 0.013) * 7;
+            shakeY = Math.cos(t * 0.017) * 10 + Math.sin(t * 0.011) * 7;
+        }
+
+        let px = mx + shakeX;
+        let py = my + shakeY;
+
+        if (mailSendBtn) {
+            const btnRect = mailSendBtn.getBoundingClientRect();
+            const btnCx = btnRect.left - stageRect.left + btnRect.width / 2;
+            const btnCy = btnRect.top - stageRect.top + btnRect.height / 2;
+
+            const dx = mx - btnCx;
+            const dy = my - btnCy;
+            const dist = Math.sqrt(dx * dx + dy * dy);
+            const threshold = 120;
+
+            if (dist < threshold && dist > 0) {
+                const force = (threshold - dist) / threshold;
+                const pushX = -(dx / dist) * force * 80;
+                const pushY = -(dy / dist) * force * 80;
+                px += pushX;
+                py += pushY;
+            }
+        }
+
+        pointer.style.transform = `translate3d(${px}px, ${py}px, 0)`;
+        pointerRaf = requestAnimationFrame(updatePointer);
+    }
+
+    function onStageMove(e) {
+        lastMx = e.clientX;
+        lastMy = e.clientY;
+        if (!isPointerActive) {
+            isPointerActive = true;
+            if (pointer) pointer.classList.add("is-tracking");
+        }
+        if (!pointerRaf) {
+            pointerRaf = requestAnimationFrame(updatePointer);
+        }
+    }
+
+    function onStageLeave() {
+        isPointerActive = false;
+        if (pointer) pointer.classList.remove("is-tracking");
+        if (pointerRaf) {
+            cancelAnimationFrame(pointerRaf);
+            pointerRaf = null;
+        }
+    }
+
+    const stage = document.getElementById("teacher-choice-stage");
+    if (stage) {
+        stage.addEventListener("mousemove", onStageMove);
+        stage.addEventListener("mouseleave", onStageLeave);
+    }
+
+    /* ── Concern bubbles on click inside mail window ── */
+    const concerns = [
+        "Sợ thầy mắng quá...",
+        "Giờ này chắc thầy ngủ rồi...",
+        "Hỏi ngu có bị trừ điểm không?",
+        "Thầy có rep không nhỉ...",
+        "Mail này có gây phiền không ta?",
+        "Có nên gửi không nhỉ...",
+        "Hay mình tự Google trước đi?"
+    ];
+
+    function spawnConcernBubble(x, y) {
+        if (!concernLayer) return;
+        const bubble = document.createElement("div");
+        bubble.className = "teacher-concern-bubble";
+        bubble.textContent = concerns[Math.floor(Math.random() * concerns.length)];
+        bubble.style.left = x + "px";
+        bubble.style.top = y + "px";
+        concernLayer.appendChild(bubble);
+        setTimeout(() => bubble.remove(), 2600);
+    }
+
+    if (mailWindow) {
+        mailWindow.addEventListener("click", (e) => {
+            if (e.target.closest("#teacher-mail-send")) return;
+            const stage = document.getElementById("teacher-choice-stage");
+            if (!stage) return;
+            const stageRect = stage.getBoundingClientRect();
+            const x = e.clientX - stageRect.left;
+            const y = e.clientY - stageRect.top;
+            spawnConcernBubble(x, y);
+        });
+    }
+
+    /* ── Mail send button (fallback) ── */
+    if (mailSendBtn) {
+        mailSendBtn.disabled = false;
+        mailSendBtn.textContent = "Gửi mail";
+        mailSendBtn.onclick = () => {
+            mailSendBtn.onclick = null;
+            mailSendBtn.disabled = true;
+            mailSendBtn.textContent = "Đã gửi";
+            if (mailStatus) mailStatus.textContent = "Đã gửi — đang chờ phản hồi";
+            if (mailWindow) mailWindow.classList.add("mail-waiting");
+
+            setTimeout(() => {
+                if (mailReply) mailReply.classList.add("is-visible");
+                setDialogueVisible(true);
+                setAmyVisible(true);
+                if (amyWrap) amyWrap.classList.remove("is-chart");
+                runDialogue(dialogueSets.teacher_choice, () => {});
+            }, 1200);
+        };
+    }
+
+    /* ── Chat Gipiti send flow ── */
+    if (chatSendBtn) {
+        chatSendBtn.disabled = false;
+        chatSendBtn.textContent = "Gửi";
+        chatSendBtn.onclick = () => {
+            chatSendBtn.disabled = true;
+            chatSendBtn.textContent = "Đã gửi";
+
+            const userMsg = document.createElement("div");
+            userMsg.className = "teacher-chat-message user";
+            userMsg.innerHTML = "<span>Bạn</span><p>Em chưa hiểu vì sao bài học nói AI có thể làm yếu phản xạ tự học. Nếu muốn hỏi giảng viên, em nên bắt đầu từ đâu để không xin thẳng đáp án?</p>";
+            chatMessages.appendChild(userMsg);
+            if (chatMessages) chatMessages.scrollTop = chatMessages.scrollHeight;
+
+            setTimeout(() => {
+                const aiMsg = document.createElement("div");
+                aiMsg.className = "teacher-chat-message ai";
+                aiMsg.innerHTML = "<span>Chat Gipiti</span><p>Câu hỏi rất hay! Bạn nên thử tự phân tích đoạn văn trước, sau đó đặt câu hỏi cụ thể về điểm mình chưa hiểu, thay vì hỏi trực tiếp \"nghĩa là gì\". Giảng viên sẽ đánh giá cao sự chủ động này.</p>";
+                chatMessages.appendChild(aiMsg);
+                if (chatMessages) chatMessages.scrollTop = chatMessages.scrollHeight;
+            }, 500);
+
+            // Switch mail to inbox and start timeline
+            if (mailWindow) mailWindow.classList.add("mail-waiting");
+            if (mailStatus) mailStatus.textContent = "Đã gửi — đang chờ phản hồi";
+
+            const steps = [
+                { time: "1 giây sau", text: "Đã gửi thư" },
+                { time: "1 ngày sau", text: "Chưa thấy phản hồi..." },
+                { time: "1 tuần sau", text: "Thầy đã trả lời." }
+            ];
+
+            steps.forEach((step, i) => {
+                setTimeout(() => {
+                    const el = document.createElement("div");
+                    el.className = "teacher-mail-step";
+                    el.innerHTML = `<strong>${step.time}</strong><span>${step.text}</span>`;
+                    mailTimeline.appendChild(el);
+                    requestAnimationFrame(() => el.classList.add("is-visible"));
+                }, 600 + i * 1400);
+            });
+
+            // After timeline finishes, show teacher reply and Amy dialogue
+            setTimeout(() => {
+                if (mailReply) mailReply.classList.add("is-visible");
+
+                setDialogueVisible(true);
+                setAmyVisible(true);
+                if (amyWrap) amyWrap.classList.remove("is-chart");
+                runDialogue(dialogueSets.teacher_choice, () => {});
+            }, 600 + steps.length * 1400 + 600);
+        };
+    }
 }
 
 function finishAiWordLoopSequence() {
