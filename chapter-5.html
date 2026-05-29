@@ -10,6 +10,9 @@
 </head>
 <body>
 
+    <!-- Nền water ripple -->
+    <div class="full-landing-image"></div>
+
     <!-- Lớp chứa nền Video POV (Đu đưa nhẹ nhàng) -->
     <div id="pov-container">
         <!-- Double Buffering Video System -->
@@ -24,12 +27,7 @@
 
     <!-- Ripple trigger để bắt đầu (Bypass Browser Autoplay Policy) -->
     <div class="ripple-trigger" id="start-btn">
-        <span class="ripple-ring r1"></span>
-        <span class="ripple-ring r2"></span>
-        <span class="ripple-ring r3"></span>
-        <span class="ripple-ring r4"></span>
-        <span class="ripple-ring r5"></span>
-        <span class="ripple-splash"></span>
+        <span class="ripple-ring"></span>
     </div>
 
     <!-- Hệ thống Phụ đề (Subtitle UI) -->
@@ -68,6 +66,8 @@
         </div>
     </div>
 
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/jquery.ripples@0.5.3/dist/jquery.ripples.min.js"></script>
     <script src="assets/js/chapter-5.js"></script>
 </body>
 </html>

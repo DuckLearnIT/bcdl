@@ -114,9 +114,14 @@ document.addEventListener("DOMContentLoaded", () => {
     // Chặn không cho click khi chưa bắt đầu
     const povContainer = document.getElementById("pov-container");
     
+    // Khởi tạo water ripple effect
+    $(".full-landing-image").ripples({
+        resolution: 256,
+        perturbance: 0.01
+    });
+
     document.getElementById("start-btn").addEventListener("click", function() {
         if (this.classList.contains("burst")) return;
-        this.classList.add("splash");
         setTimeout(() => {
             this.classList.remove("splash");
             this.classList.add("burst");

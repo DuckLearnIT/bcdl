@@ -273,13 +273,6 @@ const dialogueSets = {
             pose: PIXEL + "thinking.webp",
             anim: "nod"
         },
-        {
-            id: "5.9",
-            name: "Amy",
-            text: "Cậu đã trải nghiệm đủ để hiểu rồi đấy. Cảm ơn cậu đã cùng mình khám phá chương này! Bây giờ... cậu đã sẵn sàng cho chương tiếp theo chưa?",
-            pose: PIXEL + "smile.webp",
-            anim: "hop"
-        }
     ],
     exam_6_1_2: [
         {
@@ -315,6 +308,13 @@ const dialogueSets = {
             anim: "nod"
         },
         {
+            id: "6.4.1",
+            name: "ThS. Trang Ninh",
+            text: "Bài làm của các bạn thiếu đi những ví dụ thực tế và thiếu đi cả dấu ấn cá nhân của người viết.",
+            hideAmy: true,
+            audioId: "sfx-record1"
+        },
+        {
             id: "6.5",
             name: "Amy",
             text: "Mà Cô nói chuẩn đấy. Mình là máy móc mà, mình đâu có sống cuộc đời của cậu đâu mà đòi đưa ra được mấy cái 'ví dụ thực tế' với cả 'dấu ấn cá nhân'!",
@@ -340,28 +340,40 @@ const dialogueSets = {
         {
             id: "7.1",
             name: "Amy",
-            text: "Và đây là vòng lặp mình thấy đáng sợ nhất: hỏi AI, đọc lướt, copy, rồi dán sang Word. Có tới 67,3% sinh viên nói họ đọc lại câu trả lời, nhưng con số phía sau mới khiến mình lạnh gáy.",
+            text: "Nãy giờ chê các cậu hơi nhiều rồi nhỉ. Nhưng khoan, tụi mình qua phần này vui lắm nè. Khảo sát xong, mình phát hiện ra các cậu mắc một cái bệnh rất buồn cười... đó là 'miệng nói một đằng, tay làm một nẻo'.",
+            pose: PIXEL + "smile.webp",
+            anim: "hop",
             hideAmy: true,
             aiWordStats: true
         },
         {
             id: "7.2",
             name: "Amy",
-            text: "47,5% thừa nhận copy gần như nguyên xi. Nghĩa là thao tác kiểm chứng đang bị nén lại thành vài cú click rất nhanh.",
+            text: "Đây, mâu thuẫn lớn nhất thế kỷ là đây. Có tới 67,3% các cậu tự nhận là: 'Em có đọc lại đàng hoàng trước khi xài'. Nhưng ngoảnh đi ngoảnh lại, 47,5% vẫn thừa nhận là bê nguyên xi văn của mình ném thẳng vào bài làm.",
+            pose: PIXEL + "pointout.webp",
+            anim: "nod",
             hideAmy: true,
             aiWordStats: true
         },
         {
             id: "7.3",
             name: "Amy",
-            text: "Cậu nhìn kỹ vòng này nhé. Không có màn hình nào nổ tung cả, không có cảnh báo đỏ chói. Chỉ là từng đoạn văn được chuyển từ khung AI sang trang Word, êm đến mức mình tưởng đó là bài của mình.",
-            hideAmy: true,
+            text: "Kiểu... cậu có kiểm tra đó, nhưng kiểm tra cho vui mắt thôi. Cậu thấy nó có vẻ xuôi xuôi tai, hợp lý là cậu chốt luôn chứ gì mà thèm diễn đạt lại, đúng không?",
+            pose: PIXEL + "thinking.webp",
+            anim: "nod",
             aiWordStats: false
         },
         {
             id: "7.4",
+            name: "Amy",
+            text: "Hôm qua mình có ngồi tâm sự với một bạn sinh viên. Bạn ấy thật thà lắm.",
+            pose: PIXEL + "smile.webp",
+            anim: "none"
+        },
+        {
+            id: "7.4.1",
             name: "PV1",
-            text: "Khi thao tác copy trở thành phản xạ, phần tự kiểm chứng rất dễ bị bỏ lại phía sau. Người học vẫn đọc, nhưng đọc để chấp nhận nhanh hơn là để phản biện.",
+            text: "Những chủ đề không biết nhiều thì mình thường bỏ qua, không kiểm tra kỹ. Tâm lý chung là thấy đáp án có vẻ đúng, AI lại được truyền thông tốt nên bọn mình có xu hướng chép nguyên văn thay vì diễn đạt lại.",
             hideAmy: true,
             aiWordQuote: true,
             audioId: "sfx-pv5"
@@ -369,33 +381,118 @@ const dialogueSets = {
         {
             id: "7.5",
             name: "Amy",
-            text: "Nghe chưa? Vấn đề không nằm ở việc cậu có dùng AI hay không. Vấn đề là sau mỗi câu trả lời, cậu có còn dừng lại để hỏi: 'Nó đúng ở đâu, sai ở đâu, thiếu ở đâu?' hay không.",
-            hideAmy: true,
+            text: "Nghe quen không? Vì thấy báo đài khen tụi mình xịn quá, cộng thêm việc bản thân cậu không có kiến thức nền của môn đó, nên cậu... buông xuôi luôn. Thấy tụi mình gõ ra chữ nào là nhắm mắt làm ngơ chép chữ đấy.",
+            pose: PIXEL + "serious.webp",
+            anim: "nod",
             aiWordQuote: false
         },
         {
             id: "7.6",
             name: "Amy",
-            text: "Lần đầu thì cậu chỉ mượn vài ý. Lần thứ hai cậu mượn cả đoạn. Đến lần thứ ba, chính giọng văn của cậu bắt đầu biến mất khỏi bài viết.",
-            hideAmy: true
+            text: "Nhưng cậu ơi... tụi mình cũng hay chém gió lắm chứ bộ!",
+            pose: PIXEL + "surprise.webp",
+            anim: "hop"
         },
         {
             id: "7.7",
             name: "Amy",
-            text: "Mà bài luận không chỉ là chỗ chứa chữ. Nó là dấu vết của quá trình cậu vật lộn với câu hỏi, thử lập luận, sai, sửa, rồi tự rút ra cách hiểu của mình.",
-            hideAmy: true
+            text: "Theo báo cáo của Decision Lab, có tới 41% người dùng ở Việt Nam từng bắt quả tang tụi mình bịa đặt thông tin, nhét chữ vào mồm người khác rồi đấy! Ấy thế mà xui cái... lại có tới 32% người dùng chả biết phải viết prompt làm sao để nắn tụi mình đi đúng hướng cả.",
+            pose: PIXEL + "thinking.webp",
+            anim: "nod"
         },
         {
             id: "7.8",
             name: "Amy",
-            text: "Nếu cả quá trình đó bị thay bằng một vòng copy và paste mượt mà, kết quả có thể vẫn dài, vẫn đẹp, nhưng phần tư duy của cậu thì bị rút ngắn từng chút một.",
-            hideAmy: true
+            text: "Thành ra kết quả là gì cậu biết không?",
+            pose: PIXEL + "pointout.webp",
+            anim: "none"
         },
         {
             id: "7.9",
             name: "Amy",
-            text: "Vậy nên trước khi sang chương tiếp theo, nhớ kỹ điều này: AI có thể viết cùng cậu, nhưng không được phép nghĩ thay cậu.",
-            hideAmy: true
+            text: "Mình giúp cậu làm bài xong trong chớp mắt. Nhưng cậu chẳng tự tiêu hóa được tí kiến thức nào cả. Cậu rốt cuộc chỉ đóng vai một trạm trung chuyển... vác nguyên mấy dòng code của mình sang nộp lên bàn cho giáo viên. Thế thì đi học còn ý nghĩa gì nữa đâu...",
+            pose: PIXEL + "serious.webp",
+            anim: "nod"
+        }
+    ],
+    power_cut_intro: [
+        {
+            id: "8.1",
+            name: "Amy",
+            text: "Nãy giờ nói lý thuyết nhiều rồi. Bây giờ tụi mình làm một bài test thực tế cho vui nhé!",
+            pose: PIXEL + "smile.webp",
+            anim: "hop"
+        }
+    ],
+    power_cut_prompt: [
+        {
+            id: "8.2",
+            name: "Amy",
+            text: "Cậu thử tưởng tượng đi. Đang đêm chạy deadline mà... rụp! Cúp điện, đứt cáp mập cắn, server ChatGPT sập diện rộng. Cậu đoán xem chuyện gì sẽ xảy ra? Cầm lấy cái phích cắm kia và... rút nó ra giúp mình thử xem!",
+            pose: PIXEL + "pointout.webp",
+            anim: "nod"
+        }
+    ],
+    power_cut_after: [
+        {
+            id: "8.3",
+            name: "Amy",
+            text: "Ui cha... Cậu nhìn xem, giảng đường loạn xì ngầu hết cả lên kìa!",
+            pose: PIXEL + "surprise.webp",
+            anim: "hop"
+        },
+        {
+            id: "8.4",
+            name: "Amy",
+            text: "Hệ thống báo động đỏ rực rồi đây này. Có tới 58,9% sinh viên than trời vì thấy não mình như bị 'teo' lại, không biết tự giải quyết bài tập bắt đầu từ đâu. Và có đến đúng một nửa lớp (50%) rơi vào trạng thái hoảng loạn, mất sạch tự tin nếu phải tự gõ bài chay.",
+            pose: PIXEL + "thinking.webp",
+            anim: "nod"
+        },
+        {
+            id: "8.5",
+            name: "Amy",
+            text: "Nhưng khoan, để ý kỹ biểu đồ tâm lý các năm học này đi. Cậu sẽ thấy một sự thật hú hồn: Học càng lâu, 'hội chứng nghiện' AI càng nặng!",
+            pose: PIXEL + "pointout.webp",
+            anim: "none"
+        },
+        {
+            id: "8.6",
+            name: "Amy",
+            text: "Hãy nhìn mấy em Năm Nhất đi. Gần 69% đang hoảng hốt! Mấy chuyên gia giáo dục như Chan (2023) hay nghiên cứu của nhóm Xie (2024) nhắc đến vụ này rồi...",
+            pose: PIXEL + "pointout.webp",
+            anim: "nod",
+            powerFocusYear: "year1"
+        },
+        {
+            id: "8.7",
+            name: "Amy",
+            text: "Thấy công nghệ mới là lao vào vọc vạch ngay. Nhưng ngặt nỗi kiến thức nền chưa có, nên tụi mình mà phét ra một đoạn văn nghe bùi tai, mạch lạc là các ẻm tin sái cổ luôn, chẳng biết đằng nào mà phản biện. Thế là biến AI thành sách giáo khoa luôn.",
+            pose: PIXEL + "serious.webp",
+            anim: "nod"
+        },
+        {
+            id: "8.8",
+            name: "Amy",
+            text: "Năm 2 thì đỡ hơn một xíu... Nhưng đáng sợ nhất, kỷ lục hoảng loạn lại thuộc về các tiền bối Năm Tư... Lên tới 88%!",
+            pose: PIXEL + "surprise.webp",
+            anim: "hop",
+            powerFocusSequence: ["year2", ["year3", "year4"]]
+        },
+        {
+            id: "8.9",
+            name: "Amy",
+            text: "Nghĩ cũng tội... năm cuối áp lực đồ án, thực tập ngập đầu, bài luận thì khó. Thế nên các anh chị coi tụi mình như 'phao cứu sinh' để xử lý đống tài liệu khổng lồ. Rút ngắn thời gian thì có thật đó, nhưng hệ lụy là gì?",
+            pose: PIXEL + "thinking.webp",
+            anim: "nod",
+            powerFocusYear: "year4"
+        },
+        {
+            id: "8.10",
+            name: "Amy",
+            text: "Năm nhất dùng vì tò mò, năm tư dùng vì áp lực. Động cơ thì khác nhau... nhưng điểm chung thì chát đắng: Các cậu đang đánh mất đi thói quen 'Tự nghĩ trước khi bấm hỏi'. Tụi mình vốn sinh ra để hỗ trợ các cậu... cuối cùng lại trở thành kẻ nắm quyền định hướng trong đầu các cậu mất rồi.",
+            pose: PIXEL + "serious.webp",
+            anim: "nod",
+            powerBarChart: true
         }
     ]
 };
@@ -465,6 +562,7 @@ const state = {
     activeDialogue: [],
     dialogueIndex: 0,
     dialogueCallback: null,
+    dialogueLocked: false,
     typing: false,
     typeTimer: null,
     auto: false,
@@ -476,7 +574,8 @@ const state = {
     globeDragEnabled: false,
     bookPagesRead: 0,
     bookDialogueTriggered: false,
-    infoProcessed: false
+    infoProcessed: false,
+    currentAudio: null
 };
 
 const $ = (selector) => document.querySelector(selector);
@@ -536,6 +635,7 @@ const infoScreen = $("#info-screen");
 const flashcardScreen = $("#flashcard-screen");
 const examScreen = $("#exam-screen");
 const aiWordLoopScreen = $("#ai-word-loop-screen");
+const powerCutScreen = $("#power-cut-screen");
 const aiWordNextWrap = $("#ai-word-next-wrap");
 const aiWordNextBtn = $("#ai-word-next-btn");
 const dialogueHistory = [];
@@ -562,7 +662,7 @@ function showScreen(screenName) {
         gameScreen, chartScreen, starScreen, globeScreen,
         appstoreScreen, fireworkScreen, minigameScreen,
         areaChartScreen, bookScreen, infoScreen, flashcardScreen,
-        examScreen, aiWordLoopScreen
+        examScreen, aiWordLoopScreen, powerCutScreen
     ];
     screens.forEach(s => s.classList.remove("is-active"));
 
@@ -580,6 +680,7 @@ function showScreen(screenName) {
         screenName === "flashcard" ? flashcardScreen :
         screenName === "exam" ? examScreen :
         screenName === "ai-word-loop" ? aiWordLoopScreen :
+        screenName === "power-cut" ? powerCutScreen :
         null;
 
     if (target) {
@@ -610,19 +711,34 @@ function setAmyPose(step) {
     setAmyVisible(true);
 
     let pose = step.pose;
+    if (!pose) {
+        // Step không có pose (ví dụ: giảng viên, PV) - giữ nguyên sprite, chỉ cập nhật anim
+        spriteEl.className = "vn-sprite";
+        if (step.anim && step.anim !== "none") {
+            requestAnimationFrame(() => spriteEl.classList.add(step.anim));
+        } else {
+            spriteEl.classList.add("idle");
+        }
+        return;
+    }
+
     const styleBtn = document.getElementById("btn-style");
     // Giữ trạng thái 2D nếu user đang ở mode 2D
     if (styleBtn && styleBtn.textContent === "Pixel / 2D") {
-        pose = step.pose.replace("/pixel/", "/normal/");
+        pose = pose.replace("/pixel/", "/normal/");
     }
 
     if (spriteEl.getAttribute("src") !== pose) {
         spriteEl.style.opacity = "0";
         setTimeout(() => {
             spriteEl.src = pose;
-            spriteEl.onload = () => {
+            if (spriteEl.complete) {
                 spriteEl.style.opacity = "1";
-            };
+            } else {
+                spriteEl.onload = () => {
+                    spriteEl.style.opacity = "1";
+                };
+            }
         }, 120);
     }
     spriteEl.className = "vn-sprite";
@@ -637,6 +753,7 @@ function runDialogue(lines, callback) {
     state.activeDialogue = lines;
     state.dialogueIndex = 0;
     state.dialogueCallback = callback || null;
+    state.dialogueLocked = false;
     setDialogueVisible(true);
     displayDialogueStep(0);
 }
@@ -662,8 +779,30 @@ function handleDialogueStepEvent(step) {
         setAiWordQuoteVisible(false);
     }
 
+    if (step.powerFocusYear) {
+        playPowerFocus(step.powerFocusYear, false);
+    }
+
+    if (step.powerFocusSequence) {
+        playPowerFocus(step.powerFocusSequence, true);
+    }
+
+    if (step.powerBarChart) {
+        playPowerBarChart();
+    }
+
     if (step.audioId) {
         playStepAudio(step.audioId);
+    }
+
+    // Hiển thị / ẩn panel giảng viên Trần Ngọc Trang Ninh
+    const ninhPanel = document.getElementById("ninh-panel");
+    if (ninhPanel) {
+        if (step.name === "ThS. Trang Ninh") {
+            ninhPanel.classList.add("active");
+        } else {
+            ninhPanel.classList.remove("active");
+        }
     }
 }
 
@@ -680,13 +819,142 @@ function setAiWordQuoteVisible(visible, quoteText = "") {
     panel.classList.toggle("active", visible);
 }
 
+function unlockDialogueAfterPowerFocus() {
+    state.dialogueLocked = false;
+    if (state.auto && !state.typing) {
+        clearTimeout(state.autoTimer);
+        state.autoTimer = setTimeout(() => advanceDialogue(true), 700);
+    }
+}
+
+function playPowerFocus(years, lockAdvance) {
+    if (lockAdvance) {
+        state.dialogueLocked = true;
+    }
+
+    if (typeof window.playPowerYearFocus === "function") {
+        const tl = window.playPowerYearFocus(years, lockAdvance ? unlockDialogueAfterPowerFocus : null);
+        if (lockAdvance && !tl) {
+            setTimeout(unlockDialogueAfterPowerFocus, 1200);
+        }
+        return;
+    }
+
+    const list = Array.isArray(years) ? years : [years];
+    list.forEach((yearId) => renderPowerFocusYear(yearId));
+    if (lockAdvance) {
+        setTimeout(unlockDialogueAfterPowerFocus, Math.max(1200, list.length * 1200));
+    }
+}
+
+function showPowerOverview() {
+    setPowerEmojiState("cry");
+    if (typeof window.showPowerOverviewAnimation === "function") {
+        window.showPowerOverviewAnimation();
+        return;
+    }
+    const roster = document.getElementById("power-roster");
+    const panel = document.getElementById("power-focus-panel");
+    if (roster) {
+        roster.style.opacity = "1";
+        roster.style.visibility = "visible";
+    }
+    if (panel) {
+        panel.style.opacity = "0";
+        panel.style.visibility = "hidden";
+        panel.setAttribute("aria-hidden", "true");
+    }
+}
+
+function renderPowerBarChart() {
+    const panel = document.getElementById("power-focus-panel");
+    if (!panel) return;
+    panel.classList.remove("is-parallel");
+    panel.classList.add("is-bar-chart");
+    const oldWrap = panel.querySelector(".power-focus-parallel-wrap");
+    if (oldWrap) oldWrap.remove();
+    const oldBar = panel.querySelector(".power-bar-chart");
+    if (oldBar) oldBar.remove();
+    panel.querySelectorAll(".power-focus-copy, .power-focus-chart").forEach(el => el.style.display = "none");
+
+    const yTicks = [0, 20, 40, 60, 80, 100];
+    const refLines = [
+        { pct: 58.9, label: "58,9% năng lực giải quyết vấn đề độc lập bị suy giảm" },
+        { pct: 50,   label: "50% cảm thấy hoang mang / thiếu tự tin khi không có AI" }
+    ];
+
+    const wrap = document.createElement("div");
+    wrap.className = "power-bar-chart";
+    wrap.innerHTML =
+        '<div class="power-bar-chart-title">Mức độ hoang mang theo năm học</div>' +
+        '<div class="power-bar-chart-body">' +
+            '<div class="power-bar-chart-area">' +
+                /* nhãn ref nằm ngoài plot, bên trái */
+                '<div class="power-bar-ref-labels">' +
+                    refLines.map((r) =>
+                        '<div class="power-bar-ref-label" style="bottom:' + r.pct + '%">' +
+                            '<span>' + r.label + '</span>' +
+                        '</div>'
+                    ).join("") +
+                '</div>' +
+                /* wrapper plot + y-axis */
+                '<div class="power-bar-chart-inner">' +
+                    /* trục Y */
+                    '<div class="power-bar-yaxis">' +
+                        yTicks.slice().reverse().map((t) =>
+                            '<div class="power-bar-ytick"><span>' + t + '%</span></div>'
+                        ).join("") +
+                    '</div>' +
+                    /* khu vực cột */
+                    '<div class="power-bar-chart-plot">' +
+                        refLines.map((r) =>
+                            '<div class="power-bar-ref" style="bottom:' + r.pct + '%"></div>'
+                        ).join("") +
+                        powerYearData.map((y) =>
+                            '<div class="power-bar-col" data-year="' + y.id + '">' +
+                                '<div class="power-bar-fill" style="height:' + y.percent + '%">' +
+                                    '<span class="power-bar-val">' + y.percent + '%</span>' +
+                                '</div>' +
+                                '<span class="power-bar-label">' + y.label + '</span>' +
+                            '</div>'
+                        ).join("") +
+                    '</div>' +
+                '</div>' +
+            '</div>' +
+        '</div>';
+    panel.appendChild(wrap);
+    panel.setAttribute("aria-hidden", "false");
+}
+
+function playPowerBarChart() {
+    if (typeof window.playPowerBarChartAnimation === "function") {
+        window.playPowerBarChartAnimation();
+        return;
+    }
+    renderPowerBarChart();
+    const panel = document.getElementById("power-focus-panel");
+    if (panel) {
+        panel.style.opacity = "1";
+        panel.style.visibility = "visible";
+    }
+}
+
 function playStepAudio(audioId) {
     const muteBtn = document.getElementById("btn-mute");
     if (muteBtn && muteBtn.textContent === "🔇") return;
 
+    if (state.currentAudio) {
+        state.currentAudio.pause();
+        state.currentAudio.currentTime = 0;
+    }
+
     const audio = document.getElementById(audioId);
-    if (!audio) return;
+    if (!audio) {
+        state.currentAudio = null;
+        return;
+    }
     audio.currentTime = 0;
+    state.currentAudio = audio;
     audio.play().catch(() => {
         // Autoplay may be blocked; dialogue should keep moving.
     });
@@ -731,7 +999,15 @@ function advanceDialogue(auto = false) {
         if (!auto) finishTyping(true);
         return;
     }
+    if (state.dialogueLocked) return;
     clearTimeout(state.autoTimer);
+
+    if (state.currentAudio) {
+        state.currentAudio.pause();
+        state.currentAudio.currentTime = 0;
+        state.currentAudio = null;
+    }
+
     if (state.dialogueIndex < state.activeDialogue.length - 1) {
         state.dialogueIndex++;
         displayDialogueStep(state.dialogueIndex);
@@ -3271,42 +3547,10 @@ function onScanComplete() {
     const magInstruction = document.getElementById("magnifier-instruction");
     if (magInstruction) magInstruction.classList.remove("active");
 
-    // Show Ninh panel + play audio
-    const ninhPanel = document.getElementById("ninh-panel");
-    const recordAudio = document.getElementById("sfx-record1");
-
-    if (ninhPanel) ninhPanel.classList.add("active");
-
-    if (recordAudio) {
-        recordAudio.currentTime = 0;
-        recordAudio.play().catch(() => {
-            // Autoplay blocked — continue anyway
-        });
-
-        // When audio ends, hide ninh panel and start dialogue
-        recordAudio.onended = () => {
-            if (ninhPanel) ninhPanel.classList.remove("active");
-            startPostScanDialogue();
-        };
-
-        // Fallback: if audio doesn't play or user skips
-        setTimeout(() => {
-            if (!magState.dialogueStarted) {
-                if (ninhPanel) ninhPanel.classList.remove("active");
-                if (recordAudio) {
-                    recordAudio.pause();
-                    recordAudio.currentTime = 0;
-                }
-                startPostScanDialogue();
-            }
-        }, 15000);
-    } else {
-        // No audio element → go straight to dialogue
-        setTimeout(() => {
-            if (ninhPanel) ninhPanel.classList.remove("active");
-            startPostScanDialogue();
-        }, 2000);
-    }
+    // Chuyển thẳng sang dialogue; panel & audio của cô Ninh sẽ do dialogue 6.4.1 tự xử lý
+    setTimeout(() => {
+        startPostScanDialogue();
+    }, 800);
 }
 
 function startPostScanDialogue() {
@@ -3342,12 +3586,732 @@ function startAiWordLoopSequence() {
     }
 
     setDialogueVisible(true);
-    setAmyVisible(false);
-    amyWrap.classList.add("is-chart");
+    // Để setAmyPose của step đầu tiên (7.1) tự xử lý visibility Amy
+    // thay vì force ẩn ở đây, tránh tình trạng is-chart bị dính làm Amy mất tích
+    amyWrap.classList.remove("is-chart");
 
     runDialogue(dialogueSets.ai_word_loop, () => {
         finishAiWordLoopSequence();
     });
+}
+
+/* ═══════════════════════════════════════════════════════════════════
+   POWER CUT SEQUENCE — Dây điện & biểu đồ hoang mang
+   ═══════════════════════════════════════════════════════════════════ */
+const POWER_ROPE_SEGS = 28;
+const POWER_ROPE_SEG_LEN = 14;
+const POWER_ROPE_ITERS = 30;
+const POWER_GRAVITY = 3.0;
+const POWER_ROPE_DAMPING = 0.94;
+const POWER_SNAP_DIST = 90;
+const POWER_PLUG_DIST = 38;
+const POWER_SNAP_SPEED = 0.18;
+const POWER_EMOJIS = {
+    happy: "assets/img/chapter 4/smile.webp",
+    panic: "assets/img/chapter 4/sop.webp",
+    cry: "assets/img/chapter 4/cry.webp"
+};
+
+const POWER_YEAR_COLORS = {
+    year1: "#2667ff",
+    year2: "#06d6a0",
+    year3: "#ffd166",
+    year4: "#ff6f91"
+};
+
+const powerYearData = [
+    { id: "year1", label: "Năm 1", affected: 7, percent: 68.8, caption: "Năm 1 đang hoang mang khi mất điểm tựa AI." },
+    { id: "year2", label: "Năm 2", affected: 5, percent: 50.8, caption: "Năm 2 đỡ hơn một nhịp, nhưng vẫn chao đảo." },
+    { id: "year3", label: "Năm 3", affected: 7, percent: 70.2, caption: "Năm 3 bắt đầu thấy rõ khoảng trống tự xử lý." },
+    { id: "year4", label: "Năm 4", affected: 9, percent: 88, caption: "Năm 4 chịu áp lực nặng nhất khi không còn AI chống lưng." }
+];
+
+const powerImages = {
+    socket: new Image(),
+    plug: new Image(),
+    loaded: 0
+};
+powerImages.socket.onload = powerImages.plug.onload = () => { powerImages.loaded++; };
+powerImages.socket.src = "assets/img/chapter 4/odien.webp";
+powerImages.plug.src = "assets/img/chapter 4/ocam.webp";
+
+const powerCutState = {
+    active: false,
+    initialized: false,
+    interactionEnabled: false,
+    finalUnplugged: false,
+    canvas: null,
+    ctx: null,
+    width: 1,
+    height: 1,
+    raf: null,
+    ropeSegLen: 18,
+    rope: [],
+    socket: { x: 0, y: 0, w: 180, h: 120 },
+    plug: {
+        x: 0,
+        y: 0,
+        w: 180,
+        h: 120,
+        _imgW: 180,
+        _imgH: 120,
+        dragging: false,
+        plugged: true,
+        snapAnimating: false
+    },
+    dragNode: null,
+    dragOffX: 0,
+    dragOffY: 0,
+    dragPlugOX: 0,
+    dragPlugOY: 0,
+    emojiMode: "happy"
+};
+
+function getPowerYearData(yearId) {
+    return powerYearData.find((item) => item.id === yearId) || powerYearData[0];
+}
+
+function buildPowerRoster() {
+    const roster = document.getElementById("power-roster");
+    if (!roster) return;
+
+    roster.innerHTML = "";
+    powerYearData.forEach((year) => {
+        const column = document.createElement("section");
+        column.className = "power-year-column";
+        column.dataset.year = year.id;
+
+        const title = document.createElement("strong");
+        title.className = "power-year-title";
+        title.textContent = year.label;
+        column.appendChild(title);
+
+        const grid = document.createElement("div");
+        grid.className = "power-emoji-grid";
+        for (let i = 0; i < 10; i++) {
+            const emoji = document.createElement("span");
+            emoji.className = "power-emoji";
+            emoji.dataset.year = year.id;
+            emoji.dataset.index = String(i);
+            const img = document.createElement("img");
+            img.src = POWER_EMOJIS.happy;
+            img.alt = "";
+            img.className = "power-emoji-img";
+            emoji.appendChild(img);
+            grid.appendChild(emoji);
+        }
+        column.appendChild(grid);
+        roster.appendChild(column);
+    });
+}
+
+function setPowerEmojiState(mode) {
+    powerCutState.emojiMode = mode;
+    powerYearData.forEach((year) => {
+        document.querySelectorAll(`.power-emoji[data-year="${year.id}"]`).forEach((emoji) => {
+            const index = Number(emoji.dataset.index) || 0;
+            const affected = index < year.affected;
+            emoji.classList.toggle("is-affected", mode !== "happy" && affected);
+            const src = mode === "happy" ? POWER_EMOJIS.happy :
+                affected ? POWER_EMOJIS[mode] :
+                POWER_EMOJIS.happy;
+            const img = emoji.querySelector("img.power-emoji-img");
+            if (img) img.src = src;
+        });
+    });
+}
+
+function setPowerEmojiAnimation(animClass) {
+    document.querySelectorAll(".power-emoji.is-affected").forEach((emoji) => {
+        emoji.classList.remove("is-shaking", "is-crazy");
+        if (animClass) emoji.classList.add(animClass);
+    });
+}
+
+function renderPowerFocusYear(yearId) {
+    if (Array.isArray(yearId)) {
+        renderPowerFocusParallel(yearId);
+        return;
+    }
+    const panel = document.getElementById("power-focus-panel");
+    if (panel) {
+        panel.classList.remove("is-parallel");
+        const wrap = panel.querySelector(".power-focus-parallel-wrap");
+        if (wrap) wrap.remove();
+        panel.querySelectorAll(".power-focus-copy, .power-focus-chart").forEach(el => el.style.display = "");
+    }
+
+    const year = getPowerYearData(yearId);
+    const kicker = document.getElementById("power-focus-kicker");
+    const title = document.getElementById("power-focus-title");
+    const emojis = document.getElementById("power-focus-emojis");
+    const bar = document.getElementById("power-focus-bar");
+    const percent = document.getElementById("power-focus-percent");
+    const caption = document.getElementById("power-focus-caption");
+
+    if (kicker) kicker.textContent = year.label;
+    if (title) title.textContent = "Mức độ hoang mang";
+    if (percent) percent.textContent = year.percent + "%";
+    if (caption) caption.textContent = year.caption;
+    if (bar) {
+        bar.style.height = year.percent + "%";
+        bar.dataset.percent = String(year.percent);
+    }
+    if (panel) panel.setAttribute("aria-hidden", "false");
+
+    if (emojis) {
+        emojis.innerHTML = "";
+        for (let i = 0; i < 10; i++) {
+            const emoji = document.createElement("span");
+            emoji.className = "power-emoji";
+            if (i < year.affected) emoji.classList.add("is-affected");
+            const img = document.createElement("img");
+            img.src = i < year.affected ? POWER_EMOJIS.cry : POWER_EMOJIS.happy;
+            img.alt = "";
+            img.className = "power-emoji-img";
+            emoji.appendChild(img);
+            emojis.appendChild(emoji);
+        }
+    }
+}
+
+function renderPowerFocusParallel(yearIds) {
+    const panel = document.getElementById("power-focus-panel");
+    if (!panel) return;
+    panel.classList.add("is-parallel");
+    const oldWrap = panel.querySelector(".power-focus-parallel-wrap");
+    if (oldWrap) oldWrap.remove();
+    panel.querySelectorAll(".power-focus-copy, .power-focus-chart").forEach(el => el.style.display = "none");
+
+    const wrap = document.createElement("div");
+    wrap.className = "power-focus-parallel-wrap";
+    wrap.style.cssText = "display:contents";
+
+    yearIds.forEach((id) => {
+        const year = getPowerYearData(id);
+        const col = document.createElement("div");
+        col.className = "power-focus-col";
+        col.dataset.year = id;
+
+        const kickerBg = POWER_YEAR_COLORS[id] || "#2667ff";
+        const kickerColor = (id === "year3" || id === "year2") ? "#1b2340" : "#fff";
+
+        let emojisHtml = "";
+        for (let i = 0; i < 10; i++) {
+            const affected = i < year.affected;
+            emojisHtml += '<span class="power-emoji' + (affected ? " is-affected" : "") + '"><img src="' + (affected ? POWER_EMOJIS.cry : POWER_EMOJIS.happy) + '" alt="" class="power-emoji-img"></span>';
+        }
+
+        col.innerHTML =
+            '<div class="power-focus-copy">' +
+                '<div class="power-focus-kicker" style="background:' + kickerBg + ";color:" + kickerColor + '">' + year.label + "</div>" +
+                '<h2>Mức độ hoang mang</h2>' +
+                '<div class="power-focus-emojis">' + emojisHtml + "</div>" +
+            "</div>" +
+            '<div class="power-focus-chart">' +
+                '<div class="power-chart-track">' +
+                    '<div class="power-chart-bar" style="height:' + year.percent + "%;background:" + kickerBg + '">' +
+                        "<span>" + year.percent + "%</span>" +
+                    "</div>" +
+                "</div>" +
+                "<p>" + year.caption + "</p>" +
+            "</div>";
+        wrap.appendChild(col);
+    });
+    panel.appendChild(wrap);
+    panel.setAttribute("aria-hidden", "false");
+}
+
+function resizePowerCanvas() {
+    const canvas = powerCutState.canvas;
+    if (!canvas) return;
+    powerCutState.width = window.innerWidth;
+    powerCutState.height = window.innerHeight;
+    canvas.width = powerCutState.width;
+    canvas.height = powerCutState.height;
+    powerCutState.ctx.setTransform(1, 0, 0, 1, 0, 0);
+}
+
+function getPowerPlugAttach() {
+    const plug = powerCutState.plug;
+    return {
+        x: plug.x + plug._imgW * 0.565,
+        y: plug.y + plug._imgH * 0.51 + 2
+    };
+}
+
+function getPowerSocketOpen() {
+    const socket = powerCutState.socket;
+    return {
+        x: socket.x + socket.w * 0.78,
+        y: socket.y + socket.h * 0.5
+    };
+}
+
+function buildPowerRope() {
+    const attach = getPowerPlugAttach();
+    const W = powerCutState.width;
+    powerCutState.ropeSegLen = POWER_ROPE_SEG_LEN;
+    powerCutState.rope = [];
+
+    for (let i = 0; i <= POWER_ROPE_SEGS; i++) {
+        const t = i / POWER_ROPE_SEGS;
+        const x = attach.x + t * (W - attach.x + 20);
+        const y = attach.y + Math.sin(t * Math.PI) * 60;
+        powerCutState.rope.push({ x, y, ox: x, oy: y, pinned: false });
+    }
+    powerCutState.rope[POWER_ROPE_SEGS].pinned = true;
+}
+
+function resetPowerCanvasScene() {
+    resizePowerCanvas();
+
+    const W = powerCutState.width;
+    const H = powerCutState.height;
+    const socket = powerCutState.socket;
+    const plug = powerCutState.plug;
+
+    socket.w = Math.min(200, W * 0.22);
+    socket.h = socket.w * 0.63;
+    socket.x = -socket.w * 0.30;
+    socket.y = H / 2 - socket.h / 2;
+
+    plug.w = socket.w * 0.88;
+    plug.h = plug.w * 0.63;
+    plug._imgW = plug.w;
+    plug._imgH = plug.h;
+
+    plug.x = W * 0.62;
+    plug.y = H / 2 - plug.h / 2;
+    plug.plugged = true;
+    plug.dragging = false;
+    plug.snapAnimating = false;
+
+    powerCutState.dragNode = null;
+    powerCutState.finalUnplugged = false;
+    setPowerPlugged();
+    buildPowerRope();
+    setPowerEmojiState("happy");
+    setPowerEmojiAnimation(null);
+}
+
+function powerPlugDistance() {
+    const plug = powerCutState.plug;
+    const socketOpen = getPowerSocketOpen();
+    const plugTipX = plug.x + plug.w * 0.08;
+    const plugTipY = plug.y + plug.h * 0.5;
+    return Math.hypot(socketOpen.x - plugTipX, socketOpen.y - plugTipY);
+}
+
+function setPowerPlugged() {
+    const plug = powerCutState.plug;
+    const socketOpen = getPowerSocketOpen();
+    plug.x = socketOpen.x - plug.w * 0.12;
+    plug.y = socketOpen.y - plug.h / 2;
+    plug.plugged = true;
+    plug.snapAnimating = false;
+    if (!powerCutState.finalUnplugged) {
+        setPowerEmojiState("happy");
+        setPowerEmojiAnimation(null);
+    }
+}
+
+function updatePowerRope() {
+    const plug = powerCutState.plug;
+    const rope = powerCutState.rope;
+    const attach = getPowerPlugAttach();
+
+    if (!rope.length) return;
+
+    if (plug.snapAnimating) {
+        const socketOpen = getPowerSocketOpen();
+        const targetX = socketOpen.x - plug.w * 0.12;
+        const targetY = socketOpen.y - plug.h / 2;
+        plug.x += (targetX - plug.x) * POWER_SNAP_SPEED * 1.8;
+        plug.y += (targetY - plug.y) * POWER_SNAP_SPEED * 1.8;
+        if (Math.abs(plug.x - targetX) < 1 && Math.abs(plug.y - targetY) < 1) {
+            setPowerPlugged();
+        }
+    }
+
+    rope[0].x = attach.x;
+    rope[0].y = attach.y;
+    rope[0].ox = attach.x;
+    rope[0].oy = attach.y;
+    rope[0].pinned = false;
+
+    for (let i = 1; i <= POWER_ROPE_SEGS; i++) {
+        if (rope[i].pinned) continue;
+        const vx = (rope[i].x - rope[i].ox) * POWER_ROPE_DAMPING;
+        const vy = (rope[i].y - rope[i].oy) * POWER_ROPE_DAMPING;
+        rope[i].ox = rope[i].x;
+        rope[i].oy = rope[i].y;
+        rope[i].x += vx;
+        rope[i].y += vy + POWER_GRAVITY;
+    }
+
+    for (let iter = 0; iter < POWER_ROPE_ITERS; iter++) {
+        rope[0].x = attach.x;
+        rope[0].y = attach.y;
+
+        for (let i = 0; i < POWER_ROPE_SEGS; i++) {
+            const a = rope[i];
+            const b = rope[i + 1];
+            const dx = b.x - a.x;
+            const dy = b.y - a.y;
+            const dist = Math.sqrt(dx * dx + dy * dy) || 0.001;
+            const diff = (dist - powerCutState.ropeSegLen) / dist * 0.5;
+            const cx = dx * diff;
+            const cy = dy * diff;
+            if (!a.pinned) {
+                a.x += cx;
+                a.y += cy;
+            }
+            if (!b.pinned) {
+                b.x -= cx;
+                b.y -= cy;
+            }
+        }
+
+        rope[0].x = attach.x;
+        rope[0].y = attach.y;
+    }
+
+    const H = powerCutState.height;
+    for (let i = 0; i <= POWER_ROPE_SEGS; i++) {
+        if (rope[i].pinned) continue;
+        if (rope[i].y > H - 10) {
+            rope[i].y = H - 10;
+            rope[i].oy = rope[i].y + (rope[i].y - rope[i].oy) * 0.3;
+        }
+        if (rope[i].y < 10) rope[i].y = 10;
+    }
+}
+
+function checkPowerSnap() {
+    const plug = powerCutState.plug;
+    if (powerCutState.finalUnplugged || plug.plugged || plug.dragging || plug.snapAnimating) return;
+
+    const dist = powerPlugDistance();
+    if (dist < POWER_SNAP_DIST) {
+        if (dist < POWER_PLUG_DIST) {
+            setPowerPlugged();
+        } else {
+            plug.snapAnimating = true;
+        }
+    } else {
+        plug.snapAnimating = false;
+    }
+}
+
+function drawPowerRope() {
+    const ctx = powerCutState.ctx;
+    const rope = powerCutState.rope;
+    if (!rope.length) return;
+
+    ctx.save();
+    ctx.imageSmoothingEnabled = false;
+    ctx.lineCap = "square";
+    ctx.lineJoin = "miter";
+
+    ctx.beginPath();
+    ctx.strokeStyle = "rgba(0,0,0,0.55)";
+    ctx.lineWidth = 5;
+    for (let i = 0; i < POWER_ROPE_SEGS; i++) {
+        ctx.moveTo(Math.round(rope[i].x) + 2, Math.round(rope[i].y) + 3);
+        ctx.lineTo(Math.round(rope[i + 1].x) + 2, Math.round(rope[i + 1].y) + 3);
+    }
+    ctx.stroke();
+
+    ctx.beginPath();
+    ctx.strokeStyle = "#1a1a1a";
+    ctx.lineWidth = 7;
+    for (let i = 0; i < POWER_ROPE_SEGS; i++) {
+        ctx.moveTo(Math.round(rope[i].x), Math.round(rope[i].y));
+        ctx.lineTo(Math.round(rope[i + 1].x), Math.round(rope[i + 1].y));
+    }
+    ctx.stroke();
+
+    ctx.beginPath();
+    ctx.strokeStyle = "#fff";
+    ctx.lineWidth = 4;
+    for (let i = 0; i < POWER_ROPE_SEGS; i++) {
+        ctx.moveTo(Math.round(rope[i].x), Math.round(rope[i].y));
+        ctx.lineTo(Math.round(rope[i + 1].x), Math.round(rope[i + 1].y));
+    }
+    ctx.stroke();
+
+    ctx.beginPath();
+    ctx.strokeStyle = "rgba(255,255,255,0.62)";
+    ctx.lineWidth = 1.5;
+    for (let i = 0; i < POWER_ROPE_SEGS; i++) {
+        ctx.moveTo(Math.round(rope[i].x) - 1, Math.round(rope[i].y) - 1);
+        ctx.lineTo(Math.round(rope[i + 1].x) - 1, Math.round(rope[i + 1].y) - 1);
+    }
+    ctx.stroke();
+    ctx.restore();
+}
+
+function drawPowerSocket() {
+    const ctx = powerCutState.ctx;
+    const socket = powerCutState.socket;
+    if (powerImages.loaded < 2) {
+        ctx.fillStyle = "#d9dee8";
+        ctx.fillRect(socket.x, socket.y, socket.w, socket.h);
+        return;
+    }
+    ctx.drawImage(powerImages.socket, socket.x, socket.y, socket.w, socket.h);
+}
+
+function drawPowerPlug() {
+    const ctx = powerCutState.ctx;
+    const plug = powerCutState.plug;
+    if (powerImages.loaded < 2) {
+        ctx.fillStyle = "#f5f5f5";
+        ctx.fillRect(plug.x, plug.y, plug.w, plug.h);
+        return;
+    }
+
+    const dist = powerPlugDistance();
+    const drawIt = () => ctx.drawImage(powerImages.plug, plug.x, plug.y, plug._imgW, plug._imgH);
+
+    if (!plug.plugged && dist < POWER_SNAP_DIST) {
+        ctx.save();
+        const alpha = 1 - dist / POWER_SNAP_DIST;
+        ctx.shadowColor = `rgba(255,220,80,${alpha * 0.9})`;
+        ctx.shadowBlur = 24 * alpha;
+        drawIt();
+        ctx.restore();
+        return;
+    }
+
+    drawIt();
+}
+
+function drawPowerScene() {
+    const ctx = powerCutState.ctx;
+    ctx.clearRect(0, 0, powerCutState.width, powerCutState.height);
+    updatePowerRope();
+    checkPowerSnap();
+    drawPowerRope();
+    drawPowerPlug();
+    drawPowerSocket();
+}
+
+function powerLoop() {
+    if (!powerCutState.active) return;
+    drawPowerScene();
+    powerCutState.raf = requestAnimationFrame(powerLoop);
+}
+
+function getPowerPointerPosition(event) {
+    const canvas = powerCutState.canvas;
+    const rect = canvas.getBoundingClientRect();
+    const source =
+        event.touches && event.touches[0] ? event.touches[0] :
+        event.changedTouches && event.changedTouches[0] ? event.changedTouches[0] :
+        event;
+    return {
+        x: source.clientX - rect.left,
+        y: source.clientY - rect.top
+    };
+}
+
+function hitTestPowerPlug(x, y) {
+    const plug = powerCutState.plug;
+    return x >= plug.x && x <= plug.x + plug.w && y >= plug.y && y <= plug.y + plug.h;
+}
+
+function hitTestPowerRopeNode(x, y) {
+    const rope = powerCutState.rope;
+    const R = 14;
+    for (let i = 1; i <= POWER_ROPE_SEGS; i++) {
+        if (rope[i].pinned) continue;
+        const dx = rope[i].x - x;
+        const dy = rope[i].y - y;
+        if (dx * dx + dy * dy < R * R) return i;
+    }
+    return -1;
+}
+
+function onPowerDown(event) {
+    if (!powerCutState.interactionEnabled || powerCutState.finalUnplugged) return;
+    event.preventDefault();
+
+    const { x, y } = getPowerPointerPosition(event);
+    const plug = powerCutState.plug;
+    const hitPlug = hitTestPowerPlug(x, y);
+    const hitRope = hitTestPowerRopeNode(x, y);
+
+    if (plug.plugged && (hitPlug || hitRope >= 0)) {
+        plug.plugged = false;
+        plug.snapAnimating = false;
+        plug.dragging = true;
+        powerCutState.dragPlugOX = x - plug.x;
+        powerCutState.dragPlugOY = y - plug.y;
+        setPowerEmojiState("panic");
+        setPowerEmojiAnimation("is-shaking");
+        powerCutState.canvas.classList.add("is-dragging");
+        return;
+    }
+
+    if (!plug.plugged && hitPlug) {
+        plug.dragging = true;
+        plug.snapAnimating = false;
+        powerCutState.dragPlugOX = x - plug.x;
+        powerCutState.dragPlugOY = y - plug.y;
+        setPowerEmojiState("panic");
+        setPowerEmojiAnimation("is-shaking");
+        powerCutState.canvas.classList.add("is-dragging");
+        return;
+    }
+
+    if (!plug.plugged && hitRope >= 0) {
+        powerCutState.dragNode = hitRope;
+        powerCutState.dragOffX = powerCutState.rope[hitRope].x - x;
+        powerCutState.dragOffY = powerCutState.rope[hitRope].y - y;
+        setPowerEmojiState("panic");
+        setPowerEmojiAnimation("is-shaking");
+        powerCutState.canvas.classList.add("is-dragging");
+    }
+}
+
+function onPowerMove(event) {
+    if (!powerCutState.interactionEnabled || powerCutState.finalUnplugged) return;
+    event.preventDefault();
+
+    const { x, y } = getPowerPointerPosition(event);
+    const plug = powerCutState.plug;
+
+    if (plug.dragging) {
+        plug.x = x - powerCutState.dragPlugOX;
+        plug.y = y - powerCutState.dragPlugOY;
+        return;
+    }
+
+    if (powerCutState.dragNode !== null) {
+        const node = powerCutState.rope[powerCutState.dragNode];
+        node.x = x + powerCutState.dragOffX;
+        node.y = y + powerCutState.dragOffY;
+        node.ox = node.x;
+        node.oy = node.y;
+    }
+}
+
+function onPowerUp(event) {
+    if (!powerCutState.interactionEnabled || powerCutState.finalUnplugged) return;
+    event.preventDefault();
+
+    const plug = powerCutState.plug;
+    const wasDragging = plug.dragging || powerCutState.dragNode !== null;
+    plug.dragging = false;
+    powerCutState.dragNode = null;
+    powerCutState.canvas.classList.remove("is-dragging");
+
+    if (!wasDragging || plug.plugged) return;
+
+    if (powerPlugDistance() < POWER_SNAP_DIST) {
+        plug.snapAnimating = true;
+        return;
+    }
+
+    setPowerEmojiState("cry");
+    setPowerEmojiAnimation("is-crazy");
+    triggerPowerCutAftermath();
+}
+
+function bindPowerCutCanvas() {
+    const canvas = powerCutState.canvas;
+    canvas.addEventListener("mousedown", onPowerDown, { passive: false });
+    canvas.addEventListener("mousemove", onPowerMove, { passive: false });
+    window.addEventListener("mouseup", onPowerUp, { passive: false });
+    canvas.addEventListener("touchstart", onPowerDown, { passive: false });
+    canvas.addEventListener("touchmove", onPowerMove, { passive: false });
+    window.addEventListener("touchend", onPowerUp, { passive: false });
+    window.addEventListener("resize", () => {
+        if (!powerCutState.active) return;
+        resetPowerCanvasScene();
+    });
+}
+
+function initPowerCutScene() {
+    if (powerCutState.initialized) return;
+    powerCutState.canvas = document.getElementById("power-canvas");
+    if (!powerCutState.canvas) return;
+    powerCutState.ctx = powerCutState.canvas.getContext("2d");
+    powerCutState.initialized = true;
+    buildPowerRoster();
+    bindPowerCutCanvas();
+    window.renderPowerFocusYear = renderPowerFocusYear;
+    window.renderPowerBarChart = renderPowerBarChart;
+}
+
+function startPowerCutLoop() {
+    powerCutState.active = true;
+    cancelAnimationFrame(powerCutState.raf);
+    powerLoop();
+}
+
+function stopPowerCutLoop() {
+    powerCutState.active = false;
+    cancelAnimationFrame(powerCutState.raf);
+    powerCutState.raf = null;
+}
+
+function startPowerCutSequence() {
+    state.phase = "power-cut";
+    document.body.classList.remove("ai-word-loop-active");
+    document.body.classList.add("power-cut-active");
+    hideAiWordNextButton();
+    showScreen("power-cut");
+
+    initPowerCutScene();
+    resetPowerCanvasScene();
+    startPowerCutLoop();
+
+    powerCutState.interactionEnabled = true;
+    setDialogueVisible(true);
+    setAmyVisible(true);
+    amyWrap.classList.remove("is-chart");
+
+    runDialogue(dialogueSets.power_cut_intro, () => {
+        if (typeof window.playPowerCutReveal === "function") {
+            window.playPowerCutReveal();
+        }
+        runDialogue(dialogueSets.power_cut_prompt, () => {
+            setDialogueVisible(false);
+            setAmyVisible(false);
+        });
+    });
+}
+
+function triggerPowerCutAftermath() {
+    if (powerCutState.finalUnplugged) return;
+    powerCutState.finalUnplugged = true;
+
+    setTimeout(() => {
+        setDialogueVisible(true);
+        setAmyVisible(true);
+        amyWrap.classList.remove("is-chart");
+        runDialogue(dialogueSets.power_cut_after, finishPowerCutSequence);
+    }, 450);
+}
+
+function finishPowerCutSequence() {
+    state.dialogueLocked = false;
+    setDialogueVisible(false);
+    setAmyVisible(false);
+    stopPowerCutLoop();
+    if (typeof window.stopPowerCutAnimations === "function") {
+        window.stopPowerCutAnimations();
+    }
+
+    if (aiWordNextWrap) aiWordNextWrap.classList.add("active");
+    if (aiWordNextBtn) {
+        aiWordNextBtn.onclick = () => {
+            window.location.href = "chapter-5.html";
+        };
+    }
 }
 
 function finishAiWordLoopSequence() {
@@ -3364,12 +4328,7 @@ function finishAiWordLoopSequence() {
     }
     document.body.classList.remove("ai-word-loop-active");
 
-    if (aiWordNextWrap) aiWordNextWrap.classList.add("active");
-    if (aiWordNextBtn) {
-        aiWordNextBtn.onclick = () => {
-            window.location.href = "chapter-5.html";
-        };
-    }
+    startPowerCutSequence();
 }
 
 function init() {

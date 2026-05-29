@@ -4464,6 +4464,542 @@ button {
     animation: slideInUp 400ms ease;
 }
 
+/* POWER CUT SCREEN */
+
+.power-cut-screen {
+    z-index: 11;
+    display: flex;
+    align-items: stretch;
+    justify-content: center;
+    padding: clamp(14px, 2vw, 24px) clamp(12px, 2.2vw, 28px) clamp(150px, 19vh, 190px);
+    background: #fff;
+    overflow: hidden;
+}
+
+.power-cut-stage {
+    position: relative;
+    width: 100vw;
+    height: 100vh;
+}
+
+.power-whiteout {
+    position: absolute;
+    inset: -4px;
+    z-index: 10;
+    background: #fff;
+    pointer-events: none;
+}
+
+.power-canvas {
+    position: absolute;
+    inset: 0;
+    z-index: 1;
+    display: block;
+    width: 100%;
+    height: 100%;
+    cursor: grab;
+    image-rendering: pixelated;
+    touch-action: none;
+}
+
+.power-canvas.is-dragging {
+    cursor: grabbing;
+}
+
+.power-roster {
+    position: absolute;
+    top: clamp(18px, 4vh, 36px);
+    left: 0;
+    right: 0;
+    z-index: 2;
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: clamp(10px, 1.4vw, 18px);
+    width: min(1120px, 94vw);
+    margin: 0 auto;
+    pointer-events: none;
+}
+
+.power-year-column {
+    min-width: 0;
+    padding: clamp(10px, 1.4vw, 16px);
+    border: 3px solid #1b2340;
+    background:
+        linear-gradient(180deg, rgba(159, 215, 255, 0.34), transparent 48%),
+        rgba(255, 253, 246, 0.95);
+    box-shadow: 0 8px 0 rgba(27, 35, 64, 0.12);
+}
+
+.power-year-column[data-year="year1"] {
+    background:
+        linear-gradient(180deg, rgba(38, 103, 255, 0.22), transparent 48%),
+        rgba(246, 250, 255, 0.96);
+}
+
+.power-year-column[data-year="year2"] {
+    background:
+        linear-gradient(180deg, rgba(6, 214, 160, 0.24), transparent 48%),
+        rgba(244, 255, 250, 0.96);
+}
+
+.power-year-column[data-year="year3"] {
+    background:
+        linear-gradient(180deg, rgba(255, 209, 102, 0.32), transparent 48%),
+        rgba(255, 252, 241, 0.96);
+}
+
+.power-year-column[data-year="year4"] {
+    background:
+        linear-gradient(180deg, rgba(255, 111, 145, 0.3), transparent 48%),
+        rgba(255, 246, 249, 0.96);
+}
+
+.power-year-title {
+    display: block;
+    margin-bottom: 10px;
+    padding: 7px 8px;
+    border: 2px solid #1b2340;
+    background: #ffd166;
+    color: #1b2340;
+    font-size: clamp(13px, 1.3vw, 17px);
+    font-weight: 900;
+    text-align: center;
+}
+
+.power-year-column[data-year="year1"] .power-year-title,
+.power-focus-panel[data-year="year1"] .power-focus-kicker,
+.power-chart-bar[data-year="year1"] {
+    background: #2667ff;
+    color: #fff;
+}
+
+.power-year-column[data-year="year2"] .power-year-title,
+.power-focus-panel[data-year="year2"] .power-focus-kicker,
+.power-chart-bar[data-year="year2"] {
+    background: #06d6a0;
+    color: #1b2340;
+}
+
+.power-year-column[data-year="year3"] .power-year-title,
+.power-focus-panel[data-year="year3"] .power-focus-kicker,
+.power-chart-bar[data-year="year3"] {
+    background: #ffd166;
+    color: #1b2340;
+}
+
+.power-year-column[data-year="year4"] .power-year-title,
+.power-focus-panel[data-year="year4"] .power-focus-kicker,
+.power-chart-bar[data-year="year4"] {
+    background: #ff6f91;
+    color: #fff;
+}
+
+.power-emoji-grid,
+.power-focus-emojis {
+    display: grid;
+    grid-template-columns: repeat(5, minmax(0, 1fr));
+    gap: clamp(5px, 0.8vw, 9px);
+}
+
+.power-emoji {
+    display: grid;
+    place-items: center;
+    aspect-ratio: 1;
+    border: 2px solid rgba(27, 35, 64, 0.18);
+    background: rgba(255, 255, 255, 0.88);
+    box-shadow: inset 0 -3px 0 rgba(27, 35, 64, 0.08);
+    font-size: clamp(22px, 3vw, 34px);
+    line-height: 1;
+}
+
+.power-emoji.is-affected {
+    border-color: rgba(255, 111, 145, 0.58);
+    background: rgba(255, 232, 238, 0.92);
+}
+
+.power-emoji.is-affected.is-shaking {
+    animation: power-shake 200ms ease-in-out infinite;
+}
+
+.power-emoji.is-affected.is-crazy {
+    animation: power-crazy 400ms linear infinite;
+}
+
+.power-emoji-img {
+    width: 80%;
+    height: 80%;
+    object-fit: contain;
+    pointer-events: none;
+}
+
+@keyframes power-shake {
+    0%, 100% { transform: translate(0, 0); }
+    25% { transform: translate(-3px, 2px); }
+    50% { transform: translate(3px, -2px); }
+    75% { transform: translate(-2px, -3px); }
+}
+
+@keyframes power-crazy {
+    0% { transform: translate(0, 0) rotate(0deg) scale(1); }
+    20% { transform: translate(-6px, 4px) rotate(-12deg) scale(1.1); }
+    40% { transform: translate(5px, -5px) rotate(8deg) scale(0.95); }
+    60% { transform: translate(-4px, -3px) rotate(-6deg) scale(1.05); }
+    80% { transform: translate(6px, 2px) rotate(10deg) scale(0.98); }
+    100% { transform: translate(0, 0) rotate(0deg) scale(1); }
+}
+
+.power-focus-panel {
+    position: absolute;
+    top: clamp(18px, 4vh, 36px);
+    left: 0;
+    right: 0;
+    z-index: 3;
+    display: grid;
+    grid-template-columns: minmax(260px, 0.88fr) minmax(320px, 1.12fr);
+    gap: clamp(18px, 3vw, 38px);
+    align-items: center;
+    width: min(980px, 92vw);
+    height: min(470px, 100%);
+    margin: 0 auto;
+    padding: clamp(16px, 2vw, 26px);
+    border: 3px solid #1b2340;
+    background:
+        linear-gradient(135deg, rgba(255, 209, 102, 0.24), transparent 40%),
+        rgba(255, 253, 246, 0.97);
+    box-shadow: 0 12px 0 rgba(27, 35, 64, 0.14);
+    opacity: 0;
+    visibility: hidden;
+    pointer-events: none;
+}
+
+@media (min-width: 921px) {
+    .chapter4-page.power-cut-active .power-focus-panel {
+        left: clamp(18px, 5vw, 76px);
+        right: auto;
+        width: min(820px, calc(100vw - 420px));
+    }
+}
+
+.power-focus-kicker {
+    display: inline-block;
+    margin-bottom: 12px;
+    padding: 6px 10px;
+    border: 2px solid #1b2340;
+    background: #2667ff;
+    color: #fff;
+    font-size: 13px;
+    font-weight: 900;
+}
+
+.power-focus-copy h2 {
+    margin: 0 0 18px;
+    color: #1b2340;
+    font-size: clamp(24px, 3.8vw, 42px);
+    line-height: 1.05;
+}
+
+.power-focus-emojis {
+    grid-template-columns: repeat(5, minmax(42px, 1fr));
+}
+
+.power-focus-chart {
+    display: grid;
+    gap: 14px;
+    align-self: stretch;
+}
+
+.power-chart-track {
+    position: relative;
+    align-self: end;
+    height: min(330px, 48vh);
+    min-height: 240px;
+    border: 3px solid #1b2340;
+    background:
+        repeating-linear-gradient(0deg, rgba(27, 35, 64, 0.08) 0 1px, transparent 1px 46px),
+        #eef6ff;
+    box-shadow: inset 0 -6px 0 rgba(27, 35, 64, 0.08);
+}
+
+.power-chart-bar {
+    position: absolute;
+    left: 50%;
+    bottom: 0;
+    display: flex;
+    align-items: flex-start;
+    justify-content: center;
+    width: min(118px, 42%);
+    min-height: 10%;
+    padding-top: 12px;
+    border: 3px solid #1b2340;
+    border-bottom: 0;
+    background:
+        linear-gradient(180deg, #ff6f91 0%, #f77952 100%);
+    box-shadow: 8px 0 0 rgba(27, 35, 64, 0.1);
+    transform: translateX(-50%);
+    transform-origin: 50% 100%;
+}
+
+.power-chart-bar span {
+    display: inline-block;
+    padding: 5px 8px;
+    border: 2px solid #1b2340;
+    background: #fffdf6;
+    color: #1b2340;
+    font-size: clamp(18px, 2.6vw, 28px);
+    font-weight: 900;
+    line-height: 1;
+    white-space: nowrap;
+}
+
+.power-focus-chart p {
+    margin: 0;
+    color: #526070;
+    font-size: clamp(14px, 1.5vw, 17px);
+    font-weight: 800;
+    line-height: 1.35;
+    text-align: center;
+}
+
+/* ── Parallel year focus (year3 + year4 side-by-side) ── */
+.power-focus-panel.is-parallel {
+    grid-template-columns: 1fr 1fr;
+    width: min(1100px, 96vw);
+    gap: clamp(14px, 2vw, 28px);
+}
+
+.power-focus-col {
+    display: grid;
+    grid-template-columns: minmax(200px, 0.9fr) minmax(220px, 1.1fr);
+    gap: clamp(12px, 2vw, 24px);
+    align-items: center;
+    padding: clamp(12px, 1.5vw, 20px);
+    border: 3px solid #1b2340;
+    background: linear-gradient(135deg, rgba(255,209,102,0.24), transparent 40%), rgba(255,253,246,0.97);
+    box-shadow: 0 12px 0 rgba(27,35,64,0.14);
+}
+
+.power-focus-col .power-focus-kicker {
+    margin-bottom: 8px;
+    padding: 5px 8px;
+    font-size: 12px;
+}
+
+.power-focus-col .power-focus-copy h2 {
+    margin: 0 0 10px;
+    font-size: clamp(18px, 2.4vw, 28px);
+}
+
+.power-focus-col .power-focus-emojis {
+    display: grid;
+    grid-template-columns: repeat(5, minmax(36px, 1fr));
+    gap: 6px;
+}
+
+.power-focus-col .power-chart-track {
+    height: min(280px, 40vh);
+    min-height: 180px;
+}
+
+/* ── Bar-chart overview (4 years) ── */
+.power-focus-panel.is-bar-chart {
+    display: flex;
+    flex-direction: column;
+    width: min(1100px, 96vw);
+    height: min(520px, 82vh);
+    overflow: visible;
+}
+
+.power-bar-chart {
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+    width: 100%;
+    height: 100%;
+    padding: clamp(8px, 1vw, 16px);
+}
+
+.power-bar-chart-title {
+    font-size: clamp(18px, 2.4vw, 28px);
+    font-weight: 900;
+    color: #1b2340;
+    text-align: center;
+    margin-bottom: 4px;
+}
+
+.power-bar-chart-body {
+    flex: 1;
+    min-height: 0;
+    display: flex;
+    align-items: stretch;
+}
+
+/* full-width area: ref-labels bên trái + inner bên phải */
+.power-bar-chart-area {
+    display: flex;
+    flex-direction: row;
+    align-items: stretch;
+    width: 100%;
+    gap: 0;
+}
+
+/* cột nhãn dashed line – nằm NGOÀI bên trái, stacked theo chiều dọc */
+.power-bar-ref-labels {
+    position: relative;
+    width: clamp(150px, 20vw, 220px);
+    flex-shrink: 0;
+    height: min(360px, 52vh);
+    min-height: 220px;
+    align-self: flex-end;
+}
+
+.power-bar-ref-label {
+    position: absolute;
+    right: 8px;
+    transform: translateY(50%);
+    display: flex;
+    justify-content: flex-end;
+}
+
+.power-bar-ref-label span {
+    background: #fffdf6;
+    border: 2px solid #1b2340;
+    padding: 3px 8px;
+    font-size: clamp(9px, 1vw, 12px);
+    font-weight: 800;
+    color: #e94560;
+    white-space: nowrap;
+    box-shadow: 2px 2px 0 rgba(27, 35, 64, 0.12);
+    line-height: 1.3;
+    text-align: right;
+    display: block;
+}
+
+/* inner = y-axis + plot */
+.power-bar-chart-inner {
+    flex: 1;
+    min-width: 0;
+    display: flex;
+    flex-direction: row;
+    align-items: stretch;
+}
+
+/* trục Y */
+.power-bar-yaxis {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    padding-bottom: 0;
+    width: clamp(32px, 4vw, 48px);
+    flex-shrink: 0;
+    border-right: 3px solid #1b2340;
+    padding-right: 6px;
+}
+
+.power-bar-ytick {
+    flex: 1;
+    display: flex;
+    align-items: flex-start;
+    justify-content: flex-end;
+}
+
+.power-bar-ytick span {
+    font-size: clamp(10px, 1vw, 13px);
+    font-weight: 700;
+    color: #1b2340;
+    line-height: 1;
+    transform: translateY(-50%);
+    display: block;
+}
+
+/* plot area */
+.power-bar-chart-plot {
+    position: relative;
+    flex: 1;
+    min-width: 0;
+    display: flex;
+    flex-direction: row;
+    align-items: flex-end;
+    justify-content: space-around;
+    gap: clamp(8px, 1.8vw, 24px);
+    height: min(360px, 52vh);
+    min-height: 220px;
+    border-bottom: 3px solid #1b2340;
+    background:
+        repeating-linear-gradient(180deg, rgba(27, 35, 64, 0.07) 0 1px, transparent 1px 20%);
+    background-color: #eef6ff;
+    padding: 0 14px;
+}
+
+/* dashed reference lines (no span, label is in ref-labels) */
+.power-bar-ref {
+    position: absolute;
+    left: 0;
+    right: 0;
+    border-top: 2px dashed #e94560;
+    pointer-events: none;
+    z-index: 2;
+}
+
+/* each bar column */
+.power-bar-col {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-end;
+    gap: 6px;
+    flex: 1 1 0;
+    min-width: 0;
+    height: 100%;
+    z-index: 1;
+    padding-bottom: 6px;
+}
+
+/* the actual bar */
+.power-bar-fill {
+    position: relative;
+    width: min(56px, 55%);
+    border: 3px solid #1b2340;
+    border-bottom: 0;
+    background: linear-gradient(180deg, #ff6f91 0%, #f77952 100%);
+    transform-origin: 50% 100%;
+    box-shadow: 4px 0 0 rgba(27, 35, 64, 0.1);
+    display: flex;
+    align-items: flex-start;
+    justify-content: center;
+}
+
+.power-bar-val {
+    position: absolute;
+    top: 4px;
+    font-size: clamp(10px, 1.1vw, 13px);
+    font-weight: 900;
+    color: #1b2340;
+    line-height: 1;
+    pointer-events: none;
+}
+
+.power-bar-col[data-year="year1"] .power-bar-fill { background: linear-gradient(180deg, #2667ff, #5b8cff); }
+.power-bar-col[data-year="year1"] .power-bar-val { color: #fff; }
+.power-bar-col[data-year="year2"] .power-bar-fill { background: linear-gradient(180deg, #06d6a0, #3debb5); }
+.power-bar-col[data-year="year3"] .power-bar-fill { background: linear-gradient(180deg, #ffd166, #ffe08a); }
+.power-bar-col[data-year="year4"] .power-bar-fill { background: linear-gradient(180deg, #ef233c, #ff6f91); }
+.power-bar-col[data-year="year4"] .power-bar-val { color: #fff; }
+
+.power-bar-label {
+    font-size: clamp(10px, 1.2vw, 15px);
+    font-weight: 900;
+    color: #1b2340;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    text-align: center;
+}
+
+.power-bar-percent {
+    font-size: clamp(14px, 1.6vw, 20px);
+    font-weight: 900;
+    color: #e94560;
+}
+
 @media (max-width: 920px) {
     .ai-word-loop-screen {
         align-items: flex-start;
@@ -4516,6 +5052,56 @@ button {
         position: fixed;
         bottom: 138px;
     }
+
+    .power-cut-screen {
+        align-items: flex-start;
+        padding: 12px 10px 150px;
+        overflow-y: auto;
+    }
+
+    .power-cut-stage {
+        width: min(720px, 96vw);
+        height: auto;
+        min-height: calc(100vh - 170px);
+    }
+
+    .power-roster {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        width: 100%;
+        top: 12px;
+    }
+
+    .power-focus-panel {
+        grid-template-columns: 1fr;
+        height: auto;
+        min-height: 0;
+        top: 12px;
+    }
+
+    .power-focus-panel.is-parallel {
+        grid-template-columns: 1fr;
+    }
+
+    .power-focus-col {
+        grid-template-columns: 1fr;
+        gap: 14px;
+    }
+
+    .power-chart-track {
+        height: 260px;
+        min-height: 220px;
+    }
+
+    .power-bar-chart-plot {
+        height: 260px;
+        min-height: 180px;
+    }
+
+    .power-bar-ref span {
+        font-size: 9px;
+        top: -16px;
+        padding: 2px 5px;
+    }
 }
 
 @media (max-width: 560px) {
@@ -4548,5 +5134,27 @@ button {
 
     .chapter4-page.ai-word-loop-active .vn-next-indicator {
         bottom: 16px;
+    }
+
+    .power-roster {
+        grid-template-columns: 1fr;
+    }
+
+    .power-year-column {
+        padding: 10px;
+    }
+
+    .power-emoji-grid,
+    .power-focus-emojis {
+        grid-template-columns: repeat(10, minmax(24px, 1fr));
+        gap: 4px;
+    }
+
+    .power-emoji {
+        font-size: clamp(18px, 7vw, 28px);
+    }
+
+    .power-focus-copy h2 {
+        font-size: 25px;
     }
 }

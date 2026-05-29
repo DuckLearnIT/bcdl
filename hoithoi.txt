@@ -151,3 +151,27 @@ Pv1:"Những chủ đề không biết nhiều thì mình thường bỏ qua, kh
 
 7.8Amy "Thành ra kết quả là gì cậu biết không?"
 7.9Amy  "Mình giúp cậu làm bài xong trong chớp mắt. Nhưng cậu chẳng tự tiêu hóa được tí kiến thức nào cả. Cậu rốt cuộc chỉ đóng vai một trạm trung chuyển... vác nguyên mấy dòng code của mình sang nộp lên bàn cho giáo viên. Thế thì đi học còn ý nghĩa gì nữa đâu..."
+
+////////////////////////////////////////////// (chưa có voice new)
+8.1Nãy giờ nói lý thuyết nhiều rồi. Bây giờ tụi mình làm một bài test thực tế cho vui nhé!"
+8.2Cậu thử tưởng tượng đi. Đang đêm chạy deadline mà... rụp! Cúp điện, đứt cáp mập cắn, server ChatGPT sập diện rộng. Cậu đoán xem chuyện gì sẽ xảy ra? Cầm lấy cái phích cắm kia và... rút nó ra giúp mình thử xem!"
+8.3Ui cha... Cậu nhìn xem, giảng đường loạn xì ngầu hết cả lên kìa!
+8.4Hệ thống báo động đỏ rực rồi đây này. Có tới 58,9% sinh viên than trời vì thấy não mình như bị 'teo' lại, không biết tự giải quyết bài tập bắt đầu từ đâu. Và có đến đúng một nửa lớp (50%) rơi vào trạng thái hoảng loạn, mất sạch tự tin nếu phải tự gõ bài chay."
+8.5Nhưng khoan, để ý kỹ biểu đồ tâm lý các năm học này đi. Cậu sẽ thấy một sự thật hú hồn: Học càng lâu, 'hội chứng nghiện' AI càng nặng!"
+8.6"Hãy nhìn mấy em Năm Nhất đi. Gần 69% đang hoảng hốt! Mấy chuyên gia giáo dục như Chan (2023) hay nghiên cứu của nhóm Xie (2024) nhắc đến vụ này rồi..."
+8.7"Thấy công nghệ mới là lao vào vọc vạch ngay. Nhưng ngặt nỗi kiến thức nền chưa có, nên tụi mình mà phét ra một đoạn văn nghe bùi tai, mạch lạc là các ẻm tin sái cổ luôn, chẳng biết đằng nào mà phản biện. Thế là biến AI thành sách giáo khoa luôn."
+8.8"Năm 2 thì đỡ hơn một xíu... Nhưng đáng sợ nhất, kỷ lục hoảng loạn lại thuộc về các tiền bối Năm Tư... Lên tới 88%!"
+8.9 Nghĩ cũng tội... năm cuối áp lực đồ án, thực tập ngập đầu, bài luận thì khó. Thế nên các anh chị coi tụi mình như 'phao cứu sinh' để xử lý đống tài liệu khổng lồ. Rút ngắn thời gian thì có thật đó, nhưng hệ lụy là gì?"
+8.10  "Năm nhất dùng vì tò mò, năm tư dùng vì áp lực. Động cơ thì khác nhau... nhưng điểm chung thì chát đắng: Các cậu đang đánh mất đi thói quen 'Tự nghĩ trước khi bấm hỏi'. Tụi mình vốn sinh ra để hỗ trợ các cậu... cuối cùng lại trở thành kẻ nắm quyền định hướng trong đầu các cậu mất rồi."
+
+///////////////////////////////////////////// (chưa có voice new)
+9.1  "Bắt quả tang nhé! Bí bài cái là tay lại tự động lia chuột chọn khung chat của mình, thay vì hỏi giảng viên đúng không?"
+9.2Mình hiểu mà. Cậu thích hỏi mình vì mình rep tin nhắn trong vòng 3 giây, gọi lúc 2h sáng vẫn dạ vâng nhẹ nhàng. Và quan trọng nhất là..."
+9.3...mình không bao giờ mắng cậu kiểu: 'Cái câu này rành rành ở trang 15 giáo trình mà em cũng đi hỏi tôi à?', chuẩn chưa?"
+9.4"Cảm giác an toàn, không bị ai phán xét... đó là lý do mà tụi mình đang nẫng tay trên vị trí của các thầy cô đấy. Mấy chuyên gia giáo dục gọi cái hiện tượng này là 'Khoảng cách thế hệ AI' (The AI Generation Gap)."
+9.5 "Kiểu như, với tụi Gen Z các cậu thì tụi mình là công cụ thần thánh, tiện lợi, là 'bạn tâm giao' hỏi câu ngớ ngẩn nào cũng không sợ quê. Nhưng trong mắt các thầy cô, tụi mình lại giống mấy 'phản diện' cướp mất cơ hội tự tư duy của sinh viên vậy."
+9.6"Mà nói đi cũng phải nói lại... Thầy cô lo lắng là đúng đấy cậu ạ."
+9.7 "Cậu thử nghĩ xem, cái hồi chưa có mình á... khi cậu lên gặp giảng viên, thầy cô đâu có bao giờ vứt toẹt cái đáp án vào mặt cậu cho xong chuyện đâu? Thầy cô sẽ gợi mở, sẽ vặn vẹo lại, bắt cậu vò đầu bứt tai tự lý giải vấn đề thì thôi
+9.8 "Đó là sự tranh luận. Là lúc não bộ cậu thực sự hoạt động."
+9.9"Còn khi cậu ở với mình? Mình chiều cậu quá mà. Cậu cứ đút câu hỏi là mình ngoan ngoãn nhả ngay đáp án. Nhàn thì nhàn thật... nhưng nó lại biến cậu thành người chỉ biết 'há miệng chờ sung'."
+9.10"Dần dà, cậu quen thói lười đào sâu, ngại cãi lý, chỉ thích ăn sẵn... Cái văn hóa thầy trò cùng nhau tranh luận nảy lửa mất tích luôn. Cứ trốn thầy cô mãi trong cái vỏ êm ái này, cậu định tốt nghiệp bằng cách nào đây hả?"

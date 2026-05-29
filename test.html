@@ -1,0 +1,471 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8" />
+  <title>Test - Cắm điện</title>
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body {
+      background: #1a1a2e;
+      overflow: hidden;
+      width: 100vw;
+      height: 100vh;
+      user-select: none;
+    }
+    canvas {
+      display: block;
+      cursor: default;
+    }
+    #hint {
+      position: fixed;
+      bottom: 18px;
+      left: 50%;
+      transform: translateX(-50%);
+      color: rgba(255,255,255,0.45);
+      font: 13px/1.5 monospace;
+      text-align: center;
+      pointer-events: none;
+    }
+  </style>
+</head>
+<body>
+<canvas id="c"></canvas>
+<div id="hint">Kéo phích cắm (ocam) để di chuyển • Kéo bất kỳ điểm nào trên dây • Đến gần ổ điện sẽ tự hút vào</div>
+<script>
+// ─────────────────────────────────────────────
+//  CONFIG
+// ─────────────────────────────────────────────
+const ROPE_SEGS      = 28;    // số đoạn dây
+const ROPE_SEG_LEN   = 18;    // độ dài mỗi đoạn (pixel)
+const ROPE_ITERS     = 40;    // số lần lặp ràng buộc (độ cứng)
+const GRAVITY        = 0.52;
+const ROPE_DAMPING   = 0.985;
+const SNAP_DIST      = 90;    // khoảng cách bắt đầu hút
+const PLUG_DIST      = 38;    // khoảng cách coi như đã cắm
+const SNAP_SPEED     = 0.18;  // tốc độ hút
+
+// ─────────────────────────────────────────────
+//  CANVAS SETUP
+// ─────────────────────────────────────────────
+const canvas = document.getElementById('c');
+const ctx    = canvas.getContext('2d');
+
+function resize() {
+  canvas.width  = window.innerWidth;
+  canvas.height = window.innerHeight;
+}
+resize();
+window.addEventListener('resize', () => { resize(); resetScene(); });
+
+// ─────────────────────────────────────────────
+//  IMAGE LOADING
+// ─────────────────────────────────────────────
+const imgOdien = new Image();
+const imgOcam  = new Image();
+let   imagesReady = 0;
+imgOdien.src = 'assets/img/chapter 4/odien.webp';
+imgOcam.src  = 'assets/img/chapter 4/ocam.webp';
+imgOdien.onload = imgOcam.onload = () => { imagesReady++; };
+
+// ─────────────────────────────────────────────
+//  STATE
+// ─────────────────────────────────────────────
+
+// Verlet rope: array of {x, y, ox, oy, pinned}
+let rope = [];
+
+// Ổ điện (odien) - fixed left, socket opening faces right
+let socket = { x: 0, y: 0, w: 180, h: 120 };
+
+// Phích cắm (ocam) - draggable, plug faces left
+let plug = {
+  x: 0, y: 0,
+  w: 180, h: 120,
+  dragging: false,
+  plugged: false,
+  snapAnimating: false
+};
+
+// Dây gắn vào đầu phải của ocam (đuôi bên phải)
+// và đầu kia neo vào socket (ẩn sau màn)
+
+// Dragging rope node
+let dragNode   = null;   // index vào rope[]
+let dragOffX   = 0;
+let dragOffY   = 0;
+
+// Dragging plug body
+let dragPlug   = false;
+let dragPlugOX = 0;
+let dragPlugOY = 0;
+
+// ─────────────────────────────────────────────
+//  SCENE INIT
+// ─────────────────────────────────────────────
+function resetScene() {
+  const W = canvas.width, H = canvas.height;
+
+  // Socket: đặt bên trái, đuôi dây ẩn ra ngoài màn trái
+  // Hình odien: thân bên phải, dây bên trái → ta cắt dây: đặt x âm 1 chút
+  socket.w = Math.min(200, W * 0.22);
+  socket.h = socket.w * (120 / 760); // tỉ lệ ảnh ~760x480 → ngang
+  // Tỉ lệ thực từ ảnh: rộng ~760 cao ~480 → h/w ≈ 0.63
+  socket.h = socket.w * 0.63;
+  socket.x = -socket.w * 0.30;  // dấu: đẩy một phần ra ngoài bên trái
+  socket.y = H / 2 - socket.h / 2;
+
+  // Plug ocam: bên phải, chân cắm quay trái
+  // Ảnh ocam có ~60% khoảng trắng bên phải → nhân với 0.6 để lấy vùng thực
+  plug.w = socket.w * 0.88;
+  plug.h = plug.w * 0.63;
+  // Tỉ lệ vùng có nội dung thực trong ảnh ocam (~57% chiều rộng ảnh)
+  plug._imgW = plug.w;   // chiều rộng render đầy đủ ảnh
+  plug._imgH = plug.h;
+  plug.x = W * 0.62;
+  plug.y = H / 2 - plug.h / 2;
+  plug.plugged = false;
+  plug.snapAnimating = false;
+
+  // Tạo dây: đầu [0] neo vào đuôi bên phải plug (anchor động)
+  //          đầu [N] sẽ tự do / tự treo
+  // Dây xuất phát từ bên phải ocam ra ngoài
+  buildRope();
+}
+
+function getPlugRopeAttach() {
+  // Nub nhỏ bên phải ocam: trong ảnh 760px wide, đầu nub tại ~430px = 56.6%
+  // Chiều cao ảnh ~400px, nub tại ~205px = 51% + dịch xuống 2px
+  return {
+    x: plug.x + plug._imgW * 0.565,
+    y: plug.y + plug._imgH * 0.51 + 2
+  };
+}
+
+function buildRope() {
+  rope = [];
+  const attach = getPlugRopeAttach();
+  const W = canvas.width;
+  for (let i = 0; i <= ROPE_SEGS; i++) {
+    const t = i / ROPE_SEGS;
+    rope.push({
+      x:  attach.x + t * (W - attach.x + 60),
+      y:  attach.y + Math.sin(t * Math.PI) * 60,
+      ox: attach.x + t * (W - attach.x + 60),
+      oy: attach.y + Math.sin(t * Math.PI) * 60,
+      pinned: false
+    });
+  }
+  // Đầu cuối cùng neo ra ngoài màn hình phải
+  rope[ROPE_SEGS].pinned = true;
+}
+
+// ─────────────────────────────────────────────
+//  PHYSICS UPDATE
+// ─────────────────────────────────────────────
+function updateRope() {
+  const attach = getPlugRopeAttach();
+
+  // Nếu phích cắm đang bị hút → snap animation
+  if (plug.snapAnimating) {
+    const targetX = socket.x + socket.w * 0.78 - plug.w * 0.12;
+    const targetY = socket.y + socket.h * 0.50 - plug.h / 2;
+    plug.x += (targetX - plug.x) * SNAP_SPEED * 1.8;
+    plug.y += (targetY - plug.y) * SNAP_SPEED * 1.8;
+    if (Math.abs(plug.x - targetX) < 1 && Math.abs(plug.y - targetY) < 1) {
+      plug.x = targetX;
+      plug.y = targetY;
+      plug.plugged = true;
+      plug.snapAnimating = false;
+    }
+  }
+
+  // Ghim đầu dây [0] vào plug
+  rope[0].x = attach.x;
+  rope[0].y = attach.y;
+  rope[0].ox = attach.x;
+  rope[0].oy = attach.y;
+  rope[0].pinned = false; // không pinned nhưng luôn set vị trí
+
+  // Verlet integration
+  for (let i = 1; i <= ROPE_SEGS; i++) {
+    if (rope[i].pinned) continue;
+    const vx = (rope[i].x - rope[i].ox) * ROPE_DAMPING;
+    const vy = (rope[i].y - rope[i].oy) * ROPE_DAMPING;
+    rope[i].ox = rope[i].x;
+    rope[i].oy = rope[i].y;
+    rope[i].x += vx;
+    rope[i].y += vy + GRAVITY;
+  }
+
+  // Ràng buộc khoảng cách
+  for (let iter = 0; iter < ROPE_ITERS; iter++) {
+    // Ghim đầu [0]
+    rope[0].x = attach.x;
+    rope[0].y = attach.y;
+
+    for (let i = 0; i < ROPE_SEGS; i++) {
+      const a = rope[i], b = rope[i + 1];
+      const dx = b.x - a.x, dy = b.y - a.y;
+      const dist = Math.sqrt(dx * dx + dy * dy) || 0.001;
+      const diff = (dist - ROPE_SEG_LEN) / dist * 0.5;
+      const cx = dx * diff, cy = dy * diff;
+      if (!a.pinned) { a.x += cx;  a.y += cy; }
+      if (!b.pinned) { b.x -= cx;  b.y -= cy; }
+    }
+
+    // Giữ lại ghim sau constraint
+    rope[0].x = attach.x;
+    rope[0].y = attach.y;
+  }
+
+  // Bounce off floor/ceiling
+  const H = canvas.height;
+  for (let i = 0; i <= ROPE_SEGS; i++) {
+    if (rope[i].pinned) continue;
+    if (rope[i].y > H - 10) { rope[i].y = H - 10; rope[i].oy = rope[i].y + (rope[i].y - rope[i].oy) * 0.3; }
+    if (rope[i].y < 10)     { rope[i].y = 10;     }
+  }
+}
+
+// ─────────────────────────────────────────────
+//  SNAP CHECK
+// ─────────────────────────────────────────────
+function checkSnap() {
+  if (plug.plugged || plug.dragging || plug.snapAnimating) return;
+
+  // Đầu cắm ocam (bên trái) → socket opening (bên phải odien)
+  const plugTipX = plug.x + plug.w * 0.08;
+  const plugTipY = plug.y + plug.h * 0.50;
+  const sockOpenX = socket.x + socket.w * 0.78;
+  const sockOpenY = socket.y + socket.h * 0.50;
+
+  const dx = sockOpenX - plugTipX;
+  const dy = sockOpenY - plugTipY;
+  const dist = Math.sqrt(dx * dx + dy * dy);
+
+  if (dist < SNAP_DIST) {
+    if (dist < PLUG_DIST) {
+      plug.snapAnimating = false;
+      plug.plugged = true;
+      const targetX = sockOpenX - plug.w * 0.12;
+      const targetY = sockOpenY - plug.h / 2;
+      plug.x = targetX;
+      plug.y = targetY;
+    } else {
+      plug.snapAnimating = true;
+    }
+  } else {
+    plug.snapAnimating = false;
+  }
+}
+
+// ─────────────────────────────────────────────
+//  DRAWING
+// ─────────────────────────────────────────────
+function drawRope() {
+  if (rope.length < 2) return;
+  ctx.save();
+  // Pixel art style: tắt antialiasing, dùng lineCap butt + bước nhảy pixel
+  ctx.imageSmoothingEnabled = false;
+  ctx.lineCap  = 'square';
+  ctx.lineJoin = 'miter';
+
+  // Shadow (offset pixel)
+  ctx.beginPath();
+  ctx.strokeStyle = 'rgba(0,0,0,0.55)';
+  ctx.lineWidth = 5;
+  for (let i = 0; i < ROPE_SEGS; i++) {
+    const ax = Math.round(rope[i].x) + 2,   ay = Math.round(rope[i].y) + 3;
+    const bx = Math.round(rope[i+1].x) + 2, by = Math.round(rope[i+1].y) + 3;
+    ctx.moveTo(ax, ay); ctx.lineTo(bx, by);
+  }
+  ctx.stroke();
+
+  // Outline đen (pixel border)
+  ctx.beginPath();
+  ctx.strokeStyle = '#1a1a1a';
+  ctx.lineWidth = 7;
+  for (let i = 0; i < ROPE_SEGS; i++) {
+    ctx.moveTo(Math.round(rope[i].x),   Math.round(rope[i].y));
+    ctx.lineTo(Math.round(rope[i+1].x), Math.round(rope[i+1].y));
+  }
+  ctx.stroke();
+
+  // Lõi trắng pixel
+  ctx.beginPath();
+  ctx.strokeStyle = '#ffffff';
+  ctx.lineWidth = 4;
+  for (let i = 0; i < ROPE_SEGS; i++) {
+    ctx.moveTo(Math.round(rope[i].x),   Math.round(rope[i].y));
+    ctx.lineTo(Math.round(rope[i+1].x), Math.round(rope[i+1].y));
+  }
+  ctx.stroke();
+
+  // Highlight sáng bên trên (pixel art sheen)
+  ctx.beginPath();
+  ctx.strokeStyle = 'rgba(255,255,255,0.6)';
+  ctx.lineWidth = 1.5;
+  for (let i = 0; i < ROPE_SEGS; i++) {
+    ctx.moveTo(Math.round(rope[i].x) - 1,   Math.round(rope[i].y) - 1);
+    ctx.lineTo(Math.round(rope[i+1].x) - 1, Math.round(rope[i+1].y) - 1);
+  }
+  ctx.stroke();
+
+  ctx.restore();
+}
+
+function drawSocket() {
+  if (imagesReady < 2) {
+    // fallback
+    ctx.fillStyle = '#888';
+    ctx.fillRect(socket.x, socket.y, socket.w, socket.h);
+    return;
+  }
+  ctx.drawImage(imgOdien, socket.x, socket.y, socket.w, socket.h);
+}
+
+function drawPlug() {
+  if (imagesReady < 2) {
+    ctx.fillStyle = '#aaa';
+    ctx.fillRect(plug.x, plug.y, plug.w, plug.h);
+    return;
+  }
+  // Ánh sáng khi đang trong vùng snap
+  const plugTipX  = plug.x + plug.w * 0.08;
+  const plugTipY  = plug.y + plug.h * 0.50;
+  const sockOpenX = socket.x + socket.w * 0.78;
+  const sockOpenY = socket.y + socket.h * 0.50;
+  const dist = Math.hypot(sockOpenX - plugTipX, sockOpenY - plugTipY);
+
+  const drawIt = () => {
+    ctx.drawImage(imgOcam, plug.x, plug.y, plug._imgW, plug._imgH);
+  };
+
+  if (!plug.plugged && dist < SNAP_DIST) {
+    ctx.save();
+    const alpha = 1 - dist / SNAP_DIST;
+    ctx.shadowColor  = `rgba(255,220,80,${alpha * 0.9})`;
+    ctx.shadowBlur   = 24 * alpha;
+    drawIt();
+    ctx.restore();
+  } else {
+    drawIt();
+  }
+}
+
+// ─────────────────────────────────────────────
+//  MAIN LOOP
+// ─────────────────────────────────────────────
+function loop() {
+  ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+  updateRope();
+  checkSnap();
+
+  drawRope();
+  drawPlug();
+  drawSocket();
+
+  requestAnimationFrame(loop);
+}
+
+// ─────────────────────────────────────────────
+//  INTERACTION - MOUSE
+// ─────────────────────────────────────────────
+function getPos(e) {
+  const r = canvas.getBoundingClientRect();
+  if (e.touches) {
+    return { x: e.touches[0].clientX - r.left, y: e.touches[0].clientY - r.top };
+  }
+  return { x: e.clientX - r.left, y: e.clientY - r.top };
+}
+
+function hitTestPlug(mx, my) {
+  return mx >= plug.x && mx <= plug.x + plug.w &&
+         my >= plug.y && my <= plug.y + plug.h;
+}
+
+function hitTestRopeNode(mx, my) {
+  const R = 14;
+  for (let i = 1; i <= ROPE_SEGS; i++) {
+    if (rope[i].pinned) continue;
+    const dx = rope[i].x - mx, dy = rope[i].y - my;
+    if (dx * dx + dy * dy < R * R) return i;
+  }
+  return -1;
+}
+
+function onDown(e) {
+  e.preventDefault();
+  const { x, y } = getPos(e);
+
+  // Nếu đang cắm, click vào plug để rút ra
+  if (plug.plugged && hitTestPlug(x, y)) {
+    plug.plugged       = false;
+    plug.snapAnimating = false;
+    plug.dragging      = true;
+    dragPlugOX = x - plug.x;
+    dragPlugOY = y - plug.y;
+    return;
+  }
+
+  if (!plug.plugged) {
+    // Thử kéo plug
+    if (hitTestPlug(x, y)) {
+      plug.dragging      = true;
+      plug.snapAnimating = false;
+      dragPlugOX = x - plug.x;
+      dragPlugOY = y - plug.y;
+      return;
+    }
+
+    // Thử kéo node dây
+    const ni = hitTestRopeNode(x, y);
+    if (ni >= 0) {
+      dragNode  = ni;
+      dragOffX  = rope[ni].x - x;
+      dragOffY  = rope[ni].y - y;
+      return;
+    }
+  }
+}
+
+function onMove(e) {
+  e.preventDefault();
+  const { x, y } = getPos(e);
+
+  if (plug.dragging) {
+    plug.x = x - dragPlugOX;
+    plug.y = y - dragPlugOY;
+    return;
+  }
+
+  if (dragNode !== null) {
+    rope[dragNode].x  = x + dragOffX;
+    rope[dragNode].y  = y + dragOffY;
+    rope[dragNode].ox = rope[dragNode].x;
+    rope[dragNode].oy = rope[dragNode].y;
+    return;
+  }
+}
+
+function onUp(e) {
+  plug.dragging = false;
+  dragNode      = null;
+}
+
+canvas.addEventListener('mousedown',  onDown,  { passive: false });
+canvas.addEventListener('mousemove',  onMove,  { passive: false });
+canvas.addEventListener('mouseup',    onUp);
+canvas.addEventListener('touchstart', onDown,  { passive: false });
+canvas.addEventListener('touchmove',  onMove,  { passive: false });
+canvas.addEventListener('touchend',   onUp);
+
+// ─────────────────────────────────────────────
+//  START
+// ─────────────────────────────────────────────
+resetScene();
+loop();
+</script>
+</body>
+</html>

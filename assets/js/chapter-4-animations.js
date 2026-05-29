@@ -17,6 +17,8 @@
   let activeAiWordLoopTl = null;
   let activeAiWordLoopMM = null;
   let activePointerTween = null;
+  let activePowerCutRevealTl = null;
+  let activePowerFocusTl = null;
 
   const hasMotionPathPlugin = typeof MotionPathPlugin !== "undefined";
   const hasTextPlugin = typeof TextPlugin !== "undefined";
@@ -30,6 +32,7 @@
       activeEntranceTl = null;
     }
     stopAiWordLoopAnimation();
+    stopPowerCutAnimations();
   }
 
   /* ── Section Entrance Animations ── */
@@ -108,10 +111,22 @@
         "-=0.3"
       );
       tl.fromTo(
-        ".sub-card",
+        ".stall-image",
+        { y: 60, autoAlpha: 0, scale: 0.95 },
+        { y: 0, autoAlpha: 1, scale: 1, duration: 0.8, ease: easeSmooth },
+        "-=0.2"
+      );
+      tl.fromTo(
+        ".stall-amy",
+        { y: 30, autoAlpha: 0, scale: 0.92 },
+        { y: 0, autoAlpha: 1, scale: 1, duration: 0.7, ease: easeElastic },
+        "-=0.5"
+      );
+      tl.fromTo(
+        ".stall-item",
         { y: 80, autoAlpha: 0, rotationX: 10 },
         { y: 0, autoAlpha: 1, rotationX: 0, stagger: { each: 0.12, from: "center" }, duration: 0.7, ease: easeElastic },
-        "-=0.2"
+        "-=0.4"
       );
       return tl;
     },
@@ -688,6 +703,259 @@
     return activeAiWordLoopTl;
   }
 
+  function stopPowerCutAnimations() {
+    if (activePowerCutRevealTl) {
+      activePowerCutRevealTl.kill();
+      activePowerCutRevealTl = null;
+    }
+    if (activePowerFocusTl) {
+      activePowerFocusTl.kill();
+      activePowerFocusTl = null;
+    }
+  }
+
+  function playPowerCutReveal() {
+    const screen = document.getElementById("power-cut-screen");
+    const whiteout = document.getElementById("power-whiteout");
+    const canvas = document.getElementById("power-canvas");
+    const roster = document.getElementById("power-roster");
+    const columns = screen ? gsap.utils.toArray(".power-year-column", screen) : [];
+    const emojis = screen ? gsap.utils.toArray(".power-roster .power-emoji", screen) : [];
+
+    if (!screen || !whiteout || !canvas || !roster) return null;
+    if (activePowerCutRevealTl) activePowerCutRevealTl.kill();
+
+    const reduceMotion = window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    const tl = gsap.timeline({
+      defaults: { ease: easeOut },
+      onComplete: () => {
+        activePowerCutRevealTl = null;
+      },
+    });
+    activePowerCutRevealTl = tl;
+
+    gsap.set(whiteout, { autoAlpha: 1 });
+    gsap.set(canvas, { autoAlpha: 0 });
+    gsap.set(roster, { autoAlpha: 1, y: 0 });
+    gsap.set("#power-focus-panel", { autoAlpha: 0, y: 18 });
+
+    if (reduceMotion) {
+      tl.set(whiteout, { autoAlpha: 0 });
+      tl.set(canvas, { autoAlpha: 1 });
+      tl.set(columns, { autoAlpha: 1, y: 0, scale: 1 });
+      return tl;
+    }
+
+    tl.to(whiteout, { autoAlpha: 0, duration: 0.45 });
+    tl.fromTo(canvas, { autoAlpha: 0 }, { autoAlpha: 1, duration: 0.5 }, "-=0.18");
+    tl.fromTo(
+      columns,
+      { y: -18, autoAlpha: 0, scale: 0.97 },
+      { y: 0, autoAlpha: 1, scale: 1, duration: 0.55, stagger: { each: 0.08, from: "start" } },
+      "-=0.24"
+    );
+    tl.fromTo(
+      emojis,
+      { y: 8, autoAlpha: 0, scale: 0.72 },
+      { y: 0, autoAlpha: 1, scale: 1, duration: 0.36, stagger: { amount: 0.35, from: "random" }, ease: easeElastic },
+      "-=0.24"
+    );
+
+    return tl;
+  }
+
+  function playPowerYearFocus(years, onComplete) {
+    const list = Array.isArray(years) ? years : [years];
+    const screen = document.getElementById("power-cut-screen");
+    const roster = document.getElementById("power-roster");
+    const panel = document.getElementById("power-focus-panel");
+    const bar = document.getElementById("power-focus-bar");
+
+    if (!screen || !roster || !panel || !bar || typeof window.renderPowerFocusYear !== "function") {
+      if (typeof onComplete === "function") onComplete();
+      return null;
+    }
+
+    if (activePowerFocusTl) activePowerFocusTl.kill();
+
+    const reduceMotion = window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    const tl = gsap.timeline({
+      defaults: { ease: easeOut },
+      onComplete: () => {
+        activePowerFocusTl = null;
+        if (typeof onComplete === "function") onComplete();
+      },
+    });
+    activePowerFocusTl = tl;
+
+    tl.to(roster, { autoAlpha: 0, y: -16, duration: reduceMotion ? 0.01 : 0.32 }, 0);
+
+    list.forEach((yearId, index) => {
+      const isParallel = Array.isArray(yearId);
+
+      tl.call(() => {
+        window.renderPowerFocusYear(yearId);
+        gsap.set(panel, { autoAlpha: 1 });
+        if (!isParallel) {
+          gsap.set(bar, { rotation: 0, scaleY: 1, transformOrigin: "50% 100%" });
+        }
+      }, null, index === 0 ? 0.08 : ">");
+
+      if (reduceMotion) {
+        if (isParallel) {
+          tl.set(panel, { autoAlpha: 1, y: 0, scale: 1 });
+          tl.set(".power-focus-col .power-emoji", { autoAlpha: 1, y: 0, scale: 1 });
+          tl.set(".power-focus-col .power-chart-bar", { scaleY: 1, rotation: 0 });
+          tl.to({}, { duration: 1.2 });
+        } else {
+          tl.set(panel, { autoAlpha: 1, y: 0, scale: 1 });
+          tl.set(".power-focus-emojis .power-emoji", { autoAlpha: 1, y: 0, scale: 1 });
+          tl.set(bar, { scaleY: 1, rotation: 0 });
+          tl.to({}, { duration: index < list.length - 1 ? 0.6 : 0.05 });
+        }
+        return;
+      }
+
+      if (isParallel) {
+        tl.fromTo(
+          panel,
+          { y: index === 0 ? 28 : 10, autoAlpha: index === 0 ? 0 : 0.82, scale: index === 0 ? 0.96 : 1 },
+          { y: 0, autoAlpha: 1, scale: 1, duration: index === 0 ? 0.5 : 0.32 },
+          "<"
+        );
+        tl.fromTo(
+          ".power-focus-col .power-emoji",
+          { y: 14, autoAlpha: 0, scale: 0.8 },
+          { y: 0, autoAlpha: 1, scale: 1, duration: 0.36, stagger: { amount: 0.25, from: "start" }, ease: easeElastic },
+          "<0.08"
+        );
+        tl.fromTo(
+          ".power-focus-col .power-chart-bar",
+          { scaleY: 0.08, rotation: 0, transformOrigin: "50% 100%" },
+          { scaleY: 1, duration: 0.7, ease: easeSmooth },
+          "<0.04"
+        );
+        tl.to({}, { duration: 1.2 });
+      } else {
+        tl.fromTo(
+          panel,
+          { y: index === 0 ? 28 : 10, autoAlpha: index === 0 ? 0 : 0.82, scale: index === 0 ? 0.96 : 1 },
+          { y: 0, autoAlpha: 1, scale: 1, duration: index === 0 ? 0.5 : 0.32 },
+          "<"
+        );
+        tl.fromTo(
+          ".power-focus-emojis .power-emoji",
+          { y: 14, autoAlpha: 0, scale: 0.8 },
+          { y: 0, autoAlpha: 1, scale: 1, duration: 0.36, stagger: { amount: 0.16, from: "start" }, ease: easeElastic },
+          "<0.08"
+        );
+        tl.fromTo(
+          bar,
+          { scaleY: 0.08, rotation: 0, transformOrigin: "50% 100%" },
+          { scaleY: 1, duration: 0.7, ease: easeSmooth },
+          "<0.04"
+        );
+        tl.to(bar, { rotation: -1.3, duration: 0.055, repeat: 7, yoyo: true, ease: "none" }, ">-0.14");
+        tl.to(bar, { rotation: 0, duration: 0.08 });
+        tl.to({}, { duration: index < list.length - 1 ? 0.72 : 0.08 });
+      }
+    });
+
+    return tl;
+  }
+
+  function playPowerBarChartAnimation() {
+    const roster = document.getElementById("power-roster");
+    const panel = document.getElementById("power-focus-panel");
+    if (!roster || !panel || typeof window.renderPowerBarChart !== "function") return null;
+
+    if (activePowerFocusTl) {
+      activePowerFocusTl.kill();
+      activePowerFocusTl = null;
+    }
+
+    const reduceMotion = window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    window.renderPowerBarChart();
+
+    const tl = gsap.timeline({
+      defaults: { ease: easeOut },
+      onComplete: () => {
+        activePowerFocusTl = null;
+      },
+    });
+    activePowerFocusTl = tl;
+
+    tl.to(roster, { autoAlpha: 0, y: -16, duration: reduceMotion ? 0.01 : 0.32 }, 0);
+    tl.fromTo(
+      panel,
+      { y: 28, autoAlpha: 0, scale: 0.96 },
+      { y: 0, autoAlpha: 1, scale: 1, duration: reduceMotion ? 0.01 : 0.5 },
+      0.08
+    );
+
+    if (!reduceMotion) {
+      tl.fromTo(
+        ".power-bar-fill",
+        { scaleY: 0 },
+        { scaleY: 1, duration: 0.85, ease: easeSmooth, stagger: 0.14, transformOrigin: "50% 100%" },
+        "<0.2"
+      );
+      tl.fromTo(
+        ".power-bar-ref",
+        { scaleX: 0 },
+        { scaleX: 1, duration: 0.5, ease: easeOut, stagger: 0.18, transformOrigin: "0% 50%" },
+        "<0.5"
+      );
+      tl.fromTo(
+        ".power-bar-ref-label",
+        { autoAlpha: 0, x: -12 },
+        { autoAlpha: 1, x: 0, duration: 0.45, stagger: 0.18 },
+        "<0.1"
+      );
+      tl.fromTo(
+        ".power-bar-label",
+        { y: 10, autoAlpha: 0 },
+        { y: 0, autoAlpha: 1, duration: 0.35, stagger: 0.08 },
+        "<0.2"
+      );
+    } else {
+      tl.set(".power-bar-fill", { scaleY: 1 });
+      tl.set(".power-bar-ref", { scaleX: 1 });
+      tl.set(".power-bar-ref-label", { autoAlpha: 1 });
+      tl.set(".power-bar-label", { autoAlpha: 1 });
+    }
+
+    return tl;
+  }
+
+  function showPowerOverviewAnimation() {
+    const roster = document.getElementById("power-roster");
+    const panel = document.getElementById("power-focus-panel");
+    if (!roster || !panel) return null;
+
+    if (activePowerFocusTl) {
+      activePowerFocusTl.kill();
+      activePowerFocusTl = null;
+    }
+
+    panel.classList.remove("is-parallel", "is-bar-chart");
+    const wrap = panel.querySelector(".power-focus-parallel-wrap");
+    if (wrap) wrap.remove();
+    const barChart = panel.querySelector(".power-bar-chart");
+    if (barChart) barChart.remove();
+    panel.querySelectorAll(".power-focus-copy, .power-focus-chart").forEach(el => el.style.display = "");
+
+    const tl = gsap.timeline({ defaults: { ease: easeOut } });
+    tl.to(panel, {
+      autoAlpha: 0,
+      y: 18,
+      duration: 0.28,
+      onComplete: () => panel.setAttribute("aria-hidden", "true"),
+    });
+    tl.to(roster, { autoAlpha: 1, y: 0, duration: 0.42 }, "<0.08");
+    return tl;
+  }
+
   /* ── Public API ── */
   window.triggerGSAPAnimation = function (screenName) {
     killActiveTimelines();
@@ -700,6 +968,11 @@
 
   window.startAiWordLoopAnimation = startAiWordLoopAnimation;
   window.stopAiWordLoopAnimation = stopAiWordLoopAnimation;
+  window.playPowerCutReveal = playPowerCutReveal;
+  window.playPowerYearFocus = playPowerYearFocus;
+  window.showPowerOverviewAnimation = showPowerOverviewAnimation;
+  window.playPowerBarChartAnimation = playPowerBarChartAnimation;
+  window.stopPowerCutAnimations = stopPowerCutAnimations;
 
   /* ── Init ── */
   document.addEventListener("DOMContentLoaded", () => {
