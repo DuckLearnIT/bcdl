@@ -1051,8 +1051,8 @@ function renderPowerBarChart() {
 
     const yTicks = [0, 20, 40, 60, 80, 100];
     const refLines = [
-        { pct: 58.9, label: "58,9% năng lực giải quyết vấn đề độc lập bị suy giảm" },
-        { pct: 50,   label: "50% cảm thấy hoang mang / thiếu tự tin khi không có AI" }
+        { pct: 50,   label: "50% cảm thấy hoang mang / thiếu tự tin khi không có AI" },
+        { pct: 58.9, label: "58,9% năng lực giải quyết vấn đề độc lập bị suy giảm" }
     ];
 
     const wrap = document.createElement("div");
@@ -4511,8 +4511,9 @@ function startTeacherChoiceSequence() {
     function isOverMail() {
         if (!mailWindow) return false;
         const rect = mailWindow.getBoundingClientRect();
-        return lastMx >= rect.left && lastMx <= rect.right &&
-               lastMy >= rect.top && lastMy <= rect.bottom;
+        const pad = 10;
+        return lastMx >= rect.left - pad && lastMx <= rect.right + pad &&
+               lastMy >= rect.top - pad && lastMy <= rect.bottom + pad;
     }
 
     function updatePointer() {
@@ -4528,8 +4529,8 @@ function startTeacherChoiceSequence() {
         let shakeX = 0;
         let shakeY = 0;
         if (isOverMail()) {
-            shakeX = Math.sin(t * 0.02) * 10 + Math.cos(t * 0.013) * 7;
-            shakeY = Math.cos(t * 0.017) * 10 + Math.sin(t * 0.011) * 7;
+            shakeX = Math.sin(t * 0.025) * 18 + Math.cos(t * 0.019) * 12;
+            shakeY = Math.cos(t * 0.022) * 18 + Math.sin(t * 0.015) * 12;
         }
 
         let px = mx + shakeX;
