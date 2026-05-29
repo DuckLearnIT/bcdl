@@ -31,6 +31,8 @@ body, html {
     animation: pov-sway 18s ease-in-out infinite;
     transform-origin: center center;
     pointer-events: none;
+    contain: layout style;
+    will-change: transform;
 }
 
 @keyframes pov-sway {
@@ -53,6 +55,7 @@ body, html {
     opacity: 0;
     transition: opacity 1s ease;
     z-index: 10;
+    transform: translateZ(0); /* GPU compositing — tránh repaint khi opacity transition */
 }
 
 .video-layer.active {
@@ -68,12 +71,16 @@ body, html {
     -webkit-backdrop-filter: blur(25px);
     z-index: 40;
     pointer-events: none;
-    transition: backdrop-filter 4s ease, -webkit-backdrop-filter 4s ease;
+    /* Dùng opacity transition thay vì transition trực tiếp trên backdrop-filter.
+       Lý do: transition backdrop-filter buộc browser repaint mỗi frame trong 4 giây — cực kỳ nặng.
+       Opacity transition chỉ thay đổi compositing layer → gần như free. */
+    opacity: 1;
+    transition: opacity 3s ease;
 }
 
 #blur-overlay.clear {
-    backdrop-filter: blur(0px);
-    -webkit-backdrop-filter: blur(0px);
+    opacity: 0;
+    pointer-events: none;
 }
 
 #black-overlay {
@@ -205,7 +212,8 @@ body, html {
                 filter 4.2s ease-out;
     transition-delay: var(--blow-delay, 0ms);
     transform-style: preserve-3d;
-    will-change: transform, opacity, filter;
+    /* will-change được thêm bằng JS ngay trước khi animation bắt đầu,
+       tránh promote 100+ layers từ đầu gây waste GPU memory */
 }
 
 .wind-letter.blow {
