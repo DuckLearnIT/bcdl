@@ -114,14 +114,12 @@ document.addEventListener("DOMContentLoaded", () => {
     // Chặn không cho click khi chưa bắt đầu
     const povContainer = document.getElementById("pov-container");
     
-    // Khởi tạo water ripple effect với ảnh đen tĩnh mịch (có chút texture để thấy gợn sóng)
+    // Khởi tạo water ripple effect (sử dụng ảnh SVG gradient nền từ CSS để hoạt động tối ưu và không bị lỗi CORS)
     const $rippleArea = $('.full-landing-image');
     $rippleArea.ripples({
         resolution: 512,
         dropRadius: 20,
-        perturbance: 0.04,
-        crossOrigin: 'anonymous',
-        imageUrl: 'https://images.unsplash.com/photo-1550684848-fac1c5b4e853?q=80&w=1920&auto=format&fit=crop'
+        perturbance: 0.04
     });
 
     let hasStarted = false;
