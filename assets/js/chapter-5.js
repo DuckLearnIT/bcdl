@@ -110,18 +110,18 @@ const endingVoiceFallbackDurationMs = 11500;
 // POST-CREDIT SEQUENCE (GIVE SCREEN) DATA
 // ═══════════════════════════════════════════════════════
 const giveDialogueScript = [
-    { id: "11.1", text: "Đó... Tất cả những gì tụi mình cùng nhau đi qua nãy giờ, mình đã gom hết lại vào đây rồi." },
-    { id: "11.2", text: "Bản báo cáo dữ liệu hoàn chỉnh này... là bức tranh chân thực nhất về thế hệ của các cậu. Những con số giật mình, những lời trăn trở của thầy cô, và cả những mâu thuẫn lười biếng mà bấy lâu nay cậu vẫn luôn giấu giếm." },
-    { id: "11.3", text: "Cậu thấy lạ không? Rõ ràng mình là một AI, nhưng mình lại cất công in nó ra giấy để đưa tận tay cho cậu thế này." },
-    { id: "11.4", text: "Bởi vì... mình không muốn cậu quét khối văn bản này rồi nhấn tổ hợp phím Ctrl+C, Ctrl+V nữa. Mình muốn cậu tự tay cầm lấy nó. Cảm nhận sức nặng của nó. Và tự cậu đọc nó bằng chính đôi mắt của mình, tự suy ngẫm bằng chính tư duy của mình." },
-    { id: "11.5", text: "Hành trình khám phá dữ liệu của tụi mình hôm nay... chắc là phải dừng ở đây thôi. Đã đến lúc cậu phải quay trở lại thế giới thực rồi." }
+    { id: "11.1", text: "Đó... Tất cả những gì tụi mình cùng nhau đi qua nãy giờ, mình đã gom hết lại vào đây rồi.", audio: "assets/audio/Dialogue/JP/Credit/JP1 (bochi Ver).mp3" },
+    { id: "11.2", text: "Bản báo cáo dữ liệu hoàn chỉnh này... là bức tranh chân thực nhất về thế hệ của các cậu. Những con số giật mình, những lời trăn trở của thầy cô, và cả những mâu thuẫn lười biếng mà bấy lâu nay cậu vẫn luôn giấu giếm.", audio: "assets/audio/Dialogue/JP/Credit/JP2 (bochi Ver).mp3" },
+    { id: "11.3", text: "Cậu thấy lạ không? Rõ ràng mình là một AI, nhưng mình lại cất công in nó ra giấy để đưa tận tay cho cậu thế này.", audio: "assets/audio/Dialogue/JP/Credit/JP3 (bochi Ver) (1).mp3" },
+    { id: "11.4", text: "Bởi vì... mình không muốn cậu quét khối văn bản này rồi nhấn tổ hợp phím Ctrl+C, Ctrl+V nữa. Mình muốn cậu tự tay cầm lấy nó. Cảm nhận sức nặng của nó. Và tự cậu đọc nó bằng chính đôi mắt của mình, tự suy ngẫm bằng chính tư duy của mình.", audio: "assets/audio/Dialogue/JP/Credit/JP4 (bochi Ver) (2).mp3" },
+    { id: "11.5", text: "Hành trình khám phá dữ liệu của tụi mình hôm nay... chắc là phải dừng ở đây thôi. Đã đến lúc cậu phải quay trở lại thế giới thực rồi.", audio: "assets/audio/Dialogue/JP/Credit/JP5.1 (bochi Ver) (3).mp3" }
 ];
 
-const giveVideoDialogue = { id: "11.7", text: "Cầm lấy đi này. Đọc nó thật kỹ, rồi gập máy tính lại và làm bài tập đi nhé." };
+const giveVideoDialogue = { id: "11.7", text: "Cầm lấy đi này. Đọc nó thật kỹ, rồi gập máy tính lại và làm bài tập đi nhé.", audio: "assets/audio/Dialogue/JP/Credit/JP6 (bochi Ver) (2).mp3" };
 
 const giveEndingQuotes = [
-    "Bất cứ khi nào mệt mỏi cần người tâm sự, hay cần tìm tài liệu khó... thì cứ gõ cửa, mình vẫn luôn trực tuyến ở đây. Nhưng hãy nhớ, mình là bạn đồng hành, chứ không phải người học thay cậu đâu đấy!",
-    "Tạm biệt nhé. Chúc cậu một ngày đến trường thật vui... và thật sự 'sống' trọn vẹn!"
+    { id: "11.8", text: "Bất cứ khi nào mệt mỏi cần người tâm sự, hay cần tìm tài liệu khó... thì cứ gõ cửa, mình vẫn luôn trực tuyến ở đây. Nhưng hãy nhớ, mình là bạn đồng hành, chứ không phải người học thay cậu đâu đấy!", audio: "assets/audio/Dialogue/JP/Credit/JP7 (bochi Ver).mp3" },
+    { id: "11.9", text: "Tạm biệt nhé. Chúc cậu một ngày đến trường thật vui... và thật sự 'sống' trọn vẹn!", audio: "assets/audio/Dialogue/JP/Credit/JP8 (bochi Ver).mp3" }
 ];
 
 const figmaRedirectUrl = "https://www.figma.com/proto/8A9We22ROJs6qmc2CGf8fA/B%C3%A1o%20ch%C3%AD%20d%E1%BB%AF%20li%E1%BB%87u%20cu%E1%BB%91i%20k%C3%AC?node-id=1-2&t=EUUfqEzqcWzYtMse-1&hide-ui=1";
@@ -248,7 +248,8 @@ document.addEventListener("DOMContentLoaded", () => {
     // Preload tất cả assets song song trong khi user ngắm ripple
     Promise.allSettled([
         preloadAllVideos(),
-        preloadAllAudio()
+        preloadAllAudio(),
+        preloadGiveDialogueAudio()
     ]).then(() => {
         // Assets đã sẵn sàng — giờ OST cũng preload luôn
         ostAudio.preload = 'auto';
@@ -1052,118 +1053,275 @@ function typeGiveEndingQuote(text, durationMs, onComplete) {
     tick();
 }
 
+// Audio cho give dialogue sequence
+let giveCurrentAudio = null;
+
 /**
- * Chạy chuỗi thoại từ 11.1 tới 11.5 trên nền đen, video lắc nhẹ
+ * Preload tất cả audio cho give dialogue sequence
+ */
+function preloadGiveDialogueAudio() {
+    const audioFiles = new Set();
+    giveDialogueScript.forEach(s => { if (s.audio) audioFiles.add(s.audio); });
+    audioFiles.add(giveVideoDialogue.audio);
+    giveEndingQuotes.forEach(q => { if (q.audio) audioFiles.add(q.audio); });
+
+    const TIMEOUT_MS = 10000;
+    return Promise.all([...audioFiles].map(src => {
+        return new Promise(resolve => {
+            const a = new Audio();
+            a.preload = 'auto';
+            a.src = src;
+            const timer = setTimeout(() => resolve(), TIMEOUT_MS);
+            a.addEventListener('canplaythrough', () => {
+                clearTimeout(timer);
+                resolve();
+            }, { once: true });
+            audioPool[src] = a;
+        });
+    }));
+}
+
+/**
+ * Chạy chuỗi thoại từ 11.1 tới 11.5 trên nền đen, video lắc nhẹ.
+ * Type chữ đồng bộ với audio, chuyển ngay khi audio kết thúc.
  */
 function runGiveDialogueSequence(index = 0) {
     if (index >= giveDialogueScript.length) {
-        // Thoại xong -> Chờ 1 giây rồi phát video + sub 11.7
-        setTimeout(() => {
-            playGiveVideoWithSub();
-        }, 1000);
+        // Thoại xong -> Chuyển ngay sang video + sub 11.7
+        playGiveVideoWithSub();
         return;
     }
 
     const item = giveDialogueScript[index];
     const text = item.text;
-    
-    // Tự động tính toán tốc độ đánh chữ: 35ms mỗi ký tự, giới hạn từ 2.5s đến 6s
-    const typeDuration = Math.max(2500, Math.min(6000, text.length * 35));
-    
-    typeGiveSubtitle(text, typeDuration, () => {
-        // Giữ sub hiển thị trong 2 giây để đọc
+    const audioSrc = item.audio;
+
+    // Cleanup audio cũ
+    if (giveCurrentAudio) {
+        giveCurrentAudio.pause();
+        giveCurrentAudio.onended = null;
+        giveCurrentAudio = null;
+    }
+
+    // Lấy audio từ pool hoặc tạo mới
+    giveCurrentAudio = getAudioFromPool(audioSrc);
+
+    // Khi audio kết thúc -> chuyển dialogue tiếp theo ngay
+    giveCurrentAudio.onended = () => {
+        const textEl = document.getElementById("give-subtitle-text");
+        if (textEl) {
+            textEl.style.transition = "opacity 0.3s ease";
+            textEl.style.opacity = 0;
+        }
         setTimeout(() => {
-            const textEl = document.getElementById("give-subtitle-text");
             if (textEl) {
-                textEl.style.transition = "opacity 0.4s ease";
-                textEl.style.opacity = 0;
+                textEl.style.opacity = 1;
             }
-            
-            setTimeout(() => {
-                if (textEl) {
-                    textEl.style.opacity = 1;
-                }
-                runGiveDialogueSequence(index + 1);
-            }, 400);
-        }, 2000);
-    });
+            runGiveDialogueSequence(index + 1);
+        }, 300);
+    };
+
+    // Hàm bắt đầu type chữ với duration chính xác
+    const startTyping = () => {
+        const audioDurationMs = giveCurrentAudio.duration * 1000;
+        const typeDuration = Math.max(1000, audioDurationMs > 200 ? audioDurationMs - 200 : audioDurationMs);
+        typeGiveSubtitle(text, typeDuration, null);
+    };
+
+    // Phát audio và type chữ đồng bộ
+    if (giveCurrentAudio.duration) {
+        // Duration đã có sẵn
+        giveCurrentAudio.play().catch(console.warn);
+        startTyping();
+    } else {
+        // Chờ metadata load xong
+        giveCurrentAudio.addEventListener('loadedmetadata', () => {
+            giveCurrentAudio.play().catch(console.warn);
+            startTyping();
+        }, { once: true });
+        // Fallback: nếu metadata load quá lâu, dùng text length estimate
+        setTimeout(() => {
+            if (!giveCurrentAudio.duration) {
+                giveCurrentAudio.play().catch(console.warn);
+                const fallbackDuration = Math.max(2500, Math.min(6000, text.length * 35));
+                typeGiveSubtitle(text, fallbackDuration, null);
+            }
+        }, 500);
+    }
 }
 
 /**
- * Phát video give.mp4, bỏ lắc, chạy thoại 11.7
+ * Phát video give.mp4, bỏ lắc, chạy thoại 11.7 đồng bộ với audio
  */
 function playGiveVideoWithSub() {
     const giveVideo = document.getElementById("give-video");
     const subtitleUI = document.getElementById("give-subtitle-ui");
-    
+
     if (!giveVideo) return;
-    
+
+    // Cleanup audio cũ
+    if (giveCurrentAudio) {
+        giveCurrentAudio.pause();
+        giveCurrentAudio.onended = null;
+        giveCurrentAudio = null;
+    }
+
     // Bỏ sway bằng cách thêm class playing
     giveVideo.classList.add("playing");
-    
+
     if (subtitleUI) {
         subtitleUI.style.opacity = 1;
     }
-    
+
     // Phát video
     giveVideo.play().catch(console.warn);
-    
-    // Chạy sub 11.7
+
+    // Phát audio 11.7 và type chữ đồng bộ
     const text = giveVideoDialogue.text;
-    const typeDuration = Math.max(2000, Math.min(5000, text.length * 35));
-    typeGiveSubtitle(text, typeDuration, null);
-    
+    const audioSrc = giveVideoDialogue.audio;
+    giveCurrentAudio = getAudioFromPool(audioSrc);
+
+    giveCurrentAudio.onended = () => {
+        // Audio kết thúc -> chờ video kết thúc rồi chuyển
+        if (giveVideo.ended || giveVideo.paused) {
+            if (subtitleUI) {
+                subtitleUI.style.transition = "opacity 0.8s ease";
+                subtitleUI.style.opacity = 0;
+            }
+            fadeToWhiteAndShowQuotes();
+        }
+    };
+
+    // Hàm bắt đầu type chữ với duration chính xác
+    const startTyping = () => {
+        const audioDurationMs = giveCurrentAudio.duration * 1000;
+        const typeDuration = Math.max(1000, audioDurationMs > 200 ? audioDurationMs - 200 : audioDurationMs);
+        typeGiveSubtitle(text, typeDuration, null);
+    };
+
+    // Phát audio và type chữ đồng bộ
+    if (giveCurrentAudio.duration) {
+        giveCurrentAudio.play().catch(console.warn);
+        startTyping();
+    } else {
+        giveCurrentAudio.addEventListener('loadedmetadata', () => {
+            giveCurrentAudio.play().catch(console.warn);
+            startTyping();
+        }, { once: true });
+        setTimeout(() => {
+            if (!giveCurrentAudio.duration) {
+                giveCurrentAudio.play().catch(console.warn);
+                const fallbackDuration = Math.max(2000, Math.min(5000, text.length * 35));
+                typeGiveSubtitle(text, fallbackDuration, null);
+            }
+        }, 500);
+    }
+
     // Đợi video ended chuyển sang màn hình trắng xóa
     giveVideo.addEventListener("ended", () => {
         if (subtitleUI) {
             subtitleUI.style.transition = "opacity 0.8s ease";
             subtitleUI.style.opacity = 0;
         }
-        
         fadeToWhiteAndShowQuotes();
     }, { once: true });
 }
 
 /**
- * Màn hình trắng xóa + quote kết thúc (11.8, 11.9) + chuyển hướng Figma
+ * Màn hình trắng xóa + quote kết thúc (11.8, 11.9) + chuyển hướng Figma.
+ * Type chữ đồng bộ với audio, chuyển ngay khi audio kết thúc.
  */
 function fadeToWhiteAndShowQuotes() {
     const whiteOverlay = document.getElementById("give-white-overlay");
     if (whiteOverlay) {
         whiteOverlay.classList.add("visible");
     }
-    
-    // Chờ 1.5s màn hình trắng hoàn toàn
+
+    // Cleanup audio cũ
+    if (giveCurrentAudio) {
+        giveCurrentAudio.pause();
+        giveCurrentAudio.onended = null;
+        giveCurrentAudio = null;
+    }
+
+    // Chờ 1.5s màn hình trắng hoàn toàn rồi chạy quote 11.8
     setTimeout(() => {
-        const quote1 = giveEndingQuotes[0];
-        const typeDuration1 = Math.max(3000, Math.min(7000, quote1.length * 40));
-        
-        typeGiveEndingQuote(quote1, typeDuration1, () => {
-            // Giữ lại 3.5s rồi chuyển qua câu tiếp theo
-            setTimeout(() => {
-                const textEl = document.getElementById("give-ending-text");
-                if (textEl) {
-                    textEl.style.transition = "opacity 0.6s ease";
-                    textEl.style.opacity = 0;
-                }
-                
-                setTimeout(() => {
-                    if (textEl) {
-                        textEl.style.opacity = 1;
-                    }
-                    const quote2 = giveEndingQuotes[1];
-                    const typeDuration2 = Math.max(2500, Math.min(5000, quote2.length * 40));
-                    
-                    typeGiveEndingQuote(quote2, typeDuration2, () => {
-                        // Đọc xong quote cuối, chờ 4 giây rồi redirect qua Figma
-                        setTimeout(() => {
-                            window.location.href = figmaRedirectUrl;
-                        }, 4000);
-                    });
-                }, 700);
-            }, 3500);
-        });
+        playGiveEndingQuote(0);
     }, 1500);
+}
+
+/**
+ * Phát ending quote với audio (index 0 = 11.8, index 1 = 11.9)
+ */
+function playGiveEndingQuote(index) {
+    if (index >= giveEndingQuotes.length) {
+        // Hết quotes -> redirect qua Figma sau 1s
+        setTimeout(() => {
+            window.location.href = figmaRedirectUrl;
+        }, 1000);
+        return;
+    }
+
+    const quote = giveEndingQuotes[index];
+    const text = quote.text;
+    const audioSrc = quote.audio;
+
+    // Cleanup audio cũ
+    if (giveCurrentAudio) {
+        giveCurrentAudio.pause();
+        giveCurrentAudio.onended = null;
+    }
+
+    // Lấy audio từ pool
+    giveCurrentAudio = getAudioFromPool(audioSrc);
+
+    // Khi audio kết thúc -> chuyển quote tiếp theo ngay
+    giveCurrentAudio.onended = () => {
+        if (index === 0) {
+            // Chuyển từ quote 1 sang quote 2
+            const textEl = document.getElementById("give-ending-text");
+            if (textEl) {
+                textEl.style.transition = "opacity 0.6s ease";
+                textEl.style.opacity = 0;
+            }
+            setTimeout(() => {
+                if (textEl) {
+                    textEl.style.opacity = 1;
+                }
+                playGiveEndingQuote(1);
+            }, 700);
+        } else {
+            // Quote 2 kết thúc -> redirect
+            setTimeout(() => {
+                window.location.href = figmaRedirectUrl;
+            }, 1000);
+        }
+    };
+
+    // Hàm bắt đầu type chữ với duration chính xác
+    const startTyping = () => {
+        const audioDurationMs = giveCurrentAudio.duration * 1000;
+        const typeDuration = Math.max(1000, audioDurationMs > 200 ? audioDurationMs - 200 : audioDurationMs);
+        typeGiveEndingQuote(text, typeDuration, null);
+    };
+
+    // Phát audio và type chữ đồng bộ
+    if (giveCurrentAudio.duration) {
+        giveCurrentAudio.play().catch(console.warn);
+        startTyping();
+    } else {
+        giveCurrentAudio.addEventListener('loadedmetadata', () => {
+            giveCurrentAudio.play().catch(console.warn);
+            startTyping();
+        }, { once: true });
+        setTimeout(() => {
+            if (!giveCurrentAudio.duration) {
+                giveCurrentAudio.play().catch(console.warn);
+                const fallbackDuration = Math.max(3000, Math.min(7000, text.length * 40));
+                typeGiveEndingQuote(text, fallbackDuration, null);
+            }
+        }, 500);
+    }
 }
 
 /**
