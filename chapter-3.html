@@ -127,6 +127,9 @@
 <audio id="vn-audio"></audio>
 <audio id="sfx-snap" src="assets/audio/SFX/fingersnap.mp3" preload="none"></audio>
 
+<!-- SFX Manager -->
+<script src="assets/js/sfx-manager.js"></script>
+
 <script>
 // ================================================================
 //  KỊCH BẢN — Dựa trên hoithoai.txt
@@ -474,6 +477,7 @@ function toggleAuto(e) {
 
 function toggleStyle(e) {
     if (e) e.stopPropagation();
+    if (window.sfxManager) window.sfxManager.play('assets/audio/SFX/outro-woosh.m4a', { volume: 0.35, currentTime: 1.67 });
     userStyleOverride = true;
     isPixelStyle = !isPixelStyle;
     
@@ -518,6 +522,7 @@ function toggleMute(e) {
     isMuted = !isMuted;
     if (audio) audio.muted = isMuted;
     if (sfxSnap) sfxSnap.muted = isMuted;
+    if (window.sfxManager) window.sfxManager.setMuted(isMuted);
     const btnMute = document.getElementById("btn-mute");
     if (btnMute) {
         btnMute.textContent = isMuted ? "🔇" : "🔊";
@@ -526,6 +531,7 @@ function toggleMute(e) {
 
 function openLog(e) {
     if (e) e.stopPropagation();
+    if (window.sfxManager) window.sfxManager.play('assets/audio/SFX/window-open.m4a', { volume: 0.35, currentTime: 0.15 });
     logBody.innerHTML = "";
     dialogueHistory.forEach(entry => {
         const div = document.createElement("div");
@@ -797,7 +803,7 @@ function handleEndEffect(step, stepIndex) {
     window.isEffectRunning = true;
     if (step.effectAtEnd === "transform") {
         // Fingersnap SFX + Flash → pixel→normal transition
-        sfxSnap.currentTime = 0;
+        sfxSnap.currentTime = 1.01;
         sfxSnap.play();
         flashEl.classList.add("active");
         if (advanceTimeout) clearTimeout(advanceTimeout);
@@ -1203,10 +1209,14 @@ function initDesktop() {
         e.stopPropagation();
         speakerState = (speakerState + 1) % 3;
         speakerIcon.src = speakerImages[speakerState];
+        if (window.sfxManager) window.sfxManager.play('assets/audio/SFX/login-click.m4a', { volume: 0.3, currentTime: 0.07 });
     });
 
     // ── Desktop icons — double-click to open window ──
     document.querySelectorAll(".desktop-icon").forEach(icon => {
+        icon.addEventListener("mouseenter", () => {
+            if (window.sfxManager) window.sfxManager.play('assets/audio/SFX/terminal-tick.m4a', { volume: 0.1, currentTime: 0.11 });
+        });
         icon.addEventListener("dblclick", () => {
             const appId = icon.getAttribute("data-app");
             if (appId && APP_DEFS[appId]) {
@@ -1328,6 +1338,8 @@ function openAppWindow(appId) {
         prevBounds: null
     };
 
+    if (window.sfxManager) window.sfxManager.play('assets/audio/SFX/window-open.m4a', { volume: 0.35, currentTime: 0.15 });
+
     focusWindow(appId);
     addTaskbarButton(appId, def.title);
 
@@ -1397,6 +1409,7 @@ function toggleMaximize(appId) {
 
 function closeWindow(appId) {
     if (openWindows[appId]) {
+        if (window.sfxManager) window.sfxManager.play('assets/audio/SFX/window-close.m4a', { volume: 0.35, currentTime: 0.15, duration: 1000 });
         openWindows[appId].el.remove();
         delete openWindows[appId];
         removeTaskbarButton(appId);

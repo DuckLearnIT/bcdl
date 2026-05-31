@@ -175,6 +175,37 @@ body, html {
     transition: opacity 1.5s ease-in-out;
 }
 
+.start-instruction {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    color: rgba(255, 255, 255, 0.45);
+    font-size: clamp(14px, 1.8vw, 20px);
+    letter-spacing: 6px;
+    font-family: 'Futura', sans-serif;
+    text-transform: uppercase;
+    pointer-events: none;
+    user-select: none;
+    text-shadow: 0 0 10px rgba(255, 255, 255, 0.2);
+    animation: breathing 4s ease-in-out infinite;
+    text-align: center;
+    white-space: nowrap;
+}
+
+@keyframes breathing {
+    0%, 100% {
+        opacity: 0.2;
+        filter: blur(1.5px);
+        letter-spacing: 5px;
+    }
+    50% {
+        opacity: 0.75;
+        filter: blur(0.2px);
+        letter-spacing: 7px;
+    }
+}
+
 /* Ripple trigger để bypass Autoplay Policy — gợn sóng nhiễu đơn giản (perturbance) */
 .ripple-trigger {
     position: fixed;
@@ -226,22 +257,21 @@ body, html {
                scale(0.78);
 }
 
-/* --- Màn hình Credit --- */
+/* --- Màn hình Credit Roll (phong cách điện ảnh) --- */
 .credit-screen {
     position: fixed;
     top: 0;
     left: 0;
     width: 100vw;
     height: 100vh;
-    background-color: #000000; /* Nền đen hoàn toàn */
-    z-index: 1000; /* Phải nằm trên cùng */
+    background-color: #000;
+    z-index: 1000;
     display: flex;
+    flex-direction: row;
     align-items: center;
-    justify-content: center;
     opacity: 0;
     visibility: hidden;
-    transition: opacity 2.5s ease, visibility 2.5s ease;
-    color: #ffffff;
+    transition: opacity 1.8s ease, visibility 1.8s ease;
 }
 
 .credit-screen.visible {
@@ -249,69 +279,231 @@ body, html {
     visibility: visible;
 }
 
-.credit-content {
+/* ---- Cột trái: Video box (không full-height, có padding) ---- */
+.credit-video-col {
+    width: 45%;
+    height: 100%;
+    flex-shrink: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0 4% 0 5%;
+    box-sizing: border-box;
+}
+
+.credit-video {
+    width: 100%;
+    max-height: 58vh;
+    object-fit: contain;
+    display: block;
+    border-radius: 4px;
+    box-shadow: 0 8px 40px rgba(0, 0, 0, 0.7);
+}
+
+/* ---- Cột phải: Credit Roll ---- */
+.credit-roll-col {
+    width: 55%;
+    height: 100%;
+    position: relative;
+    overflow: hidden;
+    flex-shrink: 0;
+    /* Fade in/out ở đỉnh và đáy */
+    mask-image: linear-gradient(
+        to bottom,
+        transparent 0%,
+        rgba(0,0,0,1) 15%,
+        rgba(0,0,0,1) 85%,
+        transparent 100%
+    );
+    -webkit-mask-image: linear-gradient(
+        to bottom,
+        transparent 0%,
+        rgba(0,0,0,1) 15%,
+        rgba(0,0,0,1) 85%,
+        transparent 100%
+    );
+}
+
+/* Container nội dung cuộn — bắt đầu ngay bên dưới viewport */
+.credit-roll-inner {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    padding: 0 10%;
+    box-sizing: border-box;
     text-align: center;
-    max-width: 600px;
-    padding: 20px;
+    will-change: transform;
+    /* Bắt đầu bên dưới viewport để không flash hiện ngay */
+    transform: translateY(100vh);
+}
+
+/* ---- Tiêu đề Section (LEADERSHIP, EDITORIAL…) ---- */
+.credit-section-title {
     font-family: 'Futura', sans-serif;
-    letter-spacing: 1px;
-}
-
-.credit-title {
-    font-size: clamp(22px, 3.5vw, 32px);
-    margin-bottom: 45px;
-    font-weight: 700;
-    letter-spacing: 4px;
-    background: linear-gradient(45deg, #ffffff, #a1a1a1);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
+    font-size: clamp(9px, 0.9vw, 11px);
+    color: rgba(255, 255, 255, 0.28);
     text-transform: uppercase;
+    letter-spacing: 6px;
+    text-align: center;
+    margin-top: 64px;
+    margin-bottom: 28px;
 }
 
-.credit-section {
-    margin-bottom: 25px;
-    opacity: 0;
-    transform: translateY(20px);
-    transition: opacity 1.5s ease, transform 1.5s ease;
+/* ---- Khối credit: Role trên, Tên dưới — kiểu điện ảnh ---- */
+.credit-block {
+    text-align: center;
+    margin-bottom: 36px;
 }
 
-.credit-screen.visible .credit-section {
-    opacity: 1;
-    transform: translateY(0);
-}
-
-/* Delay hiện các dòng credit nghệ thuật */
-.credit-screen.visible .credit-section:nth-child(2) { transition-delay: 0.8s; }
-.credit-screen.visible .credit-section:nth-child(3) { transition-delay: 1.6s; }
-.credit-screen.visible .credit-section:nth-child(4) { transition-delay: 2.4s; }
-.credit-screen.visible .credit-section:nth-child(5) { transition-delay: 3.2s; }
-.credit-screen.visible .credit-footer { transition-delay: 4.2s; }
-
-.credit-role {
-    font-size: clamp(11px, 1.3vw, 13px);
-    color: #888888;
+.credit-block-role {
+    font-family: 'Futura', sans-serif;
+    font-size: clamp(10px, 1.0vw, 13px);
+    color: rgba(255, 255, 255, 0.42);
     text-transform: uppercase;
-    margin-bottom: 5px;
-    letter-spacing: 2px;
+    letter-spacing: 3px;
+    margin-bottom: 6px;
+    line-height: 1.4;
 }
 
-.credit-names {
-    font-size: clamp(15px, 2vw, 18px);
+.credit-block-name {
+    font-family: 'Futura', sans-serif;
+    font-size: clamp(16px, 1.8vw, 22px);
     color: #ffffff;
     font-weight: 500;
+    line-height: 1.4;
+    letter-spacing: 0.5px;
 }
 
-.credit-footer {
-    margin-top: 50px;
-    font-size: clamp(13px, 1.6vw, 15px);
-    color: #666666;
-    font-style: italic;
+/* ---- Tên đơn (dạng PRODUCED BY) ---- */
+.credit-name-only {
+    font-family: 'Futura', sans-serif;
+    font-size: clamp(17px, 2vw, 24px);
+    color: #ffffff;
+    line-height: 1.9;
+    text-align: center;
+    letter-spacing: 1.5px;
+}
+
+/* Spacer để dòng cuối trôi hết khỏi đỉnh trước khi dừng */
+.credit-end-spacer {
+    height: 100vh;
+}
+
+/* ---- Loading Spinner ---- */
+.credit-loading {
+    position: absolute;
+    top: 0; left: 0;
+    width: 100%; height: 100%;
+    z-index: 10;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: #000;
+    transition: opacity 0.8s ease;
+}
+
+.credit-loading.hidden {
     opacity: 0;
-    transform: scale(0.95);
-    transition: opacity 2s ease, transform 2s ease;
+    pointer-events: none;
 }
 
-.credit-screen.visible .credit-footer {
+.credit-spinner {
+    width: 36px;
+    height: 36px;
+    border: 2px solid rgba(255, 255, 255, 0.15);
+    border-top-color: rgba(255, 255, 255, 0.7);
+    border-radius: 50%;
+    animation: spin 0.9s linear infinite;
+}
+
+@keyframes spin {
+    to { transform: rotate(360deg); }
+}
+
+/* --- Give Screen --- */
+.give-screen {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background: #000;
+    z-index: 8000;
+    display: none;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    opacity: 0;
+    transition: opacity 1s ease;
+}
+
+.give-screen.visible {
+    display: flex;
     opacity: 1;
-    transform: scale(1);
+}
+
+.give-video {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    animation: pov-sway 12s ease-in-out infinite;
+    transform-origin: center;
+}
+
+.give-video.playing {
+    animation: none;
+    transform: translate(0, 0) scale(1.0);
+}
+
+.give-subtitle-ui {
+    position: absolute;
+    bottom: 10%;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 80%;
+    max-width: 800px;
+    text-align: center;
+    z-index: 8001;
+    pointer-events: none;
+}
+
+/* Overlay trắng cho ending quote */
+.give-white-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: #fff;
+    z-index: 8010;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 1.5s ease-in-out;
+}
+
+.give-white-overlay.visible {
+    opacity: 1;
+    pointer-events: auto;
+}
+
+/* Text ending quote (11.8, 11.9) */
+.give-ending-text {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    font-family: 'Momo', 'Futura', sans-serif;
+    font-size: clamp(16px, 2.5vw, 24px);
+    color: #000;
+    text-align: center;
+    max-width: 900px;
+    line-height: 2.0;
+    letter-spacing: 0.02em;
+    padding: 40px;
+    z-index: 8011;
+    pointer-events: none;
 }

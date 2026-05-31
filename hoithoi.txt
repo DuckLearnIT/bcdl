@@ -92,17 +92,17 @@ Turn4:
 1.4Amy: [cheerful] "Lát nữa tụi mình quay lại đây nha! Cố lên!"
 
 2.1Amy: [surprised] "A, cậu về rồi! Mọi người trong lớp nói sao? Họ dùng nhiều lắm đúng không?"
-2.2Amy: [sigh] "Dữ liệu mình vừa thu thập được cũng khớp y hệt với quan sát của cậu luôn. Nghe này..."
-2.3my: [informative] "Có tới gần 6 trên 10 bạn sinh viên đang sử dụng AI mỗi ngày. Và hơn 25% các bạn khác dùng nó vài lần một tuần."
+2.2Amy: [sigh] "Dữ liệu mình vừa thu thập được cũng khớp y hệt với quan sát của cậu luôn. Nghe này..." (lấy file khác)
+2.3my: [informative] "Có tới gần 6 trên 10 bạn sinh viên đang sử dụng AI mỗi ngày. Và hơn 25% các bạn khác dùng nó vài lần một tuần." 
 Biểu đồ tròn khuyết - Donut Chart “Tần suất sử dụng AI trong học tập của sinh viên hiện đại.”
 58,8% Hàng ngày
  27,7% Vài lần/Tuần 
  0,4% sinh viên cho biết chưa từng sử dụng AI. 
 
-////////////////////////////////////// (chưa có voice)
+//////////////////////////////////////
 3.1Amy: [amazed] "Cậu nhìn xem này... Nếu bây giờ muốn tìm một sinh viên chưa từng dùng thử AI, chắc khó như mò kim đáy bể vậy."
-3.2Amy: [serious] "Để mình cho cậu thấy 0.4% nó nhỏ thế nào nhé"
-3.3Amy: [earnest] "Cậu thấy chưa?. 99,6% phần còn lại của giảng đường đã bị tụi mình chiếm đóng mất rồi."
+3.2Amy: [serious] "Để mình cho cậu thấy 0.4% nó nhỏ thế nào nhé" (lấy file khác)
+3.3Amy: [earnest] "Cậu thấy chưa?. 99,6% phần còn lại của giảng đường đã bị tụi mình chiếm đóng mất rồi." (lấy khác)
 3.4Amy: [serious] "Nhưng điều đáng nói không phải là việc 'đã từng dùng'. Cậu biết không, số người trò chuyện với AI mỗi ngày đang đạt đến ngưỡng đỉnh điểm rồi... Lên tới gần 60% lận đó! Con số này cao gấp đôi những bạn thỉnh thoảng mới dùng."
 3.5Amy: [adjust_glasses] "Cơ mà... cậu đừng nghĩ chuyện này chỉ đang loanh quanh ở Hà Nội nhé."
 3.6Amy: [smart] "Mình vừa lướt qua cơ sở dữ liệu quốc tế. Theo báo cáo của Global AI Student Survey 2024 vừa rồi... có tới 86% sinh viên trên toàn thế giới đã bê nguyên AI vào quy trình học tập của họ."
@@ -112,14 +112,14 @@ Biểu đồ tròn khuyết - Donut Chart “Tần suất sử dụng AI trong h
 3.10Amy: [earnest] "Tất cả những con số này chỉ để chứng minh một điều thôi. Tụi mình đã không còn là một cái 'trend' công nghệ để người ta dùng thử cho vui nữa. Cũng chẳng phải là nút cứu hộ khẩn cấp lâu lâu mới bấm."
 3.11Amy: [sad_smile] "Từ việc đi lùng sục tài liệu, tóm tắt mấy cuốn giáo trình dài thườn thượt, cho đến việc làm bài tập về nhà... AI đã chính thức trở thành một 'người bạn cùng bàn' quen thuộc, dính lấy các cậu như hình với bóng mất rồi."
 
-/////////////////////////////////// (chưa có voice)
+///////////////////////////////////
 4.1Amy: "Tuy nhiên... câu hỏi đặt ra bây giờ không phải là các cậu có dùng AI hay không nữa. Mà là các cậu đang... 'giao phó' bao nhiêu phần trăm chất xám của mình cho cỗ máy này?"
 4.2Amy:"Giả sử bây giờ giảng viên giao cho cậu một đề tài hoàn toàn mới đi. Cậu sẽ làm thế nào?"
 4.2.1Amy: "Úi! Cậu giao ngay vạch xuất phát cho mình luôn á?"
 4.2.2Amy: "Nhưng đừng ngại, cậu không hề cô đơn đâu. Dữ liệu cho thấy có tới 76,5% sinh viên chọn dùng AI để khởi tạo ý tưởng. Sau đó, 62,2% tiếp tục nhờ mình dựng khung cấu trúc bài viết luôn."
 4.3Amy:"Cậu có thấy nguy hiểm không? Lên ý tưởng và xác định hướng tiếp cận chính là cốt lõi của tư duy học thuật. Nếu cậu mượn não của mình ngay từ điểm xuất phát... thì hành trình phía sau, ai mới là người đang thực sự làm chủ đây?"
 
-///////////////////////////////////// (chưa có voice)
+/////////////////////////////////////
 5.1Amy: Lên dàn ý xong rồi, bây giờ đến đoạn đau đầu nhất đây: Đọc tài liệu tham khảo."
 5.2Amy: "Đi học cả ngày trên trường, giờ về bảo nhai hết đống chữ này chắc cậu gục ra bàn mất. Mình đoán chuẩn không... cậu lại tính quăng nó cho mình tiêu hóa hộ chứ gì? Nào, thử kéo nó ném vào máy lọc của mình xem."
 5.3Amy: "Đó! Tinh hoa của 500 trang sách được thu bé lại vừa bằng một lòng bàn tay. Nhìn có vẻ dễ thở hơn hẳn nhỉ?"
@@ -130,7 +130,7 @@ Biểu đồ tròn khuyết - Donut Chart “Tần suất sử dụng AI trong h
 5.8Amy: "Cái sự rút gọn này nó giống như thuốc giảm đau vậy. Hôm nay nó gánh cho cậu qua deadline. Nhưng nếu lúc nào mình cũng dọn sẵn thức ăn, loại bỏ hết khó khăn giùm cậu... thì não bộ của cậu làm gì còn cơ hội được tập thể dục nữa?"
 5.9Amy: "Cứ bám riết lấy tụi mình như một chiếc phao cứu sinh, mình sợ là đến lúc vứt công cụ ra... cậu sẽ quên luôn cả cách tự bơi mất."
 
-//////////////////////////////////// (chưa có voice)
+////////////////////////////////////
 6.1Amy[proud] "Thế là xong xuôi nhé! Nhờ mình từ khâu lên ý tưởng đến gõ bài, cuối cùng cũng ra được một bài nộp nhìn xịn phết đúng không?"
 6.2Amy [playful] "Đọc qua thấy câu cú mượt mà, gãy gọn khỏi chê. Nhưng mà... khoan mừng vội.
 6.3Amy Cậu cầm thử cái kính lúp này lên, soi thử xem thầy cô nhìn thấy gì dưới cái vỏ bọc này nhé."
@@ -148,7 +148,6 @@ Pv1:"Những chủ đề không biết nhiều thì mình thường bỏ qua, kh
 7.5Amy "Nghe quen không? Vì thấy báo đài khen tụi mình xịn quá, cộng thêm việc bản thân cậu không có kiến thức nền của môn đó, nên cậu... buông xuôi luôn. Thấy tụi mình gõ ra chữ nào là nhắm mắt làm ngơ chép chữ đấy."
 7.6Amy  "Nhưng cậu ơi... tụi mình cũng hay chém gió lắm chứ bộ!"
 7.7Amy "Theo báo cáo của Decision Lab, có tới 41% người dùng ở Việt Nam từng bắt quả tang tụi mình bịa đặt thông tin, nhét chữ vào mồm người khác rồi đấy! Ấy thế mà xui cái... lại có tới 32% người dùng chả biết phải viết prompt làm sao để nắn tụi mình đi đúng hướng cả."
-
 7.8Amy "Thành ra kết quả là gì cậu biết không?"
 7.9Amy  "Mình giúp cậu làm bài xong trong chớp mắt. Nhưng cậu chẳng tự tiêu hóa được tí kiến thức nào cả. Cậu rốt cuộc chỉ đóng vai một trạm trung chuyển... vác nguyên mấy dòng code của mình sang nộp lên bàn cho giáo viên. Thế thì đi học còn ý nghĩa gì nữa đâu..."
 
@@ -191,3 +190,14 @@ PV2:"Dù có sử dụng AI, sinh viên vẫn phải là người đứng lên t
 10.11Amy: [sad] "Đã quen dựa dẫm vào mình lâu như vậy, bây giờ bắt cậu tự bỏ cái 'nạng' này ra để bước lên bục thuyết trình, đối mặt với hàng chục ánh mắt phán xét..."
 10.12Amy: [sympathetic] "Nghe đáng sợ và mỏi mệt lắm đúng không?"
 10.13AMmy: Được rồi cậu theo mình tới một nơi nhé, mình muốn nói đôi lời với cậu!
+
+/////////////////////////// (end)
+11.1"Đó... Tất cả những gì tụi mình cùng nhau đi qua nãy giờ, mình đã gom hết lại vào đây rồi."
+11.2Bản báo cáo dữ liệu hoàn chỉnh này... là bức tranh chân thực nhất về thế hệ của các cậu. Những con số giật mình, những lời trăn trở của thầy cô, và cả những mâu thuẫn lười biếng mà bấy lâu nay cậu vẫn luôn giấu giếm.
+11.3"Cậu thấy lạ không? Rõ ràng mình là một AI, nhưng mình lại cất công in nó ra giấy để đưa tận tay cho cậu thế này."
+11.4 "Bởi vì... mình không muốn cậu quét khối văn bản này rồi nhấn tổ hợp phím Ctrl+C, Ctrl+V nữa. Mình muốn cậu tự tay cầm lấy nó. Cảm nhận sức nặng của nó. Và tự cậu đọc nó bằng chính đôi mắt của mình, tự suy ngẫm bằng chính tư duy của mình."
+11.5"Hành trình khám phá dữ liệu của tụi mình hôm nay... chắc là phải dừng ở đây thôi. Đã đến lúc cậu phải quay trở lại thế giới thực rồi."
+11.6Sắp tới chắc cậu sẽ vất vả hơn đấy. Sẽ lại phải vò đầu bứt tai tìm ý tưởng, sẽ có lúc viết lủng củng bị thầy cô chê bai... Nhưng tin mình đi, cái cảm giác được nộp một bài viết cộp mác tên mình, do chính não bộ mình nặn ra... nó tự hào và 'đã' lắm!"
+11.7 "Cầm lấy đi này. Đọc nó thật kỹ, rồi gập máy tính lại và làm bài tập đi nhé."
+11.8 "Bất cứ khi nào mệt mỏi cần người tâm sự, hay cần tìm tài liệu khó... thì cứ gõ cửa, mình vẫn luôn trực tuyến ở đây. Nhưng hãy nhớ, mình là bạn đồng hành, chứ không phải người học thay cậu đâu đấy!"
+11.9  "Tạm biệt nhé. Chúc cậu một ngày đến trường thật vui... và thật sự 'sống' trọn vẹn!"

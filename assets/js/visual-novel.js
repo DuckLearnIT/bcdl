@@ -55,6 +55,10 @@ function applyTextFit(fullText) {
     }
 }
 
+// SFX Audio Elements
+const dialogueNextSFX = new Audio("assets/audio/SFX/dialogue-next.m4a");
+dialogueNextSFX.preload = "auto";
+
 function typeText(text, callback) {
     isTyping = true;
     currentStepText = text;
@@ -111,6 +115,13 @@ function displayStep(stepIndex) {
 }
 
 function advanceDialogue() {
+    // Play next dialogue click SFX
+    try {
+        dialogueNextSFX.currentTime = 1.2;
+        dialogueNextSFX.volume = 0.5;
+        dialogueNextSFX.play().catch(() => {});
+    } catch (e) {}
+
     if (isTyping) {
         if (typeInterval) {
             clearInterval(typeInterval);

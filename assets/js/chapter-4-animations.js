@@ -988,6 +988,9 @@
   /* ── Public API ── */
   window.triggerGSAPAnimation = function (screenName) {
     killActiveTimelines();
+    if (window.sfxManager && screenName !== "game") {
+      window.sfxManager.play('assets/audio/SFX/whoosh.mp3', { volume: 0.3 });
+    }
     if (entranceAnimations[screenName]) {
       requestAnimationFrame(() => {
         activeEntranceTl = entranceAnimations[screenName]();

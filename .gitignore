@@ -1,0 +1,11 @@
+# Video originals
+assets/video/*_original.mp4
+
+# FFmpeg tools and executables
+assets/audio/SFX/SFX try/ffmpeg.exe
+assets/audio/SFX/SFX try/ffmpeg.zip
+assets/audio/SFX/SFX try/ffprobe.exe
+
+# Logs
+*.log
+ffmpeg.log

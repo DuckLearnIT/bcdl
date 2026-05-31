@@ -151,8 +151,19 @@ const sapoScript = [
 let sapoStepIndex = 0;
 let isSapoMode = false;
 
-const sapoKeyboardAudio = new Audio("assets/audio/SFX/keyboard.mp3");
+const sapoKeyboardAudio = new Audio("assets/audio/SFX/mech-keyboard.m4a");
 sapoKeyboardAudio.loop = true;
+
+// Preload interactive SFX for Sapo Sequence
+const chatSendAudio = new Audio("assets/audio/SFX/chatgipiti-send.m4a");
+const scannerScanSFX = new Audio("assets/audio/SFX/scanner-scan.m4a");
+const scannerAlertSFX = new Audio("assets/audio/SFX/scanner-alert.m4a");
+const outroWooshSFX = new Audio("assets/audio/SFX/outro-woosh.m4a");
+
+chatSendAudio.preload = "auto";
+scannerScanSFX.preload = "auto";
+scannerAlertSFX.preload = "auto";
+outroWooshSFX.preload = "auto";
 
 function startSapoSequence() {
     isSapoMode = true;
@@ -629,6 +640,13 @@ function addChatMessage(sender, text) {
 }
 
 document.getElementById('sapo-tt1').addEventListener('click', function() {
+    // Play ChatGPT send SFX
+    try {
+        chatSendAudio.currentTime = 1.86;
+        chatSendAudio.volume = 0.55;
+        chatSendAudio.play().catch(() => {});
+    } catch (e) {}
+
     this.classList.remove('active');
     this.classList.add('done');
     addChatMessage('user', this.innerText);
@@ -644,6 +662,13 @@ document.getElementById('sapo-tt1').addEventListener('click', function() {
 });
 
 document.getElementById('sapo-tt2').addEventListener('click', function() {
+    // Play ChatGPT send SFX
+    try {
+        chatSendAudio.currentTime = 1.86;
+        chatSendAudio.volume = 0.55;
+        chatSendAudio.play().catch(() => {});
+    } catch (e) {}
+
     this.classList.remove('active');
     this.classList.add('done');
     addChatMessage('user', this.innerText);
@@ -659,6 +684,13 @@ document.getElementById('sapo-tt2').addEventListener('click', function() {
 });
 
 document.getElementById('sapo-tt3').addEventListener('click', function() {
+    // Play ChatGPT send SFX
+    try {
+        chatSendAudio.currentTime = 1.86;
+        chatSendAudio.volume = 0.55;
+        chatSendAudio.play().catch(() => {});
+    } catch (e) {}
+
     this.classList.remove('active');
     this.classList.add('done');
     addChatMessage('user', this.innerText);
@@ -678,12 +710,27 @@ document.getElementById('sapo-tt3').addEventListener('click', function() {
             const plagResult = document.getElementById('plag-result');
             
             plagPopup.classList.add('visible');
+            
+            // Play TurnItOut plagiarism scanner sonar sound
+            try {
+                scannerScanSFX.currentTime = 0;
+                scannerScanSFX.volume = 0.45;
+                scannerScanSFX.play().catch(() => {});
+            } catch (e) {}
+
             setTimeout(() => {
                 plagFill.style.width = "100%";
             }, 100);
             
             setTimeout(() => {
                 plagResult.style.display = "block";
+                
+                // Play plagiarism scanning finished result alert SFX
+                try {
+                    scannerAlertSFX.currentTime = 0.26;
+                    scannerAlertSFX.volume = 0.45;
+                    scannerAlertSFX.play().catch(() => {});
+                } catch (e) {}
                 
                 // Finish TT, go to Step 4 after reading the result
                 setTimeout(() => {
@@ -787,9 +834,15 @@ function runSapoTypewriter() {
     overlay.addEventListener('click', handleScreenClick);
 }
 
-/* ═══ Custom Fullscreen Cinematic Outro Sequences ═══ */
 function runCenteredOutro(text) {
     window.isEffectRunning = true;
+    
+    // Play cinematic transition woosh sound
+    try {
+        outroWooshSFX.currentTime = 1.67;
+        outroWooshSFX.volume = 0.55;
+        outroWooshSFX.play().catch(() => {});
+    } catch (e) {}
     
     // 1. Hide the visual novel's standard dialogue bar completely
     const diagBar = document.getElementById('vn-dialogue-bar');

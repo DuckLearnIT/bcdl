@@ -1,247 +1,88 @@
-Với một sản phẩm data journalism / interactive longform nhiều lớp (web + code + motion + audio + illustration + reporting), phần credit thường được chia theo pipeline sản xuất thay vì chỉ ghi tên kiểu “Design by…”. Mục tiêu là:
+CREDITS
 
-* nhìn chuyên nghiệp,
-* phản ánh đúng công lao,
-* và giúp người ngoài hiểu quy mô dự án.
+LEADERSHIP
 
-Các newsroom lớn như The New York Times, Reuters hay South China Morning Post thường chia rất chi tiết.
+Executive Editor — Quỳnh
+Project Director — Quỳnh
+Research Director — Quỳnh
+Data Director — Quỳnh
 
-Một structure phổ biến:
+EDITORIAL
 
----
+Managing Editor — Lan, Nhàn
+Editorial Lead — Lan, Nhàn
+Story Development — Lan, Nhàn
+Long-form Writing — Lan, Nhàn
+Headline, Sapo & Conclusion — Lan, Nhàn
+Copy Editing — Lan, Nhàn
 
-PROJECT TEAM
+REPORTING & RESEARCH
 
-Executive Editor
-Managing Editor
-Project Director
-
-Editorial Lead
-Data Editor
-Visual Editor
-
----
-
-REPORTING
-
-Lead Reporter
-Field Reporting
-Research Support
-Fact-checking
-Interview Coordination
-
-Nếu có điều tra dữ liệu:
-
-* OSINT Research
-* Archival Research
-* Document Analysis
-
----
+Survey Design — Minh Thu
+Research Coordination — Quỳnh, Minh Thu
+Field Research — Hiếu
+Data Collection — Cả nhóm
+Secondary Research — Quỳnh, Hiếu, Minh Thu
+Document Analysis — Quỳnh, Hiếu, Minh Thu
+Fact-checking — Quỳnh, Lan, Nhàn, Minh Thu
 
 DATA
 
-Data Collection
-Data Cleaning
-Data Analysis
-Statistical Modeling
-Data Visualization
-Database Engineering
+Data Editor — Quỳnh
+Data Cleaning — Quỳnh, Hiếu, Minh Thu
+Data Processing — Quỳnh, Hiếu, Minh Thu
+Statistical Analysis — Quỳnh, Hiếu, Minh Thu
+Insight Development — Quỳnh, Hiếu, Minh Thu
+Key Findings & Interpretation — Quỳnh, Hiếu, Minh Thu
 
-Có thể tách:
+VISUAL
 
-* GIS / Mapping
-* Scraping
-* API Integration
+Visual Editor — Đức
+Creative Direction — Đức
+Art Direction — Đức
+Visual Inspiration — Đức
+Visual Concept Development — Đức
+Visual Storytelling — Đức
+Information Design — Đức, Hiếu
+Data Visualization — Đức, Hiếu
+Infographic Design — Đức
+Statistical Graphics — Đức
+Editorial Design System — Đức
+Typography & Layout — Đức
+Publication Design — Đức
+E-magazine Production — Hiếu
+Final Artwork Production — Đức
 
----
+MEDIA
 
-DESIGN
-
-Art Direction
-Visual Design
-Interaction Design
-UI/UX Design
-Typography
-Layout System
-
-Nếu có minh họa:
-
-* Illustration
-* Storyboarding
-* Concept Art
-
----
+Media Producer — Đức
+Photo Production — Đức
+Video Production — Đức
+Audio Production — Đức
+Visual Asset Collection — Đức
+Post-production Support — Đức
+Voice Over Vietnam: Achernar (Google TTS)
+Voice Over Japanese: Inori Minase & Yoshino Aoyama (RVC)
 
 DEVELOPMENT
 
-Frontend Development
-Backend Development
-Creative Development
-Interactive Engineering
-Motion Implementation
-Performance Optimization
+System Architecture — Đức
+Interactive Mechanics & Logic — Đức
+Developer — Đức
+AI Assistant & Developer — Antigravity
 
-Nếu xài WebGL / Three.js:
+PRODUCTION
+Documentation & Submission — Quỳnh
+Final Review — Quỳnh
 
-* 3D Development
-* Rendering Pipeline
+SPECIAL THANKS
+Đồng Đức Trung Kiên - Tester
+Nguyễn Cẩm Tú - Tester
 
----
-
-MOTION & MEDIA
-
-Motion Graphics
-Animation
-Video Editing
-Color Grading
-Sound Design
-Voice Over
-Music Supervision
-
-GIF riêng thì:
-
-* Animated Assets
-
----
-
-SPECIAL THANKS / CONTRIBUTIONS
-
-Local Contributors
-Academic Advisors
-Partner Organizations
-Open-source Libraries
-Community Support
-
----
-
-TECHNICAL STACK (nếu muốn kiểu “tech flex”)
-
-Built with:
-
-* React
-* D3.js
-* Three.js
-* GSAP
-* Blender
-* After Effects
-* Mapbox
-* R / Python
-
-Nhưng newsroom thường để kín đáo.
-
----
-
-Nếu muốn cinematic kiểu interactive quốc tế, thường họ dùng format này:
-
-Credits
-
-Story
-A, B, C
-
-Reporting
-A, B
-
-Data Analysis
-A
-
-Design & Art Direction
-A
-
-Interactive Development
-A, B
-
-Motion Design
-C
-
-Illustration
-D
-
-Narration
-E
-
-Sound Design
-F
-
-Editing
-G
-
----
-
-Hoặc kiểu “film ending”:
-
-An Interactive Production by [Studio/Newsroom]
-
-Executive Producer
-…
-
-Creative Director
-…
-
-Lead Developer
-…
-
-Data Visualization
-…
-
-Research
-…
-
-Voice Talent
-…
-
----
-
-Một trick hay là chia thành:
-
-* Editorial
-* Visual
-* Technical
-* Production
-
-=> nhìn gọn nhưng vẫn “dài”.
-
-Ví dụ mockup:
-
-Editorial
-Nguyễn A, Trần B
-
-Data & Research
-Lê C, Phạm D
-
-Visual Design
-Nguyễn E
-
-Interactive Development
-Nguyễn E, Võ F
-
-Motion & Audio
-G, H
-
-Illustration
-I
-
-Field Production
-K
-
-Voice Over
-L
-
-Special Thanks
-…
-
----
-
-Nếu dự án cực lớn, có thể thêm:
-
-* Accessibility Review
-* Mobile Optimization
-* QA Testing
-* Localization
-* Translation
-* Legal Review
-* Security Consulting
-
-Mấy mục này làm credit trông rất “AAA production”.
-
-Một lưu ý:
-Trong interactive journalism, “Creative Technologist” và “Interactive Developer” nghe nghề hơn “coder” rất nhiều 😄
+PRODUCED BY
+Quỳnh
+Minh Thu
+Hiếu
+Lan
+Đức
+Nhân

@@ -737,7 +737,7 @@ const state = {
     dialogueLocked: false,
     typing: false,
     typeTimer: null,
-    auto: false,
+    auto: true,
     autoTimer: null,
     chartProgress: 0,
     chartComplete: false,
@@ -1146,6 +1146,12 @@ function playStepAudio(audioId) {
     }
     audio.currentTime = 0;
     state.currentAudio = audio;
+    audio.onended = () => {
+        if (state.auto && !state.typing && state.currentAudio === audio) {
+            clearTimeout(state.autoTimer);
+            advanceDialogue(true);
+        }
+    };
     audio.play().catch(() => {
         // Autoplay may be blocked; dialogue should keep moving.
     });
@@ -1178,9 +1184,13 @@ function finishTyping(forceFull) {
     state.typing = false;
     indicator.classList.add("visible");
     if (state.auto) {
-        const text = state.activeDialogue[state.dialogueIndex]?.text || "";
-        const delay = Math.min(6200, Math.max(1800, text.length * 42));
-        state.autoTimer = setTimeout(() => advanceDialogue(true), delay);
+        const step = state.activeDialogue[state.dialogueIndex];
+        const hasPlayingAudio = step?.audioId && state.currentAudio && !state.currentAudio.paused;
+        if (!hasPlayingAudio) {
+            const text = step?.text || "";
+            const delay = Math.min(6200, Math.max(1800, text.length * 42));
+            state.autoTimer = setTimeout(() => advanceDialogue(true), delay);
+        }
     }
 }
 
@@ -1288,7 +1298,9 @@ function toggleMute(event) {
     const isMuted = btn.textContent === "🔇";
     btn.textContent = isMuted ? "🔊" : "🔇";
     btn.title = isMuted ? "Bật/Tắt âm thanh" : "Tắt tiếng";
-    // TODO: Implement actual audio mute logic
+    const newMuted = !isMuted;
+    if (window.sfxManager) window.sfxManager.setMuted(newMuted);
+    document.querySelectorAll("audio").forEach((a) => { a.muted = newMuted; });
 }
 
 function buildClassroom() {
@@ -1336,6 +1348,7 @@ function showGuide() {
 
 function beginSurvey() {
     state.phase = "survey";
+    if (window.sfxManager) window.sfxManager.play('assets/audio/SFX/login-click.m4a', { volume: 0.35, currentTime: 0.07 });
     guidePanel.classList.remove("is-visible");
     gameHud.classList.add("is-visible");
     mobileControls.classList.add("is-visible");
@@ -1381,6 +1394,7 @@ function findNearestStudent() {
 
 function updateNearState() {
     document.querySelectorAll(".student").forEach((el) => el.classList.remove("is-near"));
+    const prevNearest = state.nearest ? state.nearest.id : null;
     state.nearest = findNearestStudent();
     if (state.nearest) {
         const el = document.querySelector(`.student[data-id="${state.nearest.id}"]`);
@@ -1388,6 +1402,9 @@ function updateNearState() {
         nearLabel.textContent = `Gần ${state.nearest.name}`;
         promptEl.textContent = `Nhấn E / Space / Hỏi để phỏng vấn ${state.nearest.name}.`;
         interactButton.disabled = false;
+        if (window.sfxManager && state.nearest.id !== prevNearest) {
+            window.sfxManager.play('assets/audio/SFX/scanner-alert.m4a', { volume: 0.15, currentTime: 0.26 });
+        }
     } else {
         nearLabel.textContent = "Tìm bạn để hỏi";
         promptEl.textContent = "Lại gần một bạn học rồi nhấn E hoặc nút Hỏi.";
@@ -1421,6 +1438,7 @@ function tryInteract() {
 }
 
 function openStudentSurvey(student) {
+    if (window.sfxManager) window.sfxManager.play('assets/audio/SFX/login-click.m4a', { volume: 0.35, currentTime: 0.07 });
     state.phase = "student";
     state.activeStudent = student;
     surveyName.textContent = student.name;
@@ -1449,6 +1467,7 @@ function recordStudentAnswer() {
 
 function finishSurvey() {
     state.phase = "outro";
+    if (window.sfxManager) window.sfxManager.play('assets/audio/SFX/celebration.m4a', { volume: 0.4, currentTime: 0.15 });
     mobileControls.classList.remove("is-visible");
     promptEl.classList.remove("is-visible");
     gameHud.classList.remove("is-visible");
@@ -1544,6 +1563,13 @@ function movePlayer(deltaMs) {
 
     if (dx || dy) {
         state.target = null;
+        if (window.sfxManager) {
+            const now = Date.now();
+            if (!state._lastFootstep || now - state._lastFootstep > 280) {
+                state._lastFootstep = now;
+                window.sfxManager.play('assets/audio/SFX/terminal-tick.m4a', { volume: 0.08, currentTime: 0.11 });
+            }
+        }
     } else if (state.target) {
         const tx = state.target.x - state.player.x;
         const ty = state.target.y - state.player.y;
@@ -1612,6 +1638,7 @@ let isPulling = false;
 
 function pullLever() {
     if (isPulling || state.chartComplete) return;
+    if (window.sfxManager) window.sfxManager.play('assets/audio/SFX/data-lever.m4a', { volume: 0.55, currentTime: 0.09 });
     isPulling = true;
 
     dataLever.style.animation = "";
@@ -1768,6 +1795,7 @@ function updateChart(progress, options = {}) {
     centerLabel.textContent = progress < 100 ? "Đang quét dữ liệu" : "Hằng ngày";
     if (progress >= 100 && !state.chartComplete) {
         state.chartComplete = true;
+        if (window.sfxManager) window.sfxManager.play('assets/audio/SFX/chart-reveal.m4a', { volume: 0.5, currentTime: 0.15 });
         completeChartReveal();
         selectChartSegment(0);
         startChartNextTimer();
@@ -2575,6 +2603,7 @@ function onBuyClicked(event) {
     const walletBalance = state.walletBalance;
 
     if (selectedPrice > walletBalance) {
+        if (window.sfxManager) window.sfxManager.play('assets/audio/SFX/login-error.m4a', { volume: 0.4, currentTime: 0.07 });
         if (warning) {
             warning.textContent = `Số dư không đủ: ví chỉ có $${walletBalance}, gói này cần $${selectedPrice}.`;
             warning.classList.remove("is-visible");
@@ -2588,6 +2617,14 @@ function onBuyClicked(event) {
     state.walletBalance -= selectedPrice;
     const walletEl = document.getElementById("wallet-balance");
     if (walletEl) walletEl.textContent = `$${state.walletBalance}`;
+
+    // Play successful purchase upgrade SFX
+    try {
+        const upgradeSound = new Audio("assets/audio/SFX/buy-upgrade.m4a");
+        upgradeSound.volume = 0.55;
+        upgradeSound.currentTime = 2.17;
+        upgradeSound.play().catch(() => {});
+    } catch (e) {}
 
     // Track which product was bought for dialogue branching
     state.purchasedProduct = selectedButton.id;
@@ -2609,6 +2646,14 @@ function onBuyClicked(event) {
     // Show VIP card after brief delay
     setTimeout(() => {
         vipCard.classList.add("visible");
+        
+        // Play grand celebration sound
+        try {
+            const celebrationSound = new Audio("assets/audio/SFX/celebration.m4a");
+            celebrationSound.volume = 0.6;
+            celebrationSound.currentTime = 0.15;
+            celebrationSound.play().catch(() => {});
+        } catch (e) {}
     }, 800);
 
     // After fireworks settle, show finale dialogues
@@ -2792,6 +2837,14 @@ function finishMinigame() {
    AREA CHART CANVAS
    ═══════════════════════════════════════════ */
 function drawAreaChart(highlightArea = null) {
+    // Play chart reveal SFX
+    try {
+        const revealSound = new Audio("assets/audio/SFX/chart-reveal.m4a");
+        revealSound.volume = 0.55;
+        revealSound.currentTime = 0.15;
+        revealSound.play().catch(() => {});
+    } catch (e) {}
+
     const canvas = document.getElementById("area-chart-canvas");
     const parent = canvas.parentElement;
     const W = parent.clientWidth || 700;
@@ -3088,6 +3141,14 @@ function initBookViewer() {
         if (currentBookPage > 1) {
             currentBookPage--;
             updateBookPage();
+            
+            // Play page flip SFX
+            try {
+                const flipSound = new Audio("assets/audio/SFX/book-page.m4a");
+                flipSound.volume = 0.5;
+                flipSound.currentTime = 0.26;
+                flipSound.play().catch(() => {});
+            } catch (e) {}
         }
     };
 
@@ -3096,6 +3157,14 @@ function initBookViewer() {
             currentBookPage++;
             updateBookPage();
             checkBookReadProgress();
+            
+            // Play page flip SFX
+            try {
+                const flipSound = new Audio("assets/audio/SFX/book-page.m4a");
+                flipSound.volume = 0.5;
+                flipSound.currentTime = 0.26;
+                flipSound.play().catch(() => {});
+            } catch (e) {}
         }
     };
 }
@@ -3325,6 +3394,14 @@ function insertBookIntoMachine() {
     if (state.infoProcessed) return;
     state.infoProcessed = true;
 
+    // Play physical mechanical lever click SFX
+    try {
+        const leverSound = new Audio("assets/audio/SFX/data-lever.m4a");
+        leverSound.volume = 0.65;
+        leverSound.currentTime = 0.09;
+        leverSound.play().catch(() => {});
+    } catch (e) {}
+
     const bookDrag = document.getElementById("info-book-drag");
     const slotZone = document.getElementById("info-slot-zone");
     const machine = document.getElementById("info-machine");
@@ -3394,6 +3471,14 @@ function initFlashcardStack() {
             card.style.opacity = "1";
             card.style.transform = "translateY(0) scale(1) rotateZ(0deg)";
             card.style.pointerEvents = "auto";
+            
+            // Play card deal-in SFX (subtle flip/deal)
+            try {
+                const dealSound = new Audio("assets/audio/SFX/book-page.m4a");
+                dealSound.volume = 0.22;
+                dealSound.currentTime = 0.26;
+                dealSound.play().catch(() => {});
+            } catch (e) {}
         }, idx * 160);
     });
 
@@ -3412,6 +3497,14 @@ function initFlashcardStack() {
             card.onclick = () => {
                 if (idx === fcState.current && !fcState.animating) {
                     card.classList.toggle("flipped");
+                    
+                    // Play card flip SFX
+                    try {
+                        const flipSound = new Audio("assets/audio/SFX/book-page.m4a");
+                        flipSound.volume = 0.5;
+                        flipSound.currentTime = 0.26;
+                        flipSound.play().catch(() => {});
+                    } catch (e) {}
                 }
             };
         });
@@ -3457,6 +3550,14 @@ function flipCurrentCard() {
     const top = cards[fcState.current];
     if (top && !fcState.animating) {
         top.classList.toggle("flipped");
+        
+        // Play card flip SFX
+        try {
+            const flipSound = new Audio("assets/audio/SFX/book-page.m4a");
+            flipSound.volume = 0.5;
+            flipSound.currentTime = 0.26;
+            flipSound.play().catch(() => {});
+        } catch (e) {}
     }
 }
 
@@ -3467,6 +3568,13 @@ function advanceFlashcard() {
     if (!top) return;
 
     fcState.animating = true;
+
+    // Play swipe/throw drag SFX
+    try {
+        const swipeSound = new Audio("assets/audio/SFX/drag-drop.m4a");
+        swipeSound.volume = 0.55;
+        swipeSound.play().catch(() => {});
+    } catch (e) {}
 
     // Unflip before throwing
     top.classList.remove("flipped");
@@ -4722,6 +4830,14 @@ function flipToPage(pageIndex) {
     const frame = document.querySelector(`.photo-frame[data-idx="${pageIndex - 1}"]`);
     if (!frame) return;
 
+    // Play flipbook page flip SFX
+    try {
+        const flipSound = new Audio("assets/audio/SFX/book-page.m4a");
+        flipSound.volume = 0.55;
+        flipSound.currentTime = 0.26;
+        flipSound.play().catch(() => {});
+    } catch (e) {}
+
     // Fly out animation to the right and slightly up, with rotation
     gsap.to(frame, { 
         x: window.innerWidth * 1.2, 
@@ -4848,15 +4964,25 @@ function startDarkSubtitles() {
 
     function showNextSub() {
         if (subIndex >= subs.length) {
-            // All subtitles done → navigate to chapter 5
-            setTimeout(() => {
-                gsap.to(subtitleText, {
-                    autoAlpha: 0, duration: 1.5,
-                    onComplete: () => {
-                        window.location.href = "chapter-5.html";
-                    }
-                });
-            }, 2500);
+            // Play footstep SFX then navigate to chapter 5
+            let footstepCount = 0;
+            const footstepInterval = setInterval(() => {
+                if (window.sfxManager) {
+                    window.sfxManager.play('assets/audio/SFX/terminal-tick.m4a', { volume: 0.08, currentTime: 0.11 });
+                }
+                footstepCount++;
+                if (footstepCount >= 5) {
+                    clearInterval(footstepInterval);
+                    setTimeout(() => {
+                        gsap.to(subtitleText, {
+                            autoAlpha: 0, duration: 1.5,
+                            onComplete: () => {
+                                window.location.href = "chapter-5.html";
+                            }
+                        });
+                    }, 800);
+                }
+            }, 280);
             return;
         }
 
@@ -4898,6 +5024,7 @@ function finishAiWordLoopSequence() {
 }
 
 function init() {
+    if (btnAuto) btnAuto.classList.toggle("active", state.auto);
     buildClassroom();
     buildChart();
     bindControls();

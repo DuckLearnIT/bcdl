@@ -106,6 +106,26 @@ const turn4Text = "Tụi mình ở đây là để giúp thế giới của cậ
 const endingVoicePath = "assets/audio/Dialogue/JP/End/credit.ogg";
 const endingVoiceFallbackDurationMs = 11500;
 
+// ═══════════════════════════════════════════════════════
+// POST-CREDIT SEQUENCE (GIVE SCREEN) DATA
+// ═══════════════════════════════════════════════════════
+const giveDialogueScript = [
+    { id: "11.1", text: "Đó... Tất cả những gì tụi mình cùng nhau đi qua nãy giờ, mình đã gom hết lại vào đây rồi." },
+    { id: "11.2", text: "Bản báo cáo dữ liệu hoàn chỉnh này... là bức tranh chân thực nhất về thế hệ của các cậu. Những con số giật mình, những lời trăn trở của thầy cô, và cả những mâu thuẫn lười biếng mà bấy lâu nay cậu vẫn luôn giấu giếm." },
+    { id: "11.3", text: "Cậu thấy lạ không? Rõ ràng mình là một AI, nhưng mình lại cất công in nó ra giấy để đưa tận tay cho cậu thế này." },
+    { id: "11.4", text: "Bởi vì... mình không muốn cậu quét khối văn bản này rồi nhấn tổ hợp phím Ctrl+C, Ctrl+V nữa. Mình muốn cậu tự tay cầm lấy nó. Cảm nhận sức nặng của nó. Và tự cậu đọc nó bằng chính đôi mắt của mình, tự suy ngẫm bằng chính tư duy của mình." },
+    { id: "11.5", text: "Hành trình khám phá dữ liệu của tụi mình hôm nay... chắc là phải dừng ở đây thôi. Đã đến lúc cậu phải quay trở lại thế giới thực rồi." }
+];
+
+const giveVideoDialogue = { id: "11.7", text: "Cầm lấy đi này. Đọc nó thật kỹ, rồi gập máy tính lại và làm bài tập đi nhé." };
+
+const giveEndingQuotes = [
+    "Bất cứ khi nào mệt mỏi cần người tâm sự, hay cần tìm tài liệu khó... thì cứ gõ cửa, mình vẫn luôn trực tuyến ở đây. Nhưng hãy nhớ, mình là bạn đồng hành, chứ không phải người học thay cậu đâu đấy!",
+    "Tạm biệt nhé. Chúc cậu một ngày đến trường thật vui... và thật sự 'sống' trọn vẹn!"
+];
+
+const figmaRedirectUrl = "https://www.figma.com/proto/8A9We22ROJs6qmc2CGf8fA/B%C3%A1o%20ch%C3%AD%20d%E1%BB%AF%20li%E1%BB%87u%20cu%E1%BB%91i%20k%C3%AC?node-id=1-2&t=EUUfqEzqcWzYtMse-1&hide-ui=1";
+
 let currentStep = 0;
 let isAnimating = false;
 let currentAudio = null;
@@ -233,6 +253,21 @@ document.addEventListener("DOMContentLoaded", () => {
         // Assets đã sẵn sàng — giờ OST cũng preload luôn
         ostAudio.preload = 'auto';
         ostAudio.load();
+        
+        // Bắt đầu preload credit.mp4 ngầm trong lúc user đang chơi.
+        // Video 73MB cần thời gian — gameplay ~2–3 phút đủ để buffer xong trên đa số kết nối.
+        const creditVideoEl = document.getElementById('credit-video');
+        if (creditVideoEl) {
+            creditVideoEl.preload = 'auto';
+            creditVideoEl.load();
+        }
+
+        // Preload give.mp4 ngầm để khi đến post-credit chạy mượt mà ngay
+        const giveVideoEl = document.getElementById('give-video');
+        if (giveVideoEl) {
+            giveVideoEl.preload = 'auto';
+            giveVideoEl.load();
+        }
     });
 
     let hasStarted = false;
@@ -677,12 +712,12 @@ function waitForEndingVoiceThenBlow() {
 }
 
 function blowTextAway() {
-    // 1. Phát SFX whoosh gió (file whoosh.ogg tự tạo ngoại tuyến)
+    // 1. Phát SFX whoosh gió
     const whooshSFX = new Audio('assets/audio/SFX/whoosh.ogg');
     whooshSFX.volume = 0.6;
     whooshSFX.play().catch(console.warn);
     
-    // 2. Kích hoạt hiệu ứng bay
+    // 2. Kích hoạt hiệu ứng bay chữ
     const letters = document.querySelectorAll(".wind-letter");
     requestAnimationFrame(() => {
         letters.forEach(letter => {
@@ -690,15 +725,18 @@ function blowTextAway() {
         });
     });
     
-    // 3. Sau khi bay hết, kích hoạt credit và nhạc nền mới
+    // 3. Sau khi chữ bay hết (~5.6s), chuyển sang Credit Roll
     setTimeout(() => {
-        // Ẩn màn hình ending cũ
+        // Ẩn màn hình ending
         const endingScreen = document.getElementById("ending-screen");
         if (endingScreen) endingScreen.style.display = "none";
         
-        // Dọn dẹp DOM: xóa hết wind-letter đã bay xong để giải phóng bộ nhớ
+        // Dọn dẹp DOM
         const endingText = document.getElementById("ending-text");
         if (endingText) endingText.innerHTML = "";
+        
+        // Tắt OST (credit video có audio riêng)
+        fadeAudioOut(ostAudio, 2000);
         
         // Hiện màn hình credit
         const creditScreen = document.getElementById("credit-screen");
@@ -706,10 +744,12 @@ function blowTextAway() {
             creditScreen.classList.add("visible");
         }
         
-        // Phát nhạc Credit.m4a
-        const creditAudio = new Audio('assets/audio/SFX/Credit.m4a');
-        creditAudio.volume = 0.5;
-        creditAudio.play().catch(console.warn);
+        // Build DOM credit roll từ dữ liệu
+        buildCreditDOM();
+        
+        // Phát video credit và bắt đầu roll
+        launchCreditRoll();
+        
     }, 5600);
 }
 
@@ -725,4 +765,430 @@ function fadeAudioOut(audioObj, duration) {
             audioObj.volume = vol;
         }
     }, 50);
+}
+
+// ═══════════════════════════════════════════════════════
+// CREDIT ROLL — Dữ liệu & Logic cuộn đồng bộ video
+// ═══════════════════════════════════════════════════════
+
+/**
+ * Dữ liệu credit được parse từ nội dung credit.txt.
+ * Cấu trúc: { type: 'section'|'line'|'name', section?, role?, name? }
+ */
+const creditData = [
+    { type: 'section', section: 'LEADERSHIP' },
+    { type: 'line', role: 'Executive Editor', name: 'Quỳnh' },
+    { type: 'line', role: 'Project Director', name: 'Quỳnh' },
+    { type: 'line', role: 'Research Director', name: 'Quỳnh' },
+    { type: 'line', role: 'Data Director', name: 'Quỳnh' },
+
+    { type: 'section', section: 'EDITORIAL' },
+    { type: 'line', role: 'Managing Editor', name: 'Lan, Nhàn' },
+    { type: 'line', role: 'Editorial Lead', name: 'Lan, Nhàn' },
+    { type: 'line', role: 'Story Development', name: 'Lan, Nhàn' },
+    { type: 'line', role: 'Long-form Writing', name: 'Lan, Nhàn' },
+    { type: 'line', role: 'Headline, Sapo & Conclusion', name: 'Lan, Nhàn' },
+    { type: 'line', role: 'Copy Editing', name: 'Lan, Nhàn' },
+
+    { type: 'section', section: 'REPORTING & RESEARCH' },
+    { type: 'line', role: 'Survey Design', name: 'Minh Thu' },
+    { type: 'line', role: 'Research Coordination', name: 'Quỳnh, Minh Thu' },
+    { type: 'line', role: 'Field Research', name: 'Hiếu' },
+    { type: 'line', role: 'Data Collection', name: 'Cả nhóm' },
+    { type: 'line', role: 'Secondary Research', name: 'Quỳnh, Hiếu, Minh Thu' },
+    { type: 'line', role: 'Document Analysis', name: 'Quỳnh, Hiếu, Minh Thu' },
+    { type: 'line', role: 'Fact-checking', name: 'Quỳnh, Lan, Nhàn, Minh Thu' },
+
+    { type: 'section', section: 'DATA' },
+    { type: 'line', role: 'Data Editor', name: 'Quỳnh' },
+    { type: 'line', role: 'Data Cleaning', name: 'Quỳnh, Hiếu, Minh Thu' },
+    { type: 'line', role: 'Data Processing', name: 'Quỳnh, Hiếu, Minh Thu' },
+    { type: 'line', role: 'Statistical Analysis', name: 'Quỳnh, Hiếu, Minh Thu' },
+    { type: 'line', role: 'Insight Development', name: 'Quỳnh, Hiếu, Minh Thu' },
+    { type: 'line', role: 'Key Findings & Interpretation', name: 'Quỳnh, Hiếu, Minh Thu' },
+
+    { type: 'section', section: 'VISUAL' },
+    { type: 'line', role: 'Visual Editor', name: 'Đức' },
+    { type: 'line', role: 'Creative Direction', name: 'Đức' },
+    { type: 'line', role: 'Art Direction', name: 'Đức' },
+    { type: 'line', role: 'Visual Inspiration', name: 'Đức' },
+    { type: 'line', role: 'Visual Concept Development', name: 'Đức' },
+    { type: 'line', role: 'Visual Storytelling', name: 'Đức' },
+    { type: 'line', role: 'Information Design', name: 'Đức, Hiếu' },
+    { type: 'line', role: 'Data Visualization', name: 'Đức, Hiếu' },
+    { type: 'line', role: 'Infographic Design', name: 'Đức' },
+    { type: 'line', role: 'Statistical Graphics', name: 'Đức' },
+    { type: 'line', role: 'Editorial Design System', name: 'Đức' },
+    { type: 'line', role: 'Typography & Layout', name: 'Đức' },
+    { type: 'line', role: 'Publication Design', name: 'Đức' },
+    { type: 'line', role: 'E-magazine Production', name: 'Hiếu' },
+    { type: 'line', role: 'Final Artwork Production', name: 'Đức' },
+
+    { type: 'section', section: 'MEDIA' },
+    { type: 'line', role: 'Media Producer', name: 'Đức' },
+    { type: 'line', role: 'Photo Production', name: 'Đức' },
+    { type: 'line', role: 'Video Production', name: 'Đức' },
+    { type: 'line', role: 'Audio Production', name: 'Đức' },
+    { type: 'line', role: 'Visual Asset Collection', name: 'Đức' },
+    { type: 'line', role: 'Post-production Support', name: 'Đức' },
+    { type: 'line', role: 'Voice Over Vietnam', name: 'Achernar (Google TTS)' },
+    { type: 'line', role: 'Voice Over Japanese', name: 'Inori Minase & Yoshino Aoyama (RVC)' },
+
+    { type: 'section', section: 'DEVELOPMENT' },
+    { type: 'line', role: 'System Architecture', name: 'Đức' },
+    { type: 'line', role: 'Interactive Mechanics & Logic', name: 'Đức' },
+    { type: 'line', role: 'Developer', name: 'Đức' },
+    { type: 'line', role: 'AI Assistant & Developer', name: 'Antigravity' },
+
+    { type: 'section', section: 'PRODUCTION' },
+    { type: 'line', role: 'Documentation & Submission', name: 'Quỳnh' },
+    { type: 'line', role: 'Final Review', name: 'Quỳnh' },
+
+    { type: 'section', section: 'SPECIAL THANKS' },
+    { type: 'line', role: 'Đồng Đức Trung Kiên', name: 'Tester' },
+    { type: 'line', role: 'Nguyễn Cẩm Tú', name: 'Tester' },
+
+    { type: 'section', section: 'PRODUCED BY' },
+    { type: 'name', name: 'Quỳnh' },
+    { type: 'name', name: 'Minh Thu' },
+    { type: 'name', name: 'Hiếu' },
+    { type: 'name', name: 'Lan' },
+    { type: 'name', name: 'Đức' },
+    { type: 'name', name: 'Nhân' },
+];
+
+/**
+ * Inject credit DOM vào #credit-roll-inner từ creditData.
+ */
+function buildCreditDOM() {
+    const container = document.getElementById('credit-roll-inner');
+    if (!container) return;
+    container.innerHTML = '';
+
+    creditData.forEach(item => {
+        if (item.type === 'section') {
+            const el = document.createElement('div');
+            el.className = 'credit-section-title';
+            el.textContent = item.section;
+            container.appendChild(el);
+        } else if (item.type === 'line') {
+            // Kiểu điện ảnh: role nhỏ mờ phía trên, tên lớn trắng phía dưới, căn giữa
+            const block = document.createElement('div');
+            block.className = 'credit-block';
+            block.innerHTML = `<div class="credit-block-role">${item.role}</div><div class="credit-block-name">${item.name}</div>`;
+            container.appendChild(block);
+        } else if (item.type === 'name') {
+            const el = document.createElement('div');
+            el.className = 'credit-name-only';
+            el.textContent = item.name;
+            container.appendChild(el);
+        }
+    });
+
+    // Spacer cuối — đảm bảo dòng cuối trôi hết khỏi đỉnh trước khi video kết thúc
+    const spacer = document.createElement('div');
+    spacer.className = 'credit-end-spacer';
+    container.appendChild(spacer);
+}
+
+/**
+ * Phát video credit.mp4 và bắt đầu cuộn credit đồng bộ với duration của video.
+ * Sử dụng rAF loop để cuộn mượt mà, không bị jitter.
+ */
+function launchCreditRoll() {
+    const creditVideo = document.getElementById('credit-video');
+    const rollInner = document.getElementById('credit-roll-inner');
+    const loadingEl = document.getElementById('credit-loading');
+    if (!creditVideo || !rollInner) return;
+
+    let rollRAF = null;
+
+    function beginRoll() {
+        // Ẩn spinner
+        if (loadingEl) loadingEl.classList.add('hidden');
+
+        const videoDurationMs = creditVideo.duration * 1000;
+        const viewportH = window.innerHeight;
+        const contentH = rollInner.scrollHeight;
+
+        // Toán học cuộn:
+        //   progress=0 → translateY = +viewportH  (content hoàn toàn bên dưới màn hình)
+        //   progress=1 → translateY = -contentH   (content hoàn toàn bên trên màn hình)
+        // Tổng quãng đường = viewportH + contentH
+        const totalScrollPx = viewportH + contentH;
+
+        const startTime = performance.now();
+
+        function tick(now) {
+            const elapsed = now - startTime;
+            const progress = Math.min(elapsed / videoDurationMs, 1);
+
+            const translateY = viewportH - (progress * totalScrollPx);
+            rollInner.style.transform = `translateY(${translateY}px)`;
+
+            if (progress < 1) {
+                rollRAF = requestAnimationFrame(tick);
+            }
+        }
+
+        rollRAF = requestAnimationFrame(tick);
+
+        // Cleanup khi video kết thúc và chuyển tiếp sang Give Screen (post-credit)
+        creditVideo.addEventListener('ended', () => {
+            if (rollRAF) cancelAnimationFrame(rollRAF);
+            
+            // Ẩn màn hình credit mượt mà
+            const creditScreen = document.getElementById("credit-screen");
+            if (creditScreen) {
+                creditScreen.style.transition = "opacity 1.5s ease";
+                creditScreen.style.opacity = 0;
+                setTimeout(() => {
+                    creditScreen.classList.remove("visible");
+                    creditScreen.style.display = "none";
+                    
+                    // Kích hoạt Give Screen
+                    launchGiveScreen();
+                }, 1500);
+            } else {
+                launchGiveScreen();
+            }
+        }, { once: true });
+    }
+
+    // Xác định thời điểm bắt đầu cuộn
+    if (creditVideo.readyState >= 1 && isFinite(creditVideo.duration)) {
+        // Video đã có metadata — play và cuộn ngay
+        creditVideo.play().catch(console.warn);
+        beginRoll();
+    } else {
+        // Chờ metadata load (spinner đang hiện)
+        creditVideo.addEventListener('loadedmetadata', () => {
+            creditVideo.play().catch(console.warn);
+            beginRoll();
+        }, { once: true });
+
+        // Trigger load nếu chưa bắt đầu
+        if (creditVideo.preload === 'none') {
+            creditVideo.preload = 'auto';
+            creditVideo.load();
+        }
+    }
+}
+
+// ═══════════════════════════════════════════════════════
+// POST-CREDIT SEQUENCE (GIVE SCREEN) LOGIC
+// ═══════════════════════════════════════════════════════
+
+let giveSubtitleRAF = null;
+let endingQuoteRAF = null;
+
+/**
+ * Typewriter effect cho subtitle trên give-screen
+ */
+function typeGiveSubtitle(text, durationMs, onComplete) {
+    const textEl = document.getElementById("give-subtitle-text");
+    if (!textEl) return;
+    textEl.textContent = "";
+
+    const startTime = performance.now();
+    let charIndex = 0;
+
+    if (giveSubtitleRAF) {
+        cancelAnimationFrame(giveSubtitleRAF);
+    }
+
+    function tick() {
+        const elapsed = performance.now() - startTime;
+        const progress = Math.min(elapsed / durationMs, 1);
+        const targetCharCount = Math.floor(progress * text.length);
+
+        if (charIndex < targetCharCount) {
+            textEl.textContent = text.slice(0, targetCharCount);
+            charIndex = targetCharCount;
+        }
+
+        if (progress < 1) {
+            giveSubtitleRAF = requestAnimationFrame(tick);
+        } else {
+            textEl.textContent = text;
+            if (onComplete) onComplete();
+        }
+    }
+    tick();
+}
+
+/**
+ * Typewriter effect cho quote trên màn hình trắng xóa
+ */
+function typeGiveEndingQuote(text, durationMs, onComplete) {
+    const textEl = document.getElementById("give-ending-text");
+    if (!textEl) return;
+    textEl.innerHTML = ""; // Xóa text cũ
+
+    const startTime = performance.now();
+    let charIndex = 0;
+
+    if (endingQuoteRAF) {
+        cancelAnimationFrame(endingQuoteRAF);
+    }
+
+    function tick() {
+        const elapsed = performance.now() - startTime;
+        const progress = Math.min(elapsed / durationMs, 1);
+        const targetCharCount = Math.floor(progress * text.length);
+
+        if (charIndex < targetCharCount) {
+            textEl.textContent = text.slice(0, targetCharCount);
+            charIndex = targetCharCount;
+        }
+
+        if (progress < 1) {
+            endingQuoteRAF = requestAnimationFrame(tick);
+        } else {
+            textEl.textContent = text;
+            if (onComplete) onComplete();
+        }
+    }
+    tick();
+}
+
+/**
+ * Chạy chuỗi thoại từ 11.1 tới 11.5 trên nền đen, video lắc nhẹ
+ */
+function runGiveDialogueSequence(index = 0) {
+    if (index >= giveDialogueScript.length) {
+        // Thoại xong -> Chờ 1 giây rồi phát video + sub 11.7
+        setTimeout(() => {
+            playGiveVideoWithSub();
+        }, 1000);
+        return;
+    }
+
+    const item = giveDialogueScript[index];
+    const text = item.text;
+    
+    // Tự động tính toán tốc độ đánh chữ: 35ms mỗi ký tự, giới hạn từ 2.5s đến 6s
+    const typeDuration = Math.max(2500, Math.min(6000, text.length * 35));
+    
+    typeGiveSubtitle(text, typeDuration, () => {
+        // Giữ sub hiển thị trong 2 giây để đọc
+        setTimeout(() => {
+            const textEl = document.getElementById("give-subtitle-text");
+            if (textEl) {
+                textEl.style.transition = "opacity 0.4s ease";
+                textEl.style.opacity = 0;
+            }
+            
+            setTimeout(() => {
+                if (textEl) {
+                    textEl.style.opacity = 1;
+                }
+                runGiveDialogueSequence(index + 1);
+            }, 400);
+        }, 2000);
+    });
+}
+
+/**
+ * Phát video give.mp4, bỏ lắc, chạy thoại 11.7
+ */
+function playGiveVideoWithSub() {
+    const giveVideo = document.getElementById("give-video");
+    const subtitleUI = document.getElementById("give-subtitle-ui");
+    
+    if (!giveVideo) return;
+    
+    // Bỏ sway bằng cách thêm class playing
+    giveVideo.classList.add("playing");
+    
+    if (subtitleUI) {
+        subtitleUI.style.opacity = 1;
+    }
+    
+    // Phát video
+    giveVideo.play().catch(console.warn);
+    
+    // Chạy sub 11.7
+    const text = giveVideoDialogue.text;
+    const typeDuration = Math.max(2000, Math.min(5000, text.length * 35));
+    typeGiveSubtitle(text, typeDuration, null);
+    
+    // Đợi video ended chuyển sang màn hình trắng xóa
+    giveVideo.addEventListener("ended", () => {
+        if (subtitleUI) {
+            subtitleUI.style.transition = "opacity 0.8s ease";
+            subtitleUI.style.opacity = 0;
+        }
+        
+        fadeToWhiteAndShowQuotes();
+    }, { once: true });
+}
+
+/**
+ * Màn hình trắng xóa + quote kết thúc (11.8, 11.9) + chuyển hướng Figma
+ */
+function fadeToWhiteAndShowQuotes() {
+    const whiteOverlay = document.getElementById("give-white-overlay");
+    if (whiteOverlay) {
+        whiteOverlay.classList.add("visible");
+    }
+    
+    // Chờ 1.5s màn hình trắng hoàn toàn
+    setTimeout(() => {
+        const quote1 = giveEndingQuotes[0];
+        const typeDuration1 = Math.max(3000, Math.min(7000, quote1.length * 40));
+        
+        typeGiveEndingQuote(quote1, typeDuration1, () => {
+            // Giữ lại 3.5s rồi chuyển qua câu tiếp theo
+            setTimeout(() => {
+                const textEl = document.getElementById("give-ending-text");
+                if (textEl) {
+                    textEl.style.transition = "opacity 0.6s ease";
+                    textEl.style.opacity = 0;
+                }
+                
+                setTimeout(() => {
+                    if (textEl) {
+                        textEl.style.opacity = 1;
+                    }
+                    const quote2 = giveEndingQuotes[1];
+                    const typeDuration2 = Math.max(2500, Math.min(5000, quote2.length * 40));
+                    
+                    typeGiveEndingQuote(quote2, typeDuration2, () => {
+                        // Đọc xong quote cuối, chờ 4 giây rồi redirect qua Figma
+                        setTimeout(() => {
+                            window.location.href = figmaRedirectUrl;
+                        }, 4000);
+                    });
+                }, 700);
+            }, 3500);
+        });
+    }, 1500);
+}
+
+/**
+ * Khởi động Give Screen sau khi kết thúc credit
+ */
+function launchGiveScreen() {
+    const giveScreen = document.getElementById("give-screen");
+    const giveVideo = document.getElementById("give-video");
+    const subtitleUI = document.getElementById("give-subtitle-ui");
+    
+    if (!giveScreen) return;
+    
+    // Hiện give screen
+    giveScreen.classList.add("visible");
+    
+    if (giveVideo) {
+        giveVideo.pause();
+        giveVideo.currentTime = 0;
+        giveVideo.style.display = "block";
+    }
+    
+    if (subtitleUI) {
+        subtitleUI.style.opacity = 1;
+    }
+    
+    // Bắt đầu chuỗi hội thoại
+    runGiveDialogueSequence(0);
 }

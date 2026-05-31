@@ -3,6 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="assets/favicon.ico" rel="shortcut icon" type="image/x-icon">
     <title>Ngọn lửa ấm từ những tàn tro vụng về</title>
     <link rel="preload" href="assets/fonts/momo.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="preload" href="assets/video/handclose.mp4" as="video" type="video/mp4">
@@ -13,7 +14,9 @@
 <body>
 
     <!-- Nền water ripple -->
-    <div class="full-landing-image"></div>
+    <div class="full-landing-image">
+        <div class="start-instruction">nhấp chuột trái để mở mắt</div>
+    </div>
 
     <!-- Lớp chứa nền Video POV (Đu đưa nhẹ nhàng) -->
     <div id="pov-container">
@@ -39,30 +42,42 @@
         <div id="ending-text" class="typewriter-text"></div>
     </div>
 
-    <!-- Màn hình Credit (ẩn ban đầu) -->
+    <!-- Màn hình Credit Roll (ẩn ban đầu) — 2 cột: video trái + credit cuộn phải -->
     <div id="credit-screen" class="credit-screen">
-        <div class="credit-content">
-            <h1 class="credit-title">PHÍA SAU NHỮNG CON SỐ</h1>
-            <div class="credit-section">
-                <div class="credit-role">Sản Xuất &amp; Nội Dung</div>
-                <div class="credit-names">Nhóm Báo chí Tương tác BCDL</div>
-            </div>
-            <div class="credit-section">
-                <div class="credit-role">Thiết Kế Hệ Thống</div>
-                <div class="credit-names">Phát Triển AI &amp; Lập Trình Viên Senior</div>
-            </div>
-            <div class="credit-section">
-                <div class="credit-role">Diễn Họa Nhân Vật</div>
-                <div class="credit-names">Amy (Hệ Thống Trợ Lý Ảo)</div>
-            </div>
-            <div class="credit-section">
-                <div class="credit-role">Âm Nhạc &amp; Âm Thanh</div>
-                <div class="credit-names">OST.m4a, credit.ogg &amp; Credit.m4a</div>
-            </div>
-            <div class="credit-footer">
-                Cảm ơn cậu đã đồng hành cùng tớ đến giây phút này.
+
+        <!-- Spinner: hiện khi video chưa sẵn sàng -->
+        <div id="credit-loading" class="credit-loading">
+            <div class="credit-spinner"></div>
+        </div>
+
+        <!-- Cột trái: Video credit.mp4 -->
+        <div class="credit-video-col">
+            <video id="credit-video" class="credit-video" playsinline preload="none">
+                <source src="assets/video/credit.mp4" type="video/mp4">
+            </video>
+        </div>
+
+        <!-- Cột phải: Credit Roll -->
+        <div class="credit-roll-col">
+            <div id="credit-roll-inner" class="credit-roll-inner">
+                <!-- Credit lines sẽ được JS inject vào đây -->
             </div>
         </div>
+
+    </div>
+
+    <!-- Màn hình Give (post-credit) -->
+    <div id="give-screen" class="give-screen">
+        <video id="give-video" class="give-video" playsinline preload="none" muted>
+            <source src="assets/video/give.mp4" type="video/mp4">
+        </video>
+
+        <div id="give-subtitle-ui" class="give-subtitle-ui">
+            <div id="give-subtitle-text" class="subtitle-text"></div>
+        </div>
+
+        <div id="give-white-overlay" class="give-white-overlay"></div>
+        <div id="give-ending-text" class="give-ending-text"></div>
     </div>
 
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>

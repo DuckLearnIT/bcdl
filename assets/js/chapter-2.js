@@ -44,6 +44,20 @@
   const PASSWORD = '2017';
   const MAX_LENGTH = 8;
 
+  // ── SFX Audio Elements ──
+  const tickAudio = new Audio('assets/audio/SFX/terminal-tick.m4a');
+  const beepAudio = new Audio('assets/audio/SFX/terminal-beep.m4a');
+  const loginClickAudio = new Audio('assets/audio/SFX/login-click.m4a');
+  const loginSuccessAudio = new Audio('assets/audio/SFX/login-success.m4a');
+  const loginErrorAudio = new Audio('assets/audio/SFX/login-error.m4a');
+
+  // Preload SFX
+  tickAudio.preload = "auto";
+  beepAudio.preload = "auto";
+  loginClickAudio.preload = "auto";
+  loginSuccessAudio.preload = "auto";
+  loginErrorAudio.preload = "auto";
+
   // ══════════════════════════════════
   // Phase 1: Terminal
   // ══════════════════════════════════
@@ -55,10 +69,24 @@
       logContainer.appendChild(line);
       terminalScreen.scrollTop = terminalScreen.scrollHeight;
 
+      // Play terminal tick SFX
+      try {
+        const tick = tickAudio.cloneNode();
+        tick.volume = 0.25;
+        tick.currentTime = 0.11;
+        tick.play().catch(() => {});
+      } catch (e) {}
+
       const delay = Math.random() * 100 + 30;
       setTimeout(() => typeLogs(index + 1), delay);
     } else {
-      setTimeout(startVideo, 500);
+      // Play terminal boot beep SFX
+      try {
+        beepAudio.volume = 0.45;
+        beepAudio.currentTime = 0.12;
+        beepAudio.play().catch(() => {});
+      } catch (e) {}
+      setTimeout(startVideo, 700);
     }
   }
 
@@ -71,7 +99,7 @@
 
     bootVideo.play().catch(err => console.warn('Autoplay blocked:', err));
     bootVideo.onended = () => {
-      setTimeout(showLogin, 2000);
+      setTimeout(showLogin, 1500);
     };
 
     // Safety timeout
@@ -123,14 +151,35 @@
   function attemptLogin() {
     const val = passwordInput.value.trim();
 
+    // Play button click SFX
+    try {
+      loginClickAudio.currentTime = 0.07;
+      loginClickAudio.volume = 0.55;
+      loginClickAudio.play().catch(() => {});
+    } catch (e) {}
+
     if (val === PASSWORD) {
-      // Success — redirect
-      document.body.style.transition = 'opacity 0.6s ease';
+      // Play logon success SFX
+      try {
+        loginSuccessAudio.volume = 0.65;
+        loginSuccessAudio.currentTime = 0.13;
+        loginSuccessAudio.play().catch(() => {});
+      } catch (e) {}
+
+      // Success — redirect (with safe fade out and delay for Logon chime)
+      document.body.style.transition = 'opacity 1.5s cubic-bezier(0.25, 1, 0.5, 1)';
       document.body.style.opacity = '0';
       setTimeout(() => {
         window.location.href = 'chapter-3.html';
-      }, 700);
+      }, 1600);
     } else {
+      // Play wrong password shake chord SFX
+      try {
+        loginErrorAudio.currentTime = 0.07;
+        loginErrorAudio.volume = 0.5;
+        loginErrorAudio.play().catch(() => {});
+      } catch (e) {}
+
       // Wrong — shake + error message
       passwordRow.classList.remove('shake');
       void passwordRow.offsetWidth; // trigger reflow
