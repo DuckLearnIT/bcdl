@@ -33,7 +33,7 @@
     - Giả lập Chatgipiti (`chatgipiti-ui`) hỗ trợ các tùy chọn tương tác tạo bài luận.
     - Quét đạo văn TurnItOut (`plagiarism-popup`) giả lập thanh tiến trình quét và hiển thị kết quả.
     - Kết màn Cinematic Outro hoành tráng: Hiệu ứng panning ảnh nền động (`A+.webp`, `sili.webp`), video nền AI (`AI.mp4`), nhạc kịch tính tăng/giảm âm lượng tự động (`drame.m4a`), và màn hình gõ chữ Typewriter toàn màn hình mượt mà.
-- **Chương IV: Đang phát triển (`chapter-4.html`):**
+- **Đôi nạng gỗ và những đôi chân bại liệt (`chapter-4.html`):**
   - Thiết kế UI Glassmorphism hiện đại và bắt mắt với ambient glowing spheres.
   - Nút CTA quay lại chương III cùng hiệu ứng âm thanh Synth tinh tế khi hover.
 
