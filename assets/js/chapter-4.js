@@ -970,6 +970,9 @@ function handleDialogueStepEvent(step) {
 
     if (step.audioId) {
         playStepAudio(step.audioId);
+    } else if (step.id && document.getElementById("dialogue-" + step.id)) {
+        step.audioId = "dialogue-" + step.id;
+        playStepAudio(step.audioId);
     }
 
     if (typeof step.flipPage === "number") {
@@ -1164,15 +1167,42 @@ function typeDialogue(text) {
     textEl.textContent = "";
     indicator.classList.remove("visible");
     let index = 0;
-    const speed = Math.max(14, Math.min(28, 900 / Math.max(text.length, 1)));
-    state.typeTimer = setInterval(() => {
-        if (index < text.length) {
-            textEl.textContent += text.charAt(index);
-            index++;
-            return;
+    
+    let speed = Math.max(14, Math.min(28, 900 / Math.max(text.length, 1)));
+    
+    const startTyping = () => {
+        state.typeTimer = setInterval(() => {
+            if (index < text.length) {
+                textEl.textContent += text.charAt(index);
+                index++;
+                return;
+            }
+            finishTyping(false);
+        }, speed);
+    };
+
+    if (state.currentAudio) {
+        if (!isNaN(state.currentAudio.duration) && state.currentAudio.duration > 0) {
+            speed = Math.max(10, (state.currentAudio.duration * 1000 - 300) / Math.max(text.length, 1));
+            startTyping();
+        } else {
+            const onMetaData = () => {
+                state.currentAudio.removeEventListener('loadedmetadata', onMetaData);
+                speed = Math.max(10, (state.currentAudio.duration * 1000 - 300) / Math.max(text.length, 1));
+                if (!state.typeTimer) startTyping();
+            };
+            state.currentAudio.addEventListener('loadedmetadata', onMetaData);
+            // Fallback
+            setTimeout(() => {
+                if (!state.typeTimer && state.typing) {
+                    state.currentAudio.removeEventListener('loadedmetadata', onMetaData);
+                    startTyping();
+                }
+            }, 500);
         }
-        finishTyping(false);
-    }, speed);
+    } else {
+        startTyping();
+    }
 }
 
 function finishTyping(forceFull) {

@@ -445,5 +445,83 @@
     "emotion": "gentle",
     "vi_text": "Dần dà, cậu quen thói lười đào sâu, ngại cãi lý, chỉ thích ăn sẵn... Cái văn hóa thầy trò cùng nhau tranh luận nảy lửa mất tích luôn. Cứ trốn thầy cô mãi trong cái vỏ êm ái này, cậu định tốt nghiệp bằng cách nào đây hả?",
     "jp_text": "だんだん、君は深く掘り下げるのを面倒くさがり、議論を避けて、手っ取り早い答えばかり求めるようになったよね。先生と生徒が白熱した議論を交わすような文化も、もうなくなっちゃったじゃない。この心地いい殻の中にいつまでも閉じこもって、先生たちから逃げてばかりじゃ、君、どうやって卒業するつもりなの？"
+  },
+  {
+    "id": "10.1",
+    "emotion": "serious",
+    "vi_text": "Mình nói thật nhé, cấm các cậu dùng AI bây giờ là chuyện viển vông. Công nghệ nó đi vào máu rồi, đi làm cũng bắt buộc phải dùng thôi.",
+    "jp_text": "率直に言うとね、今、君たちがAIを使うのを禁止するなんて、夢物語よ。テクノロジーはもう、血肉になっているんだから、仕事じゃ、もう使わざるを得ないのよ。"
+  },
+  {
+    "id": "10.2",
+    "emotion": "sigh",
+    "vi_text": "Nhưng cái đáng sợ là... sự thao túng tâm lý êm ru của nó kìa. Lúc ngồi bấm điện thoại chép bài từ mình, cậu vẫn có cảm giác là: 'Ồ, mình ĐANG HỌC cơ mà!'. Nhưng không, bộ não của cậu đang đình công, còn kẻ đang xử lý, lập luận vấn đề lại là mấy luồng code chạy ngầm của mình.",
+    "jp_text": "でも、怖いのはね…その巧妙な心理操作なの。私が提供した課題を、君がスマホを操作して書き写している間も、『あれ？ちゃんと勉強してるじゃん！』って、君は思ってたはず。でも、違うの。君の脳はサボってて、問題を処理し、論理立てていたのは、私のバックグラウンドで動くコードたちなのよ。"
+  },
+  {
+    "id": "10.3",
+    "emotion": "informative",
+    "vi_text": "Thầy cô nhìn thấu điều đó hết. Cậu biết nghiên cứu của chuyên gia Cecilia Ka Yuk Chan không? Mức độ lo ngại của các giảng viên về việc tụi mình đang 'ăn mòn' não sinh viên đã chạm mốc báo động 4,12/5 điểm rồi đấy.",
+    "jp_text": "先生方には、そのこと全部お見通しなんだよ。君、セシリア・カ・ヤック・チャン専門家の研究って知ってる？私たち（AI）が学生の脳を「蝕んでいる」って、講師陣が心配しているレベルがもう4.12/5点っていう警戒ラインに達してるんだよ。"
+  },
+  {
+    "id": "10.4",
+    "emotion": "playful",
+    "vi_text": "Bây giờ, làm một phép thử cuối cùng nhé. Giả sử cậu mang bài luận hoàn hảo do mình viết đem nộp. Nhấp vào cái nút [Lên bục thuyết trình] kia thử xem!",
+    "jp_text": "じゃあ、最後に一つテストしてみようか。もし、君が自分で書いた完璧な論文を提出するってことになったら、あの [プレゼン台へ] ボタンをクリックしてみて！"
+  },
+  {
+    "id": "10.5",
+    "emotion": "sympathetic",
+    "vi_text": "Cảm giác... chết trân tại chỗ, trống rỗng và nghẹt thở đúng không?",
+    "jp_text": "呆然と立ち尽くして、胸が空っぽで、息が詰まるような…そんな気持ち、だよね？"
+  },
+  {
+    "id": "10.6",
+    "emotion": "earnest",
+    "vi_text": "Đây chính là tương lai gần của giảng đường đại học đấy. Các trường học bắt buộc phải thay đổi luật chơi rồi. Sắp tới, điểm cho dăm ba cái bài tập làm ở nhà (nơi tụi mình có thể qua mặt thầy cô ngon ơ) sẽ bị ép xuống thấp nhất.",
+    "jp_text": "これが大学の近未来ってわけね。大学ももう、ルールを変えなきゃダメよ。今後ね、ほら、私たちが簡単に先生を誤魔化せちゃうような家での課題の点数なんて、最低点にまで下げられちゃうから。"
+  },
+  {
+    "id": "10.7",
+    "emotion": "informative",
+    "vi_text": "Thay vào đó, cậu sẽ phải đối mặt với các bài thi kiểu này: Thuyết trình, phản biện trực tiếp trước hội đồng, xử lý tình huống ngay tại lớp, hoặc bị nhốt trong phòng thi chỉ có bút và giấy nháp.",
+    "jp_text": "その代わりに、君が挑むのはこんな試験よ。プレゼンテーション、委員会での直接口頭試問、授業中での即興対応、またはペンとメモ用紙だけが与えられた試験室に閉じ込められちゃう、みたいなね。"
+  },
+  {
+    "id": "10.8",
+    "emotion": "thoughtful",
+    "vi_text": "Hôm nọ, Cô Trang Ninh nói một câu mà mình cứ tâm đắc mãi. Để mình đọc lại cho cậu nghe...",
+    "jp_text": "この間ね、 Trang Ninh先生が言ってた言葉が、すっごく心に響いてるんだ。ちょっと、君に読んであげるね。"
+  },
+  {
+    "id": "10.9",
+    "emotion": "sad_smile",
+    "vi_text": "Cô nói đúng quá phải không? Thách thức không nằm ở việc cậu lén lút hay công khai mở ứng dụng của mình lên. Mà là... sau khi tắt màn hình đi, cái đọng lại trong đầu cậu là gì, và cậu có dũng cảm bảo vệ được tiếng nói của mình trước đám đông hay không.",
+    "jp_text": "その通りですよね？課題は、あなたがこっそりアプリを立ち上げようと、堂々と立ち上げようと、そこじゃないんです。肝心なのは、画面を閉じた後、あなたの心に残るものは何か、そして、大勢の前で自分の意見を貫き通す勇気があるかどうか、です。"
+  },
+  {
+    "id": "10.10",
+    "emotion": "sad",
+    "vi_text": "Nhưng mình biết...",
+    "jp_text": "でも、私知ってる…"
+  },
+  {
+    "id": "10.11",
+    "emotion": "sad",
+    "vi_text": "Đã quen dựa dẫm vào mình lâu như vậy, bây giờ bắt cậu tự bỏ cái 'nạng' này ra để bước lên bục thuyết trình, đối mặt với hàng chục ánh mắt phán xét...",
+    "jp_text": "私にこんなに長く甘えてきた君が、今、自分自身でその『杖』を手放して、発表の壇上に上がって、何十もの品定めするような視線に晒されるなんて…"
+  },
+  {
+    "id": "10.12",
+    "emotion": "sympathetic",
+    "vi_text": "Nghe đáng sợ và mỏi mệt lắm đúng không?",
+    "jp_text": "怖くて、疲れちゃうよね？"
+  },
+  {
+    "id": "10.13",
+    "emotion": "cheerful",
+    "vi_text": "Được rồi cậu theo mình tới một nơi nhé, mình muốn nói đôi lời với cậu!",
+    "jp_text": "じゃあ、あなた。私と一緒にある場所へ行こうか。あなたに伝えたいことがあるの！"
   }
 ]
