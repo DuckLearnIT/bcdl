@@ -1,0 +1,2528 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="color-scheme" content="light only">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Báo Chí Dữ Liệu</title>
+    <link href="assets/favicon.ico" rel="shortcut icon" type="image/x-icon">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="assets/css/ai-word-loop.css">
+    <style>
+        html, body { margin: 0; padding: 0; width: 100%; overflow-x: hidden; }
+        * { box-sizing: border-box; }
+        @font-face {
+            font-family: 'HoiThoai';
+            src: url('assets/fonts/fonthoithoai.woff2') format('woff2');
+            font-weight: normal;
+            font-style: normal;
+            font-display: swap;
+        }
+        body { font-family: 'Be Vietnam Pro', sans-serif; background-image: url('assets/img/baochidulieu/bg.webp'); background-repeat: repeat; color: #000000 !important; line-height: 1.6; }
+        #hero-ripple { width: 100%; background-image: url('assets/img/baochidulieu/nen.webp'); background-size: 100% auto; background-repeat: no-repeat; background-position: top center; }
+        .hero-banner-img { width: 100%; height: auto; display: block; visibility: hidden; }
+        .grid-container { display: grid; grid-template-columns: repeat(12, 1fr); gap: 20px; max-width: 1200px; margin: -166px auto 40px auto; padding: 0 20px; position: relative; z-index: 10; }
+        .main-content { grid-column: 3 / span 8; background: transparent; padding: 0; box-shadow: none; }
+        .main-content p { margin-bottom: 1.2rem; font-size: 1.1rem; text-align: justify; color: #000000 !important; }
+        .main-content > p:first-child { font-size: 1.25rem; font-weight: bold; color: #000000 !important; margin-bottom: 2rem; }
+        .media-row { position: relative; margin-bottom: 3.5rem; }
+        .media-row p { margin-bottom: 0 !important; font-weight: normal !important; }
+        .img-swap { position: relative; cursor: pointer; }
+        .img-swap img { width: 100%; height: auto; display: block; transition: opacity 0.5s ease, transform 0.4s ease; box-shadow: none !important; background: transparent !important; }
+        .img-swap .img-default { position: relative; opacity: 1; }
+        .img-swap .img-hover { position: absolute; top: 0; left: 0; opacity: 0; pointer-events: none; }
+        .img-swap:hover .img-default { opacity: 0; transform: scale(1.05); }
+        .img-swap:hover .img-hover { opacity: 1; transform: scale(1.05); }
+        .img-single { position: relative; }
+        .img-single img { width: 100%; height: auto; display: block; box-shadow: none !important; background: transparent !important; }
+        
+        /* Desktop styles: bleed out to viewport margins */
+        @media (min-width: 1025px) {
+            .media-row.right .img-swap, .media-row.right .img-single {
+                position: absolute;
+                left: calc(100% + 40px);
+                top: 50%;
+                transform: translateY(-50%);
+                width: 450px;
+            }
+            .media-row.right.robot-row .img-single {
+                top: calc(50% + 1000px) !important;
+            }
+            .media-row.left .img-swap, .media-row.left .img-single {
+                position: absolute;
+                right: calc(100% + 40px);
+                top: 50%;
+                transform: translateY(-50%);
+                width: 450px;
+            }
+            .media-row.left.anh3-row {
+                padding-left: 280px;
+            }
+        }
+        .quote-fullwidth {
+            width: 100vw;
+            margin-left: calc(-50vw + 50%);
+            margin-right: calc(-50vw + 50%);
+            position: relative;
+            overflow: visible;
+            line-height: 0;
+            margin-top: -80px;
+            margin-bottom: -20px;
+        }
+        .quote-bg-img {
+            width: 130vw;
+            max-width: none;
+            height: auto;
+            display: block;
+            margin-left: -15vw;
+            transform: translateX(32px);
+        }
+        .quote-text-box {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 65%;
+            max-height: 80%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-family: 'HoiThoai', sans-serif;
+            font-size: clamp(15px, 1.8vw, 22px);
+            line-height: 1.55;
+            color: #1e3a8a;
+            text-align: center;
+            pointer-events: none;
+        }
+        .typewriter-target {
+            display: inline;
+            white-space: pre-wrap;
+            word-break: break-word;
+        }
+        .typewriter-cursor {
+            display: inline;
+            animation: blink 1s step-end infinite;
+            color: #1e3a8a;
+            font-weight: 300;
+            margin-left: 2px;
+        }
+        @keyframes blink {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0; }
+        }
+        .ninh-profile {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 12px;
+            margin: -48px 0 2rem;
+            padding: 0;
+            background: none;
+            border: none;
+            box-shadow: none;
+        }
+        .ninh-profile-img {
+            width: 100%;
+            height: auto;
+            border-radius: 8px;
+            object-fit: cover;
+            display: block;
+            margin-top: 32px !important;
+        }
+        .ninh-profile-info {
+            width: 100%;
+            text-align: center !important;
+        }
+        .ninh-profile-info p {
+            text-align: center !important;
+        }
+        .ninh-profile-name {
+            font-family: 'HoiThoai', sans-serif;
+            font-size: 1.1rem;
+            font-weight: 700;
+            color: #1e3a8a;
+            margin: 0 0 4px;
+        }
+        .ninh-profile-role {
+            font-size: 0.85rem;
+            color: #475569;
+            margin: 0 0 12px;
+        }
+        .ninh-play-btn {
+            display: block;
+            width: 100%;
+            height: 72px;
+            border: none;
+            background: url('assets/img/baochidulieu/button3.webp') no-repeat center center;
+            background-size: contain;
+            cursor: pointer;
+            transition: transform 0.25s cubic-bezier(0.34, 1.56, 0.64, 1), filter 0.2s ease;
+            padding: 0;
+            position: relative;
+        }
+        .ninh-play-btn:hover {
+            transform: translateY(-3px) scale(1.03);
+            filter: brightness(1.12);
+        }
+        .ninh-play-btn:active {
+            transform: scale(0.96);
+        }
+        .ninh-play-btn.playing {
+            background-image: url('assets/img/baochidulieu/button4.webp');
+        }
+        .ninh-play-btn span {
+            display: none;
+        }
+        @media (max-width: 768px) {
+            .ninh-profile { max-width: 100%; }
+            .ninh-play-btn { height: 56px; }
+        }
+        
+        /* Mobile/tablet styling */
+        @media (max-width: 1024px) {
+            .media-row { display: flex; flex-direction: column; align-items: center; gap: 20px; }
+            .media-row.left { flex-direction: column-reverse; }
+            .img-swap, .img-single { width: 100%; max-width: 320px; }
+            .media-row.left .full-width-img {
+                position: static;
+                transform: none;
+                width: 100%;
+                max-width: 320px;
+                margin: 0 auto;
+            }
+            .media-row.left.anh3-row {
+                padding-left: 0;
+            }
+            .quote-text-box {
+                width: 85%;
+                font-size: clamp(13px, 3.5vw, 18px);
+                line-height: 1.5;
+            }
+        }
+        @media (max-width: 992px) { .main-content { grid-column: 2 / span 10; } }
+        @media (max-width: 768px) { .main-content { grid-column: 1 / span 12; } }
+        .custom-chart-container { background: none; backdrop-filter: none; margin: 3rem 0; padding: 0; border: none; box-shadow: none; }
+        .chart-title { text-align: center; font-weight: 700; font-size: 1.3rem; margin-bottom: 2rem; color: #1e3a8a; }
+        .pie-chart-wrapper { display: flex; align-items: center; justify-content: center; gap: 48px; margin: 2rem 0 1rem; }
+        .pie-chart-svg-container { position: relative; width: 250px; height: 250px; flex-shrink: 0; }
+        .donut-chart-svg { width: 100%; height: 100%; transform: rotate(-90deg); }
+        .donut-segment { cursor: pointer; transition: stroke-width 0.3s cubic-bezier(0.34, 1.56, 0.64, 1), filter 0.3s ease; }
+        .donut-segment:hover, .donut-segment.active { stroke-width: 21; filter: brightness(1.1) drop-shadow(0 0 4px rgba(30,58,138,0.15)); }
+        .pie-chart-center-text { position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); display: flex; flex-direction: column; align-items: center; justify-content: center; pointer-events: none; }
+        .center-percentage { font-size: 2.2rem; font-weight: 700; color: #1e3a8a; line-height: 1; transition: color 0.3s ease; }
+        .center-label { font-size: 0.9rem; color: #475569; margin-top: 4px; font-weight: 600; text-align: center; }
+        .pie-chart-legend { display: flex; flex-direction: column; gap: 12px; }
+        .legend-item { display: flex; align-items: center; gap: 10px; font-size: 0.95rem; color: #1f2937; cursor: pointer; transition: transform 0.25s cubic-bezier(0.34, 1.56, 0.64, 1), opacity 0.2s ease; }
+        .legend-item:hover { transform: translateX(6px); opacity: 0.85; }
+        .legend-item.active { font-weight: bold; transform: translateX(8px); }
+        .legend-color-dot { width: 14px; height: 14px; border-radius: 4px; flex-shrink: 0; transition: transform 0.2s ease; }
+        .legend-item:hover .legend-color-dot { transform: scale(1.2); }
+        .legend-item-label { line-height: 1.2; font-family: 'Be Vietnam Pro', sans-serif; }
+        .chart-caption-text { text-align: center !important; font-size: 0.95rem; font-style: italic; color: #475569 !important; margin-top: 1.5rem; margin-bottom: 2.5rem !important; font-family: 'Be Vietnam Pro', sans-serif; }
+        @media (max-width: 768px) { .pie-chart-wrapper { flex-direction: column; gap: 24px; } .chart-caption-text { font-size: 0.85rem; padding: 0 10px; } }
+        
+        /* 3D Earth Globe Section */
+        .custom-globe-wrapper {
+            margin: 3.5rem 0 4.5rem;
+            width: 100%;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        .custom-globe-section {
+            position: relative;
+            width: 100%;
+            height: 600px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: grab;
+            background: transparent;
+        }
+        .custom-globe-section:active {
+            cursor: grabbing;
+        }
+        #globe-container {
+            width: 100%;
+            height: 100%;
+            position: absolute;
+            top: 0;
+            left: 0;
+            z-index: 1;
+        }
+        .globe-legend {
+            margin-top: 1rem;
+            font-size: 0.9rem;
+            color: #4b5563;
+            text-align: center;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 8px;
+            z-index: 2;
+        }
+        .legend-gradient {
+            width: 200px;
+            height: 10px;
+            background: linear-gradient(to right, #fef08a, #eab308, #ef4444, #991b1b);
+            border-radius: 6px;
+            box-shadow: inset 0 1px 3px rgba(0,0,0,0.2);
+        }
+        .legend-text {
+            font-style: italic;
+            max-width: 400px;
+            line-height: 1.4;
+        }
+        .full-width-img {
+            max-width: 100%;
+            height: auto;
+            display: block;
+            margin: 2rem 0;
+        }
+        .media-row.left .full-width-img {
+            position: absolute;
+            right: calc(100% - 360px);
+            top: 50%;
+            transform: translateY(-50%);
+            width: auto;
+            max-width: 57vw;
+            margin: 0;
+        }
+        .section-image-wrapper {
+            margin: 3.5rem 0 2rem;
+            width: 100%;
+            overflow: hidden;
+            position: relative;
+        }
+        .section-img {
+            max-width: 100%;
+            height: auto;
+            display: block;
+            margin: 0 auto;
+        }
+        .full-width-image-wrapper {
+            position: relative;
+            width: 100vw;
+            margin-left: calc(-50vw + 50%);
+            margin-right: calc(-50vw + 50%);
+            overflow: hidden;
+            margin-top: 2rem;
+            margin-bottom: 2rem;
+        }
+        .full-width-img-viewport {
+            width: 100%;
+            height: auto;
+            display: block;
+            object-fit: contain;
+        }
+        .image-caption {
+            text-align: center;
+            font-style: italic;
+            font-size: 0.78rem;
+            color: #94a3b8;
+            margin: 0.75rem auto 2.5rem;
+            max-width: 90%;
+            line-height: 1.5;
+        }
+        .quote-fullwidth + .section-image-wrapper {
+            margin-top: -106px;
+        }
+        .pictogram-container {
+            margin: 2.5rem 0;
+            padding: 0;
+            background: none;
+            backdrop-filter: none;
+            border: none;
+            box-shadow: none;
+            display: flex;
+            flex-direction: column;
+            gap: 24px;
+        }
+        .pictogram-row {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 12px;
+        }
+        .pictogram-icons {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 8px;
+            flex-wrap: wrap;
+        }
+        .pictogram-icons img {
+            width: clamp(44px, 8vw, 64px);
+            height: clamp(44px, 8vw, 64px);
+            object-fit: contain;
+            transition: transform 0.2s cubic-bezier(0.34, 1.56, 0.64, 1);
+        }
+        .pictogram-icons img:hover {
+            transform: scale(1.15);
+            z-index: 2;
+        }
+        .pictogram-caption {
+            font-family: 'Be Vietnam Pro', sans-serif;
+            font-size: 0.95rem;
+            font-weight: 600;
+            color: #1e3a8a;
+            text-align: center;
+        }
+        .section-images-container {
+            display: flex;
+            width: 200%;
+            animation: marquee 15s linear infinite;
+        }
+        .section-images-container .section-img {
+            max-width: 50%;
+            height: auto;
+            flex-shrink: 0;
+        }
+        @keyframes marquee {
+            0% { transform: translateX(0); }
+            100% { transform: translateX(-50%); }
+        }
+        .full-page-marquee {
+            width: 100vw;
+            margin-left: calc(-50vw + 50%);
+            margin-right: calc(-50vw + 50%);
+            overflow: hidden;
+            position: relative;
+        }
+        .full-page-marquee .section-images-container {
+            width: 200%;
+        }
+
+        /* High-End Area Chart - Simplified Concept */
+        .he-chart-shell {
+            margin: 4.5rem 0;
+            padding: 0;
+            background: transparent;
+            border: none;
+            border-radius: 0;
+            box-shadow: none;
+            backdrop-filter: none;
+            -webkit-backdrop-filter: none;
+            opacity: 0;
+            transform: translateY(40px);
+        }
+        .he-chart-core {
+            background: transparent;
+            border-radius: 0;
+            padding: 0;
+            box-shadow: none;
+            position: relative;
+            overflow: visible;
+        }
+        .he-title {
+            font-size: clamp(1.6rem, 3vw, 2.2rem);
+            font-weight: 800;
+            color: #0f172a;
+            line-height: 1.25;
+            margin-bottom: 3rem;
+            max-width: 85%;
+        }
+        .he-chart-svg-container {
+            width: 100%;
+            height: 320px;
+            position: relative;
+            overflow: hidden;
+        }
+        .he-chart-svg {
+            width: 100%;
+            height: 100%;
+            overflow: visible;
+        }
+        .he-axis-text {
+            font-family: 'Be Vietnam Pro', sans-serif;
+            font-size: 0.9rem;
+            font-weight: 600;
+            fill: #475569;
+        }
+        .he-line-ai {
+            fill: none;
+            stroke: #3b82f6;
+            stroke-width: 4;
+            stroke-linecap: round;
+            stroke-linejoin: round;
+            filter: drop-shadow(0 12px 16px rgba(59, 130, 246, 0.45));
+            stroke-dasharray: 3000;
+            stroke-dashoffset: 3000;
+        }
+        .he-line-self {
+            fill: none;
+            stroke: #f59e0b;
+            stroke-width: 4;
+            stroke-linecap: round;
+            stroke-linejoin: round;
+            filter: drop-shadow(0 12px 16px rgba(245, 158, 11, 0.45));
+            stroke-dasharray: 3000;
+            stroke-dashoffset: 3000;
+        }
+        .he-area-ai {
+            fill: url(#he-gradient-ai);
+            opacity: 0;
+        }
+        .he-area-self {
+            fill: url(#he-gradient-self);
+            opacity: 0;
+        }
+        .he-point {
+            fill: #ffffff;
+            stroke-width: 3;
+            r: 6;
+            opacity: 0;
+            cursor: pointer;
+            transition: opacity 0.3s ease;
+        }
+        .he-point-ai {
+            stroke: #2563eb;
+        }
+        .he-point-self {
+            stroke: #d97706;
+        }
+        .he-line-ai, .he-line-self {
+            transition: opacity 0.3s ease;
+        }
+        .he-area-ai, .he-area-self {
+            transition: opacity 0.3s ease;
+        }
+        .he-percent-label {
+            transition: opacity 0.3s ease;
+        }
+        .he-percent-label {
+            font-family: 'Be Vietnam Pro', sans-serif;
+            font-size: 1.1rem;
+            font-weight: 800;
+            opacity: 0;
+        }
+        .he-percent-ai {
+            fill: #2563eb;
+        }
+        .he-percent-self {
+            fill: #d97706;
+        }
+        @media (max-width: 768px) {
+            .he-title { font-size: 1.35rem; max-width: 100%; margin-bottom: 2rem; }
+            .he-chart-svg-container { height: 260px; }
+            .he-axis-text { font-size: 0.75rem; }
+            .he-percent-label { font-size: 0.9rem; }
+        }
+
+        /* Horizontal Pin Scroll Section and Overrides for Loop */
+        .scroll-horizontal-section-wrapper {
+            position: relative;
+            width: 100vw;
+            margin-left: calc(-50vw + 50%);
+            margin-right: calc(-50vw + 50%);
+            margin-top: 4rem;
+            margin-bottom: 4rem;
+            padding: 3rem 0;
+            overflow: hidden;
+        }
+        .scroll-horizontal-section {
+            display: flex;
+            flex-direction: column;
+            width: 100%;
+            margin: 0;
+            padding: 0 60px;
+            gap: 24px;
+        }
+        .scroll-left-text-viewport {
+            width: 100%;
+            overflow: hidden;
+            position: relative;
+        }
+        .scroll-left-text-container {
+            display: flex;
+            gap: 48px;
+            width: max-content;
+            will-change: transform;
+        }
+        .scroll-left-p-card {
+            flex-shrink: 0;
+            display: flex;
+            align-items: center;
+        }
+        .scroll-left-p-card p {
+            font-family: 'Be Vietnam Pro', sans-serif !important;
+            font-size: 1.15rem !important;
+            line-height: 1.65 !important;
+            color: #1e293b !important;
+            text-align: justify;
+            margin: 0 !important;
+            white-space: normal !important;
+        }
+        
+        /* Specific widths to wrap paragraphs exactly to 3 lines */
+        .scroll-left-p-card:nth-child(1) { width: 1100px; }
+        .scroll-left-p-card:nth-child(2) { width: 1150px; }
+        .scroll-left-p-card:nth-child(3) { width: 850px; }
+        .scroll-left-p-card:nth-child(4) { width: 1080px; }
+
+        /* Mini donut chart inside horizontal scroll cards */
+        .mini-donut-chart {
+            margin-top: 18px;
+            margin-left: 32px;
+            display: flex;
+            flex-direction: row;
+            gap: 24px;
+            font-family: 'Be Vietnam Pro', sans-serif;
+        }
+        .mini-donut-row {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 8px;
+        }
+        .mini-donut-label {
+            font-size: 0.78rem;
+            font-weight: 600;
+            color: #334155;
+            text-align: center;
+            max-width: 140px;
+        }
+        .mini-donut {
+            width: 56px;
+            height: 56px;
+            border-radius: 50%;
+            position: relative;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .mini-donut[data-pct="67.3"] {
+            background: conic-gradient(#3b82f6 0deg 242deg, #dbeafe 242deg 360deg);
+        }
+        .mini-donut[data-pct="47.5"] {
+            background: conic-gradient(#3b82f6 0deg 171deg, #dbeafe 171deg 360deg);
+        }
+        .mini-donut-inner {
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            background: #fff;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.68rem;
+             font-weight: 700;
+            color: #1e40af;
+        }
+
+        /* Distinct quote styling for the 3rd card */
+        .scroll-left-p-card.student-quote {
+            position: relative;
+            background: rgba(59, 130, 246, 0.06);
+            border-left: 4px solid #3b82f6;
+            border-radius: 0 16px 16px 0;
+            padding: 24px 28px;
+        }
+        .scroll-left-p-card.student-quote p {
+            font-style: italic !important;
+            color: #1e3a8a !important;
+            font-weight: 500 !important;
+            text-align: left !important;
+        }
+        .scroll-left-p-card.student-quote::before {
+            content: '"';
+            position: absolute;
+            top: -2px;
+            left: 10px;
+            font-family: Georgia, 'Times New Roman', serif;
+            font-size: 3.5rem;
+            color: #3b82f6;
+            opacity: 0.25;
+            line-height: 1;
+            pointer-events: none;
+        }
+
+        .animation-stage-wrapper {
+            position: relative;
+            width: 100%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin-top: 10px;
+        }
+        
+        /* Overrides for ai-word-loop styles to embed beautifully in our article flow */
+        .ai-word-loop-screen {
+            background: none !important;
+            padding: 0 !important;
+            overflow: visible !important;
+            width: 100% !important;
+            display: flex !important;
+            align-items: center !important;
+            justify-content: center !important;
+            border: none !important;
+            box-shadow: none !important;
+        }
+        .ai-word-loop-stage {
+            width: 100% !important;
+            max-width: 1000px !important;
+            height: 480px !important;
+            min-height: 480px !important;
+        }
+        .ai-word-loop-grid {
+            height: 100% !important;
+        }
+
+        /* Concern bubbles on click inside the animation stage */
+        .loop-concern-layer {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            z-index: 48;
+            pointer-events: auto;
+            overflow: hidden;
+            cursor: pointer;
+        }
+        .loop-concern-layer:hover {
+            background: rgba(59, 130, 246, 0.03);
+        }
+        .loop-click-hint {
+            position: absolute;
+            bottom: 8px;
+            left: 50%;
+            transform: translateX(-50%);
+            font-family: 'Be Vietnam Pro', sans-serif;
+            font-size: 0.75rem;
+            font-weight: 600;
+            color: #64748b;
+            background: rgba(255, 255, 255, 0.85);
+            padding: 4px 12px;
+            border-radius: 20px;
+            pointer-events: none;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+            white-space: nowrap;
+        }
+        .loop-concern-layer:hover .loop-click-hint {
+            opacity: 1;
+        }
+        .loop-concern-bubble {
+            position: absolute;
+            width: min(280px, 44vw);
+            padding: 10px 12px;
+            border: 2px solid #1b2340;
+            border-radius: 12px;
+            background: #fff;
+            color: #1b2340;
+            font-family: 'Be Vietnam Pro', sans-serif;
+            font-size: 0.85rem;
+            font-weight: 700;
+            line-height: 1.35;
+            box-shadow: 0 6px 0 rgba(27, 35, 64, 0.14);
+            animation: loop-concern-float 2500ms ease forwards;
+            pointer-events: none;
+        }
+        @keyframes loop-concern-float {
+            0% { opacity: 0; transform: translateY(12px) scale(0.96); }
+            12% { opacity: 1; transform: translateY(0) scale(1); }
+            78% { opacity: 1; transform: translateY(-14px) scale(1); }
+            100% { opacity: 0; transform: translateY(-22px) scale(0.98); }
+        }
+
+        @media (max-width: 920px) {
+            .scroll-horizontal-section-wrapper {
+                width: 100%;
+                margin-left: 0;
+                margin-right: 0;
+                padding: 2rem 15px;
+                border-radius: 20px;
+            }
+            .scroll-horizontal-section {
+                padding: 0 15px;
+                gap: 32px;
+            }
+            .scroll-left-text-container {
+                flex-direction: column;
+                gap: 20px;
+                width: 100% !important;
+                transform: none !important;
+            }
+            .scroll-left-p-card {
+                width: 100% !important;
+            }
+            .scroll-left-p-card.student-quote {
+                padding: 16px 20px;
+                border-radius: 0 12px 12px 0;
+            }
+            .scroll-left-p-card.student-quote::before {
+                font-size: 2.5rem;
+                top: 2px;
+            }
+            .scroll-left-p-card p {
+                font-size: 1.05rem !important;
+            }
+            .scroll-left-text-viewport {
+                overflow: visible;
+            }
+            .ai-word-loop-stage {
+                height: auto !important;
+                min-height: 0 !important;
+            }
+            .ai-word-loop-grid {
+                grid-template-columns: 1fr !important;
+                gap: 16px !important;
+                height: auto !important;
+            }
+        }
+
+        /* Image Slider Component */
+        .image-slider-wrapper {
+            position: relative;
+            max-width: 700px;
+            margin: 2rem auto;
+            background: transparent;
+        }
+        .image-slider-viewport {
+            overflow: hidden;
+            border-radius: 12px;
+        }
+        .image-slider-track {
+            display: grid;
+            width: 100%;
+            will-change: opacity;
+        }
+        .slider-slide {
+            width: 100%;
+            height: auto;
+            display: block;
+            object-fit: contain;
+            grid-area: 1 / 1;
+            opacity: 0;
+        }
+        .slider-btn {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 70px;
+            height: 70px;
+            background: none;
+            border: none;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s ease;
+            z-index: 10;
+            padding: 0;
+        }
+        .slider-btn:hover {
+            transform: translateY(-50%) scale(1.15);
+        }
+        .slider-btn:active {
+            transform: translateY(-50%) scale(0.95);
+        }
+        .slider-btn img {
+            width: 60px;
+            height: 60px;
+            object-fit: contain;
+        }
+        .slider-prev {
+            left: -40px;
+        }
+        .slider-prev img {
+            transform: rotate(180deg);
+        }
+        .slider-next {
+            right: -40px;
+        }
+        .slider-dots {
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+            margin-top: 15px;
+        }
+        .slider-dot {
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            background: #cbd5e1;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        .slider-dot.active {
+            background: #3b82f6;
+            transform: scale(1.2);
+        }
+        .slider-dot:hover {
+            background: #94a3b8;
+        }
+        @media (max-width: 768px) {
+            .image-slider-wrapper {
+                max-width: 90vw;
+            }
+            .slider-btn {
+                width: 55px;
+                height: 55px;
+            }
+            .slider-btn img {
+                width: 48px;
+                height: 48px;
+            }
+            .slider-prev {
+                left: -30px;
+            }
+            .slider-next {
+                right: -30px;
+            }
+        }
+
+        /* Floating Student Audio Container */
+        .culture-shift-strip {
+            position: relative;
+            width: 100vw;
+            margin-left: calc(-50vw + 50%);
+            margin-right: calc(-50vw + 50%);
+            padding: 40px 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            overflow: visible;
+        }
+        .culture-shift-strip .culture-shift-text {
+            max-width: 720px;
+            padding: 0 48px;
+            position: relative;
+            z-index: 2;
+        }
+        .culture-side-img {
+            position: absolute;
+            top: 50%;
+            width: clamp(270px, 30vw, 360px);
+            height: auto;
+            object-fit: contain;
+            pointer-events: none;
+            z-index: 1;
+        }
+        .culture-side-img.left {
+            left: 150px;
+            transform: translate(-40%, -50%);
+        }
+        .culture-side-img.right {
+            right: 0;
+            width: clamp(189px, 21vw, 252px);
+            transform: translate(40%, -50%);
+        }
+
+        .floating-student-audio-container {
+            position: fixed;
+            bottom: 30px;
+            left: 50%;
+            transform: translate(-50%, 150px);
+            z-index: 9999;
+            opacity: 0;
+            pointer-events: none;
+            transition: transform 0.5s cubic-bezier(0.34, 1.56, 0.64, 1), opacity 0.5s ease;
+        }
+        .floating-student-audio-container.show {
+            transform: translate(-50%, 0);
+            opacity: 1;
+            pointer-events: auto;
+        }
+        .student-audio-card {
+            background: rgba(255, 255, 255, 0.9);
+            backdrop-filter: blur(16px) saturate(180%);
+            -webkit-backdrop-filter: blur(16px) saturate(180%);
+            border: 1px solid rgba(30, 58, 138, 0.15);
+            border-radius: 40px;
+            padding: 8px 16px 8px 24px;
+            box-shadow: 0 10px 30px rgba(30, 58, 138, 0.15);
+            display: flex;
+            align-items: center;
+            gap: 16px;
+        }
+        .student-audio-title {
+            font-family: 'Be Vietnam Pro', sans-serif;
+            font-size: 0.95rem;
+            font-weight: 600;
+            color: #1e3a8a;
+            margin: 0;
+            white-space: nowrap;
+        }
+        .student-play-btn {
+            width: 200px;
+            height: 58px;
+            border: none;
+            background: url('assets/img/baochidulieu/button3.webp') no-repeat center center;
+            background-size: contain;
+            cursor: pointer;
+            transition: transform 0.2s cubic-bezier(0.34, 1.56, 0.64, 1), filter 0.2s ease;
+            flex-shrink: 0;
+        }
+        .student-play-btn:hover {
+            transform: translateY(-2px) scale(1.05);
+            filter: brightness(1.1);
+        }
+        .student-play-btn:active {
+            transform: scale(0.95);
+        }
+        .student-play-btn.playing {
+            background-image: url('assets/img/baochidulieu/button4.webp');
+        }
+        @media (max-width: 600px) {
+            .student-audio-card {
+                flex-direction: column;
+                border-radius: 24px;
+                padding: 16px;
+                gap: 8px;
+                text-align: center;
+            }
+            .student-play-btn {
+                width: 170px;
+                height: 50px;
+            }
+            .student-audio-title {
+                font-size: 0.85rem;
+            }
+        }
+
+        /* Gauge Component */
+        .gauge-container {
+            position: relative;
+            width: 320px;
+            height: 210px;
+            margin: 3rem auto;
+            text-align: center;
+        }
+        .gauge-outer-shell {
+            position: relative;
+            width: 280px;
+            height: 140px;
+            margin: 0 auto;
+            padding: 8px;
+            background: rgba(255,255,255,0.65);
+            border: 1px solid rgba(226,232,240,0.5);
+            border-radius: 140px 140px 0 0;
+            box-shadow: 0 8px 32px rgba(30,64,175,0.06), 0 2px 8px rgba(30,64,175,0.04), inset 0 1px 1px rgba(255,255,255,0.8);
+        }
+        .gauge-arc {
+            position: relative;
+            width: 100%;
+            height: 100%;
+            border-radius: 132px 132px 0 0;
+            overflow: hidden;
+            background: conic-gradient(from 180deg at 50% 100%, #dbeafe 0deg, #93c5fd 30deg, #3b82f6 60deg, #1d4ed8 90deg, #1e40af 120deg, #1e3a8a 150deg, #1e3a8a 180deg);
+        }
+        .gauge-arc-cutout {
+            position: absolute;
+            bottom: 8px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 196px;
+            height: 98px;
+            background: #fff;
+            border-radius: 98px 98px 0 0;
+            box-shadow: inset 0 2px 6px rgba(0,0,0,0.04);
+            z-index: 2;
+        }
+        .gauge-ticks {
+            position: absolute;
+            bottom: 8px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 260px;
+            height: 130px;
+            z-index: 3;
+            pointer-events: none;
+        }
+        .gauge-tick {
+            position: absolute;
+            bottom: 0;
+            left: 50%;
+            width: 2px;
+            height: 10px;
+            background: #cbd5e1;
+            transform-origin: bottom center;
+            border-radius: 1px;
+        }
+        .gauge-tick.major {
+            height: 16px;
+            width: 3px;
+            background: #64748b;
+        }
+        .gauge-ticks .gauge-tick:nth-child(1)  { transform: translateX(-50%) rotate(-90deg); }
+        .gauge-ticks .gauge-tick:nth-child(2)  { transform: translateX(-50%) rotate(-72deg); }
+        .gauge-ticks .gauge-tick:nth-child(3)  { transform: translateX(-50%) rotate(-54deg); }
+        .gauge-ticks .gauge-tick:nth-child(4)  { transform: translateX(-50%) rotate(-36deg); }
+        .gauge-ticks .gauge-tick:nth-child(5)  { transform: translateX(-50%) rotate(-18deg); }
+        .gauge-ticks .gauge-tick:nth-child(6)  { transform: translateX(-50%) rotate(0deg); }
+        .gauge-ticks .gauge-tick:nth-child(7)  { transform: translateX(-50%) rotate(18deg); }
+        .gauge-ticks .gauge-tick:nth-child(8)  { transform: translateX(-50%) rotate(36deg); }
+        .gauge-ticks .gauge-tick:nth-child(9)  { transform: translateX(-50%) rotate(54deg); }
+        .gauge-ticks .gauge-tick:nth-child(10) { transform: translateX(-50%) rotate(72deg); }
+        .gauge-ticks .gauge-tick:nth-child(11) { transform: translateX(-50%) rotate(90deg); }
+        .gauge-tick-labels {
+            position: absolute;
+            bottom: -26px;
+            left: 0;
+            width: 100%;
+            height: 20px;
+        }
+        .gauge-tick-labels span {
+            position: absolute;
+            font-family: 'Be Vietnam Pro', sans-serif;
+            font-size: 0.75rem;
+            color: #94a3b8;
+            transform: translateX(-50%);
+        }
+        .gauge-tick-labels span:nth-child(1) { left: 0; }
+        .gauge-tick-labels span:nth-child(2) { left: 25%; }
+        .gauge-tick-labels span:nth-child(3) { left: 50%; }
+        .gauge-tick-labels span:nth-child(4) { left: 75%; }
+        .gauge-tick-labels span:nth-child(5) { left: 100%; }
+        .gauge-needle-wrapper {
+            position: absolute;
+            bottom: 8px;
+            left: 50%;
+            transform: translateX(-50%);
+            z-index: 4;
+        }
+        .gauge-needle {
+            width: 4px;
+            height: 110px;
+            background: linear-gradient(to top, #1e40af, #3b82f6);
+            transform-origin: bottom center;
+            transform: rotate(-90deg);
+            border-radius: 2px;
+            box-shadow: 0 2px 8px rgba(30,64,175,0.25), 0 1px 2px rgba(0,0,0,0.08);
+        }
+        .gauge-center-dot {
+            position: absolute;
+            bottom: 2px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 16px;
+            height: 16px;
+            background: radial-gradient(circle at 35% 35%, #60a5fa, #1e40af);
+            border-radius: 50%;
+            box-shadow: 0 2px 8px rgba(30,64,175,0.3), inset 0 -1px 2px rgba(0,0,0,0.1);
+            z-index: 5;
+        }
+        .gauge-label {
+            font-family: 'Be Vietnam Pro', sans-serif;
+            font-size: 1.6rem;
+            font-weight: 800;
+            color: #1e40af;
+            margin-top: 2rem;
+            letter-spacing: -0.02em;
+        }
+
+        /* Teacher Audio Inline */
+        .teacher-audio-inline {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 1.5rem auto 2rem;
+        }
+        .teacher-play-btn-lg {
+            width: 200px !important;
+            height: 200px !important;
+            border-radius: 0 !important;
+            flex-shrink: 0;
+            box-shadow: none !important;
+            border: none !important;
+            background-color: transparent !important;
+        }
+        .ninh-play-btn {
+            height: 120px !important;
+            box-shadow: none !important;
+            background-color: transparent !important;
+        }
+        .credit-image-wrapper {
+            margin-bottom: 0 !important;
+        }
+        .credit-image-wrapper img {
+            vertical-align: bottom;
+        }
+
+        /* End Modal */
+        .end-modal-overlay {
+            position: fixed;
+            inset: 0;
+            background: rgba(0,0,0,0.45);
+            backdrop-filter: blur(8px);
+            -webkit-backdrop-filter: blur(8px);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.4s ease;
+            z-index: 100;
+            padding: 20px;
+        }
+        .end-modal-overlay.active {
+            opacity: 1;
+            pointer-events: auto;
+        }
+        .end-modal-card {
+            background: #fff;
+            border-radius: 20px;
+            max-width: 460px;
+            width: 100%;
+            padding: 36px 32px;
+            text-align: center;
+            box-shadow: 0 24px 64px rgba(0,0,0,0.12);
+            transform: translateY(20px) scale(0.96);
+            transition: transform 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+        }
+        .end-modal-overlay.active .end-modal-card {
+            transform: translateY(0) scale(1);
+        }
+        .end-modal-title {
+            font-family: 'Be Vietnam Pro', sans-serif;
+            font-size: 1.3rem;
+            font-weight: 700;
+            color: #1e293b;
+            margin: 0 0 14px;
+        }
+        .end-modal-body {
+            font-family: 'Be Vietnam Pro', sans-serif;
+            font-size: 0.95rem;
+            line-height: 1.6;
+            color: #475569;
+            margin: 0 0 28px;
+        }
+        .end-modal-actions {
+            display: flex;
+            gap: 12px;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+        .end-modal-btn {
+            font-family: 'Be Vietnam Pro', sans-serif;
+            font-size: 0.9rem;
+            font-weight: 600;
+            padding: 12px 28px;
+            border-radius: 12px;
+            border: none;
+            cursor: pointer;
+            transition: transform 0.2s cubic-bezier(0.34, 1.56, 0.64, 1), filter 0.2s ease;
+        }
+        .end-modal-btn.primary {
+            background: #1e40af;
+            color: #fff;
+        }
+        .end-modal-btn.secondary {
+            background: #f1f5f9;
+            color: #475569;
+        }
+        .end-modal-btn:hover {
+            transform: translateY(-2px);
+            filter: brightness(1.08);
+        }
+        .end-modal-btn:active {
+            transform: scale(0.96);
+        }
+        @media (max-width: 480px) {
+            .end-modal-card { padding: 28px 22px; }
+            .end-modal-btn { width: 100%; }
+        }
+    </style>
+</head>
+<body>
+    <div id="hero-ripple">
+        <img src="assets/img/baochidulieu/nen.webp" alt="Ảnh bìa" class="hero-banner-img">
+    </div>
+    <div class="grid-container">
+        <div class="main-content">
+<p>Nghiên cứu khảo sát đối với 238 sinh viên tại Hà Nội và góc nhìn cảnh báo từ các chuyên gia giáo dục trước làn sóng "ủy thác tư duy" cho Trí tuệ nhân tạo.</p>
+<div class="media-row right">
+    <p>Nguyễn Minh Đức - sinh viên năm ba ngành Truyền thông tại Hà Nội từng nghĩ mình đã hoàn toàn làm chủ được công nghệ. Đối mặt với bài luận 2.000 từ về đề tài "Xu hướng truyền thông số", A chỉ mất đúng 3 câu lệnh trên ChatGPT để nhận về một văn bản chỉn chu. Kết quả trả về khiến A mỉm cười tự mãn: Điểm A+ từ giảng viên, tỷ lệ trùng lặp dưới 10% khi quét qua phần mềm kiểm tra đạo văn.</p>
+    <div class="img-swap">
+        <img src="assets/img/baochidulieu/anh1.webp" alt="anh1" class="img-default">
+        <img src="assets/img/baochidulieu/anh2.webp" alt="anh2" class="img-hover">
+    </div>
+</div>
+<div class="media-row left">
+    <div class="img-swap">
+        <img src="assets/img/baochidulieu/anh2.webp" alt="anh2" class="img-default">
+        <img src="assets/img/baochidulieu/anh1.webp" alt="anh1" class="img-hover">
+    </div>
+    <p>Tuy nhiên, trong buổi thi vấn đáp cuối kỳ, A gặp khó khăn khi phải tự giải thích và bảo vệ các lập luận trong bài làm. Trước câu hỏi phản biện của giảng viên về cơ sở của một luận điểm trong bài, nam sinh không thể đưa ra câu trả lời rõ ràng.</p>
+</div>
+<p>Trường hợp của A phản ánh một thực tế đang xuất hiện ở nhiều sinh viên hiện nay: AI không chỉ được dùng để hỗ trợ tìm kiếm thông tin hay chỉnh sửa câu chữ, mà còn tham gia trực tiếp vào quá trình hoàn thành bài tập học thuật. Nó đang âm thầm biến thành một "bộ não thứ hai", dần thay thế và bào mòn năng lực tư duy độc lập của người trẻ.</p>
+<div class="media-row right robot-row">
+    <div class="img-single">
+        <img src="assets/img/baochidulieu/c1.webp" alt="c1">
+    </div>
+    <p>Khảo sát trên 238 sinh viên tại Hà Nội cho thấy mức độ thâm nhập sâu của Trí tuệ nhân tạo (AI) vào quy trình học tập. Thay vì dừng ở mức công cụ hỗ trợ, AI đang dần đảm nhận các công đoạn tư duy cốt lõi, kéo theo hệ lụy về sự suy giảm năng lực tự giải quyết vấn đề của người học.</p>
+</div>
+<div class="custom-chart-container">
+    <div class="chart-title">Tần suất sử dụng AI</div>
+    <div class="pie-chart-wrapper">
+        <div class="pie-chart-svg-container">
+            <svg viewBox="0 0 160 160" class="donut-chart-svg" id="frequency-donut-svg">
+                <!-- Base Circle -->
+                <circle cx="80" cy="80" r="50" fill="transparent" stroke="#f1f5f9" stroke-width="15"></circle>
+                <!-- Segment 1: Hằng ngày (58.8%) -->
+                <circle cx="80" cy="80" r="50" fill="transparent" stroke="#1e3a8a" stroke-width="15" 
+                        class="donut-segment" data-percent="58.8%" data-label="Hàng ngày" data-id="seg-1"
+                        stroke-dasharray="184.73 314.16" stroke-dashoffset="0"></circle>
+                <!-- Segment 2: Vài lần/Tuần (27.7%) -->
+                <circle cx="80" cy="80" r="50" fill="transparent" stroke="#3b82f6" stroke-width="15" 
+                        class="donut-segment" data-percent="27.7%" data-label="Vài lần/Tuần" data-id="seg-2"
+                        stroke-dasharray="87.02 314.16" stroke-dashoffset="-184.73"></circle>
+                <!-- Segment 3: Ít hơn (13.1%) -->
+                <circle cx="80" cy="80" r="50" fill="transparent" stroke="#93c5fd" stroke-width="15" 
+                        class="donut-segment" data-percent="13.1%" data-label="Ít hơn" data-id="seg-3"
+                        stroke-dasharray="41.16 314.16" stroke-dashoffset="-271.75"></circle>
+                <!-- Segment 4: Chưa từng (0.4%) -->
+                <circle cx="80" cy="80" r="50" fill="transparent" stroke="#cbd5e1" stroke-width="15" 
+                        class="donut-segment" data-percent="0.4%" data-label="Chưa từng" data-id="seg-4"
+                        stroke-dasharray="1.26 314.16" stroke-dashoffset="-312.91"></circle>
+            </svg>
+            <div class="pie-chart-center-text" id="donut-center-text">
+                <span class="center-percentage">58.8%</span>
+                <span class="center-label">Hàng ngày</span>
+            </div>
+        </div>
+        <div class="pie-chart-legend" id="donut-legend">
+            <div class="legend-item" data-id="seg-1">
+                <span class="legend-color-dot" style="background-color: #1e3a8a;"></span>
+                <span class="legend-item-label">Hàng ngày: <strong>58.8%</strong></span>
+            </div>
+            <div class="legend-item" data-id="seg-2">
+                <span class="legend-color-dot" style="background-color: #3b82f6;"></span>
+                <span class="legend-item-label">Vài lần/Tuần: <strong>27.7%</strong></span>
+            </div>
+            <div class="legend-item" data-id="seg-3">
+                <span class="legend-color-dot" style="background-color: #93c5fd;"></span>
+                <span class="legend-item-label">Ít hơn (Vài lần/Tháng): <strong>13.1%</strong></span>
+            </div>
+            <div class="legend-item" data-id="seg-4">
+                <span class="legend-color-dot" style="background-color: #cbd5e1;"></span>
+                <span class="legend-item-label">Chưa từng sử dụng: <strong>0.4%</strong></span>
+            </div>
+        </div>
+    </div>
+    <p class="chart-caption-text">Hơn một nửa số sinh viên được khảo sát (58,8%) có thói quen sử dụng AI hàng ngày để phục vụ việc làm bài tập.</p>
+</div>
+<div class="media-row left">
+    <div class="img-single">
+        <img src="assets/img/baochidulieu/c2.webp" alt="c2">
+    </div>
+    <p>Dữ liệu cho thấy công nghệ AI gần như đã hoàn toàn phủ sóng đời sống học tập của sinh viên khi chỉ còn 0,4% người được hỏi cho biết chưa từng sử dụng AI. Làn sóng này đã chạm ngưỡng đỉnh điểm khi nhóm sử dụng AI hằng ngày chiếm tới 58,8%, cao gấp hơn hai lần so với nhóm chỉ dùng vài lần mỗi tuần (27,7%).</p>
+</div>
+<p>Xu hướng này không chỉ diễn ra ở phạm vi cục bộ mà trên quy mô toàn cầu, theo báo cáo Global AI Student Survey 2024 cho thấy 86% sinh viên trên thế giới đã đưa AI vào quy trình học tập. Trong đó ChatGPT hiện là nền tảng áp đảo với 81% người dùng và có tới 55% sẵn sàng trả phí để tiếp tục sử dụng các công cụ AI phục vụ học tập và công việc.</p>
+<div class="pictogram-container">
+    <div class="pictogram-row">
+        <div class="pictogram-icons">
+            <img src="assets/img/baochidulieu/on.webp" alt="on">
+            <img src="assets/img/baochidulieu/on.webp" alt="on">
+            <img src="assets/img/baochidulieu/on.webp" alt="on">
+            <img src="assets/img/baochidulieu/on.webp" alt="on">
+            <img src="assets/img/baochidulieu/on.webp" alt="on">
+            <img src="assets/img/baochidulieu/on.webp" alt="on">
+            <img src="assets/img/baochidulieu/on.webp" alt="on">
+            <img src="assets/img/baochidulieu/on.webp" alt="on">
+            <img src="assets/img/baochidulieu/off.webp" alt="off">
+            <img src="assets/img/baochidulieu/off.webp" alt="off">
+        </div>
+        <div class="pictogram-caption">Tỉ lệ người dùng ChatGPT</div>
+    </div>
+    <div class="pictogram-row">
+        <div class="pictogram-icons">
+            <img src="assets/img/baochidulieu/on.webp" alt="on">
+            <img src="assets/img/baochidulieu/on.webp" alt="on">
+            <img src="assets/img/baochidulieu/on.webp" alt="on">
+            <img src="assets/img/baochidulieu/on.webp" alt="on">
+            <img src="assets/img/baochidulieu/on.webp" alt="on">
+            <img src="assets/img/baochidulieu/off.webp" alt="off">
+            <img src="assets/img/baochidulieu/off.webp" alt="off">
+            <img src="assets/img/baochidulieu/off.webp" alt="off">
+            <img src="assets/img/baochidulieu/off.webp" alt="off">
+            <img src="assets/img/baochidulieu/off.webp" alt="off">
+        </div>
+        <div class="pictogram-caption">Tỉ lệ sẵn sàng bỏ tiền nâng cấp gói</div>
+    </div>
+</div>
+<div class="custom-globe-wrapper">
+    <div class="custom-globe-section">
+        <div id="globe-container"></div>
+    </div>
+    <div class="globe-legend">
+        <div class="legend-gradient"></div>
+        <div class="legend-text">Màu đỏ càng đậm (màu vàng là thấp nhất) -> mức độ sử dụng càng nhiều.<br>*Hình ảnh mang tính chất minh họa</div>
+    </div>
+</div>
+<p>Những con số này giúp ta thấy rõ AI không còn được sử dụng ở mức thử nghiệm hay hỗ trợ trong những tình huống đặc biệt, mà đã trở thành một phần quen thuộc trong hoạt động học tập hằng ngày của sinh viên. Từ tìm kiếm tài liệu, tóm tắt kiến thức đến làm bài tập, AI đang dần trở thành trợ lý học tập quen thuộc của một bộ phận lớn sinh viên Hà Nội.</p>
+<div class="full-page-marquee">
+    <div class="section-images-container">
+        <img src="assets/img/baochidulieu/t1.webp" class="section-img" alt="Tác động AI">
+        <img src="assets/img/baochidulieu/t1.webp" class="section-img" alt="Tác động AI">
+    </div>
+</div>
+<p>Số liệu cho thấy AI không còn chỉ được sử dụng cho các thao tác hỗ trợ đơn lẻ, mà đã xuất hiện xuyên suốt quá trình học tập của sinh viên. Từ giai đoạn hình thành ý tưởng (76,5%), xây dựng cấu trúc bài viết (62,2%), đọc hiểu tài liệu (56,3%) cho đến ôn tập kiến thức (51,3%), phần lớn các công đoạn vốn đòi hỏi tư duy chủ động đều đang được chuyển giao một phần cho công cụ AI.</p>
+
+<div class="he-chart-shell" id="ai-usage-chart">
+    <div class="he-chart-core">
+        <div class="he-title">Mức độ ứng dụng AI trong các công đoạn học tập</div>
+        <div class="he-chart-svg-container">
+            <svg class="he-chart-svg">
+                <defs>
+                    <linearGradient id="he-gradient-ai" x1="0%" y1="0%" x2="0%" y2="100%">
+                        <stop offset="0%" stop-color="rgba(59, 130, 246, 0.45)"/>
+                        <stop offset="100%" stop-color="rgba(59, 130, 246, 0.0)"/>
+                    </linearGradient>
+                    <linearGradient id="he-gradient-self" x1="0%" y1="0%" x2="0%" y2="100%">
+                        <stop offset="0%" stop-color="rgba(245, 158, 11, 0.45)"/>
+                        <stop offset="100%" stop-color="rgba(245, 158, 11, 0.0)"/>
+                    </linearGradient>
+                </defs>
+                <g id="he-chart-content"></g>
+            </svg>
+        </div>
+        <p style="font-size: 0.9rem; color: #64748b; margin-top: 1.5rem; text-align: center; font-style: italic; margin-bottom: 0 !important;">Sinh viên sử dụng công nghệ nhiều nhất ở các khâu hình thành ý tưởng và lập dàn ý.</p>
+    </div>
+</div>
+
+<p>Đặc biệt, tỷ lệ sử dụng AI cao nhất lại tập trung ở bước khởi đầu - giai đoạn quan trọng nhất của tư duy học thuật, nơi người học cần tự xác định vấn đề, tìm hướng tiếp cận và hình thành quan điểm cá nhân. Điều này cho thấy nhiều sinh viên không chỉ dùng AI để tiết kiệm thời gian ở các thao tác kỹ thuật, mà đang phụ thuộc vào công cụ này ngay từ bước định hướng tư duy ban đầu.</p>
+<div class="media-row left anh3-row">
+    <img src="assets/img/baochidulieu/anh3.webp" class="full-width-img" alt="Minh họa AI">
+    <p>Trong khi đó, hơn một nửa sinh viên dùng AI để tóm tắt tài liệu và thiết lập hệ thống ôn tập phản ánh xu hướng “rút gọn” quá trình tiếp nhận kiến thức. Xu hướng hành vi này hoàn toàn tương thích với các nghiên cứu toàn cầu và báo cáo thị trường hiện nay. Cụ thể, nghiên cứu của Xie, Lin và Yu (2024) đã chỉ ra rằng AI giúp sinh viên tiết kiệm thời gian đáng kể trong việc xử lý, đọc và tóm tắt các đoạn văn bản dài. Đồng thời, báo cáo của Decision Lab cũng xác nhận rằng "học kiến thức mới theo cách đơn giản hơn" chính là động lực lớn nhất khiến người dùng tìm đến các công cụ AI. Điều này có thể giúp giảm áp lực học tập trước mắt, nhưng cũng đặt ra lo ngại về khả năng ghi nhớ, tư duy phản biện và năng lực tự học trong dài hạn.</p>
+</div>
+<p>Đánh giá về thực trạng này, Cô Trần Ngọc Trang Ninh - Giảng viên Khoa Truyền thông nhận định việc sử dụng AI từ đầu đến cuối giúp bài viết của sinh viên gọn gàng, bố cục hợp lý và ngôn ngữ trơn tru hơn về mặt hình thức.</p>
+<div class="ninh-profile">
+    <img src="assets/img/baochidulieu/CoNinh.webp" class="ninh-profile-img" alt="ThS. Trần Ngọc Trang Ninh">
+    <div class="ninh-profile-info">
+        <p class="ninh-profile-name">ThS. Trần Ngọc Trang Ninh</p>
+        <p class="ninh-profile-role">Giảng viên Khoa Truyền thông</p>
+        <button class="ninh-play-btn" id="ninhPlayBtn" onclick="toggleNinhAudio()">
+        </button>
+    </div>
+    <audio id="ninhAudio" src="assets/audio/SFX/record1.wav" preload="none"></audio>
+</div>
+<div class="quote-fullwidth">
+    <img src="assets/img/baochidulieu/anh4.webp" class="quote-bg-img" alt="Minh họa AI">
+</div>
+<div class="section-image-wrapper"><img src="assets/img/baochidulieu/t2.webp" class="section-img" alt="Nghịch lý"></div>
+<div class="scroll-horizontal-section-wrapper">
+    <div class="scroll-horizontal-section">
+        <div class="scroll-left-text-viewport">
+            <div class="scroll-left-text-container">
+                <div class="scroll-left-p-card">
+                    <p>Một nghịch lý xuất hiện trong kết quả khảo sát khi phần lớn sinh viên cho biết họ có kiểm chứng thông tin do AI tạo ra, nhưng gần một nửa vẫn thừa nhận sao chép nguyên văn nội dung từ chatbot vào bài làm. Cụ thể, 67,3% người được hỏi nói rằng họ kiểm tra lại thông tin trước khi sử dụng, trong khi 47,5% vẫn thực hiện thao tác “copy - paste” trực tiếp từ AI.</p>
+                    <div class="mini-donut-chart">
+                        <div class="mini-donut-row">
+                            <span class="mini-donut-label">Khẳng định có kiểm chứng</span>
+                            <div class="mini-donut" data-pct="67.3">
+                                <span class="mini-donut-inner">67,3%</span>
+                            </div>
+                        </div>
+                        <div class="mini-donut-row">
+                            <span class="mini-donut-label">Thừa nhận chép nguyên văn</span>
+                            <div class="mini-donut" data-pct="47.5">
+                                <span class="mini-donut-inner">47,5%</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="scroll-left-p-card">
+                    <p>Sự chồng chéo giữa hai nhóm số liệu cho thấy hành vi sử dụng AI của sinh viên còn tồn tại sự thiếu nhất quán. Dù nhận thức được rằng thông tin do AI cung cấp cần được kiểm chứng, nhiều người vẫn sử dụng trực tiếp nội dung do chatbot tạo ra. Điều này cho thấy việc kiểm chứng thông tin chưa đồng nghĩa với việc người học sẽ tự xử lý hoặc diễn đạt lại nội dung trước khi sử dụng.</p>
+                </div>
+                <div class="scroll-left-p-card student-quote">
+                    <p>"Những chủ đề không biết nhiều thì mình thường bỏ qua, không kiểm tra kỹ. Tâm lý chung là thấy đáp án có vẻ đúng, AI lại được truyền thông tốt nên bọn mình có xu hướng chép nguyên văn thay vì diễn đạt lại," một sinh viên thẳng thắn thừa nhận.</p>
+                </div>
+                <div class="scroll-left-p-card">
+                    <p>Nghịch lý này càng đáng chú ý khi chính người dùng cũng thừa nhận AI không phải lúc nào cũng chính xác. Theo báo cáo của Decision Lab, có 41% người dùng AI tại Việt Nam từng gặp tình trạng chatbot đưa ra thông tin sai lệch hoặc thiếu chính xác. Tuy vậy có tới 32% người dùng cho biết họ chưa biết cách đặt câu lệnh hiệu quả để kiểm soát chất lượng đầu ra của AI.</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="animation-stage-wrapper">
+            <section class="screen ai-word-loop-screen" id="ai-word-loop-screen">
+                <div class="ai-word-loop-stage" id="ai-word-loop-stage">
+                    <div class="ai-word-loop-grid" id="ai-word-loop-grid">
+                        <article class="loop-window loop-ai-window">
+                            <div class="loop-window-bar">
+                                <span class="window-dot red"></span>
+                                <span class="window-dot yellow"></span>
+                                <span class="window-dot green"></span>
+                                <strong>AI Chat</strong>
+                            </div>
+                            <div class="loop-chat-stream">
+                                <div class="loop-message user">
+                                    <span class="loop-message-label">Bạn</span>
+                                    <p id="loop-user-prompt"></p>
+                                </div>
+                                <div class="loop-message ai loop-target" id="loop-ai-response-card" data-target="ai-response">
+                                    <span class="loop-message-label">AI</span>
+                                    <p id="loop-ai-response"></p>
+                                    <div class="loop-selection" id="loop-selection"></div>
+                                </div>
+                                <div class="loop-copy-badge" id="loop-copy-badge">Đã copy</div>
+                            </div>
+                        </article>
+
+                        <article class="loop-window loop-word-window">
+                            <div class="loop-window-bar">
+                                <span class="word-icon">W</span>
+                                <strong>Bài luận.docx</strong>
+                            </div>
+                            <div class="loop-word-toolbar">
+                                <span></span><span></span><span></span><span></span>
+                            </div>
+                            <div class="loop-word-page loop-target" id="loop-word-page" data-target="word-page">
+                                <h3>Xu hướng truyền thông số tại Việt Nam</h3>
+                                <div class="loop-word-lines" id="loop-word-lines">
+                                    <p class="loop-word-placeholder">Bắt đầu từ một trang trắng...</p>
+                                </div>
+                                <span class="loop-word-caret" id="loop-word-caret"></span>
+                            </div>
+                        </article>
+                    </div>
+
+                    <div class="loop-thought" id="loop-thought">Mình hỏi nhanh một chút thôi...</div>
+                    <div class="loop-concern-layer" id="loop-concern-layer">
+                        <span class="loop-click-hint">👆 Click để xem suy nghĩ của sinh viên</span>
+                    </div>
+                    <img class="loop-pointer" id="loop-pointer" src="assets/img/chapter 4/pointer.webp" alt="" aria-hidden="true" draggable="false">
+                </div>
+            </section>
+        </div>
+    </div>
+</div>
+
+<div class="section-image-wrapper"><img src="assets/img/baochidulieu/t3.webp" class="section-img" alt="Năng lực độc lập"></div>
+<p>Khảo sát chỉ ra có đến 58,9% sinh viên cho biết năng lực giải quyết vấn đề độc lập của bản thân bị suy giảm và 50% cảm thấy hoang mang hoặc thiếu tự tin nếu phải làm bài mà không có AI. Những con số này cho thấy sự phụ thuộc vào AI không còn chỉ nằm ở hành vi học tập, mà đã bắt đầu ảnh hưởng đến tâm lý và cảm giác tự ti của người học trong quá trình xử lý vấn đề.</p>
+<div class="section-image-wrapper"><img src="assets/img/baochidulieu/info.webp" class="section-img" alt="Infographic"></div>
+<p class="image-caption">Mức độ hoang mang của sinh viên khi thiếu AI / Biểu đồ tâm lý: Càng học lâu, sinh viên càng có xu hướng phụ thuộc vào AI trong quá trình học và xử lý bài tập</p>
+<p>Sự chênh lệch này cho thấy mức độ phụ thuộc vào AI không chỉ liên quan đến tần suất sử dụng, mà còn gắn với từng giai đoạn học tập và những áp lực khác nhau của sinh viên.</p>
+<p>Với nhóm sinh viên năm nhất, AI thường được tiếp cận với tâm lý tò mò và mong muốn khám phá công nghệ mới. Nghiên cứu của Xie, Lin và Yu (2024) cho thấy người học ở các bậc học thấp có xu hướng cởi mở hơn với các công cụ tri thức mới. Tuy nhiên, khi chưa có nền tảng kiến thức chuyên môn đủ vững, sinh viên cũng dễ tiếp nhận thông tin do AI cung cấp mà không đủ khả năng kiểm chứng hoặc phản biện. Cecilia Ka Yuk Chan (2023) cho rằng đây là nhóm có nguy cơ bị ảnh hưởng bởi AI cao vì thường khó phân biệt giữa một câu trả lời được trình bày mạch lạc và một câu trả lời thực sự chính xác. Điều này có thể khiến AI nhanh chóng trở thành nguồn cung cấp đáp án thay vì chỉ là công cụ hỗ trợ học tập.</p>
+<div class="image-slider-wrapper">
+    <div class="image-slider-viewport">
+        <div class="image-slider-track" id="sliderTrack">
+            <img src="assets/img/baochidulieu/anh5.1.webp" alt="Hình 1" class="slider-slide">
+            <img src="assets/img/baochidulieu/anh5.2.webp" alt="Hình 2" class="slider-slide">
+            <img src="assets/img/baochidulieu/anh5.3.webp" alt="Hình 3" class="slider-slide">
+            <img src="assets/img/baochidulieu/anh5.4.webp" alt="Hình 4" class="slider-slide">
+            <img src="assets/img/baochidulieu/anh5.5.webp" alt="Hình 5" class="slider-slide">
+        </div>
+    </div>
+    <button class="slider-btn slider-prev" id="sliderPrev" aria-label="Previous slide">
+        <img src="assets/img/baochidulieu/button.webp" alt="Previous">
+    </button>
+    <button class="slider-btn slider-next" id="sliderNext" aria-label="Next slide">
+        <img src="assets/img/baochidulieu/button.webp" alt="Next">
+    </button>
+    <div class="slider-dots" id="sliderDots">
+        <span class="slider-dot active" data-index="0"></span>
+        <span class="slider-dot" data-index="1"></span>
+        <span class="slider-dot" data-index="2"></span>
+        <span class="slider-dot" data-index="3"></span>
+        <span class="slider-dot" data-index="4"></span>
+    </div>
+</div>
+<p>Trong khi đó, với sinh viên năm tư, nguyên nhân sử dụng AI lại mang tính thực tế hơn. Đây là giai đoạn khối lượng kiến thức chuyên ngành tăng mạnh, đi kèm áp lực nghiên cứu, thực tập và các yêu cầu học thuật phức tạp hơn. AI vì thế được sử dụng như công cụ tiết kiệm thời gian để xử lý tài liệu dài, hỗ trợ dịch thuật hoặc xây dựng nội dung học thuật. Tuy nhiên, chính nhóm này cũng ghi nhận mức độ lo lắng cao hơn khi thiếu AI hỗ trợ. Điều này cho thấy sự phụ thuộc không chỉ dừng ở hành vi sử dụng công nghệ, mà đã bắt đầu ảnh hưởng đến cảm giác tự tin và khả năng tự giải quyết vấn đề của người học.</p>
+<p>Dù khác nhau về động cơ sử dụng, điểm chung đáng chú ý là nhiều sinh viên đang hình thành thói quen tìm đến AI trước khi tự suy nghĩ hoặc tự tìm cách xử lý vấn đề. Khi kỹ năng kiểm soát chất lượng đầu ra của chatbot còn hạn chế, AI rất dễ chuyển từ vai trò công cụ hỗ trợ sang tác nhân định hướng cách tiếp cận tri thức của người học.</p>
+<div class="section-image-wrapper"><img src="assets/img/baochidulieu/t4.webp" class="section-img" alt="Văn hóa giao tiếp"></div>
+<div class="culture-shift-strip">
+    <img src="assets/img/baochidulieu/left.webp" alt="Minh họa giao tiếp AI bên trái" class="culture-side-img left" loading="lazy">
+    <div class="culture-shift-text">
+        <p>Kết quả khảo sát cho thấy thói quen sử dụng công nghệ đang dần làm thay đổi văn hóa giao tiếp và  mối quan hệ truyền thống trong môi trường đại học. Nếu trước đây giảng viên là người hỗ trợ trực tiếp cho sinh viên khi gặp khó khăn trong học tập, thì nay AI dần được nhiều sinh viên ưu tiên tìm đến đầu tiên khi gặp các vấn đề trong học tập.</p>
+    </div>
+    <img src="assets/img/baochidulieu/phai.webp" alt="Minh họa giao tiếp AI bên phải" class="culture-side-img right" loading="lazy">
+</div>
+<p>Sự thay đổi này phản ánh xu hướng sinh viên ưu tiên các công cụ có khả năng phản hồi nhanh, hoạt động liên tục và không tạo áp lực trong quá trình trao đổi. Không giống môi trường lớp học trực tiếp, AI cho phép người học đặt câu hỏi nhiều lần mà không lo bị đánh giá hay e ngại về kiến thức của bản thân. Đây cũng chính là điểm cốt lõi tạo nên “The AI Generation Gap” được chỉ ra trong các nghiên cứu giáo dục gần đây. Trong khi sinh viên Gen Z thường xem AI là công cụ học tập tiện lợi, giúp tiết kiệm thời gian và tạo cảm giác an toàn khi đặt câu hỏi. Trong khi đó, nhiều giảng viên lại lo ngại AI sẽ khiến người học phụ thuộc vào công nghệ và suy giảm khả năng tư duy độc lập. Điều đó khiến quá trình tìm kiếm hỗ trợ học tập dịch chuyển từ đối thoại với giảng viên sang tương tác với công nghệ.</p>
+<p>Tuy nhiên, khi AI ngày càng trở thành công cụ được tìm đến đầu tiên để giải quyết thắc mắc học tập, mức độ tương tác trực tiếp giữa sinh viên và giảng viên cũng có xu hướng giảm dần. Trong môi trường đại học, quá trình trao đổi với giảng viên thường đi kèm phản biện, gợi mở và yêu cầu người học tự lý giải vấn đề. Ngược lại, AI có xu hướng cung cấp đáp án nhanh và trực tiếp. Điều này khiến sinh viên dễ hình thành thói quen tiếp nhận sẵn thông tin thay vì chủ động đào sâu và tranh luận như trước.</p>
+<div class="full-width-image-wrapper"><img src="assets/img/baochidulieu/info2.webp" class="full-width-img-viewport" alt="Infographic 2"></div>
+<p>Khi AI đã trở thành công cụ học tập phổ biến ở cả Việt Nam lẫn thế giới, nhiều chuyên gia giáo dục cho rằng câu hỏi hiện nay không còn là “có nên dùng AI hay không”, mà là “sử dụng AI như thế nào để không đánh mất năng lực tư duy của người học”.  AI đang giúp người học xử lý thông tin nhanh hơn, giảm áp lực trước khối lượng bài tập lớn và trở thành một kỹ năng khó có thể tách rời trong thời đại số. Tuy nhiên, khi công nghệ tham gia quá sâu vào quá trình học tập, nhiều công đoạn vốn đòi hỏi tư duy cá nhân như phân tích, lập luận hay giải quyết vấn đề cũng dần được chuyển giao cho máy móc.</p>
+<p>Đáng quan ngại hơn là sự lệ thuộc này diễn ra một cách âm thầm. Sinh viên vẫn cảm thấy mình “đang học”, nhưng trên thực tế, AI đã tham gia vào nhiều khâu quan trọng của quá trình tư duy. Đây cũng là lý do vì sao mức độ lo ngại của giảng viên trước tình trạng phụ thuộc AI của sinh viên đạt 4,12/5 điểm (theo dữ liệu đối chiếu từ nghiên cứu của Cecilia Ka Yuk Chan.)</p>
+<div style="text-align:center;margin:2rem 0;"><img src="assets/img/baochidulieu/star.webp" style="max-width:320px;width:80%;height:auto;display:inline-block;" alt="Đánh giá mức độ lo ngại"></div>
+<p>Từ thực tế đó, nhiều ý kiến cho rằng các trường đại học cần thay đổi phương pháp kiểm tra và đánh giá thay vì chỉ tập trung vào việc phát hiện gian lận bằng công nghệ. Các dạng bài tập lý thuyết, tiểu luận được giao về nhà cần giảm tỷ trọng điểm số, bởi đây là hình thức mà chatbot AI có khả năng xử lý nhanh và khó kiểm soát mức độ can thiệp. Thay vào đó,  giáo dục đại học cần hướng đến các phương thức đánh giá trực tiếp như thuyết trình, phản biện, xử lý tình huống tại lớp hoặc thi viết không sử dụng thiết bị điện tử.</p>
+<p>Trao đổi về vấn đề này, cô Trang Ninh cho rằng điều quan trọng không nằm ở việc sinh viên có sử dụng AI hay không, mà ở khả năng tự hiểu và trình bày lại vấn đề:</p>
+<div class="full-width-image-wrapper"><img src="assets/img/baochidulieu/info3.webp" class="full-width-img-viewport" alt="Infographic 3"></div>
+<div class="teacher-audio-inline">
+    <button class="ninh-play-btn teacher-play-btn-lg" id="teacherQuotePlayBtn" onclick="toggleTeacherQuoteAudio()"></button>
+</div>
+<audio id="teacherQuoteAudio" src="assets/audio/SFX/PVnew.wav" preload="none"></audio>
+<p>Vì vậy, thách thức lớn nhất hiện nay không nằm ở việc ngăn cấm AI, mà là cách giúp sinh viên sử dụng công nghệ này như một công cụ hỗ trợ mở rộng tư duy, thay vì phụ thuộc hoàn toàn vào các nội dung do AI tạo ra.</p>
+<div class="full-width-image-wrapper credit-image-wrapper"><img src="assets/img/baochidulieu/credit.webp" class="full-width-img-viewport" alt="Credits"></div>
+<div id="end-trigger" style="height:1px;margin-top:0;"></div>
+<div class="end-modal-overlay" id="endModalOverlay">
+    <div class="end-modal-card">
+        <h3 class="end-modal-title">Xem tiếp báo chí dữ liệu 2.0</h3>
+        <p class="end-modal-body">Đây là hình thức xem báo chí mới và có thể không phù hợp với nhiều người. Khuyến khích xem khi thật thoải mái và không khắt khe.</p>
+        <div class="end-modal-actions">
+            <button class="end-modal-btn primary" onclick="window.location.href='index.html'">Đồng ý xem</button>
+            <button class="end-modal-btn secondary" onclick="document.getElementById('endModalOverlay').classList.remove('active')">Tắt</button>
+        </div>
+    </div>
+</div>
+        </div>
+    </div>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.ripples/0.5.3/jquery.ripples.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+    <script src="assets/js/ai-word-loop.js"></script>
+    <script>
+        // GSAP Initialization
+        gsap.registerPlugin(ScrollTrigger);
+
+        // Image Slider Component
+        (function initImageSlider() {
+            const track = document.getElementById('sliderTrack');
+            const prevBtn = document.getElementById('sliderPrev');
+            const nextBtn = document.getElementById('sliderNext');
+            const dotsContainer = document.getElementById('sliderDots');
+            if (!track || !prevBtn || !nextBtn || !dotsContainer) return;
+
+            const slides = track.querySelectorAll('.slider-slide');
+            const totalSlides = slides.length;
+            let currentIndex = 0;
+            let autoplayInterval;
+            const autoplayDelay = 5000;
+
+            // Init first slide visible
+            gsap.set(slides[currentIndex], { opacity: 1 });
+
+            function updateSlider() {
+                slides.forEach((slide, index) => {
+                    if (index === currentIndex) {
+                        gsap.to(slide, { opacity: 1, duration: 0.6, ease: 'power2.inOut' });
+                    } else {
+                        gsap.to(slide, { opacity: 0, duration: 0.6, ease: 'power2.inOut' });
+                    }
+                });
+
+                // Update dots
+                const dots = dotsContainer.querySelectorAll('.slider-dot');
+                dots.forEach((dot, index) => {
+                    dot.classList.toggle('active', index === currentIndex);
+                });
+            }
+
+            function goToSlide(index) {
+                currentIndex = index;
+                if (currentIndex < 0) currentIndex = totalSlides - 1;
+                if (currentIndex >= totalSlides) currentIndex = 0;
+                updateSlider();
+            }
+
+            function nextSlide() {
+                goToSlide(currentIndex + 1);
+            }
+
+            function prevSlide() {
+                goToSlide(currentIndex - 1);
+            }
+
+            function startAutoplay() {
+                stopAutoplay();
+                autoplayInterval = setInterval(nextSlide, autoplayDelay);
+            }
+
+            function stopAutoplay() {
+                if (autoplayInterval) {
+                    clearInterval(autoplayInterval);
+                    autoplayInterval = null;
+                }
+            }
+
+            // Event listeners
+            nextBtn.addEventListener('click', () => {
+                nextSlide();
+                startAutoplay();
+            });
+
+            prevBtn.addEventListener('click', () => {
+                prevSlide();
+                startAutoplay();
+            });
+
+            dotsContainer.addEventListener('click', (e) => {
+                if (e.target.classList.contains('slider-dot')) {
+                    const index = parseInt(e.target.dataset.index);
+                    if (!isNaN(index)) {
+                        goToSlide(index);
+                        startAutoplay();
+                    }
+                }
+            });
+
+            // Pause autoplay on hover
+            const sliderWrapper = document.querySelector('.image-slider-wrapper');
+            if (sliderWrapper) {
+                sliderWrapper.addEventListener('mouseenter', stopAutoplay);
+                sliderWrapper.addEventListener('mouseleave', startAutoplay);
+            }
+
+            // Start autoplay
+            startAutoplay();
+        })();
+
+        // High-End Area Chart Render Function
+        function renderHEChart() {
+            const container = document.querySelector('.he-chart-svg-container');
+            if (!container) return;
+            
+            const svgWidth = container.clientWidth || 800;
+            const svgHeight = container.clientHeight || 320;
+            const isMobile = svgWidth < 600;
+            
+            const chartData = [
+                { label: isMobile ? "Khởi đầu" : "Tìm kiếm ý tưởng", value: 76.5 },
+                { label: isMobile ? "Dàn ý" : "Lập dàn ý", value: 62.2 },
+                { label: isMobile ? "Tóm tắt" : "Tóm tắt tài liệu", value: 56.3 },
+                { label: isMobile ? "Ôn tập" : "Hệ thống ôn tập", value: 51.3 }
+            ];
+
+            const chartTop = 30;
+            const chartBottom = svgHeight - 60;
+            const chartHeight = chartBottom - chartTop;
+            const maxVal = 100;
+            
+            const svgEl = container.querySelector('.he-chart-svg');
+            svgEl.setAttribute('viewBox', `0 0 ${svgWidth} ${svgHeight}`);
+            
+            const contentGroup = document.getElementById('he-chart-content');
+            contentGroup.innerHTML = ''; // clear old paths
+
+            // Draw Grid Lines (Y-axis markers)
+            const steps = 4;
+            for (let j = 0; j < steps; j++) {
+                const y = chartTop + (j * (chartHeight / (steps - 1)));
+                const line = document.createElementNS("http://www.w3.org/2000/svg", "path");
+                line.setAttribute("d", `M 0,${y} L ${svgWidth},${y}`);
+                line.setAttribute("stroke", "#f1f5f9");
+                line.setAttribute("stroke-width", "1");
+                line.setAttribute("stroke-dasharray", "4 4");
+                contentGroup.appendChild(line);
+            }
+            
+            // Base axis line
+            const axis = document.createElementNS("http://www.w3.org/2000/svg", "path");
+            axis.setAttribute("d", `M 0,${chartBottom} L ${svgWidth},${chartBottom}`);
+            axis.setAttribute("stroke", "#cbd5e1");
+            axis.setAttribute("stroke-width", "2");
+            contentGroup.appendChild(axis);
+
+            let pointsAI = [];
+            let pointsSelf = [];
+            const padX = isMobile ? 30 : 60;
+            const stepX = (svgWidth - (padX * 2)) / (chartData.length - 1);
+
+            chartData.forEach((d, i) => {
+                const x = padX + (i * stepX);
+                const yAI = chartBottom - (d.value / maxVal) * chartHeight;
+                const ySelf = chartBottom - ((100 - d.value) / maxVal) * chartHeight;
+                pointsAI.push({ x, y: yAI, value: d.value });
+                pointsSelf.push({ x, y: ySelf, value: 100 - d.value });
+            });
+
+            // Smooth cubic bezier calculation for AI line
+            let pathAI = `M ${pointsAI[0].x},${pointsAI[0].y}`;
+            let areaAI = `M ${pointsAI[0].x},${chartBottom} L ${pointsAI[0].x},${pointsAI[0].y}`;
+
+            for (let i = 0; i < pointsAI.length - 1; i++) {
+                const p1 = pointsAI[i];
+                const p2 = pointsAI[i+1];
+                const cpX1 = p1.x + (p2.x - p1.x) / 2.5;
+                const cpY1 = p1.y;
+                const cpX2 = p1.x + (p2.x - p1.x) / 2.5;
+                const cpY2 = p2.y;
+                
+                const curve = ` C ${cpX1},${cpY1} ${cpX2},${cpY2} ${p2.x},${p2.y}`;
+                pathAI += curve;
+                areaAI += curve;
+            }
+            areaAI += ` L ${pointsAI[pointsAI.length-1].x},${chartBottom} Z`;
+
+            // Smooth cubic bezier calculation for Self line
+            let pathSelf = `M ${pointsSelf[0].x},${pointsSelf[0].y}`;
+            let areaSelf = `M ${pointsSelf[0].x},${chartBottom} L ${pointsSelf[0].x},${pointsSelf[0].y}`;
+
+            for (let i = 0; i < pointsSelf.length - 1; i++) {
+                const p1 = pointsSelf[i];
+                const p2 = pointsSelf[i+1];
+                const cpX1 = p1.x + (p2.x - p1.x) / 2.5;
+                const cpY1 = p1.y;
+                const cpX2 = p1.x + (p2.x - p1.x) / 2.5;
+                const cpY2 = p2.y;
+                
+                const curve = ` C ${cpX1},${cpY1} ${cpX2},${cpY2} ${p2.x},${p2.y}`;
+                pathSelf += curve;
+                areaSelf += curve;
+            }
+            areaSelf += ` L ${pointsSelf[pointsSelf.length-1].x},${chartBottom} Z`;
+
+            // Draw Fill Area for Self (behind AI)
+            const areaSelfEl = document.createElementNS("http://www.w3.org/2000/svg", "path");
+            areaSelfEl.setAttribute("d", areaSelf);
+            areaSelfEl.setAttribute("class", "he-area-self");
+            contentGroup.appendChild(areaSelfEl);
+
+            // Draw Fill Area for AI
+            const areaAIEl = document.createElementNS("http://www.w3.org/2000/svg", "path");
+            areaAIEl.setAttribute("d", areaAI);
+            areaAIEl.setAttribute("class", "he-area-ai");
+            contentGroup.appendChild(areaAIEl);
+
+            // Draw Glowing Line for Self
+            const lineSelfEl = document.createElementNS("http://www.w3.org/2000/svg", "path");
+            lineSelfEl.setAttribute("d", pathSelf);
+            lineSelfEl.setAttribute("class", "he-line-self");
+            contentGroup.appendChild(lineSelfEl);
+
+            // Draw Glowing Line for AI
+            const lineAIEl = document.createElementNS("http://www.w3.org/2000/svg", "path");
+            lineAIEl.setAttribute("d", pathAI);
+            lineAIEl.setAttribute("class", "he-line-ai");
+            contentGroup.appendChild(lineAIEl);
+
+            // Hover interaction setup
+            const aiElements = [lineAIEl, areaAIEl];
+            const selfElements = [lineSelfEl, areaSelfEl];
+
+            // AI hover events
+            lineAIEl.addEventListener('mouseenter', () => {
+                selfElements.forEach(el => el.style.opacity = '0.2');
+                document.querySelectorAll('.he-point-self, .he-percent-self').forEach(el => el.style.opacity = '0.2');
+            });
+            lineAIEl.addEventListener('mouseleave', () => {
+                selfElements.forEach(el => el.style.opacity = '1');
+                document.querySelectorAll('.he-point-self, .he-percent-self').forEach(el => el.style.opacity = '1');
+            });
+
+            // Self hover events
+            lineSelfEl.addEventListener('mouseenter', () => {
+                aiElements.forEach(el => el.style.opacity = '0.2');
+                document.querySelectorAll('.he-point-ai, .he-percent-ai').forEach(el => el.style.opacity = '0.2');
+            });
+            lineSelfEl.addEventListener('mouseleave', () => {
+                aiElements.forEach(el => el.style.opacity = '1');
+                document.querySelectorAll('.he-point-ai, .he-percent-ai').forEach(el => el.style.opacity = '1');
+            });
+
+            // Draw labels, dots and percentage text
+            pointsAI.forEach((p, i) => {
+                // Category text
+                const textEl = document.createElementNS("http://www.w3.org/2000/svg", "text");
+                textEl.setAttribute("x", p.x);
+                textEl.setAttribute("y", chartBottom + 34);
+                textEl.setAttribute("class", "he-axis-text");
+                textEl.setAttribute("text-anchor", "middle");
+                textEl.textContent = chartData[i].label;
+                contentGroup.appendChild(textEl);
+
+                // AI Dot
+                const dotAIEl = document.createElementNS("http://www.w3.org/2000/svg", "circle");
+                dotAIEl.setAttribute("cx", p.x);
+                dotAIEl.setAttribute("cy", p.y);
+                dotAIEl.setAttribute("class", "he-point he-point-ai");
+                
+                // AI dot hover events
+                dotAIEl.addEventListener('mouseenter', () => {
+                    selfElements.forEach(el => el.style.opacity = '0.2');
+                    document.querySelectorAll('.he-point-self, .he-percent-self').forEach(el => el.style.opacity = '0.2');
+                });
+                dotAIEl.addEventListener('mouseleave', () => {
+                    selfElements.forEach(el => el.style.opacity = '1');
+                    document.querySelectorAll('.he-point-self, .he-percent-self').forEach(el => el.style.opacity = '1');
+                });
+                
+                contentGroup.appendChild(dotAIEl);
+
+                // AI Percentage Label
+                const percentAIEl = document.createElementNS("http://www.w3.org/2000/svg", "text");
+                percentAIEl.setAttribute("x", p.x);
+                percentAIEl.setAttribute("y", p.y - 28);
+                percentAIEl.setAttribute("class", "he-percent-label he-percent-ai");
+                percentAIEl.setAttribute("text-anchor", "middle");
+                percentAIEl.textContent = p.value + '%';
+                contentGroup.appendChild(percentAIEl);
+
+                // Self Dot
+                const pSelf = pointsSelf[i];
+                const dotSelfEl = document.createElementNS("http://www.w3.org/2000/svg", "circle");
+                dotSelfEl.setAttribute("cx", pSelf.x);
+                dotSelfEl.setAttribute("cy", pSelf.y);
+                dotSelfEl.setAttribute("class", "he-point he-point-self");
+                
+                // Self dot hover events
+                dotSelfEl.addEventListener('mouseenter', () => {
+                    aiElements.forEach(el => el.style.opacity = '0.2');
+                    document.querySelectorAll('.he-point-ai, .he-percent-ai').forEach(el => el.style.opacity = '0.2');
+                });
+                dotSelfEl.addEventListener('mouseleave', () => {
+                    aiElements.forEach(el => el.style.opacity = '1');
+                    document.querySelectorAll('.he-point-ai, .he-percent-ai').forEach(el => el.style.opacity = '1');
+                });
+                
+                contentGroup.appendChild(dotSelfEl);
+
+                // Self Percentage Label
+                const percentSelfEl = document.createElementNS("http://www.w3.org/2000/svg", "text");
+                percentSelfEl.setAttribute("x", pSelf.x);
+                percentSelfEl.setAttribute("y", pSelf.y - 12);
+                percentSelfEl.setAttribute("class", "he-percent-label he-percent-self");
+                percentSelfEl.setAttribute("text-anchor", "middle");
+                percentSelfEl.textContent = pSelf.value + '%';
+                contentGroup.appendChild(percentSelfEl);
+            });
+        }
+        
+        // Initial build
+        renderHEChart();
+        let resizeTimer;
+        window.addEventListener('resize', () => {
+            clearTimeout(resizeTimer);
+            resizeTimer = setTimeout(renderHEChart, 150);
+        });
+
+        // Set up generic scrolling text animations
+        gsap.set('.main-content p:not(.scroll-horizontal-section-wrapper p):not(.ninh-profile p)', { y: 30, opacity: 0 });
+        gsap.set('.v-chart-col', { y: 40, opacity: 0 });
+        gsap.set('.v-bar-fill', { height: 0 });
+        gsap.set('.v-bar-percent', { opacity: 0, y: 12 });
+        gsap.utils.toArray('.main-content p:not(.scroll-horizontal-section-wrapper p):not(.ninh-profile p)').forEach(p => {
+            gsap.to(p, { scrollTrigger: { trigger: p, start: "top 90%", toggleActions: "play none none reverse" }, y: 0, opacity: 1, duration: 0.8, ease: "power2.out" });
+        });
+
+        // Setup GSAP Pinned & Slide Horizontal Scroll for scroll-horizontal-section-wrapper
+        const sectionWrapper = document.querySelector('.scroll-horizontal-section-wrapper');
+        const container = document.querySelector('.scroll-left-text-container');
+        const viewport = document.querySelector('.scroll-left-text-viewport');
+
+        if (sectionWrapper && container && viewport) {
+            ScrollTrigger.matchMedia({
+                "(min-width: 921px)": function() {
+                    const scrollWidth = container.scrollWidth - viewport.clientWidth;
+                    
+                    const horizontalTween = gsap.to(container, {
+                        x: -scrollWidth,
+                        ease: "none",
+                        scrollTrigger: {
+                            trigger: sectionWrapper,
+                            pin: true,
+                            scrub: 1,
+                            start: "center center",
+                            end: () => `+=${scrollWidth + 150}`,
+                            invalidateOnRefresh: true,
+                            onUpdate: (self) => {
+                                // Trigger animation loop on enter if not already started
+                                if (self.progress > 0 && typeof window.startAiWordLoopAnimation === "function" && (!activeAiWordLoopTl || !activeAiWordLoopTl.isActive())) {
+                                    window.startAiWordLoopAnimation();
+                                }
+                            }
+                        }
+                    });
+
+                },
+                "(max-width: 920px)": function() {
+                    // Mobile fallback: Just start the animation immediately on scroll enter
+                    ScrollTrigger.create({
+                        trigger: "#ai-word-loop-screen",
+                        start: "top 75%",
+                        onEnter: () => {
+                            if (typeof window.startAiWordLoopAnimation === "function") {
+                                window.startAiWordLoopAnimation();
+                            }
+                        },
+                        once: true
+                    });
+                }
+            });
+        }
+
+        // Use IntersectionObserver to reliably show/hide the student audio button
+        // when the 3rd quote card enters or leaves the viewport
+        const quoteCard = document.querySelector('.scroll-left-p-card.student-quote');
+        if (quoteCard) {
+            const quoteObserver = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        showStudentAudio();
+                    } else {
+                        hideStudentAudio();
+                    }
+                });
+            }, { threshold: 0.15 });
+            quoteObserver.observe(quoteCard);
+        }
+
+        gsap.utils.toArray('.v-chart-col').forEach((col, index) => {
+            const fill = col.querySelector('.v-bar-fill');
+            const targetHeight = col.getAttribute('data-height') + '%';
+            const percent = col.querySelector('.v-bar-percent');
+            let tl = gsap.timeline({ scrollTrigger: { trigger: col, start: "top 85%", toggleActions: "play none none reverse" } });
+            tl.to(col, { opacity: 1, y: 0, duration: 0.6, ease: "power2.out", delay: index * 0.15 })
+              .to(fill, { height: targetHeight, duration: 1.4, ease: "power4.out" }, "-=0.3")
+              .to(percent, { opacity: 1, y: 0, duration: 0.6, ease: "back.out(1.7)" }, "-=1");
+        });
+
+        // 3D Earth & Water Ripple Hover Integration
+        $(document).ready(function() {
+            // 1. Init ripples on the hero banner only
+            const $heroRipple = $('#hero-ripple');
+            try {
+                $heroRipple.ripples({
+                    resolution: 512,
+                    dropRadius: 20,
+                    perturbance: 0.04,
+                    interactive: true
+                });
+            } catch(e) {
+                console.error("Ripples plugin error:", e);
+            }
+
+            // 2. Init Three.js Globe
+            const globeContainer = document.getElementById('globe-container');
+            if (globeContainer && window.THREE) {
+                let globeScene, globeCamera, globeRenderer, globeMesh, globeAnimId;
+
+                globeScene = new THREE.Scene();
+                const w = globeContainer.clientWidth;
+                const h = globeContainer.clientHeight;
+                globeCamera = new THREE.PerspectiveCamera(45, w / h, 0.1, 100);
+                globeCamera.position.z = 2.8;
+
+                globeRenderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
+                globeRenderer.setSize(w, h);
+                globeRenderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+                globeContainer.appendChild(globeRenderer.domElement);
+
+                // Lighting
+                globeScene.add(new THREE.AmbientLight(0xffffff, 0.8));
+                const dirLight = new THREE.DirectionalLight(0xffffff, 0.8);
+                dirLight.position.set(5, 3, 5);
+                globeScene.add(dirLight);
+
+                // Sphere Geometry & Texture
+                const sphereGeo = new THREE.SphereGeometry(1, 64, 64);
+                const loader = new THREE.TextureLoader();
+                loader.crossOrigin = "anonymous";
+
+                const earthTexture = loader.load(
+                    "assets/img/chapter%204/texture.webp",
+                    undefined,
+                    undefined,
+                    () => {
+                        globeMesh.material.color.setHex(0x1a5276);
+                        globeMesh.material.map = null;
+                    }
+                );
+                earthTexture.anisotropy = 4;
+
+                const sphereMat = new THREE.MeshPhongMaterial({
+                    map: earthTexture,
+                    color: 0xffffff,
+                    shininess: 20
+                });
+                globeMesh = new THREE.Mesh(sphereGeo, sphereMat);
+                globeScene.add(globeMesh);
+
+                // Atmospheric Ring
+                const ringGeo = new THREE.RingGeometry(1.08, 1.15, 64);
+                const ringMat = new THREE.MeshBasicMaterial({
+                    color: 0xffd166,
+                    transparent: true,
+                    opacity: 0.15,
+                    side: THREE.DoubleSide
+                });
+                const ring = new THREE.Mesh(ringGeo, ringMat);
+                ring.rotation.x = Math.PI / 2;
+                globeScene.add(ring);
+
+                let autoRotateSpeed = 0.003;
+                let isDragging = false;
+                let prevMouseX = 0;
+                let prevMouseY = 0;
+
+                const onPointerDown = (e) => {
+                    isDragging = true;
+                    prevMouseX = e.clientX;
+                    prevMouseY = e.clientY;
+                };
+
+                const onPointerMove = (e) => {
+                    if (!isDragging) return;
+                    const dx = e.clientX - prevMouseX;
+                    const dy = e.clientY - prevMouseY;
+                    globeMesh.rotation.y += dx * 0.005;
+                    globeMesh.rotation.x += dy * 0.005;
+                    prevMouseX = e.clientX;
+                    prevMouseY = e.clientY;
+                };
+
+                const onPointerUp = () => {
+                    isDragging = false;
+                };
+
+                globeRenderer.domElement.addEventListener("pointerdown", onPointerDown);
+                globeRenderer.domElement.addEventListener("pointermove", onPointerMove);
+                globeRenderer.domElement.addEventListener("pointerup", onPointerUp);
+                globeRenderer.domElement.addEventListener("pointerleave", onPointerUp);
+
+                function animateGlobe() {
+                    if (!isDragging) {
+                        globeMesh.rotation.y += autoRotateSpeed;
+                    }
+                    globeRenderer.render(globeScene, globeCamera);
+                    globeAnimId = requestAnimationFrame(animateGlobe);
+                }
+                animateGlobe();
+
+                // Handle Resize
+                const onResize = () => {
+                    const nw = globeContainer.clientWidth;
+                    const nh = globeContainer.clientHeight;
+                    globeCamera.aspect = nw / nh;
+                    globeCamera.position.z = nw < 768 ? 3.5 : 2.8;
+                    globeCamera.updateProjectionMatrix();
+                    globeRenderer.setSize(nw, nh);
+                };
+                onResize();
+                window.addEventListener("resize", onResize);
+            }
+
+        // 3. Add GSAP ScrollTrigger to custom-globe-wrapper
+        gsap.set('.custom-globe-wrapper', { y: 40, opacity: 0 });
+        gsap.to('.custom-globe-wrapper', {
+            scrollTrigger: {
+                trigger: '.custom-globe-wrapper',
+                start: "top 85%",
+                toggleActions: "play none none reverse"
+            },
+            y: 0,
+            opacity: 1,
+            duration: 0.8,
+            ease: "power2.out"
+        });
+
+        // 4. Animate High-End Chart on scroll
+        gsap.to('.he-chart-shell', {
+            scrollTrigger: {
+                trigger: '.he-chart-shell',
+                start: "top 85%",
+                toggleActions: "play none none reverse"
+            },
+            y: 0,
+            opacity: 1,
+            duration: 1,
+            ease: "power3.out"
+        });
+
+        gsap.to('.he-line-ai', {
+            scrollTrigger: {
+                trigger: '.he-chart-shell',
+                start: "top 80%",
+            },
+            strokeDashoffset: 0,
+            duration: 2.5,
+            ease: "power3.inOut"
+        });
+
+        gsap.to('.he-line-self', {
+            scrollTrigger: {
+                trigger: '.he-chart-shell',
+                start: "top 80%",
+            },
+            strokeDashoffset: 0,
+            duration: 2.5,
+            ease: "power3.inOut",
+            delay: 0.2
+        });
+
+        gsap.to('.he-area-ai', {
+            scrollTrigger: {
+                trigger: '.he-chart-shell',
+                start: "top 75%",
+            },
+            opacity: 1,
+            duration: 2,
+            ease: "power2.out",
+            delay: 0.5
+        });
+
+        gsap.to('.he-area-self', {
+            scrollTrigger: {
+                trigger: '.he-chart-shell',
+                start: "top 75%",
+            },
+            opacity: 1,
+            duration: 2,
+            ease: "power2.out",
+            delay: 0.5
+        });
+
+        gsap.to('.he-point', {
+            scrollTrigger: {
+                trigger: '.he-chart-shell',
+                start: "top 70%",
+            },
+            opacity: 1,
+            duration: 0.6,
+            stagger: 0.15,
+            ease: "back.out(1.8)",
+            delay: 1.2
+        });
+
+        gsap.to('.he-percent-label', {
+            scrollTrigger: {
+                trigger: '.he-chart-shell',
+                start: "top 70%",
+            },
+            opacity: 1,
+            duration: 0.6,
+            stagger: 0.15,
+            ease: "back.out(1.8)",
+            delay: 1.4
+        });
+    });
+
+        function toggleNinhAudio() {
+            const audio = document.getElementById('ninhAudio');
+            const btn = document.getElementById('ninhPlayBtn');
+            if (!audio || !btn) return;
+
+            // Pause student audio if playing
+            const studentAudio = document.getElementById('studentAudio');
+            const studentBtn = document.getElementById('studentPlayBtn');
+            if (studentAudio && !studentAudio.paused) {
+                studentAudio.pause();
+                if (studentBtn) studentBtn.classList.remove('playing');
+            }
+
+            if (audio.paused) {
+                audio.play().catch(() => {});
+                btn.classList.add('playing');
+            } else {
+                audio.pause();
+                btn.classList.remove('playing');
+            }
+            audio.onended = function() {
+                btn.classList.remove('playing');
+            };
+        }
+
+        function showStudentAudio() {
+            const container = document.getElementById('studentAudioContainer');
+            if (container) {
+                container.classList.add('show');
+            }
+        }
+
+        function hideStudentAudio() {
+            const container = document.getElementById('studentAudioContainer');
+            if (container) {
+                container.classList.remove('show');
+            }
+        }
+
+        function toggleStudentAudio() {
+            const audio = document.getElementById('studentAudio');
+            const btn = document.getElementById('studentPlayBtn');
+            if (!audio || !btn) return;
+            
+            // If Ninh audio is playing, pause it
+            const ninhAudio = document.getElementById('ninhAudio');
+            const ninhBtn = document.getElementById('ninhPlayBtn');
+            if (ninhAudio && !ninhAudio.paused) {
+                ninhAudio.pause();
+                if (ninhBtn) ninhBtn.classList.remove('playing');
+            }
+
+            if (audio.paused) {
+                audio.play().catch(() => {});
+                btn.classList.add('playing');
+            } else {
+                audio.pause();
+                btn.classList.remove('playing');
+            }
+            
+            audio.onended = function() {
+                btn.classList.remove('playing');
+            };
+        }
+
+        function toggleTeacherQuoteAudio() {
+            const audio = document.getElementById('teacherQuoteAudio');
+            const btn = document.getElementById('teacherQuotePlayBtn');
+            if (!audio || !btn) return;
+            
+            // Pause student audio if playing
+            const studentAudio = document.getElementById('studentAudio');
+            const studentBtn = document.getElementById('studentPlayBtn');
+            if (studentAudio && !studentAudio.paused) {
+                studentAudio.pause();
+                if (studentBtn) studentBtn.classList.remove('playing');
+            }
+            
+            // Pause Ninh audio if playing
+            const ninhAudio = document.getElementById('ninhAudio');
+            const ninhBtn = document.getElementById('ninhPlayBtn');
+            if (ninhAudio && !ninhAudio.paused) {
+                ninhAudio.pause();
+                if (ninhBtn) ninhBtn.classList.remove('playing');
+            }
+
+            if (audio.paused) {
+                audio.play().catch(() => {});
+                btn.classList.add('playing');
+            } else {
+                audio.pause();
+                btn.classList.remove('playing');
+            }
+            
+            audio.onended = function() {
+                btn.classList.remove('playing');
+            };
+        }
+
+        // Gauge animation
+        (function initGauge() {
+            const needle = document.getElementById('gaugeNeedle');
+            if (!needle) return;
+            
+            const targetDeg = -90 + ((4.12 / 5) * 180);
+            
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        gsap.to(needle, { rotation: targetDeg, duration: 1.5, ease: 'power2.out' });
+                        observer.disconnect();
+                    }
+                });
+            }, { threshold: 0.5 });
+            
+            const gauge = document.getElementById('concernGauge');
+            if (gauge) observer.observe(gauge);
+        })();
+
+        function initTypewriter() {
+            const target = document.querySelector('.typewriter-target');
+            if (!target) return;
+            const fullText = target.dataset.fullText;
+            let index = 0;
+            let hasStarted = false;
+
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting && !hasStarted) {
+                        hasStarted = true;
+                        const interval = setInterval(() => {
+                            target.textContent = fullText.slice(0, index + 1);
+                            index++;
+                            if (index >= fullText.length) {
+                                clearInterval(interval);
+                            }
+                        }, 40);
+                    }
+                });
+            }, { threshold: 0.3 });
+
+            observer.observe(target.parentElement);
+        }
+        function initDonutChartInteraction() {
+            const svg = document.getElementById('frequency-donut-svg');
+            const centerPercentage = document.querySelector('#donut-center-text .center-percentage');
+            const centerLabel = document.querySelector('#donut-center-text .center-label');
+            const segments = document.querySelectorAll('.donut-segment');
+            const legendItems = document.querySelectorAll('#donut-legend .legend-item');
+            if (!svg || !centerPercentage || !centerLabel) return;
+
+            const defaultPercent = "58.8%";
+            const defaultLabel = "Hàng ngày";
+            const defaultId = "seg-1";
+
+            let activeId = defaultId;
+
+            function setActiveSegment(id, percent, label) {
+                activeId = id;
+                
+                // Update center text
+                centerPercentage.textContent = percent;
+                centerLabel.textContent = label;
+
+                // Toggle active classes on segments
+                segments.forEach(seg => {
+                    if (seg.getAttribute('data-id') === id) {
+                        seg.classList.add('active');
+                    } else {
+                        seg.classList.remove('active');
+                    }
+                });
+
+                // Toggle active classes on legend items
+                legendItems.forEach(item => {
+                    if (item.getAttribute('data-id') === id) {
+                        item.classList.add('active');
+                    } else {
+                        item.classList.remove('active');
+                    }
+                });
+            }
+
+            // Set initial active state
+            setActiveSegment(defaultId, defaultPercent, defaultLabel);
+
+            segments.forEach(seg => {
+                const id = seg.getAttribute('data-id');
+                const percent = seg.getAttribute('data-percent');
+                const label = seg.getAttribute('data-label');
+
+                seg.addEventListener('mouseenter', () => {
+                    centerPercentage.textContent = percent;
+                    centerLabel.textContent = label;
+                    segments.forEach(s => s.classList.remove('active'));
+                    seg.classList.add('active');
+                    legendItems.forEach(item => {
+                        if (item.getAttribute('data-id') === id) {
+                            item.classList.add('active');
+                        } else {
+                            item.classList.remove('active');
+                        }
+                    });
+                });
+
+                seg.addEventListener('mouseleave', () => {
+                    // Restore active item
+                    const activeSeg = Array.from(segments).find(s => s.getAttribute('data-id') === activeId);
+                    if (activeSeg) {
+                        centerPercentage.textContent = activeSeg.getAttribute('data-percent');
+                        centerLabel.textContent = activeSeg.getAttribute('data-label');
+                        segments.forEach(s => {
+                            if (s.getAttribute('data-id') === activeId) s.classList.add('active');
+                            else s.classList.remove('active');
+                        });
+                        legendItems.forEach(item => {
+                            if (item.getAttribute('data-id') === activeId) {
+                                item.classList.add('active');
+                            } else {
+                                item.classList.remove('active');
+                            }
+                        });
+                    }
+                });
+
+                seg.addEventListener('click', () => {
+                    setActiveSegment(id, percent, label);
+                });
+            });
+
+            legendItems.forEach(item => {
+                const id = item.getAttribute('data-id');
+                const correspondingSeg = Array.from(segments).find(s => s.getAttribute('data-id') === id);
+                if (!correspondingSeg) return;
+
+                const percent = correspondingSeg.getAttribute('data-percent');
+                const label = correspondingSeg.getAttribute('data-label');
+
+                item.addEventListener('mouseenter', () => {
+                    centerPercentage.textContent = percent;
+                    centerLabel.textContent = label;
+                    segments.forEach(s => s.classList.remove('active'));
+                    correspondingSeg.classList.add('active');
+                    legendItems.forEach(li => {
+                        if (li === item) li.classList.add('active');
+                        else li.classList.remove('active');
+                    });
+                });
+
+                item.addEventListener('mouseleave', () => {
+                    const activeSeg = Array.from(segments).find(s => s.getAttribute('data-id') === activeId);
+                    if (activeSeg) {
+                        centerPercentage.textContent = activeSeg.getAttribute('data-percent');
+                        centerLabel.textContent = activeSeg.getAttribute('data-label');
+                        segments.forEach(s => {
+                            if (s.getAttribute('data-id') === activeId) s.classList.add('active');
+                            else s.classList.remove('active');
+                        });
+                        legendItems.forEach(li => {
+                            if (li.getAttribute('data-id') === activeId) {
+                                li.classList.add('active');
+                            } else {
+                                li.classList.remove('active');
+                            }
+                        });
+                    }
+                });
+
+                item.addEventListener('click', () => {
+                    setActiveSegment(id, percent, label);
+                });
+            });
+        }
+
+        document.addEventListener('DOMContentLoaded', () => {
+            initTypewriter();
+            initDonutChartInteraction();
+
+            /* ── Concern bubbles on click inside the AI word loop stage ── */
+            const loopConcerns = [
+                "Cái này có đúng hay hợp lý chưa nhỉ?",
+                "Số liệu này lấy từ đâu vậy?",
+                "Mình có nên diễn đạt lại không?",
+                "Đoạn này có giống giọng mình không?",
+                "Nếu mình dán luôn thì có sao không?",
+                "Thầy cô có phát hiện không nhỉ?",
+                "Chép nguyên văn thế này ổn không?",
+                "Mình có nên kiểm tra lại không?",
+                "AI lần này có chính xác không?",
+                "Hay mình tự viết lại cho chắc?"
+            ];
+
+            function spawnLoopConcernBubble(x, y) {
+                const concernLayer = document.getElementById("loop-concern-layer");
+                if (!concernLayer) return;
+                const bubble = document.createElement("div");
+                bubble.className = "loop-concern-bubble";
+                bubble.textContent = loopConcerns[Math.floor(Math.random() * loopConcerns.length)];
+                bubble.style.left = x + "px";
+                bubble.style.top = y + "px";
+                concernLayer.appendChild(bubble);
+                setTimeout(() => bubble.remove(), 2600);
+            }
+
+            const concernLayerEl = document.getElementById("loop-concern-layer");
+            const loopStageForConcerns = document.getElementById("ai-word-loop-stage");
+            if (concernLayerEl && loopStageForConcerns) {
+                concernLayerEl.addEventListener("click", (e) => {
+                    const stageRect = loopStageForConcerns.getBoundingClientRect();
+                    const x = e.clientX - stageRect.left;
+                    const y = e.clientY - stageRect.top;
+                    spawnLoopConcernBubble(x, y);
+                });
+            }
+        });
+
+        // End Modal Scroll Trigger
+        (function initEndModal() {
+            const trigger = document.getElementById('end-trigger');
+            const overlay = document.getElementById('endModalOverlay');
+            if (!trigger || !overlay) return;
+            
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        overlay.classList.add('active');
+                        observer.disconnect();
+                    }
+                });
+            }, { threshold: 0.1 });
+            
+            observer.observe(trigger);
+        })();
+    </script>
+    <!-- Floating Student Audio Component -->
+    <div class="floating-student-audio-container" id="studentAudioContainer">
+        <div class="student-audio-card">
+            <p class="student-audio-title">Nghe tâm sự của sinh viên về copy-paste</p>
+            <button class="student-play-btn" id="studentPlayBtn" onclick="toggleStudentAudio()"></button>
+        </div>
+        <audio id="studentAudio" src="assets/audio/SFX/PV5.m4a" preload="none"></audio>
+    </div>
+</body>
+</html>
